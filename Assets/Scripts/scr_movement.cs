@@ -12,7 +12,7 @@ public class scr_movement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Vector3 current_velocity = rigidbody.velocity;
+//		Vector3 current_velocity = rigidbody.velocity;
 		float left_power = 0;
 		float right_power = 0;
 
