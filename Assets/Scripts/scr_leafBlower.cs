@@ -1,24 +1,71 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//TODO: Ändra forward/back så att det passar modellen, Annars blåser det åt fel håll!
 public class scr_leafBlower : MonoBehaviour {
+	public float m_blowPower = 1.0f;
+	public float m_centripetalPower = 1.0f;
+//	public float m_powerVariation = 0.0f;
+//	public bool m_blowStraight
 
-	// Use this for initialization
-	void Start () {
-//		Debug.Log ("Initializing Leaf blower!");
-	}
-	
-	// Update is called once per frame
-	void Update () {
+//	void OnTriggerEnter(Collider col)
+//	{
+//		Debug.Log("Enter: " + col.gameObject);
+//	}
 
-	}
-
-	void OnCollisionStay(Collision col)
+	void OnTriggerStay(Collider col)
 	{
-//		Debug.Log ("Test");
-		foreach (ContactPoint contact in col.contacts){
-			Debug.DrawRay(contact.point, contact.normal, Color.white);
+		if (col.gameObject.CompareTag ("Leaf")) {
+			GameObject leaf = col.gameObject;
+			//Debug.DrawLine(new Vector3(0,0,0), playerDirection);
+
+			//Centreipetal power
+			Vector3 playerDirection = transform.parent.TransformDirection( -Vector3.forward );	
+			Vector3 projection = transform.parent.position + Vector3.Project(leaf.transform.position - transform.parent.position, playerDirection);
+//			projection = new Vector3(projection.x, leaf.transform.position.y, projection.z);
+
+			Vector3 projectionDirection = (projection - leaf.transform.position).normalized;
+//			projectionDirection = new Vector3(projectionDirection.x, leaf.transform.position.y, projectionDirection.z);
+			leaf.GetComponent<scr_leafPhysics>().AddForce(projectionDirection * m_centripetalPower);
+
+			//Blow power
+			Transform blow_point = transform.parent.FindChild("blow_point");
+			if (blow_point != null) {
+				Vector3 directionVector = (leaf.transform.position - blow_point.position).normalized;
+//				directionVector = new Vector3(directionVector.x, leaf.transform.position.y, directionVector.z);
+				leaf.GetComponent<scr_leafPhysics>().AddForce( directionVector * m_blowPower);
+			}
+
+			//leaf.transform.position += transform.parent.transform.TransformDirection( Vector3.back ) * (power + Random.Range(0, powerVariation)) * Time.deltaTime;
+//			Vector3 targetPosition = Vector3.MoveTowards(leaf.transform.position, transform.position, power);
+//			targetPosition = new Vector3(targetPosition.x, leaf.transform.position.y, targetPosition.z);
+			//leaf.transform.position = targetPosition;
+//			leaf.GetComponent<scr_leafPhysics>().velocity = targetPosition;
 		}
+
 	}
+
+//	void OnTriggerExit(Collider col)
+//	{
+//		Debug.Log("Exit: " + col.gameObject);
+//	}
+
+//	void OnCollisionEnter(Collision col)
+//	{
+//		Debug.Log("Enter: " + col.gameObject);
+//	}
+//
+//	void OnCollisionStay(Collision col)
+//	{
+//		Debug.Log("Stay: " + col.gameObject);
+//		foreach (ContactPoint contact in col.contacts){
+//			Debug.DrawRay(contact.point, contact.normal, Color.white);
+//		}
+//	}
+//
+//	void OnCollisionExit(Collision col)
+//	{
+//		Debug.Log("Exit: " + col.gameObject);
+//	}
 
 }

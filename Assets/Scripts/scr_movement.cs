@@ -4,6 +4,7 @@ using System.Collections;
 public class scr_movement : MonoBehaviour {
 
 	public float m_speed = 1;
+	public float m_rotationSpeed = 1;
 
 	// Use this for initialization
 	void Start () {
@@ -30,7 +31,7 @@ public class scr_movement : MonoBehaviour {
 		}
 
 		rigidbody.AddForce (Vector3.forward*(left_power + right_power)*m_speed,ForceMode.VelocityChange);
-		rigidbody.AddTorque (Vector3.up * (left_power + right_power));
+		rigidbody.AddTorque (Vector3.up * (left_power + right_power) * m_rotationSpeed);
 
 	}
 }
