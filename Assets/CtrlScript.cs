@@ -13,8 +13,7 @@ public class CtrlScript : MonoBehaviour
 //	Vector3 targetVec = new Vector3(0.0f, 0.0f, 0.0f);
 //	Vector3 finalDirVec = new Vector3(0, 0, 0);
 //	Vector3 tmpVec;
-	float right = 1.0f; //= m_inputVec.y;
-	float left = 0.5f;// = m_inputVec.x;
+
 
 	// Use this for initialization
 	void Start () 
@@ -26,25 +25,14 @@ public class CtrlScript : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		m_inputVec = m_touchIn.getCurrentInputVector ();
-	
 
-//		if (Input.GetKey (KeyCode.U) && right < 1.0f) 
-//		{
-//			right += 0.25f;
-//		}
-//		if (Input.GetKey (KeyCode.J) && right > -1.0f) 
-//		{
-//			right -= 0.25f;
-//		}
-//		if (Input.GetKey (KeyCode.E) && left < 1.0f) 
-//		{
-//			left += 0.25f;
-//		}
-//		if (Input.GetKey (KeyCode.D) && left > -1.0f) 
-//		{
-//			left -= 0.25f;
-//		}
+		m_inputVec = m_touchIn.getCurrentInputVector ();
+		if(Application.isEditor){
+			pcDebugControls();
+		}
+
+		float right = m_inputVec.y;
+		float left = m_inputVec.x;
 
 		float tmpSpeed =  (right + left)/2;
 //		diff = left - right;
@@ -60,6 +48,27 @@ public class CtrlScript : MonoBehaviour
 
 		transform.Rotate (temp);
 
-		rigidbody.AddForce (transform.forward * m_speed * tmpSpeed * m_friction, ForceMode.VelocityChange);
+		Vector3 forwardVector = -transform.TransformDirection(Vector3.forward);
+
+		rigidbody.AddForce (forwardVector * m_speed * tmpSpeed, ForceMode.VelocityChange);
+	}
+
+	void pcDebugControls(){
+		if (Input.GetKey (KeyCode.E)) 
+		{
+			m_inputVec = new Vector2(m_inputVec.x,1);
+		}
+		if (Input.GetKey (KeyCode.D)) 
+		{
+			m_inputVec = new Vector2(m_inputVec.x,-1);
+		}
+		if (Input.GetKey (KeyCode.Q)) 
+		{
+			m_inputVec = new Vector2(1,m_inputVec.y);
+		}
+		if (Input.GetKey (KeyCode.A)) 
+		{
+			m_inputVec = new Vector2(-1,m_inputVec.y);
+		}
 	}
 }

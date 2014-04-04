@@ -62,7 +62,7 @@ public class scr_touchInput : MonoBehaviour {
 		}
 		
 		//pc stuff for debug purpose
-		if (m_debug_mode && Input.GetMouseButton (0)) {
+		if (Input.GetMouseButton (0)) {
 			Vector2 pos = Input.mousePosition;
 			calcMovementMagnitudes(pos);
 			float input_magnitude = calcBlowingMagnitude(pos);
