@@ -23,6 +23,8 @@ UnityGenerated/
 Library/
 *_Data/
 *.exe
+
+*.apk
  
 # ===================================== #
 # Visual Studio / MonoDevelop generated #

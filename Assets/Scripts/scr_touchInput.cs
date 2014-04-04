@@ -9,13 +9,18 @@ using System.Collections;
 
 public class scr_touchInput : MonoBehaviour {
 	
-	public Vector2 m_current_input = new Vector2(0,0);
+
 	//debug fun!
 	public bool m_debug_mode = false;
-	public float m_input_y_scale = 1f;
 
+	//these are in percent
+	public float m_input_y_scale = 0.4f;
+	public float m_edge_threshold_scale = 0.2f;
+	public float m_mid_threshold_scale = 0.2f; 
+	
 	//can add min sizes of areas on request /robin
 
+	private Vector2 m_current_input = new Vector2(0,0);
 	private Rect m_leftArea =  new Rect();
 	private Rect m_rightArea = new Rect();
 	private float m_vertical_area; 
@@ -30,9 +35,9 @@ public class scr_touchInput : MonoBehaviour {
 		int parts_covered = 2;  // ex 4; left side will cover from the left edge to one 4th of the screen, rigth side will mirror this
 		m_leftArea = new Rect (0,0, Screen.width/parts_covered, Screen.height);
 		m_rightArea = new Rect ((Screen.width/parts_covered)*(parts_covered-1), 0, Screen.width/parts_covered, Screen.height);
-		m_vertical_area = (Screen.height / 4)*m_input_y_scale; //the "effective" area for turning controls
-		m_edgeThreshold = Screen.width/18; 
-		m_midThreshold = Screen.width/18; 
+		m_vertical_area = Screen.height*m_input_y_scale; //the "effective" area for turning controls
+		m_edgeThreshold = (int)(Screen.width*m_edge_threshold_scale); 
+		m_midThreshold = (int)(Screen.width*m_mid_threshold_scale); 
 
 		//do not touch
 		m_y_offset = (m_leftArea.height/2)-(m_vertical_area);
@@ -99,11 +104,11 @@ public class scr_touchInput : MonoBehaviour {
 	
 	void OnGUI(){
 		if (m_debug_mode) {
-			GUI.Box(m_leftArea,"Left");
-			GUI.Box(m_rightArea,"Rigth");
+			//GUI.Box(m_leftArea,"Left");
+			//GUI.Box(m_rightArea,"Rigth");
 			GUI.Label(new Rect(Screen.width/2-50,0,100,25),"("+m_current_input.x.ToString("F2") + ","+m_current_input.y.ToString("F2") +")");
 			GUI.Label(new Rect(Screen.width/2-100,25,200,25),"Blowing Power! " + m_blowing_power.ToString("F2"));
-			GUI.Box(new Rect(0,m_y_offset,10,m_vertical_area*2),"");
+			GUI.Box(new Rect(0,m_y_offset,m_edgeThreshold,m_vertical_area*2),"");
 		}
 	}
 
