@@ -25,7 +25,8 @@ public class scr_leafBlower : MonoBehaviour {
 	{
 		if (col.gameObject.CompareTag("Leaf")) {
 			GameObject leaf = col.gameObject;
-			//Debug.DrawLine(new Vector3(0,0,0), playerDirection);
+
+			scr_leafPhysics leafPhysics = leaf.GetComponent<scr_leafPhysics>();
 
 			m_blowPower = m_touchInput.getCurrentBlowingPower();
 
@@ -34,13 +35,15 @@ public class scr_leafBlower : MonoBehaviour {
 			Vector3 projection = transform.parent.position + Vector3.Project(leaf.transform.position - transform.parent.position, playerDirection);
 
 			Vector3 projectionDirection = (projection - leaf.transform.position).normalized;
-			leaf.GetComponent<scr_leafPhysics>().AddForce(projectionDirection * m_centripetalPower * m_blowPower);
+//			scr_leafPhysics.AddForce(projectionDirection * m_centripetalPower * m_blowPower);
+			leaf.rigidbody.AddForce(projectionDirection * m_centripetalPower * m_blowPower);
 
 			//Blow power
 			Transform blow_point = transform.parent.FindChild("blow_point");
 			if (blow_point != null) {
 				Vector3 directionVector = (leaf.transform.position - blow_point.position).normalized;
-				leaf.GetComponent<scr_leafPhysics>().AddForce(directionVector * m_forwardPower * m_blowPower);
+//				scr_leafPhysics.AddForce(directionVector * m_forwardPower * m_blowPower);
+				leaf.rigidbody.AddForce(directionVector * m_forwardPower * m_blowPower);
 			}
 
 			//leaf.transform.position += transform.parent.transform.TransformDirection( Vector3.back ) * (power + Random.Range(0, powerVariation)) * Time.deltaTime;
