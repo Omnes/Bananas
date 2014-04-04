@@ -9,16 +9,25 @@ public class scr_leafBlower : MonoBehaviour {
 //	public float m_powerVariation = 0.0f;
 //	public bool m_blowStraight
 
+	private scr_touchInput m_touchInput;
+
 //	void OnTriggerEnter(Collider col)
 //	{
 //		Debug.Log("Enter: " + col.gameObject);
 //	}
+
+	void Start()
+	{
+		m_touchInput = transform.parent.GetComponent<scr_touchInput>();
+	}
 
 	void OnTriggerStay(Collider col)
 	{
 		if (col.gameObject.CompareTag("Leaf")) {
 			GameObject leaf = col.gameObject;
 			//Debug.DrawLine(new Vector3(0,0,0), playerDirection);
+
+			m_blowPower = m_touchInput.getCurrentBlowingPower();
 
 			//Centreipetal power
 			Vector3 playerDirection = transform.parent.TransformDirection( -Vector3.forward );	
