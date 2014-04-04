@@ -3,8 +3,11 @@ using System.Collections;
 
 public class CtrlScript : MonoBehaviour 
 {
-	public float m_speed;
-	public float m_friction;
+	public float m_speed = 0.01f;
+	public float m_friction = 0.98f;
+	public float m_rotationSpeed = 1f;
+
+	public float m_maxSpeed = 5f;
 
 	private Vector2 m_inputVec;
 	private scr_touchInput m_touchIn = null;
@@ -31,10 +34,10 @@ public class CtrlScript : MonoBehaviour
 			pcDebugControls();
 		}
 
-		float right = m_inputVec.y;
-		float left = m_inputVec.x;
+		float right = m_inputVec.y/2;  //diveide by 2 to have to sum of them equal 1
+		float left = m_inputVec.x/2;
 
-		float tmpSpeed =  (right + left)/2;
+		float tmpSpeed = right + left;
 //		diff = left - right;
 //		angleFactor = diff / 0.1f; //always comparing to 0.1(9 degrees)
 //		angleToNew = 9 * angleFactor; //getting the angle to the new direction through multiplying 9 with the factor calculated above
@@ -46,11 +49,23 @@ public class CtrlScript : MonoBehaviour
 //		Debug.DrawRay (transform.position, finalDirVec, Color.red);
 //		transform.Rotate = Quaternion.AngleAxis(angleToNew, transform.up); 
 
-		transform.Rotate (temp);
+		transform.Rotate (temp*m_rotationSpeed);
 
 		Vector3 forwardVector = -transform.TransformDirection(Vector3.forward);
 
-		rigidbody.AddForce (forwardVector * m_speed * tmpSpeed, ForceMode.VelocityChange);
+		Vector3 currentVelocity = rigidbody.velocity;
+		currentVelocity *= m_friction; 
+
+		Vector3 targetVelocity = forwardVector*tmpSpeed*m_speed;
+
+		if(currentVelocity.magnitude > m_maxSpeed){ //cap the speed
+			currentVelocity.Normalize();
+			currentVelocity*=m_maxSpeed;
+		}
+
+		Vector3 velocityChange = targetVelocity - currentVelocity;
+
+		rigidbody.AddForce (velocityChange, ForceMode.VelocityChange);
 	}
 
 	void pcDebugControls(){
