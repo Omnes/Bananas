@@ -117,6 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_blowPower: .25
+  m_forwardPower: 1
   m_centripetalPower: .5
 --- !u!23 &202023883
 Renderer:

@@ -3,7 +3,8 @@ using System.Collections;
 
 //TODO: Ändra forward/back så att det passar modellen, Annars blåser det åt fel håll!
 public class scr_leafBlower : MonoBehaviour {
-	public float m_blowPower = 1.0f;
+	public float m_blowPower = 0.0f;
+	public float m_forwardPower = 1.0f;
 	public float m_centripetalPower = 1.0f;
 //	public float m_powerVariation = 0.0f;
 //	public bool m_blowStraight
@@ -15,25 +16,22 @@ public class scr_leafBlower : MonoBehaviour {
 
 	void OnTriggerStay(Collider col)
 	{
-		if (col.gameObject.CompareTag ("Leaf")) {
+		if (col.gameObject.CompareTag("Leaf")) {
 			GameObject leaf = col.gameObject;
 			//Debug.DrawLine(new Vector3(0,0,0), playerDirection);
 
 			//Centreipetal power
 			Vector3 playerDirection = transform.parent.TransformDirection( -Vector3.forward );	
 			Vector3 projection = transform.parent.position + Vector3.Project(leaf.transform.position - transform.parent.position, playerDirection);
-//			projection = new Vector3(projection.x, leaf.transform.position.y, projection.z);
 
 			Vector3 projectionDirection = (projection - leaf.transform.position).normalized;
-//			projectionDirection = new Vector3(projectionDirection.x, leaf.transform.position.y, projectionDirection.z);
-			leaf.GetComponent<scr_leafPhysics>().AddForce(projectionDirection * m_centripetalPower);
+			leaf.GetComponent<scr_leafPhysics>().AddForce(projectionDirection * m_centripetalPower * m_blowPower);
 
 			//Blow power
 			Transform blow_point = transform.parent.FindChild("blow_point");
 			if (blow_point != null) {
 				Vector3 directionVector = (leaf.transform.position - blow_point.position).normalized;
-//				directionVector = new Vector3(directionVector.x, leaf.transform.position.y, directionVector.z);
-				leaf.GetComponent<scr_leafPhysics>().AddForce( directionVector * m_blowPower);
+				leaf.GetComponent<scr_leafPhysics>().AddForce(directionVector * m_forwardPower * m_blowPower);
 			}
 
 			//leaf.transform.position += transform.parent.transform.TransformDirection( Vector3.back ) * (power + Random.Range(0, powerVariation)) * Time.deltaTime;
