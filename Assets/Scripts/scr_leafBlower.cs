@@ -39,7 +39,7 @@ public class scr_leafBlower : MonoBehaviour {
 			m_blowPower = m_touchInput.getCurrentBlowingPower();
 
 			//Centreipetal power
-			Vector3 playerDirection = transform.parent.TransformDirection( -Vector3.forward );	
+			Vector3 playerDirection = transform.parent.TransformDirection( Vector3.forward );	
 			Vector3 projectionPoint = transform.parent.position + Vector3.Project(leaf.transform.position - transform.parent.position, playerDirection);
 
 			Vector3 projectionDirection = projectionPoint - leaf.transform.position;

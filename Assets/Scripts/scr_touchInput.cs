@@ -35,7 +35,7 @@ public class scr_touchInput : MonoBehaviour {
 		int parts_covered = 2;  // ex 4; left side will cover from the left edge to one 4th of the screen, rigth side will mirror this
 		m_leftArea = new Rect (0,0, Screen.width/parts_covered, Screen.height);
 		m_rightArea = new Rect ((Screen.width/parts_covered)*(parts_covered-1), 0, Screen.width/parts_covered, Screen.height);
-		m_vertical_area = Screen.height*m_input_y_scale; //the "effective" area for turning controls
+		m_vertical_area = Screen.height*(m_input_y_scale/2); //the "effective" area for turning controls
 		m_edgeThreshold = (int)(Screen.width*m_edge_threshold_scale); 
 		m_midThreshold = (int)(Screen.width*m_mid_threshold_scale); 
 
@@ -87,6 +87,10 @@ public class scr_touchInput : MonoBehaviour {
 		}
 	}
 
+	float calculateMagnitude(float y){
+		return Mathf.Clamp((y - (m_vertical_area + m_y_offset)) / m_vertical_area,-1,1);
+	}
+
 
 	float calcBlowingMagnitude(Vector2 pos){
 		//calculate blowing pooooooowwwwwwwwwwweeeer!
@@ -113,9 +117,7 @@ public class scr_touchInput : MonoBehaviour {
 	}
 
 	
-	float calculateMagnitude(float y){
-		return Mathf.Clamp((y - (m_vertical_area + m_y_offset)) / m_vertical_area,-1,1);
-	}
+
 	
 	
 	public Vector2 getCurrentInputVector(){

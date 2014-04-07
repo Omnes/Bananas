@@ -3,10 +3,12 @@ using System.Collections;
 
 public class scr_movementLogic : MonoBehaviour 
 {
-	private const float SPEED_PROPORTION = 50.0f;
-	private const float ROTATE_PROPORTION = 1.0f;
-	private const float FRICTION_PROPORTION = 0.95f;
-	private const float MINIMUM_SPEED = 0.01f;
+	public float m_speedProportion = 50.0f;
+	public float m_rotateProportion = 1.0f;
+	public float m_frictionProportion = 0.95f;
+	public float m_minimumSpeed = 0.01f;
+
+	public float m_powSpeed = 1f;
 
 
 	private float right = 0.0f;
@@ -35,28 +37,23 @@ public class scr_movementLogic : MonoBehaviour
 		m_inputVec = m_touchIn.getCurrentInputVector ();
 		right = m_inputVec.y;
 		left = m_inputVec.x;
-		
-		if (Mathf.Abs(left + right) < MINIMUM_SPEED) 
+
+		//friction when no input
+		if (Mathf.Abs(left + right) < m_minimumSpeed) 
 		{
-			rigidbody.velocity *= FRICTION_PROPORTION;
+			rigidbody.velocity *= m_frictionProportion;
 		}
-		m_speed =  -(right + left)/SPEED_PROPORTION;
+
+		m_speed =  Mathf.Pow((right + left),m_powSpeed)/m_speedProportion;
 
 		//Adding rotation..
 		Vector3 temp = Vector3.up * left + Vector3.down * right;
-		temp *= ROTATE_PROPORTION;
+		temp *= m_rotateProportion;
 		transform.Rotate (temp);
 
 
 		rigidbody.AddForce (transform.forward * m_speed, ForceMode.VelocityChange);
 
 	}
-	void OnGUI () 
-	{
-		GUI.Box(m_leftArea,"Left");
-		GUI.Box(m_rightArea,"Rigth");
-		GUI.Label(new Rect(Screen.width/2-50,0,100,25),"("+left.ToString("F2") + ","+right.ToString("F2") +")");
-//		GUI.Label(new Rect(Screen.width/2-100,25,200,25),"Blowing Power! " + m_blowing_power.ToString("F2"));
-//		GUI.Box(new Rect(0,m_y_offset,10,m_vertical_area*2),"");
-	}
+
 }
