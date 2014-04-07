@@ -115,12 +115,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 576f9cbe0d3b78a43aa9d37338d7a31b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_blowPower: 0
-  m_forwardPower: 10
-  m_centripetalPower: 10
-  m_torquePower: 0
-  m_minVelocity: 0
+  m_forwardPower: 5
+  m_centripetalPower: 5
   m_centDistMult: 0
+  m_minVelocity: 2
+  m_minVelocityDependsOnBlowPower: 1
 --- !u!23 &202023883
 Renderer:
   m_ObjectHideFlags: 0
@@ -926,8 +925,8 @@ MonoBehaviour:
   m_prefabLeaf: {fileID: 100000, guid: 3c6d9bb5dde52c84d965a56f5bbbc12e, type: 2}
   m_leafCount: 1000
   m_range: 5
-  m_startHeight: .00100000005
-  m_heightIncrease: .00100000005
+  m_startHeight: .00999999978
+  m_heightIncrease: 9.99999975e-05
 --- !u!4 &1361740563
 Transform:
   m_ObjectHideFlags: 0
