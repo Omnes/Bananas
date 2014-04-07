@@ -10,6 +10,8 @@ GameObject:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
   - 54: {fileID: 5400000}
+  - 114: {fileID: 11400006}
+  - 114: {fileID: 11400004}
   m_Layer: 0
   m_Name: prefab_player
   m_TagString: leaf
@@ -643,7 +645,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4b76065e80d059478c7f8ecb2b3eeea, type: 3}
   m_Name: 
@@ -662,7 +664,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_blowPower: .25
+  m_forwardPower: 1
   m_centripetalPower: .5
+--- !u!114 &11400004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 206cad75ffe14d947aea866386e427d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11400006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e2d9eacaef09447b12ff19385f0da9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_current_input: {x: 0, y: 0}
+  m_debug_mode: 1
+  m_input_y_scale: 1
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1

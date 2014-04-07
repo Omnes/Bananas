@@ -6,7 +6,7 @@ public class scr_spawnLeaves : MonoBehaviour {
 	public Material m_leafMaterial;
 	public GameObject m_prefabLeaf;
 
-	[Range(0, 1000)]
+	[Range(0, 10000)]
 	public int   m_leafCount = 100;
 
 	[Range(0f, 100f)]
