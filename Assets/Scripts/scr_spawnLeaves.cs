@@ -24,6 +24,7 @@ public class scr_spawnLeaves : MonoBehaviour {
 			child.transform.parent = m_parent;
 			child.name = "leaf_"+x;
 			child.renderer.sharedMaterial = m_leafMaterial;
+
 		}
 	}
 }
