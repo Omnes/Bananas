@@ -60,7 +60,8 @@ public class scr_touchInput : MonoBehaviour {
 				higestPower = input_magnitude;
 			}
 		}
-		
+
+		/*
 		//pc stuff for debug purpose
 		if (Input.GetMouseButton (0)) {
 			Vector2 pos = Input.mousePosition;
@@ -72,6 +73,7 @@ public class scr_touchInput : MonoBehaviour {
 
 		}
 		//end of pc debug stuff
+		*/
 
 		m_blowing_power = higestPower;
 		
@@ -81,9 +83,9 @@ public class scr_touchInput : MonoBehaviour {
 	void calcMovementMagnitudes(Vector2 pos){
 		//calcluate the movement stuff
 		if(m_leftArea.Contains(pos)){ //check which half of the screen the input is
-			m_current_input.x = calculateMagnitude(pos.y);
+			m_current_input = new Vector2(calculateMagnitude(pos.y),m_current_input.y);
 		}else if(m_rightArea.Contains(pos)){
-			m_current_input.y = calculateMagnitude(pos.y);
+			m_current_input = new Vector2(m_current_input.y,calculateMagnitude(pos.y));
 		}
 	}
 
@@ -110,16 +112,13 @@ public class scr_touchInput : MonoBehaviour {
 		if (m_debug_mode) {
 			//GUI.Box(m_leftArea,"Left");
 			//GUI.Box(m_rightArea,"Rigth");
-			GUI.Label(new Rect(Screen.width/2-50,0,100,25),"("+m_current_input.x.ToString("F2") + ","+m_current_input.y.ToString("F2") +")");
-			GUI.Label(new Rect(Screen.width/2-100,25,200,25),"Blowing Power! " + m_blowing_power.ToString("F2"));
+			GUI.Label(new Rect(Screen.width/2-50,0,100,50),"("+m_current_input.x.ToString("F2") + ","+m_current_input.y.ToString("F2") +")");
+			GUI.Label(new Rect(Screen.width/2-100,50,200,50),"Blowing Power! " + m_blowing_power.ToString("F2"));
+			GUI.Label(new Rect(Screen.width/2-100,100,200,50),"Touches " + Input.touches.Length + " / " + Input.touchCount);
 			GUI.Box(new Rect(0,m_y_offset,m_edgeThreshold,m_vertical_area*2),"");
 		}
 	}
 
-	
-
-	
-	
 	public Vector2 getCurrentInputVector(){
 		return m_current_input;
 	}
