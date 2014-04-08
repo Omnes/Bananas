@@ -882,6 +882,10 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11400006, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
+      propertyPath: m_debug_mode
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
   m_RootGameObject: {fileID: 741673157}
@@ -1017,7 +1021,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: .300000012
-  far clip plane: 1000
+  far clip plane: 30
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -1363,7 +1367,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1783828998}
-  m_LocalRotation: {x: -.330366075, y: -.0885213315, z: .243210346, w: .907673359}
+  m_LocalRotation: {x: -.330366105, y: -.088521339, z: .24321036, w: .907673419}
   m_LocalPosition: {x: -.0422519706, y: -.0219900031, z: -1.15908027}
   m_LocalScale: {x: .100164458, y: .100561336, z: .100589894}
   m_Children: []
@@ -1522,12 +1526,13 @@ GameObject:
   - 33: {fileID: 2092363485}
   - 23: {fileID: 2092363483}
   - 65: {fileID: 2092363484}
+  - 114: {fileID: 2092363487}
   m_Layer: 0
   m_Name: Arena
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!23 &2092363483
 Renderer:
@@ -1585,3 +1590,20 @@ Transform:
   - {fileID: 2037673924}
   - {fileID: 135596825}
   m_Father: {fileID: 0}
+--- !u!114 &2092363487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2092363482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 143b0c00246f1e54db3e177b92886546, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  map:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1

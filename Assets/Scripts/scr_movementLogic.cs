@@ -44,13 +44,13 @@ public class scr_movementLogic : MonoBehaviour
 			rigidbody.velocity *= m_frictionProportion;
 		}
 
-		m_speed =  Mathf.Pow((right + left),m_powSpeed)/m_speedProportion;
+		m_speed = (right + left) / m_speedProportion;  //Mathf.Pow((right + left),m_powSpeed)/m_speedProportion;
+
 
 		//Adding rotation..
 		Vector3 temp = Vector3.up * left + Vector3.down * right;
 		temp *= m_rotateProportion;
 		transform.Rotate (temp);
-
 
 		rigidbody.AddForce (transform.forward * m_speed, ForceMode.VelocityChange);
 
