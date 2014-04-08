@@ -51,8 +51,11 @@ public class scr_movementLogic : MonoBehaviour
 		temp *= m_rotateProportion;
 		transform.Rotate (temp);
 
+		//Projecting the velocity of the RB to the current(new) direction, this prevents the RB from sliding while turning.. 
 		Vector3 dir = transform.forward;
 		rigidbody.velocity = Vector3.Project (rigidbody.velocity, dir.normalized);
+
+
 		rigidbody.AddForce (dir * m_speed, ForceMode.VelocityChange);
 
 	}
