@@ -3,6 +3,7 @@ using System.Collections;
 
 public class scr_scoreKeeper : MonoBehaviour {
 	public int m_score = 0;
+//	public static int m_score = 0;
 
 	void OnGUI(){
 		GUI.Label(new Rect(10, 10, 100, 25), "Score: " + m_score);
