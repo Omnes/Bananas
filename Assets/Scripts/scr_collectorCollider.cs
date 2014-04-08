@@ -24,8 +24,9 @@ public class scr_collectorCollider : MonoBehaviour {
 //			score += 1;
 //			scoreKeeper.m_score += 1;
 //			Debug.Log ("2 " + scoreKeeper);
-			scoreKeeper = GameObject.Find("global_scripts");
-			scoreKeeper.GetComponent<scr_scoreKeeper>().m_score += 1;
+
+			scr_scoreKeeper.m_score +=1;
+
 //			Debug.Log (scoreKeeper.m_score);
 			Destroy( gameObject );
 		}

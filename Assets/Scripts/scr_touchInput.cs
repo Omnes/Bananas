@@ -35,7 +35,7 @@ public class scr_touchInput : MonoBehaviour {
 		int parts_covered = 2;  // ex 4; left side will cover from the left edge to one 4th of the screen, rigth side will mirror this
 		m_leftArea = new Rect (0,0, Screen.width/parts_covered, Screen.height);
 		m_rightArea = new Rect ((Screen.width/parts_covered)*(parts_covered-1), 0, Screen.width/parts_covered, Screen.height);
-		m_vertical_area = Screen.height*m_input_y_scale; //the "effective" area for turning controls
+		m_vertical_area = Screen.height*(m_input_y_scale/2); //the "effective" area for turning controls
 		m_edgeThreshold = (int)(Screen.width*m_edge_threshold_scale); 
 		m_midThreshold = (int)(Screen.width*m_mid_threshold_scale); 
 
@@ -60,7 +60,8 @@ public class scr_touchInput : MonoBehaviour {
 				higestPower = input_magnitude;
 			}
 		}
-		
+
+		/*
 		//pc stuff for debug purpose
 		if (Input.GetMouseButton (0)) {
 			Vector2 pos = Input.mousePosition;
@@ -72,6 +73,7 @@ public class scr_touchInput : MonoBehaviour {
 
 		}
 		//end of pc debug stuff
+		*/
 
 		m_blowing_power = higestPower;
 		
@@ -81,10 +83,14 @@ public class scr_touchInput : MonoBehaviour {
 	void calcMovementMagnitudes(Vector2 pos){
 		//calcluate the movement stuff
 		if(m_leftArea.Contains(pos)){ //check which half of the screen the input is
-			m_current_input.x = calculateMagnitude(pos.y);
+			m_current_input = new Vector2(calculateMagnitude(pos.y),m_current_input.y);
 		}else if(m_rightArea.Contains(pos)){
-			m_current_input.y = calculateMagnitude(pos.y);
+			m_current_input = new Vector2(m_current_input.y,calculateMagnitude(pos.y));
 		}
+	}
+
+	float calculateMagnitude(float y){
+		return Mathf.Clamp((y - (m_vertical_area + m_y_offset)) / m_vertical_area,-1,1);
 	}
 
 
@@ -106,18 +112,13 @@ public class scr_touchInput : MonoBehaviour {
 		if (m_debug_mode) {
 			//GUI.Box(m_leftArea,"Left");
 			//GUI.Box(m_rightArea,"Rigth");
-			GUI.Label(new Rect(Screen.width/2-50,0,100,25),"("+m_current_input.x.ToString("F2") + ","+m_current_input.y.ToString("F2") +")");
-			GUI.Label(new Rect(Screen.width/2-100,25,200,25),"Blowing Power! " + m_blowing_power.ToString("F2"));
+			GUI.Label(new Rect(Screen.width/2-50,0,100,50),"("+m_current_input.x.ToString("F2") + ","+m_current_input.y.ToString("F2") +")");
+			GUI.Label(new Rect(Screen.width/2-100,50,200,50),"Blowing Power! " + m_blowing_power.ToString("F2"));
+			GUI.Label(new Rect(Screen.width/2-100,100,200,50),"Touches " + Input.touches.Length + " / " + Input.touchCount);
 			GUI.Box(new Rect(0,m_y_offset,m_edgeThreshold,m_vertical_area*2),"");
 		}
 	}
 
-	
-	float calculateMagnitude(float y){
-		return Mathf.Clamp((y - (m_vertical_area + m_y_offset)) / m_vertical_area,-1,1);
-	}
-	
-	
 	public Vector2 getCurrentInputVector(){
 		return m_current_input;
 	}
