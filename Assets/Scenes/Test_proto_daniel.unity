@@ -616,8 +616,8 @@ GameObject:
   - 54: {fileID: 741673160}
   - 114: {fileID: 741673161}
   - 114: {fileID: 741673159}
-  - 135: {fileID: 741673163}
   - 114: {fileID: 741673162}
+  - 136: {fileID: 741673163}
   m_Layer: 0
   m_Name: prefab_player
   m_TagString: leaf
@@ -705,8 +705,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 870a2731d41813a4c89a9d83c9214cec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!135 &741673163
-SphereCollider:
+--- !u!136 &741673163
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -714,8 +714,9 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
   m_Radius: .5
+  m_Height: 1
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &745220882
 GameObject:
