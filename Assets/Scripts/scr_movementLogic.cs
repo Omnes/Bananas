@@ -9,7 +9,7 @@ public class scr_movementLogic : MonoBehaviour
 	public float m_minimumSpeed = 0.01f;
 
 	public float m_powSpeed = 1f;
-
+	public Vector3 drag = new Vector3();
 
 	private float right = 0.0f;
 	private float left = 0.0f;
@@ -44,15 +44,19 @@ public class scr_movementLogic : MonoBehaviour
 			rigidbody.velocity *= m_frictionProportion;
 		}
 
-		m_speed = (right + left) / m_speedProportion;  //Mathf.Pow((right + left),m_powSpeed)/m_speedProportion;
-
+		m_speed =  Mathf.Pow((right + left),m_powSpeed)/m_speedProportion;
 
 		//Adding rotation..
 		Vector3 temp = Vector3.up * left + Vector3.down * right;
 		temp *= m_rotateProportion;
 		transform.Rotate (temp);
 
-		rigidbody.AddForce (transform.forward * m_speed, ForceMode.VelocityChange);
+		//Projecting the velocity of the RB to the current(new) direction, this prevents the RB from sliding while turning.. 
+		Vector3 dir = transform.forward;
+		rigidbody.velocity = Vector3.Project (rigidbody.velocity, dir.normalized);
+
+
+		rigidbody.AddForce (dir * m_speed, ForceMode.VelocityChange);
 
 	}
 
