@@ -731,7 +731,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_debug_mode: 1
   m_input_y_scale: .699999988
-  m_edge_threshold_scale: .200000003
+  m_edge_threshold_scale: .150000006
   m_mid_threshold_scale: .200000003
 --- !u!1 &745220882
 GameObject:
@@ -881,6 +881,14 @@ Prefab:
     - target: {fileID: 400000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400006, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
+      propertyPath: m_edge_threshold_scale
+      value: .150000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400006, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
+      propertyPath: m_mid_threshold_scale
+      value: .200000003
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
