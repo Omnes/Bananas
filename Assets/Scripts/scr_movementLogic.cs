@@ -9,7 +9,7 @@ public class scr_movementLogic : MonoBehaviour
 	public float m_minimumSpeed = 0.01f;
 
 	public float m_powSpeed = 1f;
-
+	public Vector3 drag = new Vector3();
 
 	private float right = 0.0f;
 	private float left = 0.0f;
@@ -51,8 +51,9 @@ public class scr_movementLogic : MonoBehaviour
 		temp *= m_rotateProportion;
 		transform.Rotate (temp);
 
-
-		rigidbody.AddForce (transform.forward * m_speed, ForceMode.VelocityChange);
+		Vector3 dir = transform.forward;
+		rigidbody.velocity = Vector3.Project (rigidbody.velocity, dir.normalized);
+		rigidbody.AddForce (dir * m_speed, ForceMode.VelocityChange);
 
 	}
 
