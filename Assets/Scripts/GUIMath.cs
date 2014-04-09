@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class GUIMath{
-
+	//hjälpklass för användbara funktioner till GUI
 
 	public static Vector2 pixelsToPercent(Vector2 v){
 		float w = v.x/Screen.width;

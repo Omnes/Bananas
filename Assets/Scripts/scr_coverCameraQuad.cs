@@ -10,6 +10,7 @@ public class scr_coverCameraQuad : MonoBehaviour {
 	private Transform m_quad;
 	public bool m_updateInEditor = true;
 	public float m_cameraDistance = 0.1f;
+
 	// Use this for initialization
 	void Start () {
 		m_cam = Camera.main;
@@ -17,14 +18,25 @@ public class scr_coverCameraQuad : MonoBehaviour {
 		placeQuad();
 	}
 
+	//placerar en quad framför kameran som täcker hela viewn
 	void placeQuad(){
 		float pos = m_cam.nearClipPlane + m_cameraDistance;
 		m_quad.position = m_cam.transform.position + m_cam.transform.forward*pos;
 		m_quad.LookAt(m_cam.transform.position + m_cam.transform.forward*(pos+1f));
+		//AllChildrenLookAtCamera();
 
 		float h = Mathf.Tan(m_cam.fieldOfView*Mathf.Deg2Rad*0.5f)*pos*2f;
 				
 		m_quad.transform.localScale = new Vector3(h*m_cam.aspect,h,1f);
+
+	}
+
+	void AllChildrenLookAtCamera(){
+		Transform[] children = GetComponentsInChildren<Transform>();
+		foreach(Transform t in children){
+			t.LookAt(m_cam.transform.localPosition);
+			t.Rotate(new Vector3(180,0,0));
+		}
 
 	}
 	

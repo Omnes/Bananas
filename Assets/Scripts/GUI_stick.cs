@@ -16,8 +16,11 @@ public class GUI_stick : MonoBehaviour {
 	}
 
 	void updateSize(){
+		//hämtar in storleken de ska ha från scr_touchinput så man bara behöver ändra på ett ställe
 		Vector2 size = m_touchInput.getGUIStickSize();
+		//skalar om
 		transform.localScale = new Vector3(size.x,size.y,transform.localScale.z);
+		//placerar dem
 		if(m_side == Side.Left){
 			transform.localPosition = new Vector3(-(0.5f-size.x/2),0f,0f); //the y is assuming the stick always is in the center (might need change)
 		}else{

@@ -26,7 +26,7 @@ public class scr_touchInput : MonoBehaviour {
 	private float m_vertical_area; 
 
 	private float m_y_offset;
-	private int m_edgeThreshold; //distance form the edge until it starts to blow
+	private int m_edgeThreshold; //distance from the edge until it starts to blow
 	private int m_midThreshold; //distance from mid it reaches max power
 	private float m_blowing_power = 0f;
 	
@@ -101,7 +101,6 @@ public class scr_touchInput : MonoBehaviour {
 		input_magnitude -= m_edgeThreshold;
 		input_magnitude = input_magnitude/(screen_center-(m_edgeThreshold+m_midThreshold)); // current/max = percent!
 		input_magnitude = Mathf.Clamp01(input_magnitude); //clamp between 0-1
-		//input_magnitude = 1-input_magnitude; // aaand we invert it!
 		return input_magnitude;
 	}
 

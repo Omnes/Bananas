@@ -18,17 +18,30 @@ public class GUI_touches : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//migth be unefficient
+		//kanske är oeffektivt
+		//stänger av alla renders
 		for(int i = 0; i < foundTouches; i++){
 			m_renderers[i].enabled = false;
 		}
-
+		//placerar alla pluppar på rätt ställen och enablar de som behövs
 		Touch[] touches = Input.touches;
-		for(int i = 0; i < touches.Length; i++){
+		for(int i = 0; i < Mathf.Min(touches.Length,foundTouches); i++){
 			m_renderers[i].enabled = true;
 			Vector2 pos = GUIMath.pixelsToPercent(touches[i].position);
 			m_plupps[i].localPosition = new Vector3(pos.x,pos.y,m_plupps[i].localPosition.z);
 		}
+		//debug för editorn
+		if(Application.isEditor && Input.GetMouseButton(0)){
+			m_renderers[0].enabled = true;
+			Vector2 screen_center = new Vector2(Screen.width/2,Screen.height/2);
+			Vector2 pos = GUIMath.pixelsToPercent(asVec2(Input.mousePosition) - screen_center);
+			m_plupps[0].localPosition = new Vector3(pos.x,pos.y,m_plupps[0].localPosition.z);
+		}
+
 	
+	}
+
+	Vector2 asVec2(Vector3 v){
+		return new Vector2(v.x,v.y);
 	}
 }

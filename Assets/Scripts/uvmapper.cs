@@ -21,19 +21,27 @@ public class uvmapper : MonoBehaviour {
 	}
 
 	void changeUvs(){
+		//hämta meshen
 		Mesh mesh = meshFilter.sharedMesh;
 		Vector2[] uvs = new Vector2[4];
+		//förkortningar
 		float l = map.x;
 		float r = map.width;
-		float u = map.y;
-		float d = map.height;
+		float u = 1-map.height;
+		float d = 1-map.y;
 
-		uvs[0] = new Vector2(l,d); 
-		uvs[1] = new Vector2(r,u);
-		uvs[2] = new Vector2(r,d); 
-		uvs[3] = new Vector2(l,u); 
+		//skapar nya uv kordinater
+		 /*  0 - 2
+		 * 	 | \ |
+		 *   3 - 1
+		 */
+		uvs[0] = new Vector2(l,u); 
+		uvs[1] = new Vector2(r,d);
+		uvs[2] = new Vector2(r,u); 
+		uvs[3] = new Vector2(l,d); 
+		//assignar dem till meshen
 		mesh.uv = uvs;
-		mesh.RecalculateNormals();
+		//mesh.RecalculateNormals();
 		meshFilter.sharedMesh = mesh;
 
 	}
