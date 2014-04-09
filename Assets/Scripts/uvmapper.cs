@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[ExecuteInEditMode]
 public class uvmapper : MonoBehaviour {
 
 	public Rect map = new Rect(0,0,1,1);
 	private MeshFilter meshFilter;
+	public bool m_updateInEditor = true;
 
 	// Use this for initialization
 	void Start () {
@@ -13,13 +15,13 @@ public class uvmapper : MonoBehaviour {
 	}
 
 	void Update(){
-		if(Input.GetKeyDown(KeyCode.W)){
+		if(Application.isEditor && m_updateInEditor){
 			changeUvs();
 		}
 	}
 
 	void changeUvs(){
-		Mesh mesh = meshFilter.mesh;
+		Mesh mesh = meshFilter.sharedMesh;
 		Vector2[] uvs = new Vector2[4];
 		float l = map.x;
 		float r = map.width;
@@ -32,7 +34,7 @@ public class uvmapper : MonoBehaviour {
 		uvs[3] = new Vector2(l,u); 
 		mesh.uv = uvs;
 		mesh.RecalculateNormals();
-		meshFilter.mesh = mesh;
+		meshFilter.sharedMesh = mesh;
 
 	}
 }
