@@ -360,6 +360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_forwardPower: 5
+  m_distanceMultiplier: 1
   m_centripetalPower: 5
   m_centDistMult: 0
   m_minVelocity: 2
@@ -775,7 +776,7 @@ MonoBehaviour:
   m_leafMaterial: {fileID: 2100000, guid: 8c82043c977e0bc48894bbc70e0a2096, type: 2}
   m_prefabLeaf: {fileID: 100000, guid: 3c6d9bb5dde52c84d965a56f5bbbc12e, type: 2}
   m_leafCount: 918
-  m_range: 5
+  m_range: 7.5
   m_startHeight: .00100000005
   m_heightIncrease: .00100000005
 --- !u!1 &806264463
@@ -882,6 +883,14 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
+      propertyPath: m_minVelocityDependsOnBlowPower
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
+      propertyPath: m_distanceMultiplier
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
   m_RootGameObject: {fileID: 741673157}
@@ -972,6 +981,7 @@ GameObject:
   - 124: {fileID: 871558695}
   - 81: {fileID: 871558694}
   - 114: {fileID: 871558699}
+  - 114: {fileID: 871558700}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1053,6 +1063,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_target: {fileID: 741673158}
   m_distance: 5
+--- !u!114 &871558700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 871558693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1275b127dcbb3f24a8af58f235c98f14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pluginPaths: []
 --- !u!1 &885639785
 GameObject:
   m_ObjectHideFlags: 0
