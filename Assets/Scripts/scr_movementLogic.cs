@@ -62,18 +62,20 @@ public class scr_movementLogic : MonoBehaviour
 		//rigidbody.AddForce (dir * m_speed, ForceMode.VelocityChange);
 
 		Vector3 currentVelocity = rigidbody.velocity;
+		//project to remove slide
 		Vector3 newVelocity = Vector3.Project (currentVelocity, dir.normalized);
-		newVelocity += dir*m_acceleration * m_speed;
+		//add the new speed
+		newVelocity += dir*m_acceleration * m_speed * Time.deltaTime;
+		//clamp speed
 		if(newVelocity.magnitude > m_maxSpeed){
 			newVelocity = newVelocity.normalized*m_maxSpeed;
-			//newVelocity = Vector3.zero;
 		}
-
+		//friction if there 
 		if(Mathf.Abs(m_speed) < m_minimumSpeed){
 			newVelocity *= m_frictionProportion;
 		}
 
-
+		//set the speed to newVelocity
 		rigidbody.AddForce(newVelocity-currentVelocity,ForceMode.VelocityChange);
 
 	}
