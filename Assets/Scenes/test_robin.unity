@@ -258,7 +258,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
       propertyPath: m_maxSpeed
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 11400006, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
       propertyPath: m_beginsAtStep
@@ -267,6 +267,14 @@ Prefab:
     - target: {fileID: 11400006, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
       propertyPath: m_powerSteps
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
+      propertyPath: m_acceleration
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
@@ -460,15 +468,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: b01fe5289650f1a4c89e3324236e17bb, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 7.99251012e-08
+      value: -1.71676149e-08
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: b01fe5289650f1a4c89e3324236e17bb, type: 2}
       propertyPath: m_LocalPosition.z
-      value: .899999857
+      value: 1.30000019
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: b01fe5289650f1a4c89e3324236e17bb, type: 2}
       propertyPath: m_LocalRotation.x
-      value: 1.672595e-07
+      value: 3.65353685e-08
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: b01fe5289650f1a4c89e3324236e17bb, type: 2}
       propertyPath: m_LocalRotation.y
@@ -604,11 +612,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: b01fe5289650f1a4c89e3324236e17bb, type: 2}
       propertyPath: m_LocalScale.x
-      value: 1.39377224
+      value: 2.01322675
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: b01fe5289650f1a4c89e3324236e17bb, type: 2}
       propertyPath: m_LocalScale.y
-      value: 1.03923047
+      value: 1.50111067
       objectReference: {fileID: 0}
     - target: {fileID: 2300000, guid: b01fe5289650f1a4c89e3324236e17bb, type: 2}
       propertyPath: m_Enabled
@@ -1138,9 +1146,9 @@ Transform:
   m_PrefabParentObject: {fileID: 400000, guid: b01fe5289650f1a4c89e3324236e17bb, type: 2}
   m_PrefabInternal: {fileID: 249834028}
   m_GameObject: {fileID: 574980204}
-  m_LocalRotation: {x: 1.672595e-07, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 7.99251012e-08, z: .899999857}
-  m_LocalScale: {x: 1.39377224, y: 1.03923047, z: 1}
+  m_LocalRotation: {x: 3.65353685e-08, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.71676149e-08, z: 1.30000019}
+  m_LocalScale: {x: 2.01322675, y: 1.50111067, z: 1}
   m_Children:
   - {fileID: 836233558}
   - {fileID: 833722462}
@@ -1468,9 +1476,10 @@ GameObject:
   - 54: {fileID: 741673160}
   - 114: {fileID: 741673161}
   - 114: {fileID: 741673159}
+  - 114: {fileID: 741673162}
   m_Layer: 0
   m_Name: prefab_player
-  m_TagString: leaf
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1509,10 +1518,9 @@ MonoBehaviour:
   m_rotateProportion: 1
   m_frictionProportion: .949999988
   m_minimumSpeed: .00999999978
-  m_maxSpeed: 2
-  m_acceleration: .100000001
+  m_maxSpeed: 4
+  m_acceleration: 2
   m_powSpeed: 1
-  drag: {x: 0, y: 0, z: 0}
 --- !u!54 &741673160
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1547,6 +1555,19 @@ MonoBehaviour:
   m_mid_threshold_scale: .200000003
   m_powerMetod: 0
   m_powerSteps: 5
+--- !u!114 &741673162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 741673157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6aaebf328574e74f98ddae1e4497c6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_movementLogic: {fileID: 741673159}
+  m_dizzyTime: 6
 --- !u!1 &745220882
 GameObject:
   m_ObjectHideFlags: 0
