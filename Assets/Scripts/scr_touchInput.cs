@@ -17,6 +17,8 @@ public class scr_touchInput : MonoBehaviour {
 	public float m_input_y_scale = 0.4f; 
 	public float m_edge_threshold_scale = 0.2f;
 	public float m_mid_threshold_scale = 0.2f; 
+	public int m_powerSteps = 2; 
+	//public int m_beginsAtStep = 0;
 	
 	//can add min sizes of areas on request /robin
 
@@ -100,7 +102,12 @@ public class scr_touchInput : MonoBehaviour {
 		input_magnitude = screen_center - input_magnitude;//inverts it!
 		input_magnitude -= m_edgeThreshold;
 		input_magnitude = input_magnitude/(screen_center-(m_edgeThreshold+m_midThreshold)); // current/max = percent!
+
+		//input_magnitude = Mathf.Clamp01(input_magnitude); //clamp between 0-1
+		//this line "steps" the function ex: 0.25 -> 0.5 -> 0.75
+		input_magnitude = ((int)(input_magnitude*m_powerSteps))*(1f/m_powerSteps);
 		input_magnitude = Mathf.Clamp01(input_magnitude); //clamp between 0-1
+
 		return input_magnitude;
 	}
 
