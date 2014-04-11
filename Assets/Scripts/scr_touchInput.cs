@@ -8,7 +8,6 @@ using System.Collections;
 */
 
 public class scr_touchInput : MonoBehaviour {
-	
 
 	//debug fun!
 	public bool m_debug_mode = false;
@@ -16,7 +15,9 @@ public class scr_touchInput : MonoBehaviour {
 	//these are in percent
 	public float m_input_y_scale = 0.4f; 
 	public float m_edge_threshold_scale = 0.2f;
-	public float m_mid_threshold_scale = 0.2f; 
+	public float m_mid_threshold_scale = 0.2f;
+	public enum PowerMetod {Step,Smooth};
+	public PowerMetod m_powerMetod = PowerMetod.Step; 
 	public int m_powerSteps = 2; 
 	//public int m_beginsAtStep = 0;
 	
@@ -103,9 +104,10 @@ public class scr_touchInput : MonoBehaviour {
 		input_magnitude -= m_edgeThreshold;
 		input_magnitude = input_magnitude/(screen_center-(m_edgeThreshold+m_midThreshold)); // current/max = percent!
 
-		//input_magnitude = Mathf.Clamp01(input_magnitude); //clamp between 0-1
-		//this line "steps" the function ex: 0.25 -> 0.5 -> 0.75
-		input_magnitude = ((int)(input_magnitude*m_powerSteps))*(1f/m_powerSteps);
+		if(m_powerMetod == PowerMetod.Step){
+			//this line "steps" the function ex: 0.25 -> 0.5 -> 0.75
+			input_magnitude = ((int)(input_magnitude*m_powerSteps))*(1f/m_powerSteps);
+		}
 		input_magnitude = Mathf.Clamp01(input_magnitude); //clamp between 0-1
 
 		return input_magnitude;
@@ -114,8 +116,6 @@ public class scr_touchInput : MonoBehaviour {
 	
 	void OnGUI(){
 		if (m_debug_mode) {
-			//GUI.Box(m_leftArea,"Left");
-			//GUI.Box(m_rightArea,"Rigth");
 			GUI.Label(new Rect(Screen.width/2-50,0,100,50),"("+m_current_input.x.ToString("F2") + ","+m_current_input.y.ToString("F2") +")");
 			GUI.Label(new Rect(Screen.width/2-100,50,200,50),"Blowing Power! " + m_blowing_power.ToString("F2"));
 			//GUI.Label(new Rect(Screen.width/2-100,100,200,50),"Touches " + Input.touches.Length + " / " + Input.touchCount);

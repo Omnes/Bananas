@@ -14,6 +14,7 @@ public class GUI_touches : MonoBehaviour {
 	void Start () {
 		m_guiStickSize = m_touchInput.getGUIStickSize();
 		m_foundTouches = transform.childCount;
+		//saves all children and their renderers
 		for(int i = 0; i < m_foundTouches; i++){
 			m_plupps[i] = transform.GetChild(i);
 			m_renderers[i] = m_plupps[i].renderer;

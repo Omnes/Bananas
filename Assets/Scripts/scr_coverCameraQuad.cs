@@ -34,8 +34,9 @@ public class scr_coverCameraQuad : MonoBehaviour {
 	void AllChildrenLookAtCamera(){
 		Transform[] children = GetComponentsInChildren<Transform>();
 		foreach(Transform t in children){
-			t.LookAt(m_cam.transform.localPosition);
-			t.Rotate(new Vector3(180,0,0));
+			Vector3 dirToCam = t.position-(m_cam.transform.position);
+			Vector3 dif = t.TransformDirection(Vector3.up) - dirToCam;
+			t.Rotate(dif);
 		}
 
 	}
