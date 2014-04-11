@@ -63,7 +63,7 @@ public class scr_movementLogic : MonoBehaviour
 
 		Vector3 currentVelocity = rigidbody.velocity;
 		Vector3 newVelocity = Vector3.Project (currentVelocity, dir.normalized);
-		newVelocity += dir*m_acceleration * m_speed;
+		newVelocity += dir*m_acceleration * m_speed*Time.deltaTime;
 		if(newVelocity.magnitude > m_maxSpeed){
 			newVelocity = newVelocity.normalized*m_maxSpeed;
 			//newVelocity = Vector3.zero;
