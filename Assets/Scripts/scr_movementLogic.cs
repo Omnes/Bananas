@@ -38,7 +38,7 @@ public class scr_movementLogic : MonoBehaviour
 
 		//Adding rotation..
 		Vector3 temp = Vector3.up * left + Vector3.down * right;
-		temp *= m_rotateProportion;
+		temp *= m_rotateProportion * Time.deltaTime;
 		transform.Rotate (temp);
 
 		Vector3 dir = transform.forward;
