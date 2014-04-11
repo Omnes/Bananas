@@ -11,9 +11,10 @@ GameObject:
   - 54: {fileID: 5400000}
   - 114: {fileID: 11400006}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11400016}
   m_Layer: 0
   m_Name: prefab_player
-  m_TagString: leaf
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -961,12 +962,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9ba65d2914ee2468170aaf09ed51d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_speedProportion: 50
   m_rotateProportion: 1
   m_frictionProportion: .949999988
   m_minimumSpeed: .00999999978
+  m_maxSpeed: 4
+  m_acceleration: 2
   m_powSpeed: 1
-  drag: {x: 0, y: 0, z: 0}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1009,6 +1010,8 @@ MonoBehaviour:
   m_input_y_scale: .800000012
   m_edge_threshold_scale: .200000003
   m_mid_threshold_scale: .200000003
+  m_powerMetod: 0
+  m_powerSteps: 5
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1053,6 +1056,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cd0fe9c5e0ac2548b79888156bdde1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11400016
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6aaebf328574e74f98ddae1e4497c6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_movementLogic: {fileID: 11400000}
+  m_dizzyTime: 6
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1
