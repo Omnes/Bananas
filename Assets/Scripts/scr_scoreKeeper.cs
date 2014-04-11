@@ -2,7 +2,17 @@
 using System.Collections;
 
 public class scr_scoreKeeper : MonoBehaviour {
-	public static int m_score = 0;
+	private static int m_privScore = 0;
+
+	public static int m_score
+	{
+		set { 
+			m_privScore = value;
+//			scr_soundManager.play( "event:/IngamePause" );
+//			Debug.Log( "Sounds: " + scr_soundManager.m_sounds.Count );
+		}
+		get { return m_privScore; }
+	}
 
 	void OnGUI(){
 		GUI.Label(new Rect(10, 10, 100, 25), "Score: " + m_score);

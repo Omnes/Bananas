@@ -56,7 +56,7 @@ public class scr_movementLogic : MonoBehaviour
 			newVelocity = newVelocity.normalized*m_maxSpeed;
 		}
 		//friction if there 
-		if(Mathf.Abs(inputSpeed) < m_minimumSpeed){
+		if(Mathf.Abs(inputSpeed) < m_minimumSpeed && !m_hasCollided){
 			newVelocity *= m_frictionProportion;
 		}
 

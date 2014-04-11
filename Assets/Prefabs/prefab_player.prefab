@@ -205,7 +205,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: .899999976, z: 0}
+  m_LocalPosition: {x: 0, y: 1.00620604, z: -.186465263}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400026}
@@ -325,7 +325,7 @@ Transform:
   m_GameObject: {fileID: 100124}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: .0937948227, z: 0}
-  m_LocalScale: {x: 1.34291267, y: 1.34291267, z: 1.34291267}
+  m_LocalScale: {x: 1.46933722, y: 1.46933722, z: 1.46933722}
   m_Children:
   - {fileID: 400102}
   m_Father: {fileID: 400000}
@@ -656,8 +656,8 @@ MonoBehaviour:
   m_rotateProportion: 60
   m_frictionProportion: .949999988
   m_minimumSpeed: .00999999978
-  m_maxSpeed: 4
-  m_acceleration: 2
+  m_maxSpeed: 12
+  m_acceleration: 6
   m_powSpeed: 1
 --- !u!114 &11400002
 MonoBehaviour:
@@ -671,8 +671,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_forwardPower: 5
+  m_distanceMultiplier: 1
   m_centripetalPower: 5
   m_centDistMult: 0
+  m_colliderLength: 4
   m_minVelocity: 2
   m_minVelocityDependsOnBlowPower: 1
 --- !u!114 &11400004
@@ -766,7 +768,7 @@ CapsuleCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 7e6ceab9fa981434a8d652bec407835c, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: .5
