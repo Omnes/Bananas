@@ -29,7 +29,7 @@ public class scr_leafBlower : MonoBehaviour {
 		m_touchInput = transform.parent.GetComponent<scr_touchInput>();
 	}
 
-	void OnTriggerStay(Collider col)
+	public void OnTriggerStayInChild(Collider col)
 	{
 		if (col.gameObject.CompareTag("Leaf")) {
 			GameObject leaf = col.gameObject;

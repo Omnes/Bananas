@@ -26,7 +26,7 @@ public class scr_touchInput : MonoBehaviour {
 	private float m_vertical_area; 
 
 	private float m_y_offset;
-	private int m_edgeThreshold; //distance form the edge until it starts to blow
+	private int m_edgeThreshold; //distance from the edge until it starts to blow
 	private int m_midThreshold; //distance from mid it reaches max power
 	private float m_blowing_power = 0f;
 	
@@ -101,7 +101,6 @@ public class scr_touchInput : MonoBehaviour {
 		input_magnitude -= m_edgeThreshold;
 		input_magnitude = input_magnitude/(screen_center-(m_edgeThreshold+m_midThreshold)); // current/max = percent!
 		input_magnitude = Mathf.Clamp01(input_magnitude); //clamp between 0-1
-		//input_magnitude = 1-input_magnitude; // aaand we invert it!
 		return input_magnitude;
 	}
 
@@ -112,7 +111,7 @@ public class scr_touchInput : MonoBehaviour {
 			//GUI.Box(m_rightArea,"Rigth");
 			GUI.Label(new Rect(Screen.width/2-50,0,100,50),"("+m_current_input.x.ToString("F2") + ","+m_current_input.y.ToString("F2") +")");
 			GUI.Label(new Rect(Screen.width/2-100,50,200,50),"Blowing Power! " + m_blowing_power.ToString("F2"));
-			GUI.Label(new Rect(Screen.width/2-100,100,200,50),"Touches " + Input.touches.Length + " / " + Input.touchCount);
+			//GUI.Label(new Rect(Screen.width/2-100,100,200,50),"Touches " + Input.touches.Length + " / " + Input.touchCount);
 			GUI.Box(new Rect(0,m_y_offset,m_edgeThreshold,m_vertical_area*2),"");
 		}
 	}
@@ -123,5 +122,10 @@ public class scr_touchInput : MonoBehaviour {
 
 	public float getCurrentBlowingPower(){
 		return m_blowing_power;
+	}
+
+	//warning this does not consider eventual min/max pixelsizes on objects dont forget to update this aswell
+	public Vector2 getGUIStickSize(){
+		return new Vector2(m_edge_threshold_scale,m_input_y_scale);
 	}
 }
