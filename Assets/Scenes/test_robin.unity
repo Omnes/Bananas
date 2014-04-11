@@ -260,6 +260,14 @@ Prefab:
       propertyPath: m_maxSpeed
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 11400006, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
+      propertyPath: m_beginsAtStep
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400006, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
+      propertyPath: m_powerSteps
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
   m_RootGameObject: {fileID: 741673157}
@@ -1437,6 +1445,8 @@ MonoBehaviour:
   m_input_y_scale: .800000012
   m_edge_threshold_scale: .200000003
   m_mid_threshold_scale: .200000003
+  m_powerSteps: 5
+  m_beginsAtStep: 1
 --- !u!1 &745220882
 GameObject:
   m_ObjectHideFlags: 0
