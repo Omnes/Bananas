@@ -8,8 +8,7 @@ public class scr_scoreKeeper : MonoBehaviour {
 	{
 		set { 
 			m_privScore = value;
-//			scr_soundManager.play( "event:/IngamePause" );
-//			Debug.Log( "Sounds: " + scr_soundManager.m_sounds.Count );
+			scr_soundManager.Instance.playOneShot( "event:/leafgoal" );
 		}
 		get { return m_privScore; }
 	}

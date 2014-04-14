@@ -16,7 +16,8 @@ public class playerCollision : MonoBehaviour {
 				//If so make YOUR character "slidable" for 6 sec..
 				m_movementLogic.setTackled();
 				m_movementLogic.Invoke ("restoreMovement", m_dizzyTime);
-				
+
+				scr_soundManager.Instance.playOneShot( "event:/Knockout! (1)", other.transform.position );
 			}
 		}
 	}
