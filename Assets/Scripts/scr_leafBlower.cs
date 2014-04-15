@@ -1,32 +1,70 @@
 ﻿using UnityEngine;
 using System.Collections;
+using FMOD.Studio;
 
-//TODO: Ändra forward/back så att det passar modellen, Annars blåser det åt fel håll!
+//TODO: Gör om distanceToLeaf så att den använder vector2D
 public class scr_leafBlower : MonoBehaviour {
 	private float m_blowPower = 0.0f;	
+
 	public float m_forwardPower = 1.0f;
+	public float m_distanceMultiplier = 0.0f;
+
 	public float m_centripetalPower = 1.0f;
 	public float m_centDistMult = 0.0f;
-//	public float m_torquePower = 0.0f;
-//	public float m_powerVariation = 0.0f;
-//	public bool m_blowStraight
+	//INTE FINT FIXA PLS
+	public float m_colliderLength = 4f;
 
 	public float m_minVelocity = 0.0f;
 	public bool m_minVelocityDependsOnBlowPower = true;
+	
+//	public float m_maxVelocity = 8f;
 
+	private Transform playerTransform;
 
-//	private float debug_angle = 0.0f;
+	private InputHub m_touchInput;
+	private FMOD.Studio.EventInstance m_blowSound;
 
-	private scr_touchInput m_touchInput;
+	public ParticleSystem m_particleSystem;
+	private bool m_particleEmit = false;
+
 
 //	void OnTriggerEnter(Collider col)
 //	{
-//		Debug.Log("Enter: " + col.gameObject);
+//
 //	}
 
 	void Start()
 	{
-		m_touchInput = transform.parent.GetComponent<scr_touchInput>();
+		m_touchInput = transform.parent.GetComponent<InputHub>();
+
+//		FMOD.Studio.EventInstance s = scr_soundManager.Instance.play( "event:/gameplay_concept" );
+//		s.setTimelinePosition (60000);
+
+		m_blowSound = scr_soundManager.Instance.play( "event:/leafblower (ytterst kass)" );
+		playerTransform = transform;
+	}
+
+	void Update()
+	{
+		m_blowPower = m_touchInput.getCurrentBlowingPower();
+		m_blowSound.setVolume (m_blowPower / 2);
+
+		if(m_blowPower > 0){
+			if(!m_particleEmit){
+				m_particleEmit = true;
+				m_particleSystem.Play();
+			}
+		}else if(m_particleEmit){
+			m_particleEmit = false;
+			m_particleSystem.Stop();
+		}
+
+//		Debug.Log ("Power: " + m_blowPower);
+//		if (Input.GetKeyDown (KeyCode.Q)) {
+//			m_blowSound = scr_soundManager.Instance.playOneShot( "event:/leafblower (ytterst kass)" );
+//			m_blowPower
+//			FMOD_StudioSystem.instance.PlayOneShot ("event:/leafblower (ytterst kass)", transform.position);
+//		}
 	}
 
 	public void OnTriggerStayInChild(Collider col)
@@ -34,39 +72,36 @@ public class scr_leafBlower : MonoBehaviour {
 		if (col.gameObject.CompareTag("Leaf")) {
 			GameObject leaf = col.gameObject;
 
-//			scr_leafPhysics leafPhysics = leaf.GetComponent<scr_leafPhysics>();
-
-			m_blowPower = m_touchInput.getCurrentBlowingPower();
+			Transform leafTransform = leaf.transform;
 
 			//Centreipetal power
-			Vector3 playerDirection = transform.parent.TransformDirection( Vector3.forward );	
-			Vector3 projectionPoint = transform.parent.position + Vector3.Project(leaf.transform.position - transform.parent.position, playerDirection);
+			Vector3 playerDirection = playerTransform.parent.TransformDirection( Vector3.forward );	
+			Vector3 projectionPoint = playerTransform.parent.position + Vector3.Project(leafTransform.position - transform.parent.position, playerDirection);
 
-			Vector3 projectionDirection = projectionPoint - leaf.transform.position;
+			Vector3 projectionDirection = projectionPoint - leafTransform.position;
 			float distance = projectionDirection.magnitude;
 			projectionDirection.Normalize();
-//			scr_leafPhysics.AddForce(projectionDirection * m_centripetalPower * m_blowPower);
-			leaf.rigidbody.AddForce(projectionDirection * m_centripetalPower * m_blowPower * (1 + distance * m_centDistMult));
+			Vector3 centripetalForce = projectionDirection * m_centripetalPower * m_blowPower * (1 + distance * m_centDistMult);
+//			leaf.rigidbody.AddForce(projectionDirection * m_centripetalPower * m_blowPower * (1 + distance * m_centDistMult));
 
 			//Blow power
-//			Transform blow_point = transform.parent.FindChild("blow_point");
-//			if (blow_point != null) {
-//				Vector3 directionVector = (leaf.transform.position - blow_point.position).normalized;
-				Vector3 directionVector = (leaf.transform.position - transform.parent.position).normalized;
-//				scr_leafPhysics.AddForce(directionVector * m_forwardPower * m_blowPower);
-				leaf.rigidbody.AddForce(directionVector * m_forwardPower * m_blowPower);
+			Vector3 directionVector = (leafTransform.position - playerTransform.parent.position).normalized;
+			float distanceToLeaf = Vector3.Distance( playerTransform.position, leafTransform.position );
+			Vector3 forwardForce = directionVector * m_forwardPower * m_blowPower * (1 + (m_colliderLength - distanceToLeaf) * m_distanceMultiplier);
+//			leaf.rigidbody.AddForce(directionVector * m_forwardPower * m_blowPower * (1 + (m_colliderLength - distanceToLeaf) * m_distanceMultiplier));
 
-//				Mathf.DeltaAngle( transform.
-//				leaf.rigidbody.AddTorque(directionVector * m_torquePower * m_blowPower);	//TODO: Max torque
+			leaf.rigidbody.AddForce((centripetalForce + forwardForce) * Time.deltaTime);
 
-//				Vector3 forwardVector = transform.TransformDirection( -Vector3.forward ).normalized;
-//				debug_angle = signedAngle(new Vector2(forwardVector.x, forwardVector.z), new Vector2(directionVector.x, directionVector.z));
-				//debug_angle -= signedAngle(new Vector2(0,0), new Vector2(forwardVector.x, forwardVector.z));
-//				debug_angle = Vector3.Angle( forwardVector, directionVector );
-//				Debug.DrawLine( new Vector3(0,0,0), directionVector, Color.cyan );
-//				Debug.DrawLine( new Vector3(0,0,0), forwardVector, Color.magenta );
+//			if(leaf.rigidbody.velocity.magnitude > m_maxVelocity){
+//				Vector3 newSpeed = leaf.rigidbody.velocity.normalized * m_maxVelocity;
+//				rigidbody.AddForce(newSpeed - leaf.rigidbody.velocity,ForceMode.VelocityChange);
 //			}
 
+			//TODO: OnTriggerStayFixedDeltaSuperTime
+
+//			Debug.Log( "FIXED DELTA: " + Time.deltaTime.ToString("F5"));
+
+			//Minimum velocity
 			if ( leaf.rigidbody.velocity.magnitude < m_minVelocity ) {
 				if ( m_minVelocityDependsOnBlowPower ) {
 					leaf.rigidbody.velocity = leaf.rigidbody.velocity.normalized * m_minVelocity * m_blowPower;
@@ -75,49 +110,9 @@ public class scr_leafBlower : MonoBehaviour {
 					leaf.rigidbody.velocity = leaf.rigidbody.velocity.normalized * m_minVelocity;
 				}
 			}
-//			leaf.rigidbody.AddTorque( leaf.rigidbody.velocity );
 
-			//leaf.transform.position += transform.parent.transform.TransformDirection( Vector3.back ) * (power + Random.Range(0, powerVariation)) * Time.deltaTime;
-//			Vector3 targetPosition = Vector3.MoveTowards(leaf.transform.position, transform.position, power);
-//			targetPosition = new Vector3(targetPosition.x, leaf.transform.position.y, targetPosition.z);
-			//leaf.transform.position = targetPosition;
-//			leaf.GetComponent<scr_leafPhysics>().velocity = targetPosition;
 		}
 
 	}
-
-	float signedAngle(Vector2 v0, Vector2 v1) {
-//		return Mathf.Atan2 (v0.y - v1.y, v0.x - v1.y) * 180 / Mathf.PI;
-//		return Mathf.Acos (Vector2.Dot(v0, v1)) * 180 / Mathf.PI;
-		return Vector2.Angle (v0, v1);
-
-	}
-
-//	void OnGUI(){
-//		GUI.Label(new Rect(10, 25, 200, 25), "Angle: " + debug_angle.ToString("F2"));
-//	}
-
-//	void OnTriggerExit(Collider col)
-//	{
-//		Debug.Log("Exit: " + col.gameObject);
-//	}
-
-//	void OnCollisionEnter(Collision col)
-//	{
-//		Debug.Log("Enter: " + col.gameObject);
-//	}
-//
-//	void OnCollisionStay(Collision col)
-//	{
-//		Debug.Log("Stay: " + col.gameObject);
-//		foreach (ContactPoint contact in col.contacts){
-//			Debug.DrawRay(contact.point, contact.normal, Color.white);
-//		}
-//	}
-//
-//	void OnCollisionExit(Collision col)
-//	{
-//		Debug.Log("Exit: " + col.gameObject);
-//	}
 
 }
