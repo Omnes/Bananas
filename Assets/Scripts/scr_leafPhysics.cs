@@ -10,17 +10,33 @@ public class scr_leafPhysics : MonoBehaviour {
 
 //	public float m_maxVelocity = 4.0f;
 	public float m_rotationSpeed = 30f;
+
+	public float m_minSleep = 0.01f;
+
+	private Rigidbody m_rigidbody;
+	private Transform m_transform;
+
+	void Start(){
+		m_rigidbody = rigidbody;
+		m_transform = transform;
+	}
 	
-	void Update () {
+	void FixedUpdate () {
 //		transform.position += velocity * Time.deltaTime;
 //		velocity *= friction;
-		rigidbody.velocity *= m_friction;
 
-//		rigidbody.velocity.Scale (  );
-//		if (rigidbody.velocity.magnitude > m_maxVelocity) {
-//			rigidbody.velocity = rigidbody.velocity.normalized * m_maxVelocity;
-//		}
-		transform.Rotate(Vector3.forward*rigidbody.velocity.magnitude*Time.deltaTime*m_rotationSpeed);
+		Vector3 velocity = m_rigidbody.velocity;
+		if(velocity.magnitude > m_minSleep){
+			m_rigidbody.velocity *= m_friction;
+
+	//		rigidbody.velocity.Scale (  );
+	//		if (rigidbody.velocity.magnitude > m_maxVelocity) {
+	//			rigidbody.velocity = rigidbody.velocity.normalized * m_maxVelocity;
+	//		}
+			m_transform.Rotate(Vector3.forward*velocity.magnitude*Time.deltaTime*m_rotationSpeed);
+		}else if(velocity.magnitude > 0){
+			m_rigidbody.velocity = Vector3.zero;
+		}
 	}
 
 //	public void AddForce(Vector3 force)

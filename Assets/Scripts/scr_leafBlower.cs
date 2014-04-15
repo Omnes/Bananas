@@ -100,14 +100,14 @@ public class scr_leafBlower : MonoBehaviour {
 			//TODO: OnTriggerStayFixedDeltaSuperTime
 
 //			Debug.Log( "FIXED DELTA: " + Time.deltaTime.ToString("F5"));
-
+			Rigidbody leafRigidbody = leaf.rigidbody;
 			//Minimum velocity
-			if ( leaf.rigidbody.velocity.magnitude < m_minVelocity ) {
+			if ( leafRigidbody.velocity.magnitude < m_minVelocity ) {
 				if ( m_minVelocityDependsOnBlowPower ) {
-					leaf.rigidbody.velocity = leaf.rigidbody.velocity.normalized * m_minVelocity * m_blowPower;
+					leafRigidbody.velocity = leafRigidbody.velocity.normalized * m_minVelocity * m_blowPower;
 				}
 				else {
-					leaf.rigidbody.velocity = leaf.rigidbody.velocity.normalized * m_minVelocity;
+					leafRigidbody.velocity = leafRigidbody.velocity.normalized * m_minVelocity;
 				}
 			}
 

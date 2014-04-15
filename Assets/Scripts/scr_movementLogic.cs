@@ -87,9 +87,11 @@ public class scr_movementLogic : MonoBehaviour
 
 		newVelocity = (1 - blowPower) > 0.5?newVelocity:newVelocity * m_BlowPowerSlowFraction;
 
+		//this is for debugging on the comupter since we only can hanve one input not 2
+		int divider = Application.isEditor ? 1: 2; // om det är editor dela med 1 ananrs 2
 		//friction if there 
-		if(Mathf.Abs(inputSpeed) < m_minimumSpeed && !m_hasCollided){
-			newVelocity *= m_frictionProportion;
+		if(!m_hasCollided){
+			newVelocity *= 1-((1-m_frictionProportion) * (1-Mathf.Abs(right+left)/divider));
 		}
 
 		//set the speed to newVelocity
