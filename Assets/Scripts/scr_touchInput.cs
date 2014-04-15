@@ -7,7 +7,7 @@ using System.Collections;
 * and use getCurrentInputVector() and getCurrentblowingPower() to retrive the data
 */
 
-public class scr_touchInput : MonoBehaviour {
+public class scr_touchInput : InputMetod {
 
 	//debug fun!
 	public bool m_debug_mode = false;
@@ -123,11 +123,11 @@ public class scr_touchInput : MonoBehaviour {
 		}
 	}
 
-	public Vector2 getCurrentInputVector(){
+	public override Vector2 getCurrentInputVector(){
 		return m_current_input;
 	}
 
-	public float getCurrentBlowingPower(){
+	public override float getCurrentBlowingPower(){
 		return m_blowing_power;
 	}
 

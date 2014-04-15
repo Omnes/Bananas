@@ -21,8 +21,11 @@ public class scr_leafBlower : MonoBehaviour {
 	public float m_minVelocity = 0.0f;
 	public bool m_minVelocityDependsOnBlowPower = true;
 
-	private scr_touchInput m_touchInput;
+	private InputHub m_touchInput;
 	private FMOD.Studio.EventInstance m_blowSound;
+
+	public ParticleSystem m_particleSystem;
+	private bool m_particleEmit = false;
 
 //	void OnTriggerEnter(Collider col)
 //	{
@@ -31,7 +34,7 @@ public class scr_leafBlower : MonoBehaviour {
 
 	void Start()
 	{
-		m_touchInput = transform.parent.GetComponent<scr_touchInput>();
+		m_touchInput = transform.parent.GetComponent<InputHub>();
 
 //		FMOD.Studio.EventInstance s = scr_soundManager.Instance.play( "event:/gameplay_concept" );
 //		s.setTimelinePosition (60000);
@@ -43,6 +46,16 @@ public class scr_leafBlower : MonoBehaviour {
 	{
 		m_blowPower = m_touchInput.getCurrentBlowingPower();
 		m_blowSound.setVolume (m_blowPower);
+
+		if(m_blowPower > 0){
+			if(!m_particleEmit){
+				m_particleEmit = true;
+				m_particleSystem.Play();
+			}
+		}else if(m_particleEmit){
+			m_particleEmit = false;
+			m_particleSystem.Stop();
+		}
 
 //		Debug.Log ("Power: " + m_blowPower);
 //		if (Input.GetKeyDown (KeyCode.Q)) {

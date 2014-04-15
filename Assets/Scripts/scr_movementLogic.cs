@@ -17,7 +17,7 @@ public class scr_movementLogic : MonoBehaviour
 	private float right = 0.0f;
 	private float left = 0.0f;
 	private Vector2 m_inputVec;
-	private scr_touchInput m_touchIn = null;
+	private InputHub m_touchIn = null;
 
 
 	private bool m_running;
@@ -28,7 +28,7 @@ public class scr_movementLogic : MonoBehaviour
 	void Start () 
 	{
 		m_animation = GetComponent<playerAnimation>();
-		m_touchIn = GetComponent<scr_touchInput> ();
+		m_touchIn = GetComponent<InputHub> ();
 	}
 	
 	// Update is called once per frame
