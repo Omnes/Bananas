@@ -111,6 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_friction: .949999988
+  m_rotationSpeed: 60
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1

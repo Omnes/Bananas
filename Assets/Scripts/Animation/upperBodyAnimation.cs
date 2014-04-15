@@ -91,7 +91,7 @@ public class upperBodyAnimation : MonoBehaviour {
 
 	//IDLE
 	public void idleAnimation(){
-		Debug.Log("UpperBody : idleAnimation");
+		//Debug.Log("UpperBody : idleAnimation");
 		//start idle animation
 		//m_playerAnimator.SetLayerWeight(2, 1);
 		m_myState = state.IDLE;
@@ -100,7 +100,7 @@ public class upperBodyAnimation : MonoBehaviour {
 
 	//running
 	public void runningAnimation(){
-		Debug.Log("UpperBody : runningAnimation");
+		//Debug.Log("UpperBody : runningAnimation");
 		//start running animation
 		//m_playerAnimator.SetLayerWeight(2, 1);
 		m_myState = state.RUNNING;
@@ -109,7 +109,7 @@ public class upperBodyAnimation : MonoBehaviour {
 
 	//tackle animation
 	public void tackleAnimation(){
-		Debug.Log("UpperBody : tackleAnimation");
+		//Debug.Log("UpperBody : tackleAnimation");
 		m_myState = state.TACKLE;
 		//m_isTackling = true;
 		//should be previous state hopefully

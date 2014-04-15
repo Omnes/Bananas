@@ -7,11 +7,13 @@ public class scr_leafPhysics : MonoBehaviour {
 
 	[Range(0.0f, 1.0f)]
 	public float m_friction = 1.0f;
+	public float m_rotationSpeed = 30f;
 	
 	void Update () {
 //		transform.position += velocity * Time.deltaTime;
 //		velocity *= friction;
 		rigidbody.velocity *= m_friction;
+		transform.Rotate(Vector3.forward*rigidbody.velocity.magnitude*Time.deltaTime*m_rotationSpeed);
 	}
 
 //	public void AddForce(Vector3 force)
