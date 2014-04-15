@@ -13,66 +13,68 @@ public class scr_leafBlower : MonoBehaviour {
 	public float m_centDistMult = 0.0f;
 	//INTE FINT FIXA PLS
 	public float m_colliderLength = 4f;
-	
-//	public float m_torquePower = 0.0f;
-//	public float m_powerVariation = 0.0f;
-//	public bool m_blowStraight
 
 	public float m_minVelocity = 0.0f;
 	public bool m_minVelocityDependsOnBlowPower = true;
 
+//	public float m_maxVelocity = 8f;
+
 	private scr_touchInput m_touchInput;
 	private FMOD.Studio.EventInstance m_blowSound;
 
+	private Transform playerTransform;
+
 //	void OnTriggerEnter(Collider col)
 //	{
-//		Debug.Log("Enter: " + col.gameObject);
+//
 //	}
 
 	void Start()
 	{
 		m_touchInput = transform.parent.GetComponent<scr_touchInput>();
-
-//		FMOD.Studio.EventInstance s = scr_soundManager.Instance.play( "event:/gameplay_concept" );
-//		s.setTimelinePosition (60000);
-
 		m_blowSound = scr_soundManager.Instance.play( "event:/leafblower (ytterst kass)" );
+		playerTransform = transform;
 	}
 
 	void Update()
 	{
 		m_blowPower = m_touchInput.getCurrentBlowingPower();
-		m_blowSound.setVolume (m_blowPower);
-
-//		Debug.Log ("Power: " + m_blowPower);
-//		if (Input.GetKeyDown (KeyCode.Q)) {
-//			m_blowSound = scr_soundManager.Instance.playOneShot( "event:/leafblower (ytterst kass)" );
-//			m_blowPower
-//			FMOD_StudioSystem.instance.PlayOneShot ("event:/leafblower (ytterst kass)", transform.position);
-//		}
+		m_blowSound.setVolume (m_blowPower / 2);
 	}
-	
+
 	public void OnTriggerStayInChild(Collider col)
 	{
 		if (col.gameObject.CompareTag("Leaf")) {
 			GameObject leaf = col.gameObject;
 
-//			m_blowPower = m_touchInput.getCurrentBlowingPower();
+			Transform leafTransform = leaf.transform;
 
 			//Centreipetal power
-			Vector3 playerDirection = transform.parent.TransformDirection( Vector3.forward );	
-			Vector3 projectionPoint = transform.parent.position + Vector3.Project(leaf.transform.position - transform.parent.position, playerDirection);
+			Vector3 playerDirection = playerTransform.parent.TransformDirection( Vector3.forward );	
+			Vector3 projectionPoint = playerTransform.parent.position + Vector3.Project(leafTransform.position - transform.parent.position, playerDirection);
 
-			Vector3 projectionDirection = projectionPoint - leaf.transform.position;
+			Vector3 projectionDirection = projectionPoint - leafTransform.position;
 			float distance = projectionDirection.magnitude;
 			projectionDirection.Normalize();
-			leaf.rigidbody.AddForce(projectionDirection * m_centripetalPower * m_blowPower * (1 + distance * m_centDistMult));
+			Vector3 centripetalForce = projectionDirection * m_centripetalPower * m_blowPower * (1 + distance * m_centDistMult);
+//			leaf.rigidbody.AddForce(projectionDirection * m_centripetalPower * m_blowPower * (1 + distance * m_centDistMult));
 
 			//Blow power
-			Vector3 directionVector = (leaf.transform.position - transform.parent.position).normalized;
-			float distanceToLeaf = Vector3.Distance( transform.position, leaf.transform.position );
-//			distanceToLeaf = distanceToLeaf / 
-			leaf.rigidbody.AddForce(directionVector * m_forwardPower * m_blowPower * (1 + (m_colliderLength - distanceToLeaf) * m_distanceMultiplier));
+			Vector3 directionVector = (leafTransform.position - playerTransform.parent.position).normalized;
+			float distanceToLeaf = Vector3.Distance( playerTransform.position, leafTransform.position );
+			Vector3 forwardForce = directionVector * m_forwardPower * m_blowPower * (1 + (m_colliderLength - distanceToLeaf) * m_distanceMultiplier);
+//			leaf.rigidbody.AddForce(directionVector * m_forwardPower * m_blowPower * (1 + (m_colliderLength - distanceToLeaf) * m_distanceMultiplier));
+
+			leaf.rigidbody.AddForce((centripetalForce + forwardForce) * Time.deltaTime);
+
+//			if(leaf.rigidbody.velocity.magnitude > m_maxVelocity){
+//				Vector3 newSpeed = leaf.rigidbody.velocity.normalized * m_maxVelocity;
+//				rigidbody.AddForce(newSpeed - leaf.rigidbody.velocity,ForceMode.VelocityChange);
+//			}
+
+			//TODO: OnTriggerStayFixedDeltaSuperTime
+
+//			Debug.Log( "FIXED DELTA: " + Time.deltaTime.ToString("F5"));
 
 			//Minimum velocity
 			if ( leaf.rigidbody.velocity.magnitude < m_minVelocity ) {

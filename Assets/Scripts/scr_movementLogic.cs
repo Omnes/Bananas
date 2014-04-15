@@ -11,11 +11,15 @@ public class scr_movementLogic : MonoBehaviour
 	public float m_acceleration = 0.1f;
 
 	public float m_powSpeed = 1f;
+
+	[Range(0.0f, 1.0f)]
+	public float m_BlowPowerSlowFraction = 1.0f;
 	
 	private bool m_hasCollided = false;
 
 	private float right = 0.0f;
 	private float left = 0.0f;
+	private float blowPower = 0.0f;
 	private Vector2 m_inputVec;
 	private scr_touchInput m_touchIn = null;
 
@@ -37,6 +41,8 @@ public class scr_movementLogic : MonoBehaviour
 		m_inputVec = m_touchIn.getCurrentInputVector ();
 		right = m_inputVec.y;
 		left = m_inputVec.x;
+
+		blowPower = m_touchIn.getCurrentBlowingPower ();
 
 
 		//animationkode och stuff
@@ -66,21 +72,29 @@ public class scr_movementLogic : MonoBehaviour
 			//project to remove slide
 			newVelocity = Vector3.Project (currentVelocity, dir.normalized);
 		}
+
 		//add the new speed
-		newVelocity += dir*m_acceleration * inputSpeed * Time.deltaTime;
+		newVelocity += dir * m_acceleration * inputSpeed * Time.deltaTime;
+
+		//Backward force
+//		Vector3 backwardForce = -dir * blowPower * m_BlowPowerForce;
+//		newVelocity += backwardForce * Time.deltaTime;
+
 		//clamp speed
 		if(newVelocity.magnitude > m_maxSpeed){
 			newVelocity = newVelocity.normalized*m_maxSpeed;
 		}
+
+		newVelocity = (1 - blowPower) > 0.5?newVelocity:newVelocity * m_BlowPowerSlowFraction;
+
 		//friction if there 
 		if(Mathf.Abs(inputSpeed) < m_minimumSpeed && !m_hasCollided){
 			newVelocity *= m_frictionProportion;
 		}
 
 		//set the speed to newVelocity
-		rigidbody.AddForce(newVelocity-currentVelocity,ForceMode.VelocityChange);
-
-	
+		Vector3 deltaVelocity = newVelocity - currentVelocity;
+		rigidbody.AddForce(deltaVelocity, ForceMode.VelocityChange);
 	}
 
 	public void restoreMovement()

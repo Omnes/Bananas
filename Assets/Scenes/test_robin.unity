@@ -963,7 +963,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: b01fe5289650f1a4c89e3324236e17bb, type: 2}
       propertyPath: m_LocalScale.x
-      value: 2.18706417
+      value: 1.62935686
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: b01fe5289650f1a4c89e3324236e17bb, type: 2}
       propertyPath: m_LocalScale.y
@@ -2162,7 +2162,7 @@ Transform:
   m_GameObject: {fileID: 574980204}
   m_LocalRotation: {x: 8.42936956e-08, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 9.94759898e-15, z: 1.30000031}
-  m_LocalScale: {x: 2.18706417, y: 1.50111067, z: 1}
+  m_LocalScale: {x: 1.62935686, y: 1.50111067, z: 1}
   m_Children:
   - {fileID: 836233558}
   - {fileID: 833722462}
@@ -2196,8 +2196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11f23e5e39457104bb29c0f14145061a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  asset: {fileID: 11400000, guid: 4956c17fbf17ec14c9f9f962d5f990ad, type: 2}
-  path: '{dfa562b6-81d5-4ad2-a533-378677e5b372}'
+  asset: {fileID: 11400000, guid: a1905177502313846a6f65582f3d45f6, type: 2}
+  path: '{accca678-df14-4875-a371-c7dafd6d1f81}'
   startEventOnAwake: 1
 --- !u!4 &581612737
 Transform:
@@ -2718,6 +2718,7 @@ MonoBehaviour:
   m_maxSpeed: 8
   m_acceleration: 4
   m_powSpeed: 1
+  m_BlowPowerForce: 2
 --- !u!54 &741673160
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2876,7 +2877,7 @@ MonoBehaviour:
   m_leafCount: 1868
   m_range: 20
   m_startHeight: .00100000005
-  m_heightIncrease: .00100000005
+  m_totalHeight: 1
 --- !u!1 &750799487
 GameObject:
   m_ObjectHideFlags: 0
@@ -4967,6 +4968,14 @@ Prefab:
     - target: {fileID: 11400006, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
       propertyPath: m_debug_mode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
+      propertyPath: m_BlowPowerSlowdownPercent
+      value: .880999982
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
+      propertyPath: m_BlowPowerForce
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 9500000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
