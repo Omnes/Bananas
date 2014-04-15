@@ -20,9 +20,14 @@ public class scr_movementLogic : MonoBehaviour
 	private scr_touchInput m_touchIn = null;
 
 
+	private bool m_running;
+	private playerAnimation m_animation;
+
+
 	// Use this for initialization
 	void Start () 
 	{
+		m_animation = GetComponent<playerAnimation>();
 		m_touchIn = GetComponent<scr_touchInput> ();
 	}
 	
@@ -32,6 +37,18 @@ public class scr_movementLogic : MonoBehaviour
 		m_inputVec = m_touchIn.getCurrentInputVector ();
 		right = m_inputVec.y;
 		left = m_inputVec.x;
+
+
+		//animationkode och stuff
+		if(right+left > 0){
+			if(m_running == false){
+				m_running = true;
+				m_animation.runningAnim();
+			}
+		}else if(m_running == true){
+			m_running = false;
+			m_animation.idleAnim();
+		}
 
 
 		float inputSpeed =  Mathf.Pow((right + left),m_powSpeed);///m_speedProportion;
@@ -56,7 +73,7 @@ public class scr_movementLogic : MonoBehaviour
 			newVelocity = newVelocity.normalized*m_maxSpeed;
 		}
 		//friction if there 
-		if(Mathf.Abs(inputSpeed) < m_minimumSpeed){
+		if(Mathf.Abs(inputSpeed) < m_minimumSpeed && !m_hasCollided){
 			newVelocity *= m_frictionProportion;
 		}
 
