@@ -77,7 +77,7 @@ public class Lobby : MonoBehaviour {
 
 	//stop server ? does this function need to remove more stuff ? each player clean up after itself right?
 	public void stopServer(){
-		Network.Disconnect();
+		disconnect();
 		Debug.Log("lobby.cs : Shuting down Server");
 	}
 
@@ -86,7 +86,7 @@ public class Lobby : MonoBehaviour {
 		Debug.Log("lobby.cs : Connecting Server");
 	}
 
-	public void disconnectFromServer(){
+	public void disconnect(){
 		Network.Disconnect();
 		Debug.Log("lobby.cs : Disconnecting from Server");
 		//Network.RemoveRPCs(networkplayer);		get networkplayer
