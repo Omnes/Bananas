@@ -4026,6 +4026,7 @@ MonoBehaviour:
   m_mid_threshold_scale: .349999994
   m_powerMetod: 0
   m_powerSteps: 1
+  m_delayedFrames: 10
 --- !u!114 &741673162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8205,6 +8206,10 @@ Prefab:
     - target: {fileID: 11400002, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
       propertyPath: m_minVelocity
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400006, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
+      propertyPath: m_delayedFrames
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}

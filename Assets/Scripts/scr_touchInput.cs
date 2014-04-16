@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /*
 * How to use this
@@ -32,6 +33,10 @@ public class scr_touchInput : InputMetod {
 	private int m_edgeThreshold; //distance from the edge until it starts to blow
 	private int m_midThreshold; //distance from mid it reaches max power
 	private float m_blowing_power = 0f;
+
+	//private Queue<Vector2> m_delayedInput = new Queue<Vector2>();
+	//public int m_delayedFrames = 10;
+	private Vector2 m_delayed;
 	
 	void Start () {
 		//feel free to touch -- Note for programmers :  add min and max size in pixels for the areas
@@ -45,6 +50,12 @@ public class scr_touchInput : InputMetod {
 		//do not touch
 		m_y_offset = (m_leftArea.height/2)-(m_vertical_area);
 
+
+		//testing
+		//for(int i = 0; i < m_delayedFrames;i++){
+		//	m_delayedInput.Enqueue(new Vector2(0,0));
+		//}
+
 	}
 	
 	// Update is called once per frame
@@ -52,6 +63,7 @@ public class scr_touchInput : InputMetod {
 		
 		Touch[] touches = Input.touches;
 		m_current_input = Vector2.zero;
+		//m_delayed = m_delayedInput.Dequeue();
 		
 		//check all touches, if they are in the control areas.
 		float higestPower = 0; //for finding the highest "power" off the current inputs  (this is most likly temp when desigerns change their mind)
@@ -74,6 +86,7 @@ public class scr_touchInput : InputMetod {
 			}
 
 		}
+		//m_delayedInput.Enqueue(m_current_input);
 		//end of pc debug stuff
 
 		m_blowing_power = higestPower;
@@ -125,6 +138,7 @@ public class scr_touchInput : InputMetod {
 
 	public override Vector2 getCurrentInputVector(){
 		return m_current_input;
+		//return m_delayed;
 	}
 
 	public override float getCurrentBlowingPower(){
