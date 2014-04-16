@@ -65,7 +65,7 @@ public class scr_touchInput : InputMetod {
 		}
 
 		//pc stuff for debug purpose
-		if (Input.GetMouseButton (0) && Application.isEditor) {
+		if (Input.GetMouseButton (0) &&(Application.isEditor || Application.platform == RuntimePlatform.WindowsPlayer) ) {
 			Vector2 pos = Input.mousePosition;
 			calcMovementMagnitudes(pos);
 			float input_magnitude = calcBlowingMagnitude(pos);
