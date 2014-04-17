@@ -27,14 +27,19 @@ public class scr_movementLogic : MonoBehaviour
 	private bool m_running;
 	private playerAnimation m_animation;
 
+	private FMOD_StudioEventEmitter footstepEmitter;
+	FMOD.Studio.ParameterInstance footstepParam;
+
 
 	// Use this for initialization
 	void Start () 
 	{
 		m_animation = GetComponent<playerAnimation>();
 		m_touchIn = GetComponent<InputHub> ();
+		footstepEmitter = GetComponent<FMOD_StudioEventEmitter> ();
+		footstepEmitter.evt.getParameter ("Snabbet", out footstepParam);
 	}
-	
+
 	// Update is called once per frame
 	void Update () 
 	{
@@ -42,8 +47,14 @@ public class scr_movementLogic : MonoBehaviour
 		right = m_inputVec.y;
 		left = m_inputVec.x;
 
-		blowPower = m_touchIn.getCurrentBlowingPower ();
+//		footstepEmitter.audio.volume = (Mathf.Abs(right) + Mathf.Abs(left)) / 2;
+//		Debug.Log ("Emitter: " + footstepEmitter.audio);
 
+		float totalSpeed = (Mathf.Abs (right) + Mathf.Abs (left)) / 2;
+		footstepEmitter.evt.setVolume (totalSpeed);
+		footstepParam.setValue (totalSpeed);
+
+		blowPower = m_touchIn.getCurrentBlowingPower ();
 
 		//animationkode och stuff
 		if(right+left > 0){

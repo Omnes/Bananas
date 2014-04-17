@@ -16,8 +16,6 @@ public class scr_leafBlower : MonoBehaviour {
 
 	public float m_minVelocity = 0.0f;
 	public bool m_minVelocityDependsOnBlowPower = true;
-	
-//	public float m_maxVelocity = 8f;
 
 	private Transform playerTransform;
 
@@ -27,18 +25,9 @@ public class scr_leafBlower : MonoBehaviour {
 	public ParticleSystem m_particleSystem;
 	private bool m_particleEmit = false;
 
-
-//	void OnTriggerEnter(Collider col)
-//	{
-//
-//	}
-
 	void Start()
 	{
 		m_touchInput = transform.parent.GetComponent<InputHub>();
-
-//		FMOD.Studio.EventInstance s = scr_soundManager.Instance.play( "event:/gameplay_concept" );
-//		s.setTimelinePosition (60000);
 
 		m_blowSound = scr_soundManager.Instance.play( "event:/leafblower (ytterst kass)" );
 		playerTransform = transform;
@@ -47,7 +36,8 @@ public class scr_leafBlower : MonoBehaviour {
 	void Update()
 	{
 		m_blowPower = m_touchInput.getCurrentBlowingPower();
-		m_blowSound.setVolume (m_blowPower / 2);
+		m_blowSound.setVolume (m_blowPower / 3);
+//		m_blowSound.setVolume (0);
 
 		if(m_blowPower > 0){
 			if(!m_particleEmit){
@@ -58,13 +48,6 @@ public class scr_leafBlower : MonoBehaviour {
 			m_particleEmit = false;
 			m_particleSystem.Stop();
 		}
-
-//		Debug.Log ("Power: " + m_blowPower);
-//		if (Input.GetKeyDown (KeyCode.Q)) {
-//			m_blowSound = scr_soundManager.Instance.playOneShot( "event:/leafblower (ytterst kass)" );
-//			m_blowPower
-//			FMOD_StudioSystem.instance.PlayOneShot ("event:/leafblower (ytterst kass)", transform.position);
-//		}
 	}
 
 	public void OnTriggerStayInChild(Collider col)
@@ -96,10 +79,6 @@ public class scr_leafBlower : MonoBehaviour {
 //				Vector3 newSpeed = leaf.rigidbody.velocity.normalized * m_maxVelocity;
 //				rigidbody.AddForce(newSpeed - leaf.rigidbody.velocity,ForceMode.VelocityChange);
 //			}
-
-			//TODO: OnTriggerStayFixedDeltaSuperTime
-
-//			Debug.Log( "FIXED DELTA: " + Time.deltaTime.ToString("F5"));
 
 			//Minimum velocity
 			if ( leaf.rigidbody.velocity.magnitude < m_minVelocity ) {
