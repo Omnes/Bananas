@@ -24,7 +24,7 @@ public class scr_touchInput : InputMetod {
 	
 	//can add min sizes of areas on request /robin
 
-	private Vector2 m_current_input = new Vector2(0,0);
+	private Vector2 m_currentInput = new Vector2(0,0);
 	private Rect m_leftArea =  new Rect();
 	private Rect m_rightArea = new Rect();
 	private float m_vertical_area; 
@@ -32,7 +32,7 @@ public class scr_touchInput : InputMetod {
 	private float m_y_offset;
 	private int m_edgeThreshold; //distance from the edge until it starts to blow
 	private int m_midThreshold; //distance from mid it reaches max power
-	private float m_blowing_power = 0f;
+	private float m_blowingPower = 0f;
 
 	//private Queue<Vector2> m_delayedInput = new Queue<Vector2>();
 	//public int m_delayedFrames = 10;
@@ -62,7 +62,7 @@ public class scr_touchInput : InputMetod {
 	void Update () {
 		
 		Touch[] touches = Input.touches;
-		m_current_input = Vector2.zero;
+		m_currentInput = Vector2.zero;
 		//m_delayed = m_delayedInput.Dequeue();
 		
 		//check all touches, if they are in the control areas.
@@ -86,10 +86,10 @@ public class scr_touchInput : InputMetod {
 			}
 
 		}
-		//m_delayedInput.Enqueue(m_current_input);
+		//m_delayedInput.Enqueue(m_currentInput);
 		//end of pc debug stuff
 
-		m_blowing_power = higestPower;
+		m_blowingPower = higestPower;
 		
 	}
 
@@ -97,9 +97,9 @@ public class scr_touchInput : InputMetod {
 	void calcMovementMagnitudes(Vector2 pos){
 		//calcluate the movement stuff
 		if(m_leftArea.Contains(pos)){ //check which half of the screen the input is
-			m_current_input = new Vector2(calculateMagnitude(pos.y),m_current_input.y);
+			m_currentInput = new Vector2(calculateMagnitude(pos.y),m_currentInput.y);
 		}else if(m_rightArea.Contains(pos)){
-			m_current_input = new Vector2(m_current_input.x,calculateMagnitude(pos.y));
+			m_currentInput = new Vector2(m_currentInput.x,calculateMagnitude(pos.y));
 		}
 	}
 
@@ -129,20 +129,27 @@ public class scr_touchInput : InputMetod {
 	
 	void OnGUI(){
 		if (m_debug_mode) {
-			GUI.Label(new Rect(Screen.width/2-50,0,100,50),"("+m_current_input.x.ToString("F2") + ","+m_current_input.y.ToString("F2") +")");
-			GUI.Label(new Rect(Screen.width/2-100,50,200,50),"Blowing Power! " + m_blowing_power.ToString("F2"));
+			GUI.Label(new Rect(Screen.width/2-50,0,100,50),"("+m_currentInput.x.ToString("F2") + ","+m_currentInput.y.ToString("F2") +")");
+			GUI.Label(new Rect(Screen.width/2-100,50,200,50),"Blowing Power! " + m_blowingPower.ToString("F2"));
 			//GUI.Label(new Rect(Screen.width/2-100,100,200,50),"Touches " + Input.touches.Length + " / " + Input.touchCount);
 			GUI.Box(new Rect(0,m_y_offset,m_edgeThreshold,m_vertical_area*2),"");
 		}
 	}
 
 	public override Vector2 getCurrentInputVector(){
-		return m_current_input;
+		return m_currentInput;
 		//return m_delayed;
 	}
 
 	public override float getCurrentBlowingPower(){
-		return m_blowing_power;
+		return m_blowingPower;
+	}
+	public override void setCurrentInputVector(Vector2 v){
+		m_currentInput = v;
+	}
+	
+	public override void setCurrentBlowingPower(float f){
+		m_blowingPower = f;
 	}
 
 	//warning this does not consider eventual min/max pixelsizes on objects dont forget to update this aswell
