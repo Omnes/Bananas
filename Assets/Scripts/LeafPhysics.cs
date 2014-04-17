@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class scr_leafPhysics : MonoBehaviour {
+public class LeafPhysics : MonoBehaviour {
 //	private Vector3 velocity = new Vector3(0.0f, 0.0f, 0.0f);
 //	public float m_maxVelocity = float.MaxValue;
 

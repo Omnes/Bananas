@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class scr_scoreKeeper : MonoBehaviour {
+public class ScoreKeeper : MonoBehaviour {
 	private static int m_privScore = 0;
 
 	public static int m_score
 	{
 		set { 
 			m_privScore = value;
-			scr_soundManager.Instance.playOneShot( "event:/leafgoal" );
+			SoundManager.Instance.playOneShot( "event:/leafgoal" );
 		}
 		get { return m_privScore; }
 	}

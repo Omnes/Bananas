@@ -2,7 +2,7 @@
 using System.Collections;
 
 [ExecuteInEditMode]
-public class uvMapperForLeifs : MonoBehaviour {
+public class UvMapperForLeifs : MonoBehaviour {
 
 	public Rect map = new Rect(0,0,1,1);
 	public int m_numberOfFrames = 5;

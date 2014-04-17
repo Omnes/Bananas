@@ -3,7 +3,7 @@ using System.Collections;
 using FMOD.Studio;
 
 //TODO: Gör om distanceToLeaf så att den använder vector2D
-public class scr_leafBlower : MonoBehaviour {
+public class LeafBlower : MonoBehaviour {
 	private float m_blowPower = 0.0f;	
 
 	public float m_forwardPower = 1.0f;
@@ -37,10 +37,10 @@ public class scr_leafBlower : MonoBehaviour {
 	{
 		m_touchInput = transform.parent.GetComponent<InputHub>();
 
-//		FMOD.Studio.EventInstance s = scr_soundManager.Instance.play( "event:/gameplay_concept" );
+//		FMOD.Studio.EventInstance s = SoundManager.Instance.play( "event:/gameplay_concept" );
 //		s.setTimelinePosition (60000);
 
-		m_blowSound = scr_soundManager.Instance.play( "event:/leafblower (ytterst kass)" );
+		m_blowSound = SoundManager.Instance.play( "event:/leafblower (ytterst kass)" );
 		playerTransform = transform;
 	}
 
@@ -61,7 +61,7 @@ public class scr_leafBlower : MonoBehaviour {
 
 //		Debug.Log ("Power: " + m_blowPower);
 //		if (Input.GetKeyDown (KeyCode.Q)) {
-//			m_blowSound = scr_soundManager.Instance.playOneShot( "event:/leafblower (ytterst kass)" );
+//			m_blowSound = SoundManager.Instance.playOneShot( "event:/leafblower (ytterst kass)" );
 //			m_blowPower
 //			FMOD_StudioSystem.instance.PlayOneShot ("event:/leafblower (ytterst kass)", transform.position);
 //		}

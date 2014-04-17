@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 /*
 * How to use this
-* Use GetComponent<scr_touchInput>() to get a reference
+* Use GetComponent<TouchInput>() to get a reference
 * and use getCurrentInputVector() and getCurrentblowingPower() to retrive the data
 */
 
-public class scr_touchInput : InputMetod {
+public class TouchInput : InputMetod {
 
 	//debug fun!
 	public bool m_debug_mode = false;

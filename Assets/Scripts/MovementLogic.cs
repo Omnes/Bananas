@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class scr_movementLogic : MonoBehaviour 
+public class MovementLogic : MonoBehaviour 
 {
 	public float m_rotateProportion = 1.0f;
 	public float m_frictionProportion = 0.95f;
