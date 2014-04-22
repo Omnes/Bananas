@@ -1,14 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class playerData : MonoBehaviour {
+public class PlayerData : MonoBehaviour {
 
-	// Use this for initialization
+	public int id;
+	//rating
+	//apm
+	//characterType
+
 	void Start () {
-	
+		//fungerar det att sätta dontdestroy på det egna objectet?
+		DontDestroyOnLoad(gameObject);
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 	
 	}
