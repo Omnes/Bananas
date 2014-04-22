@@ -61,7 +61,7 @@ public class lowerBodyAnimation : MonoBehaviour {
 	}
 
 	public void runningAnimation(){
-		Debug.Log("LowerBody : runningAnimation");
+		//Debug.Log("LowerBody : runningAnimation");
 		m_playerAnimator.SetFloat("playerSpeed", 1);
 		m_running = true;
 		//switch to run in animator
@@ -69,7 +69,7 @@ public class lowerBodyAnimation : MonoBehaviour {
 	}
 
 	public void idleAnimation(){
-		Debug.Log("LowerBody : idleAnimation");
+		//Debug.Log("LowerBody : idleAnimation");
 		
 		m_playerAnimator.SetFloat("playerSpeed", 0);
 		m_running = false;
@@ -78,7 +78,7 @@ public class lowerBodyAnimation : MonoBehaviour {
 	}
 
 	public void blowAnimation(){
-		Debug.Log("LowerBody : blowAnimation");
+		//Debug.Log("LowerBody : blowAnimation");
 		if(!m_running){
 			m_playerAnimator.SetFloat("playerSpeed", 0);
 		}

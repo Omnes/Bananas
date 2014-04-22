@@ -24,6 +24,8 @@ public class playerCollision : MonoBehaviour {
 			{
 				other.rigidbody.AddExplosionForce(20.0f, rigidbody.position, 10.0f);
 				rigidbody.AddExplosionForce(7.0f, other.rigidbody.position, 10.0f);
+
+				scr_soundManager.Instance.playOneShot( "event:/Knockout! (1)", other.transform.position );
 			}
 		}
 	}

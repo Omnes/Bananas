@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 /*
 * How to use this
@@ -7,7 +8,7 @@ using System.Collections;
 * and use getCurrentInputVector() and getCurrentblowingPower() to retrive the data
 */
 
-public class scr_touchInput : MonoBehaviour {
+public class scr_touchInput : InputMetod {
 
 	//debug fun!
 	public bool m_debug_mode = false;
@@ -23,7 +24,7 @@ public class scr_touchInput : MonoBehaviour {
 	
 	//can add min sizes of areas on request /robin
 
-	private Vector2 m_current_input = new Vector2(0,0);
+	private Vector2 m_currentInput = new Vector2(0,0);
 	private Rect m_leftArea =  new Rect();
 	private Rect m_rightArea = new Rect();
 	private float m_vertical_area; 
@@ -31,7 +32,11 @@ public class scr_touchInput : MonoBehaviour {
 	private float m_y_offset;
 	private int m_edgeThreshold; //distance from the edge until it starts to blow
 	private int m_midThreshold; //distance from mid it reaches max power
-	private float m_blowing_power = 0f;
+	private float m_blowingPower = 0f;
+
+	//private Queue<Vector2> m_delayedInput = new Queue<Vector2>();
+	//public int m_delayedFrames = 10;
+	private Vector2 m_delayed;
 	
 	void Start () {
 		//feel free to touch -- Note for programmers :  add min and max size in pixels for the areas
@@ -45,13 +50,20 @@ public class scr_touchInput : MonoBehaviour {
 		//do not touch
 		m_y_offset = (m_leftArea.height/2)-(m_vertical_area);
 
+
+		//testing
+		//for(int i = 0; i < m_delayedFrames;i++){
+		//	m_delayedInput.Enqueue(new Vector2(0,0));
+		//}
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
 		Touch[] touches = Input.touches;
-		m_current_input = Vector2.zero;
+		m_currentInput = Vector2.zero;
+		//m_delayed = m_delayedInput.Dequeue();
 		
 		//check all touches, if they are in the control areas.
 		float higestPower = 0; //for finding the highest "power" off the current inputs  (this is most likly temp when desigerns change their mind)
@@ -65,7 +77,7 @@ public class scr_touchInput : MonoBehaviour {
 		}
 
 		//pc stuff for debug purpose
-		if (Input.GetMouseButton (0) && Application.isEditor) {
+		if (Input.GetMouseButton (0) &&(Application.isEditor || Application.platform == RuntimePlatform.WindowsPlayer) ) {
 			Vector2 pos = Input.mousePosition;
 			calcMovementMagnitudes(pos);
 			float input_magnitude = calcBlowingMagnitude(pos);
@@ -74,9 +86,10 @@ public class scr_touchInput : MonoBehaviour {
 			}
 
 		}
+		//m_delayedInput.Enqueue(m_currentInput);
 		//end of pc debug stuff
 
-		m_blowing_power = higestPower;
+		m_blowingPower = higestPower;
 		
 	}
 
@@ -84,9 +97,9 @@ public class scr_touchInput : MonoBehaviour {
 	void calcMovementMagnitudes(Vector2 pos){
 		//calcluate the movement stuff
 		if(m_leftArea.Contains(pos)){ //check which half of the screen the input is
-			m_current_input = new Vector2(calculateMagnitude(pos.y),m_current_input.y);
+			m_currentInput = new Vector2(calculateMagnitude(pos.y),m_currentInput.y);
 		}else if(m_rightArea.Contains(pos)){
-			m_current_input = new Vector2(m_current_input.x,calculateMagnitude(pos.y));
+			m_currentInput = new Vector2(m_currentInput.x,calculateMagnitude(pos.y));
 		}
 	}
 
@@ -116,19 +129,27 @@ public class scr_touchInput : MonoBehaviour {
 	
 	void OnGUI(){
 		if (m_debug_mode) {
-			GUI.Label(new Rect(Screen.width/2-50,0,100,50),"("+m_current_input.x.ToString("F2") + ","+m_current_input.y.ToString("F2") +")");
-			GUI.Label(new Rect(Screen.width/2-100,50,200,50),"Blowing Power! " + m_blowing_power.ToString("F2"));
+			GUI.Label(new Rect(Screen.width/2-50,0,100,50),"("+m_currentInput.x.ToString("F2") + ","+m_currentInput.y.ToString("F2") +")");
+			GUI.Label(new Rect(Screen.width/2-100,50,200,50),"Blowing Power! " + m_blowingPower.ToString("F2"));
 			//GUI.Label(new Rect(Screen.width/2-100,100,200,50),"Touches " + Input.touches.Length + " / " + Input.touchCount);
 			GUI.Box(new Rect(0,m_y_offset,m_edgeThreshold,m_vertical_area*2),"");
 		}
 	}
 
-	public Vector2 getCurrentInputVector(){
-		return m_current_input;
+	public override Vector2 getCurrentInputVector(){
+		return m_currentInput;
+		//return m_delayed;
 	}
 
-	public float getCurrentBlowingPower(){
-		return m_blowing_power;
+	public override float getCurrentBlowingPower(){
+		return m_blowingPower;
+	}
+	public override void setCurrentInputVector(Vector2 v){
+		m_currentInput = v;
+	}
+	
+	public override void setCurrentBlowingPower(float f){
+		m_blowingPower = f;
 	}
 
 	//warning this does not consider eventual min/max pixelsizes on objects dont forget to update this aswell

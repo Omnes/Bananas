@@ -12,20 +12,31 @@ public class scr_movementLogic : MonoBehaviour
 	public float m_dizzySeconds;
 	public float m_powSpeed = 1f;
 
+	[Range(0.0f, 1.0f)]
+	public float m_BlowPowerSlowFraction = 1.0f;
+	
+
 	private bool m_hasCollided = false;
 	private float m_Speed;
 	private float right = 0.0f;
 	private float left = 0.0f;
 	private float dizzyFactor = 1.0f;
+
+	private float blowPower = 0.0f;
 	private Vector2 m_inputVec;
-	private scr_touchInput m_touchIn = null;
+	private InputHub m_touchIn = null;
+
+
+	private bool m_running;
+	private playerAnimation m_animation;
 
 
 	// Use this for initialization
 	void Start () 
 	{
-		m_touchIn = GetComponent<scr_touchInput> ();
 //		m_dizzySeconds = Mathf.Clamp (m_dizzySeconds, 1, 10);
+		m_animation = GetComponent<playerAnimation>();
+		m_touchIn = GetComponent<InputHub> ();
 	}
 
 	// Update is called once per frame
@@ -50,6 +61,20 @@ public class scr_movementLogic : MonoBehaviour
 		right = m_inputVec.y;
 		left = m_inputVec.x;
 
+		blowPower = m_touchIn.getCurrentBlowingPower ();
+
+
+		//animationkode och stuff
+		if(right+left > 0){
+			if(m_running == false){
+				m_running = true;
+				m_animation.runningAnim();
+			}
+		}else if(m_running == true){
+			m_running = false;
+			m_animation.idleAnim();
+		}
+
 
 		float inputSpeed =  Mathf.Pow((right + left),m_powSpeed);
 
@@ -66,23 +91,31 @@ public class scr_movementLogic : MonoBehaviour
 		newVelocity = Vector3.Project (currentVelocity, dir.normalized);
 
 		//add the new speed
-		newVelocity += dir*m_acceleration * inputSpeed * Time.deltaTime;
+		newVelocity += dir * m_acceleration * inputSpeed * Time.deltaTime;
 
+		//Backward force
+//		Vector3 backwardForce = -dir * blowPower * m_BlowPowerForce;
+//		newVelocity += backwardForce * Time.deltaTime;
 		//clamp speed
 		if(newVelocity.magnitude > m_maxSpeed)
 		{
 			newVelocity = newVelocity.normalized*m_maxSpeed;
 		}
+
+		newVelocity = (1 - blowPower) > 0.5?newVelocity:newVelocity * m_BlowPowerSlowFraction;
+
 		//friction if there 
 		if(Mathf.Abs(inputSpeed) < m_minimumSpeed && !m_hasCollided)
 		{
 			newVelocity *= m_frictionProportion;
 		}
+//		if(!m_hasCollided){
+//			newVelocity *= 1-((1-m_frictionProportion) * (1-(Mathf.Max(Mathf.Abs(right),Mathf.Abs(left)))));
+//		}
 
 		//set the speed to newVelocity
-		rigidbody.AddForce(newVelocity-currentVelocity,ForceMode.VelocityChange);
-
-	
+		Vector3 deltaVelocity = newVelocity - currentVelocity;
+		rigidbody.AddForce(deltaVelocity, ForceMode.VelocityChange);
 	}
 
 	void OnGUI(){
