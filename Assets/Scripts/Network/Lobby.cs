@@ -30,11 +30,12 @@ public class Lobby : MonoBehaviour {
 			//start server (server)
 			if(GUI.Button(new Rect(110,90,120,30), "Start Server")){
 				startServer();
+
+				//connectToServer();
 			}
 		}
 			//started server
 		if(Network.peerType == NetworkPeerType.Server){
-			GUILayout.Label("Clients: " + Network.connections.Length + "/" + m_maxPlayers);
 
 			if(GUI.Button(new Rect(110, 50, 100, 30), "Start Game")){
 				loadLevel();
@@ -53,6 +54,7 @@ public class Lobby : MonoBehaviour {
 			
 			//
 			HostData[] data = MasterServer.PollHostList();
+			//MasterServer.PollHostList("hej");
 			
 			for( int i = 0; i < data.Length; i++){
 				if(GUI.Button(new Rect(10, i * 40, 100, 30), data[i].gameName)){
@@ -62,6 +64,9 @@ public class Lobby : MonoBehaviour {
 				}
 			}
 		}
+
+		GUILayout.Label("Clients: " + Network.connections.Length + "/" + m_maxPlayers);
+
 	}
 
 	//		For starting server on mobile device use 
@@ -77,7 +82,7 @@ public class Lobby : MonoBehaviour {
 
 	//stop server ? does this function need to remove more stuff ? each player clean up after itself right?
 	public void stopServer(){
-		Network.Disconnect();
+		disconnect();
 		Debug.Log("lobby.cs : Shuting down Server");
 	}
 
@@ -86,7 +91,7 @@ public class Lobby : MonoBehaviour {
 		Debug.Log("lobby.cs : Connecting Server");
 	}
 
-	public void disconnectFromServer(){
+	public void disconnect(){
 		Network.Disconnect();
 		Debug.Log("lobby.cs : Disconnecting from Server");
 		//Network.RemoveRPCs(networkplayer);		get networkplayer
