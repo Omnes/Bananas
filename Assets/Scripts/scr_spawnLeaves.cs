@@ -26,7 +26,6 @@ public class scr_spawnLeaves : MonoBehaviour {
 			child.name = "leaf_"+x;
 			child.renderer.sharedMaterial = m_leafMaterial;
 			child.transform.Rotate(new Vector3(0,0,Random.Range(0f,359f))); 
-
 		}
 	}
 }

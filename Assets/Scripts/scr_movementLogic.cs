@@ -37,7 +37,10 @@ public class scr_movementLogic : MonoBehaviour
 		m_animation = GetComponent<playerAnimation>();
 		m_touchIn = GetComponent<InputHub> ();
 		footstepEmitter = GetComponent<FMOD_StudioEventEmitter> ();
+		footstepEmitter.StartEvent ();
+		footstepEmitter.evt.setVolume (0);
 		footstepEmitter.evt.getParameter ("Snabbet", out footstepParam);
+//		footstepParam.setValue (2.0f);
 	}
 
 	// Update is called once per frame
@@ -52,7 +55,9 @@ public class scr_movementLogic : MonoBehaviour
 
 		float totalSpeed = (Mathf.Abs (right) + Mathf.Abs (left)) / 2;
 		footstepEmitter.evt.setVolume (totalSpeed);
-		footstepParam.setValue (totalSpeed);
+//		totalSpeed *= 10;
+//		Debug.Log (totalSpeed);
+//		footstepParam.setValue (totalSpeed);
 
 		blowPower = m_touchIn.getCurrentBlowingPower ();
 
@@ -116,6 +121,5 @@ public class scr_movementLogic : MonoBehaviour
 	public void setTackled(){
 		m_hasCollided = true;
 	}
-
 
 }
