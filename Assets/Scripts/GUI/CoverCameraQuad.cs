@@ -4,7 +4,7 @@ using System.Collections;
 //this script should be on The GUI prefab
 
 [ExecuteInEditMode]
-public class scr_coverCameraQuad : MonoBehaviour {
+public class CoverCameraQuad : MonoBehaviour {
 
 	private Camera m_cam;
 	private Transform m_quad;

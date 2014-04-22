@@ -5,15 +5,15 @@ using System.Collections.Generic;
 //TODO: Lägg till destroyTime parameter
 //TODO: Play funktion som inte tar bort ljudet
 //TODO: Ha koll på hur många av varje ljud som spelas upp så att man kan sätta tex, max 2 ljud får spelas samtidigt
-public class scr_soundManager : MonoBehaviour {
-	private static scr_soundManager instance;
-	public static scr_soundManager Instance
+public class SoundManager : MonoBehaviour {
+	private static SoundManager instance;
+	public static SoundManager Instance
 	{
 		get
 		{
 			if (instance == null) {
 				GameObject go = new GameObject();
-				instance = go.AddComponent<scr_soundManager>();
+				instance = go.AddComponent<SoundManager>();
 				go.name = "Sound Manager";
 			}
 			return instance;

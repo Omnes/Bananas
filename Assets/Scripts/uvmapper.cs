@@ -2,7 +2,7 @@
 using System.Collections;
 
 [ExecuteInEditMode]
-public class uvmapper : MonoBehaviour {
+public class Uvmapper : MonoBehaviour {
 
 	public Rect map = new Rect(0,0,1,1);
 	private MeshFilter meshFilter;

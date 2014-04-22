@@ -2,9 +2,9 @@
 using System.Collections;
 
 [ExecuteInEditMode]
-public class GUI_stick : MonoBehaviour {
+public class GUIStick : MonoBehaviour {
 
-	public scr_touchInput m_touchInput;
+	public TouchInput m_touchInput;
 	public Side m_side = Side.Left;
 	public bool m_updateInEditor = false;
 

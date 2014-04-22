@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class scr_leafBlowerCollider : MonoBehaviour {
+public class LeafBlowerCollider : MonoBehaviour {
 
 
-	private scr_leafBlower parentBlower;
+	private LeafBlower parentBlower;
 	// Use this for initialization
 	void Start () {
-		parentBlower = transform.parent.GetComponent<scr_leafBlower>();
+		parentBlower = transform.parent.GetComponent<LeafBlower>();
 	}
 	
 	void OnTriggerStay(Collider col){

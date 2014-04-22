@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class scr_cameraFollow : MonoBehaviour {
+public class CameraFollow : MonoBehaviour {
 	public Transform m_target;
 	public Vector3 m_offset = new Vector3();
 
