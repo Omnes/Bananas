@@ -17,7 +17,8 @@ public class scr_touchInput : MonoBehaviour {
 	public float m_edge_threshold_scale = 0.2f;
 	public float m_mid_threshold_scale = 0.2f;
 	public enum PowerMetod {Step,Smooth};
-	public PowerMetod m_powerMetod = PowerMetod.Step; 
+	public PowerMetod m_powerMetod = PowerMetod.Step;
+	public float offsetY = 0f;
 	public int m_powerSteps = 2; 
 	//public int m_beginsAtStep = 0;
 	
@@ -42,13 +43,15 @@ public class scr_touchInput : MonoBehaviour {
 		m_edgeThreshold = (int)(Screen.width*m_edge_threshold_scale); 
 		m_midThreshold = (int)(Screen.width*m_mid_threshold_scale); 
 
-		//do not touch
-		m_y_offset = (m_leftArea.height/2)-(m_vertical_area);
+
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+		//do not touch FUCK DA POLICE - Designers
+		m_y_offset = (m_leftArea.height/2 + offsetY)-(m_vertical_area);
 		
 		Touch[] touches = Input.touches;
 		m_current_input = Vector2.zero;
@@ -61,6 +64,7 @@ public class scr_touchInput : MonoBehaviour {
 			float input_magnitude = calcBlowingMagnitude(pos);
 			if(input_magnitude > higestPower){
 				higestPower = input_magnitude;
+
 			}
 		}
 
@@ -71,6 +75,7 @@ public class scr_touchInput : MonoBehaviour {
 			float input_magnitude = calcBlowingMagnitude(pos);
 			    if(input_magnitude > higestPower){
 				higestPower = input_magnitude;
+
 			}
 
 		}
@@ -84,14 +89,23 @@ public class scr_touchInput : MonoBehaviour {
 	void calcMovementMagnitudes(Vector2 pos){
 		//calcluate the movement stuff
 		if(m_leftArea.Contains(pos)){ //check which half of the screen the input is
+
+
 			m_current_input = new Vector2(calculateMagnitude(pos.y),m_current_input.y);
-		}else if(m_rightArea.Contains(pos)){
+
+
+		}
+		else if(m_rightArea.Contains(pos)){
+
+
 			m_current_input = new Vector2(m_current_input.x,calculateMagnitude(pos.y));
+
+
 		}
 	}
 
 	float calculateMagnitude(float y){
-		return Mathf.Clamp((y - (m_vertical_area + m_y_offset)) / m_vertical_area,-1,1);
+		return Mathf.Clamp((y - (m_vertical_area - m_y_offset*2)) / m_vertical_area,0,1.5f);
 	}
 
 

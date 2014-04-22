@@ -22,9 +22,9 @@ public class GUI_stick : MonoBehaviour {
 		transform.localScale = new Vector3(size.x,size.y,transform.localScale.z);
 		//placerar dem
 		if(m_side == Side.Left){
-			transform.localPosition = new Vector3(-(0.5f-size.x/2),0f,0f); //the y is assuming the stick always is in the center (might need change)
+			transform.localPosition = new Vector3(-(0.5f-size.x/2),-0.15f,0f); //the y is assuming the stick always is in the center (might need change)
 		}else{
-			transform.localPosition = new Vector3((0.5f-size.x/2),0f,0f); //the y is assuming the stick always is in the center (might need change)
+			transform.localPosition = new Vector3((0.5f-size.x/2),-0.15f,0f); //the y is assuming the stick always is in the center (might need change)
 		}
 	}
 	
