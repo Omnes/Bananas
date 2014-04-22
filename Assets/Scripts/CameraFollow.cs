@@ -9,4 +9,8 @@ public class CameraFollow : MonoBehaviour {
 		transform.position = m_target.position + m_offset;
 
 	}
+
+	public void SetTarget(Transform target){
+		m_target = target;
+	}
 }

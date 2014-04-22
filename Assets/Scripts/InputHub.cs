@@ -9,23 +9,26 @@ public abstract class InputMetod : MonoBehaviour{
 
 }
 
-public class InputHub : MonoBehaviour {
+public class InputHub : InputMetod{
 
 	public InputMetod m_input;
 
-
-	public float getCurrentBlowingPower(){
+	public void setInputMetod(InputMetod input){
+		m_input = input;
+	}
+	
+	public override float getCurrentBlowingPower(){
 		return m_input.getCurrentBlowingPower();
 	}
 
-	public Vector2 getCurrentInputVector(){
+	public override Vector2 getCurrentInputVector(){
 		return m_input.getCurrentInputVector();
 	}
-	public void setCurrentInputVector(Vector2 v){
+	public override void setCurrentInputVector(Vector2 v){
 		m_input.setCurrentInputVector(v);
 	}
 
-	public void setCurrentBlowingPower(float f){
+	public override void setCurrentBlowingPower(float f){
 		m_input.setCurrentBlowingPower(f);
 	}
 }
