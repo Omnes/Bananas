@@ -3,12 +3,12 @@ using System.Collections;
 
 public class MovementLogic : MonoBehaviour 
 {
-	public float m_rotateProportion = 1.0f;
+	public float m_rotateProportion = 60f;
 	public float m_frictionProportion = 0.95f;
 	public float m_minimumSpeed = 0.01f;
 	
-	public float m_maxSpeed = 10f;
-	public float m_acceleration = 0.1f;
+	public float m_maxSpeed = 8f;
+	public float m_acceleration = 8f;
 
 	public float m_powSpeed = 1f;
 
