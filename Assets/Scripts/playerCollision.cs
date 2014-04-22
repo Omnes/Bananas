@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class playerCollision : MonoBehaviour {
+public class PlayerCollision : MonoBehaviour {
 
-	public scr_movementLogic m_movementLogic;
+	public MovementLogic m_movementLogic;
 	public float m_dizzyTime = 6f;
 
 	void OnCollisionEnter(Collision other)
@@ -17,7 +17,7 @@ public class playerCollision : MonoBehaviour {
 				m_movementLogic.setTackled();
 				m_movementLogic.Invoke ("restoreMovement", m_dizzyTime);
 
-				scr_soundManager.Instance.playOneShot( "event:/Knockout! (1)", other.transform.position );
+				SoundManager.Instance.playOneShot( "event:/Knockout! (1)", other.transform.position );
 			}
 		}
 	}

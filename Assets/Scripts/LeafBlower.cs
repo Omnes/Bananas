@@ -3,7 +3,7 @@ using System.Collections;
 using FMOD.Studio;
 
 //TODO: Gör om distanceToLeaf så att den använder vector2D
-public class scr_leafBlower : MonoBehaviour {
+public class LeafBlower : MonoBehaviour {
 	private float m_blowPower = 0.0f;	
 
 	public float m_forwardPower = 1.0f;
@@ -29,7 +29,10 @@ public class scr_leafBlower : MonoBehaviour {
 	{
 		m_touchInput = transform.parent.GetComponent<InputHub>();
 
-		m_blowSound = scr_soundManager.Instance.play( "event:/leafblower (ytterst kass)" );
+//		FMOD.Studio.EventInstance s = SoundManager.Instance.play( "event:/gameplay_concept" );
+//		s.setTimelinePosition (60000);
+
+		m_blowSound = SoundManager.Instance.play( "event:/leafblower (ytterst kass)" );
 		playerTransform = transform;
 	}
 
@@ -80,13 +83,14 @@ public class scr_leafBlower : MonoBehaviour {
 //				rigidbody.AddForce(newSpeed - leaf.rigidbody.velocity,ForceMode.VelocityChange);
 //			}
 
+			Rigidbody leafRigidbody = leaf.rigidbody;
 			//Minimum velocity
-			if ( leaf.rigidbody.velocity.magnitude < m_minVelocity ) {
+			if ( leafRigidbody.velocity.magnitude < m_minVelocity ) {
 				if ( m_minVelocityDependsOnBlowPower ) {
-					leaf.rigidbody.velocity = leaf.rigidbody.velocity.normalized * m_minVelocity * m_blowPower;
+					leafRigidbody.velocity = leafRigidbody.velocity.normalized * m_minVelocity * m_blowPower;
 				}
 				else {
-					leaf.rigidbody.velocity = leaf.rigidbody.velocity.normalized * m_minVelocity;
+					leafRigidbody.velocity = leafRigidbody.velocity.normalized * m_minVelocity;
 				}
 			}
 

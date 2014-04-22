@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class scr_collectorCollider : MonoBehaviour {
+public class CollectorCollider : MonoBehaviour {
 	private GameObject scoreKeeper;
 
 	void Start() {
@@ -25,7 +25,7 @@ public class scr_collectorCollider : MonoBehaviour {
 //			scoreKeeper.m_score += 1;
 //			Debug.Log ("2 " + scoreKeeper);
 
-			scr_scoreKeeper.m_score +=1;
+			ScoreKeeper.m_score +=1;
 
 //			Debug.Log (scoreKeeper.m_score);
 //			Destroy( gameObject );

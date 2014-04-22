@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class scr_spawnLeaves : MonoBehaviour {
+public class SpawnLeaves : MonoBehaviour {
 	public Transform m_parent;
 	public Material m_leafMaterial;
 	public GameObject m_prefabLeaf;

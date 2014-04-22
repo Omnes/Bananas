@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GUI_touches : MonoBehaviour {
+public class GUITouches : MonoBehaviour {
 
 	private Transform[] m_plupps =  new Transform[5];
 	private Renderer[] m_renderers = new Renderer[5];
 	private int m_foundTouches = 0;
 
-	public scr_touchInput m_touchInput;
+	public TouchInput m_touchInput;
 	private Vector2 m_guiStickSize; 
 
 	// Use this for initialization
