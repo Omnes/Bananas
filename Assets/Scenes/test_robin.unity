@@ -876,11 +876,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_debug_mode: 0
-  m_input_y_scale: .400000006
-  m_edge_threshold_scale: .200000003
-  m_mid_threshold_scale: .200000003
+  m_input_y_scale: .600000024
+  m_edge_threshold_scale: .100000001
+  m_mid_threshold_scale: .400000006
   m_powerMetod: 0
-  m_powerSteps: 2
+  m_powerSteps: 0
 --- !u!4 &600629754
 Transform:
   m_ObjectHideFlags: 0
