@@ -3,53 +3,47 @@ using System.Collections;
 
 public class LeafManager : MonoBehaviour {
 	private GameObject[] leafs;
-	public int m_leafCache = 1000;
-
-//	public Transform m_parent;
-//	public Material m_leafMaterial;
 	public GameObject m_prefabLeaf;
+
+	[Range(0, 10000)]
+	public int m_leafCache = 100;
+
+	[Range(0, 10000)]
+	public int m_leafStartCount = 100;
+	
+	[Range(0f, 100f)]
+	public float m_range = 5f;
+	
+	[Range(-10f, 10f)]
+	public float m_startHeight = 0.001f;
+	
+	[Range(0f, 10f)]
+	public float m_totalHeight = 1.0f;
 
 	private NetworkView network;
 
-//	private static LeafManager instance;
-//	public static LeafManager Instance
-//	{
-//		get
-//		{
-//			if (instance == null) {
-//				GameObject go = new GameObject();
-//				instance = go.AddComponent<LeafManager>();
-//				go.name = "LeafManager";
-//
-//				instance.leafs = new GameObject[LEAF_CACHE];
-//				for (int i = 0; i < instance.leafs.Length; i++) {
-//					instance.leafs[i] = Instantiate(m_prefabLeaf) as GameObject;
-//					instance.leafs[i].name = "Leaf_" + i;
-//					instance.leafs[i].transform.parent = gameObject;
-//					instance.leafs[i].SetActive(false);
-//				}
-//			}
-//			return instance;
-//		}
-//	}
-
-	// Use this for initialization
-	void Start () {
-		network = new NetworkView ();
+	void Awake () {
+		network = networkView;
+//		network = gameObject.AddComponent<NetworkView>();
+//		network.stateSynchronization = NetworkStateSynchronization.Off;
+//		network.observed = null;
 
 		leafs = new GameObject[m_leafCache];
+
+		float heightIncrease = m_totalHeight / m_leafCache;
 
 		for (int i = 0; i < leafs.Length; i++) {
 			leafs[i] = Instantiate(m_prefabLeaf) as GameObject;
 			leafs[i].name = "Leaf_" + i;
 			leafs[i].transform.parent = gameObject.transform;
+			leafs[i].transform.position = new Vector3(0, m_startHeight + heightIncrease * i, 0);
 			leafs[i].SetActive(false);
 		}
+	}
 
+	void Start () {
 		if (Network.isServer) {
-				network.RPC ("SpawnLeafs", RPCMode.All, Random.Range (-1000, 1000));
-		} else {
-			SpawnLeafs(42);
+			network.RPC ("SpawnLeafs", RPCMode.All, Random.Range (int.MinValue, int.MaxValue));
 		}
 	}
 	
@@ -86,26 +80,21 @@ public class LeafManager : MonoBehaviour {
 	[RPC]
 	void SpawnLeafs(int seed){
 		Random.seed = seed;
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < m_leafStartCount; i++) {
 			GameObject leaf = SpawnLeaf();
-			leaf.transform.position = new Vector3(Random.Range(-5f, 5f), 0.1f, Random.Range(-5f, 5f));
+			leaf.transform.position = new Vector3(Random.Range(-m_range, m_range), leaf.transform.position.y, Random.Range(-m_range, m_range));
 			leaf.transform.Rotate(new Vector3(0,0,Random.Range(0f,359f)));
 		}
 	}
 
-//	void OnSerializeNetworkView (BitStream stream, NetworkMessageInfo info) {
-//		if (stream.isWriting) {
+	void OnSerializeNetworkView (BitStream stream, NetworkMessageInfo info) {
+		if (stream.isWriting) {
 			//Sending
-//			stream.Serialize (Random.Range ());
-//		}
-//		else {
+		}
+		else {
 			//Receiving
-//		}
-//	}
-
-//	public void KillLeaf(GameObject leaf) {
-//		leaf.SetActive(false);
-//	}
+		}
+	}
 
 //	public GameObject[] GetActiveLeafs() {
 //		GameObject[] activeLeafs;
@@ -114,10 +103,5 @@ public class LeafManager : MonoBehaviour {
 //
 //			}
 //		}
-//	}
-	
-	// Update is called once per frame
-//	void Update () {
-//	
 //	}
 }

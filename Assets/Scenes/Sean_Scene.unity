@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ab2561ed7ed07f4a9c744a128a09dad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 77777777
+  id: 0
 --- !u!4 &1332125359
 Transform:
   m_ObjectHideFlags: 0
@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levels:
-  - test_robin
+  - test_johannes
 --- !u!148 &1435568113
 NetworkView:
   m_ObjectHideFlags: 0
