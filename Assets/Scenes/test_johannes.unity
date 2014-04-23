@@ -891,7 +891,7 @@ MonoBehaviour:
   m_debug_mode: 0
   m_input_y_scale: .600000024
   m_edge_threshold_scale: .100000001
-  m_mid_threshold_scale: .400000006
+  m_mid_threshold_scale: .389999986
   m_powerMetod: 0
   m_powerSteps: 1
 --- !u!4 &600629754

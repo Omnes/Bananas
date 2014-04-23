@@ -88,11 +88,22 @@ public class LeafManager : MonoBehaviour {
 	}
 
 	void OnSerializeNetworkView (BitStream stream, NetworkMessageInfo info) {
+
 		if (stream.isWriting) {
 			//Sending
+			if (Network.isServer) {
+				Vector3 vec;
+				for (int i = 0; i < leafs.Length; i++) {
+					vec = new Vector3(i, leafs[i].transform.position.x, leafs[i].transform.position.z);
+					stream.Serialize( ref vec );
+				}
+			}
 		}
 		else {
 			//Receiving
+			Vector3 vec = Vector3.zero;
+			stream.Serialize(ref vec);
+			leafs[(int)vec.x].transform.position = new Vector3(vec.y, leafs[(int)vec.x].transform.position.y, vec.z);
 		}
 	}
 
