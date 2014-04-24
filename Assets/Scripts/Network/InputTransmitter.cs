@@ -21,6 +21,7 @@ public class InputTransmitter : MonoBehaviour {
 			Vector3 sendVec = packAsVec3(m_input.getCurrentInputVector(),m_input.getCurrentBlowingPower());
 			stream.Serialize(ref sendVec);
 			//Debug.Log("sent: " + sendVec);
+
 		}else if (Network.isServer && stream.isReading){
 			//reciving
 			Vector3 recivedVec = new Vector3();
