@@ -77,7 +77,7 @@ public class TouchInput : InputMetod {
 		}
 
 		//pc stuff for debug purpose
-		if (Input.GetMouseButton (0) &&(Application.isEditor || Application.platform == RuntimePlatform.WindowsPlayer) ) {
+		if (Input.GetMouseButton (0) && (Application.isEditor || Application.platform == RuntimePlatform.WindowsPlayer)) {
 			Vector2 pos = Input.mousePosition;
 			calcMovementMagnitudes(pos);
 			float input_magnitude = calcBlowingMagnitude(pos);
@@ -150,6 +150,7 @@ public class TouchInput : InputMetod {
 	
 	public override void setCurrentBlowingPower(float f){
 		m_blowingPower = f;
+		Debug.Log ("NOPE");
 	}
 
 	//warning this does not consider eventual min/max pixelsizes on objects dont forget to update this aswell

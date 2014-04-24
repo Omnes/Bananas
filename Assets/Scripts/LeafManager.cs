@@ -3,56 +3,62 @@ using System.Collections;
 
 public class LeafManager : MonoBehaviour {
 	private GameObject[] leafs;
-	public int m_leafCache = 1000;
+	private Vector2[] newPositions;
+	private Vector2[] oldPositions;
+	private float lerpTime;
 
-//	public Transform m_parent;
-//	public Material m_leafMaterial;
+	public bool useLerp = true;
+
 	public GameObject m_prefabLeaf;
+
+	[Range(0, 10000)]
+	public int m_leafCache = 100;
+
+	[Range(0, 10000)]
+	public int m_leafStartCount = 100;
+	
+	[Range(0f, 100f)]
+	public float m_range = 10f;
+	
+	[Range(-10f, 10f)]
+	public float m_startHeight = 0.001f;
+	
+	[Range(0f, 10f)]
+	public float m_totalHeight = 1.0f;
 
 	private NetworkView network;
 
-//	private static LeafManager instance;
-//	public static LeafManager Instance
-//	{
-//		get
-//		{
-//			if (instance == null) {
-//				GameObject go = new GameObject();
-//				instance = go.AddComponent<LeafManager>();
-//				go.name = "LeafManager";
-//
-//				instance.leafs = new GameObject[LEAF_CACHE];
-//				for (int i = 0; i < instance.leafs.Length; i++) {
-//					instance.leafs[i] = Instantiate(m_prefabLeaf) as GameObject;
-//					instance.leafs[i].name = "Leaf_" + i;
-//					instance.leafs[i].transform.parent = gameObject;
-//					instance.leafs[i].SetActive(false);
-//				}
-//			}
-//			return instance;
-//		}
-//	}
-
-	// Use this for initialization
-	void Start () {
-		network = new NetworkView ();
+	/**
+	 * Initializes variables
+	 **/
+	void Awake () {
+		network = networkView;
 
 		leafs = new GameObject[m_leafCache];
+		newPositions = new Vector2[m_leafCache];
+		oldPositions = new Vector2[m_leafCache];
+
+		float heightIncrease = m_totalHeight / m_leafCache;
 
 		for (int i = 0; i < leafs.Length; i++) {
 			leafs[i] = Instantiate(m_prefabLeaf) as GameObject;
 			leafs[i].name = "Leaf_" + i;
 			leafs[i].transform.parent = gameObject.transform;
+			leafs[i].transform.position = new Vector3(0, m_startHeight + heightIncrease * i, 0);
 			leafs[i].SetActive(false);
-		}
-
-		if (Network.isServer) {
-				network.RPC ("SpawnLeafs", RPCMode.All, Random.Range (-1000, 1000));
-		} else {
-			SpawnLeafs(42);
 		}
 	}
 	
+	void Start () {
+		if (Network.isServer) {
+			network.RPC ("SpawnLeafs", RPCMode.All, Random.Range (int.MinValue, int.MaxValue));
+		}
+	}
+
+	/**
+	 * Find and return an unused leaf from the leaf pool
+	 * Returns null if no leaf can be used
+	 **/
 	public GameObject SpawnLeaf() {
 		for (int i = 0; i < leafs.Length; i++) {
 			if ( leafs[i].activeSelf == false ) {
@@ -65,16 +71,16 @@ public class LeafManager : MonoBehaviour {
 		return null;
 	}
 
-	public GameObject SpawnLeaf(int index) {
-		if (index >= 0 || index < leafs.Length) {
-			if (leafs[index].activeSelf == false) {
-				leafs[index].rigidbody.velocity = Vector3.zero;
-				leafs[index].SetActive (true);
-				return leafs[index];
-			}
-		}
-		return null;
-	}
+//	public GameObject SpawnLeaf(int index) {
+//		if (index >= 0 || index < leafs.Length) {
+//			if (leafs[index].activeSelf == false) {
+//				leafs[index].rigidbody.velocity = Vector3.zero;
+//				leafs[index].SetActive (true);
+//				return leafs[index];
+//			}
+//		}
+//		return null;
+//	}
 
 	public GameObject GetLeaf(int index) {
 		if (index >= 0 || index < leafs.Length) {
@@ -83,41 +89,69 @@ public class LeafManager : MonoBehaviour {
 		return null;
 	}
 
+	/**
+	 * Spawn leaves randomly on the level based on the defined parameters
+	 * The seed is used to make sure that the leaves spawn on the same position for all clients
+	 **/
 	[RPC]
 	void SpawnLeafs(int seed){
 		Random.seed = seed;
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < m_leafStartCount; i++) {
 			GameObject leaf = SpawnLeaf();
-			leaf.transform.position = new Vector3(Random.Range(-5f, 5f), 0.1f, Random.Range(-5f, 5f));
+			leaf.transform.position = new Vector3(Random.Range(-m_range, m_range), leaf.transform.position.y, Random.Range(-m_range, m_range));
 			leaf.transform.Rotate(new Vector3(0,0,Random.Range(0f,359f)));
+
+			newPositions[i] = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
+			oldPositions[i] = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
 		}
 	}
 
-//	void OnSerializeNetworkView (BitStream stream, NetworkMessageInfo info) {
-//		if (stream.isWriting) {
+	/**
+	 * Send and receive all leaves position
+	 **/
+	void OnSerializeNetworkView (BitStream stream, NetworkMessageInfo info) {
+		if (Network.isServer && stream.isWriting) {
 			//Sending
-//			stream.Serialize (Random.Range ());
-//		}
-//		else {
+			Vector3 vec;
+			for (int i = 0; i < leafs.Length; i++) {
+				vec = new Vector3(i, leafs[i].transform.position.x, leafs[i].transform.position.z);
+				stream.Serialize( ref vec );
+			}
+		}
+		else if (Network.isClient && stream.isReading) {
 			//Receiving
-//		}
-//	}
+			Vector3 vec = Vector3.zero;
+			GameObject leaf;
+			int index;
+			for (int i = 0; i < leafs.Length; i++) {
+				stream.Serialize( ref vec );
+				index = (int)vec.x;
+				leaf = leafs[index];
+				oldPositions[index] = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
+				newPositions[index] = new Vector2(vec.y, vec.z);
+			}
+			lerpTime = 0;
+		}
+	}
 
-//	public void KillLeaf(GameObject leaf) {
-//		leaf.SetActive(false);
-//	}
-
-//	public GameObject[] GetActiveLeafs() {
-//		GameObject[] activeLeafs;
-//		for (int i = 0; i < leafs.Length; i++) {
-//			if ( leafs[i].activeSelf ) {
-//
-//			}
-//		}
-//	}
-	
-	// Update is called once per frame
-//	void Update () {
-//	
-//	}
+	/**
+	 * Updates the leaves local position so that the match the server position
+	 **/
+	void Update() {
+		if ( Network.isClient ) {
+			if (useLerp) {
+				lerpTime += Time.deltaTime * Network.sendRate;
+				for (int i = 0; i < leafs.Length; i++) {
+					leafs [i].transform.position = new Vector3 (Mathf.Lerp (oldPositions [i].x, newPositions [i].x, lerpTime),
+							                                   leafs [i].transform.position.y, 
+							                                   Mathf.Lerp (oldPositions [i].y, newPositions [i].y, lerpTime));
+				}
+			}
+			else {
+				for (int i = 0; i < leafs.Length; i++) {
+					leafs [i].transform.position = new Vector3 (newPositions [i].x, leafs [i].transform.position.y, newPositions [i].y);
+				}
+			}
+		}
+	}
 }
