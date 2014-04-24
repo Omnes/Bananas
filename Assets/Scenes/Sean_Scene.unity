@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_levels:
-  - test_robin
+  - test_johannes
   m_seaNet: {fileID: 1858132932}
 --- !u!148 &1435568113
 NetworkView:
@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eec703a60675d564088765ca2ea79069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerDataObject: {fileID: 1435568111}
+  m_IDs: 
 --- !u!4 &1858132934
 Transform:
   m_ObjectHideFlags: 0

@@ -2935,6 +2935,7 @@ GameObject:
   - 114: {fileID: 581612738}
   - 114: {fileID: 581612736}
   - 114: {fileID: 581612739}
+  - 148: {fileID: 581612741}
   m_Layer: 0
   m_Name: global_scripts
   m_TagString: Untagged
@@ -2989,7 +2990,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c9167e2479438746b2a35222bbc487b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_prefab: {fileID: 100000, guid: 501e1bf3b6a6423489797c9194690a3c, type: 2}
+  m_pileOfLeif: {fileID: 100000, guid: 501e1bf3b6a6423489797c9194690a3c, type: 2}
+  m_powerupManager: {fileID: 100000, guid: 04f2c81f27efb024898535659ccfd38b, type: 2}
+--- !u!148 &581612741
+NetworkView:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 581612735}
+  m_Enabled: 1
+  m_StateSynchronization: 1
+  m_Observed: {fileID: 0}
+  m_ViewID:
+    m_ID: 1
+    m_Type: 1
 --- !u!1 &599200832
 GameObject:
   m_ObjectHideFlags: 0
@@ -3579,13 +3593,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 143b0c00246f1e54db3e177b92886546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map:
-    serializedVersion: 2
-    x: .100000001
-    y: 0
-    width: .200000003
-    height: .100000001
-  m_updateInEditor: 0
 --- !u!23 &765277714
 Renderer:
   m_ObjectHideFlags: 0
@@ -4025,13 +4032,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 143b0c00246f1e54db3e177b92886546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: .100000001
-    height: .200000003
-  m_updateInEditor: 0
 --- !u!33 &833722461
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4130,13 +4130,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 143b0c00246f1e54db3e177b92886546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: .100000001
-    height: .200000003
-  m_updateInEditor: 0
 --- !u!33 &836233561
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -7590,13 +7583,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 143b0c00246f1e54db3e177b92886546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map:
-    serializedVersion: 2
-    x: .100000001
-    y: 0
-    width: .200000003
-    height: .100000001
-  m_updateInEditor: 0
 --- !u!23 &1995478334
 Renderer:
   m_ObjectHideFlags: 0

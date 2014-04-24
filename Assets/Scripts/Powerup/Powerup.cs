@@ -13,7 +13,7 @@ public class Powerup : MonoBehaviour {
 	{
 		if (col.gameObject.CompareTag ("Player")) {
 			OnPowerupGet(col.gameObject);
-			Destroy( gameObject );
+//			Destroy( gameObject );
 		}
 	}
 
