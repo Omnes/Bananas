@@ -16,8 +16,6 @@ public class LeafBlower : MonoBehaviour {
 
 	public float m_minVelocity = 0.0f;
 	public bool m_minVelocityDependsOnBlowPower = true;
-	
-//	public float m_maxVelocity = 8f;
 
 	private Transform playerTransform;
 
@@ -26,12 +24,6 @@ public class LeafBlower : MonoBehaviour {
 
 	public ParticleSystem m_particleSystem;
 	private bool m_particleEmit = false;
-
-
-//	void OnTriggerEnter(Collider col)
-//	{
-//
-//	}
 
 	void Start()
 	{
@@ -47,7 +39,8 @@ public class LeafBlower : MonoBehaviour {
 	void Update()
 	{
 		m_blowPower = m_touchInput.getCurrentBlowingPower();
-		m_blowSound.setVolume (m_blowPower / 2);
+		m_blowSound.setVolume (m_blowPower / 3);
+//		m_blowSound.setVolume (0);
 
 		if(m_blowPower > 0){
 			if(!m_particleEmit){
@@ -58,13 +51,6 @@ public class LeafBlower : MonoBehaviour {
 			m_particleEmit = false;
 			m_particleSystem.Stop();
 		}
-
-//		Debug.Log ("Power: " + m_blowPower);
-//		if (Input.GetKeyDown (KeyCode.Q)) {
-//			m_blowSound = SoundManager.Instance.playOneShot( "event:/leafblower (ytterst kass)" );
-//			m_blowPower
-//			FMOD_StudioSystem.instance.PlayOneShot ("event:/leafblower (ytterst kass)", transform.position);
-//		}
 	}
 
 	public void OnTriggerStayInChild(Collider col)
@@ -97,9 +83,6 @@ public class LeafBlower : MonoBehaviour {
 //				rigidbody.AddForce(newSpeed - leaf.rigidbody.velocity,ForceMode.VelocityChange);
 //			}
 
-			//TODO: OnTriggerStayFixedDeltaSuperTime
-
-//			Debug.Log( "FIXED DELTA: " + Time.deltaTime.ToString("F5"));
 			Rigidbody leafRigidbody = leaf.rigidbody;
 			//Minimum velocity
 			if ( leafRigidbody.velocity.magnitude < m_minVelocity ) {

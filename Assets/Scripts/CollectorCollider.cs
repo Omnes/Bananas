@@ -28,7 +28,8 @@ public class CollectorCollider : MonoBehaviour {
 			ScoreKeeper.m_score +=1;
 
 //			Debug.Log (scoreKeeper.m_score);
-			Destroy( gameObject );
+//			Destroy( gameObject );
+			gameObject.SetActive(false);
 		}
 	}
 

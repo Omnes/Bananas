@@ -27,14 +27,22 @@ public class MovementLogic : MonoBehaviour
 	private bool m_running;
 	private playerAnimation m_animation;
 
+	private FMOD_StudioEventEmitter footstepEmitter;
+	FMOD.Studio.ParameterInstance footstepParam;
+
 
 	// Use this for initialization
 	void Start () 
 	{
 		m_animation = GetComponent<playerAnimation>();
 		m_touchIn = GetComponent<InputHub> ();
+		footstepEmitter = GetComponent<FMOD_StudioEventEmitter> ();
+		footstepEmitter.StartEvent ();
+		footstepEmitter.evt.setVolume (0);
+		footstepEmitter.evt.getParameter ("Snabbet", out footstepParam);
+//		footstepParam.setValue (2.0f);
 	}
-	
+
 	// Update is called once per frame
 	void Update () 
 	{
@@ -42,8 +50,16 @@ public class MovementLogic : MonoBehaviour
 		right = m_inputVec.y;
 		left = m_inputVec.x;
 
-		blowPower = m_touchIn.getCurrentBlowingPower ();
+//		footstepEmitter.audio.volume = (Mathf.Abs(right) + Mathf.Abs(left)) / 2;
+//		Debug.Log ("Emitter: " + footstepEmitter.audio);
 
+		float totalSpeed = (Mathf.Abs (right) + Mathf.Abs (left)) / 2;
+		footstepEmitter.evt.setVolume (totalSpeed);
+//		totalSpeed *= 10;
+//		Debug.Log (totalSpeed);
+//		footstepParam.setValue (totalSpeed);
+
+		blowPower = m_touchIn.getCurrentBlowingPower ();
 
 		//animationkode och stuff
 		if(right+left > 0){
@@ -105,6 +121,5 @@ public class MovementLogic : MonoBehaviour
 	public void setTackled(){
 		m_hasCollided = true;
 	}
-
 
 }

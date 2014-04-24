@@ -3,8 +3,8 @@ using System.Collections;
 
 public class InputTransmitter : MonoBehaviour {
 
-	public InputHub m_input;
-	public InputHub m_inputTarget;
+	public InputMetod m_input;
+	public InputMetod m_inputTarget;
 
 	private PeerType m_type; 
 	enum PeerType{CLIENT,SERVER,NOTCONNECTED};
