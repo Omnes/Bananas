@@ -20,7 +20,9 @@ public class scr_movementLogic : MonoBehaviour
 	private float m_Speed;
 	private float right = 0.0f;
 	private float left = 0.0f;
-	private float dizzyFactor = 1.0f;
+	private float m_dizzyFactor = 1.0f;
+	private float m_collisionVelocity;
+	private Vector3 currentVelocity;
 
 	private float blowPower = 0.0f;
 	private Vector2 m_inputVec;
@@ -40,24 +42,24 @@ public class scr_movementLogic : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update () 
+	void FixedUpdate () 
 	{
 		if(m_hasCollided)
 		{
 			//collisionTime = Time.time;
 			Debug.Log("Collided");
-			dizzyFactor = 0.0f;
+			m_dizzyFactor = 0.0f;
 			m_hasCollided = false;
 		}
 		//After collision, increase the dizzyFactor untill it has reached one(stearing restored)..
 		else
-			if(dizzyFactor < 1.0f)
+			if(m_dizzyFactor < 1.0f)
 			{
-				dizzyFactor += Time.deltaTime/m_dizzySeconds;
+				m_dizzyFactor += Time.deltaTime/m_dizzySeconds;
 			}
 
 		m_inputVec = m_touchIn.getCurrentInputVector ();
-		m_inputVec *= dizzyFactor;
+		m_inputVec *= m_dizzyFactor;
 		right = m_inputVec.y;
 		left = m_inputVec.x;
 
@@ -84,7 +86,7 @@ public class scr_movementLogic : MonoBehaviour
 		transform.Rotate (temp);
 
 		Vector3 dir = transform.forward;
-		Vector3 currentVelocity = rigidbody.velocity;
+		currentVelocity = rigidbody.velocity;
 		Vector3 newVelocity = dir;
 
 		//adding som velocity
@@ -109,9 +111,10 @@ public class scr_movementLogic : MonoBehaviour
 		{
 			newVelocity *= m_frictionProportion;
 		}
-//		if(!m_hasCollided){
-//			newVelocity *= 1-((1-m_frictionProportion) * (1-(Mathf.Max(Mathf.Abs(right),Mathf.Abs(left)))));
-//		}
+
+
+		//Setting the velocity for collisiondetection..
+		m_collisionVelocity = rigidbody.velocity.sqrMagnitude;
 
 		//set the speed to newVelocity
 		Vector3 deltaVelocity = newVelocity - currentVelocity;
@@ -119,12 +122,17 @@ public class scr_movementLogic : MonoBehaviour
 	}
 
 	void OnGUI(){
-		GUI.Label(new Rect(Screen.width/2-200,100,200,50),"Dizzyfact " + dizzyFactor.ToString("F2"));
+		GUI.Label(new Rect(Screen.width/2-200,100,200,50),"Dizzyfact " + m_dizzyFactor.ToString("F2"));
 	}
 
 	public void restoreMovement()
 	{
 		m_hasCollided = false;
+	}
+
+	public float getRigidVelocity()
+	{
+		return m_collisionVelocity;
 	}
 
 	public void setTackled()
