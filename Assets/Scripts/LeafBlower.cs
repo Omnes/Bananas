@@ -72,7 +72,9 @@ public class LeafBlower : MonoBehaviour {
 
 			//Blow power
 			Vector3 directionVector = (leafTransform.position - playerTransform.parent.position).normalized;
-			float distanceToLeaf = Vector3.Distance( playerTransform.position, leafTransform.position );
+//			float distanceToLeaf = Vector3.Distance( playerTransform.position, leafTransform.position );
+//			float distanceToLeaf = Vector3.Distance( new Vector3(playerTransform.position.x, 0, playerTransform.position.z), new Vector3(leafTransform.position.x, 0, leafTransform.position.z) );
+			float distanceToLeaf = Vector2.Distance( new Vector2(playerTransform.position.x, playerTransform.position.z), new Vector2(leafTransform.position.x, leafTransform.position.z) );
 			Vector3 forwardForce = directionVector * m_forwardPower * m_blowPower * (1 + (m_colliderLength - distanceToLeaf) * m_distanceMultiplier);
 //			leaf.rigidbody.AddForce(directionVector * m_forwardPower * m_blowPower * (1 + (m_colliderLength - distanceToLeaf) * m_distanceMultiplier));
 

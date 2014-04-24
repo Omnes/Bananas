@@ -28,7 +28,7 @@ public class MovementLogic : MonoBehaviour
 	private playerAnimation m_animation;
 
 	private FMOD_StudioEventEmitter footstepEmitter;
-	FMOD.Studio.ParameterInstance footstepParam;
+//	FMOD.Studio.ParameterInstance footstepParam;
 
 
 	// Use this for initialization
@@ -39,7 +39,7 @@ public class MovementLogic : MonoBehaviour
 		footstepEmitter = GetComponent<FMOD_StudioEventEmitter> ();
 		footstepEmitter.StartEvent ();
 		footstepEmitter.evt.setVolume (0);
-		footstepEmitter.evt.getParameter ("Snabbet", out footstepParam);
+//		footstepEmitter.evt.getParameter ("Snabbet", out footstepParam);
 //		footstepParam.setValue (2.0f);
 	}
 

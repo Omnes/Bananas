@@ -5,12 +5,12 @@ public class PlayerInfo {
 
 	private string m_name;
 	private int m_id;
-	private bool m_local;
+	//private bool m_local;
 
-	public PlayerInfo(string name,int id, bool local){
+	public PlayerInfo(string name,int id/*, bool local*/){
 		m_name = name;
 		m_id = id;
-		m_local = local;
+		//m_local = local;
 	}
 
 	//accessors
@@ -23,10 +23,10 @@ public class PlayerInfo {
 		set{m_id = value;}
 	}
 
-	public bool local{
-		get{return m_local;}
-		set{m_local = value;}
-	}
+	//public bool local{
+	//	get{return m_local;}
+	//	set{m_local = value;}
+	//}
 
 
 }
