@@ -39,9 +39,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbb0b4a5eb84cec49919eb72c89aad90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useLerp: 1
   m_prefabLeaf: {fileID: 100000, guid: 3c6d9bb5dde52c84d965a56f5bbbc12e, type: 2}
-  m_leafCache: 100
-  m_leafStartCount: 100
+  m_leafCache: 200
+  m_leafStartCount: 200
   m_range: 15
   m_startHeight: .00100000005
   m_totalHeight: .5
@@ -52,8 +53,8 @@ NetworkView:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
-  m_StateSynchronization: 0
-  m_Observed: {fileID: 0}
+  m_StateSynchronization: 1
+  m_Observed: {fileID: 11400000}
   m_ViewID:
     m_ID: 0
     m_Type: 0
