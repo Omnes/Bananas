@@ -658,6 +658,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_button: {fileID: 2800000, guid: bebb427c1d1f99944bad1a3c92f711f8, type: 3}
   m_pushed: -.5
+  m_buttonSize: 8
+  m_buttonPos: 1
 --- !u!4 &600629754
 Transform:
   m_ObjectHideFlags: 0
