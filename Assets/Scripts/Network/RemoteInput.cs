@@ -8,7 +8,7 @@ public class RemoteInput : InputMetod {
 
 	// Use this for initialization
 	void Start () {
-		setCurrentInputVector(new Vector2(1f,0f));
+		//setCurrentInputVector(new Vector2(1f,0f));
 	}
 
 	public override void setCurrentInputVector(Vector2 v){

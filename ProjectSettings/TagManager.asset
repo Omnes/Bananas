@@ -5,8 +5,8 @@ TagManager:
   tags:
   - Leaf
   - Leaf_collector
+  - Spawnpoint
   - 
-  - leaf
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
