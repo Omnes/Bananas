@@ -91,26 +91,21 @@ public class upperBodyAnimation : MonoBehaviour {
 
 	//IDLE
 	public void idleAnimation(){
-		Debug.Log("UpperBody : idleAnimation");
-		//start idle animation
-		//m_playerAnimator.SetLayerWeight(2, 1);
-		m_myState = state.IDLE;
+		//Debug.Log("UpperBody : idleAnimation");
 		m_playerAnimator.SetFloat("playerSpeed", 0);			//ta bort sen.
 	}
 
 	//running
 	public void runningAnimation(){
-		Debug.Log("UpperBody : runningAnimation");
+		//Debug.Log("UpperBody : runningAnimation");
 		//start running animation
 		//m_playerAnimator.SetLayerWeight(2, 1);
-		m_myState = state.RUNNING;
 		m_playerAnimator.SetFloat("playerSpeed", 1);			//ta bort sen.
 	}
 
 	//tackle animation
 	public void tackleAnimation(){
-		Debug.Log("UpperBody : tackleAnimation");
-		m_myState = state.TACKLE;
+		//Debug.Log("UpperBody : tackleAnimation");
 		//m_isTackling = true;
 		//should be previous state hopefully
 		//m_previousState = m_currentState;
@@ -121,14 +116,12 @@ public class upperBodyAnimation : MonoBehaviour {
 	//blowing while idle animation
 	public void blowIdleAnimation(){
 		Debug.Log("UpperBody : blowIDLEAnimation");
-		m_myState = state.BLOWIDLE;
 		//start blowIDLE animation
 		//m_playerAnimator.SetFloat("playerSpeed", 1);			//ta bort sen. ersätt med set layer
 	}
 
 	//blowing while running animation
 	public void blowRunningAnimation(){
-		m_myState = state.BLOWRUNNING;
 		Debug.Log("UpperBody : blowRUNNINGAnimation");
 		//start blowRUNNING animation
 

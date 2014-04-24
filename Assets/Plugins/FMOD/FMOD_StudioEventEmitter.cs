@@ -10,7 +10,7 @@ public class FMOD_StudioEventEmitter : MonoBehaviour
 	public string path = "";
 	public bool startEventOnAwake = true;
 
-	FMOD.Studio.EventInstance evt;
+	public FMOD.Studio.EventInstance evt;
 	private bool hasStarted = false;
 
 	[System.Serializable]
