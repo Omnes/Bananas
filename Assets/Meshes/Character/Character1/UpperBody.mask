@@ -1,0 +1,416 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1011 &101100000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: UpperBody
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: character_man_2:_UNKNOWN_REF_NODE_fosterParent1
+    m_Weight: 0
+  - m_Path: character_man_2:_UNKNOWN_REF_NODE_fosterParent1/character_man_2:imagePlane1
+    m_Weight: 0
+  - m_Path: character_man_2:_UNKNOWN_REF_NODE_fosterParent1/character_man_2:transform1
+    m_Weight: 0
+  - m_Path: character_man_2:_UNKNOWN_REF_NODE_fosterParent1/character_man_2:transform1/character_man_2:imagePlane2
+    m_Weight: 0
+  - m_Path: character_man_2:_UNKNOWN_REF_NODE_fosterParent1/character_man_2:transform1/character_man_2:imagePlane3
+    m_Weight: 0
+  - m_Path: character_man_2:pCube1
+    m_Weight: 0
+  - m_Path: character_man_2:pCube1/character_man_2:transform3
+    m_Weight: 0
+  - m_Path: character_man_2:pCylinder1
+    m_Weight: 0
+  - m_Path: character_man_2:pCylinder1/character_man_2:transform2
+    m_Weight: 0
+  - m_Path: character_man_2:pCylinder1/character_man_2:transform28
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface1
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface1/character_man_2:transform5
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface1/character_man_2:transform30
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface2
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface2/character_man_2:transform6
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface2/character_man_2:transform31
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface3
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface3/character_man_2:polySurface4
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface3/character_man_2:polySurface4/character_man_2:transform15
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface3/character_man_2:polySurface5
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface3/character_man_2:polySurface5/character_man_2:transform14
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface3/character_man_2:polySurface6
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface3/character_man_2:polySurface6/character_man_2:transform10
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface3/character_man_2:polySurface6/character_man_2:transform32
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface3/character_man_2:polySurface7
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface3/character_man_2:polySurface7/character_man_2:transform13
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface3/character_man_2:polySurface8
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface3/character_man_2:polySurface8/character_man_2:transform12
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface3/character_man_2:polySurface9
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface3/character_man_2:polySurface9/character_man_2:transform11
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface3/character_man_2:polySurface9/character_man_2:transform33
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface3/character_man_2:transform9
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface3/character_man_2:transform34
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface10
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface10/character_man_2:transform26
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface11
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface11/character_man_2:transform17
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface11/character_man_2:transform35
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface12
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface12/character_man_2:polySurface13
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface12/character_man_2:polySurface13/character_man_2:transform25
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface12/character_man_2:polySurface14
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface12/character_man_2:polySurface14/character_man_2:transform19
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface12/character_man_2:polySurface15
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface12/character_man_2:polySurface15/character_man_2:transform20
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface12/character_man_2:polySurface16
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface12/character_man_2:polySurface16/character_man_2:transform21
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface12/character_man_2:polySurface16/character_man_2:transform36
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface12/character_man_2:polySurface17
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface12/character_man_2:polySurface17/character_man_2:transform22
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface12/character_man_2:polySurface17/character_man_2:transform37
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface12/character_man_2:polySurface18
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface12/character_man_2:polySurface18/character_man_2:transform24
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface12/character_man_2:transform18
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface12/character_man_2:transform38
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface19
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface19/character_man_2:transform23
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface20
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface20/character_man_2:transform27
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface20/character_man_2:transform39
+    m_Weight: 0
+  - m_Path: character_man_2:polySurface21
+    m_Weight: 0
+  - m_Path: character_man_2:pSphere1
+    m_Weight: 0
+  - m_Path: character_man_2:pSphere1/character_man_2:transform4
+    m_Weight: 0
+  - m_Path: character_man_2:pSphere1/character_man_2:transform29
+    m_Weight: 0
+  - m_Path: character_man_2:pSphere2
+    m_Weight: 0
+  - m_Path: character_man_2:pSphere2/character_man_2:transform16
+    m_Weight: 0
+  - m_Path: character_man_2:pTorus1
+    m_Weight: 0
+  - m_Path: character_man_2:pTorus1/character_man_2:transform8
+    m_Weight: 0
+  - m_Path: character_man_2:pTorus2
+    m_Weight: 0
+  - m_Path: character_man_2:pTorus2/character_man_2:transform7
+    m_Weight: 0
+  - m_Path: Full_body_ctrl
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/hip_ctrl_group
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/cluster_01_group
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/cluster_01_group/cluster_01
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/cluster_02_group
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/cluster_02_group/cluster_02
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/cluster_03_group
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/cluster_03_group/cluster_03
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/L_hip_joint
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/L_hip_joint/L_knee_joint
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/L_hip_joint/L_knee_joint/L_foot_joint
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/L_hip_joint/L_knee_joint/L_foot_joint/L_ball_joint
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/L_hip_joint/L_knee_joint/L_foot_joint/L_ball_joint/L_toe_joint
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/R_hip_joint
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/R_hip_joint/R_knee_joint
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/R_hip_joint/R_knee_joint/R_foot_joint
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/R_hip_joint/R_knee_joint/R_foot_joint/R_ball_joint
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/R_hip_joint/R_knee_joint/R_foot_joint/R_ball_joint/R_toe_joint
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/L_collar_ctrl_group
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/L_collar_ctrl_group/L_collar_ctrl
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/L_collar_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/L_collar_joint/L_shoulder_ctrl_group
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/L_collar_joint/L_shoulder_ctrl_group/L_shoulder_ctrl
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/L_collar_joint/L_shoulder_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/L_collar_joint/L_shoulder_joint/L_elbow_ctrl_group
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/L_collar_joint/L_shoulder_joint/L_elbow_ctrl_group/L_elbow_ctrl
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/L_collar_joint/L_shoulder_joint/L_elbow_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/L_collar_joint/L_shoulder_joint/L_elbow_joint/L_forearm_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/L_collar_joint/L_shoulder_joint/L_elbow_joint/L_forearm_joint/L_wrist_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/L_collar_joint/L_shoulder_joint/L_elbow_joint/L_forearm_joint/L_wrist_joint/L_hand_ctrl_group
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/L_collar_joint/L_shoulder_joint/L_elbow_joint/L_forearm_joint/L_wrist_joint/L_hand_ctrl_group/L_hand_ctrl
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/L_collar_joint/L_shoulder_joint/L_elbow_joint/L_forearm_joint/L_wrist_joint/L_hand_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/L_collar_joint/L_shoulder_joint/L_elbow_joint/L_forearm_joint/L_wrist_joint/L_hand_joint/L_finger_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/L_collar_joint/L_shoulder_joint/L_elbow_joint/L_forearm_joint/L_wrist_joint/L_thumb_01_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/L_collar_joint/L_shoulder_joint/L_elbow_joint/L_forearm_joint/L_wrist_joint/L_thumb_01_joint/L_thumb_02_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/L_collar_joint/L_shoulder_joint/L_elbow_joint/L_forearm_joint/L_wrist_joint/L_thumb_ctrl_group
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/L_collar_joint/L_shoulder_joint/L_elbow_joint/L_forearm_joint/L_wrist_joint/L_thumb_ctrl_group/L_thumb_ctrl
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/L_collar_joint/L_shoulder_joint/L_elbow_joint/L_wrist_ctrl_group
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/L_collar_joint/L_shoulder_joint/L_elbow_joint/L_wrist_ctrl_group/L_wrist_ctrl
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/Neck_ctrl_group
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/Neck_ctrl_group/Neck_ctrl
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/neck_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/neck_joint/Head_ctrl_group
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/neck_joint/Head_ctrl_group/Head_ctrl
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/neck_joint/head_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/R_collar_ctrl_group
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/R_collar_ctrl_group/R_collar_ctrl
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/R_collar_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/R_collar_joint/R_shoulder_ctrl_group
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/R_collar_joint/R_shoulder_ctrl_group/R_shoulder_ctrl
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/R_collar_joint/R_shoulder_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/R_collar_joint/R_shoulder_joint/R_elbow_ctrl_group
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/R_collar_joint/R_shoulder_joint/R_elbow_ctrl_group/R_elbow_ctrl
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/R_collar_joint/R_shoulder_joint/R_elbow_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/R_collar_joint/R_shoulder_joint/R_elbow_joint/R_forearm_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/R_collar_joint/R_shoulder_joint/R_elbow_joint/R_forearm_joint/R_wrist_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/R_collar_joint/R_shoulder_joint/R_elbow_joint/R_forearm_joint/R_wrist_joint/R_hand_ctrl_group
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/R_collar_joint/R_shoulder_joint/R_elbow_joint/R_forearm_joint/R_wrist_joint/R_hand_ctrl_group/R_hand_ctrl
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/R_collar_joint/R_shoulder_joint/R_elbow_joint/R_forearm_joint/R_wrist_joint/R_hand_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/R_collar_joint/R_shoulder_joint/R_elbow_joint/R_forearm_joint/R_wrist_joint/R_hand_joint/R_finger_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/R_collar_joint/R_shoulder_joint/R_elbow_joint/R_forearm_joint/R_wrist_joint/R_thumb_01_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/R_collar_joint/R_shoulder_joint/R_elbow_joint/R_forearm_joint/R_wrist_joint/R_thumb_01_joint/R_thumb_02_joint
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/R_collar_joint/R_shoulder_joint/R_elbow_joint/R_forearm_joint/R_wrist_joint/R_thumb_ctrl_group
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/R_collar_joint/R_shoulder_joint/R_elbow_joint/R_forearm_joint/R_wrist_joint/R_thumb_ctrl_group/R_thumb_ctrl
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/R_collar_joint/R_shoulder_joint/R_elbow_joint/R_wrist_ctrl_group
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/pelvis_joint/spine_1_joint/spine_2_joint/spine_3_joint/spine_4_joint/R_collar_joint/R_shoulder_joint/R_elbow_joint/R_wrist_ctrl_group/R_wrist_ctrl
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/shoulder_ctrl_group
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/shoulder_ctrl_group/Shoulder_ctrl
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/shoulder_ctrl_group/Shoulder_ctrl/cluster_04_group
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/shoulder_ctrl_group/Shoulder_ctrl/cluster_04_group/cluster_04
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/shoulder_ctrl_group/Shoulder_ctrl/cluster_05_group
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/hip_ctrl_group/Hip_ctrl/shoulder_ctrl_group/Shoulder_ctrl/cluster_05_group/cluster_05
+    m_Weight: 1
+  - m_Path: Full_body_ctrl/L_foot_ctrl_group
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/L_foot_ctrl_group/L_foot_ctrl
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/L_foot_ctrl_group/L_foot_ctrl/L_toe_lift_group
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/L_foot_ctrl_group/L_foot_ctrl/L_toe_lift_group/L_ball_lift_group
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/L_foot_ctrl_group/L_foot_ctrl/L_toe_lift_group/L_ball_lift_group/L_ball_ikHandle
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/L_foot_ctrl_group/L_foot_ctrl/L_toe_lift_group/L_ball_lift_group/L_foot_ikHandle
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/L_foot_ctrl_group/L_foot_ctrl/L_toe_lift_group/L_toe_wiggle_group
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/L_foot_ctrl_group/L_foot_ctrl/L_toe_lift_group/L_toe_wiggle_group/L_toe_ikHandle
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/L_knee_ctrl_group
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/L_knee_ctrl_group/L_knee_ctrl
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/R_foot_ctrl_group
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/R_foot_ctrl_group/R_foot_ctrl
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/R_foot_ctrl_group/R_foot_ctrl/R_toe_lift_group
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/R_foot_ctrl_group/R_foot_ctrl/R_toe_lift_group/R_ball_lift_group
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/R_foot_ctrl_group/R_foot_ctrl/R_toe_lift_group/R_ball_lift_group/R_ball_ikHandle
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/R_foot_ctrl_group/R_foot_ctrl/R_toe_lift_group/R_ball_lift_group/R_foot_ikHandle
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/R_foot_ctrl_group/R_foot_ctrl/R_toe_lift_group/R_toe_wiggle_group
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/R_foot_ctrl_group/R_foot_ctrl/R_toe_lift_group/R_toe_wiggle_group/R_toe_ikHandle
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/R_knee_ctrl_group
+    m_Weight: 0
+  - m_Path: Full_body_ctrl/R_knee_ctrl_group/R_knee_ctrl
+    m_Weight: 0
+  - m_Path: pCube1
+    m_Weight: 0
+  - m_Path: pCube1/transform3
+    m_Weight: 0
+  - m_Path: pCylinder1
+    m_Weight: 0
+  - m_Path: pCylinder1/transform1
+    m_Weight: 0
+  - m_Path: polySurface1
+    m_Weight: 0
+  - m_Path: polySurface1/transform4
+    m_Weight: 0
+  - m_Path: polySurface2
+    m_Weight: 0
+  - m_Path: polySurface2/transform5
+    m_Weight: 0
+  - m_Path: polySurface3
+    m_Weight: 0
+  - m_Path: polySurface3/polySurface4
+    m_Weight: 0
+  - m_Path: polySurface3/polySurface4/transform15
+    m_Weight: 0
+  - m_Path: polySurface3/polySurface5
+    m_Weight: 0
+  - m_Path: polySurface3/polySurface5/transform14
+    m_Weight: 0
+  - m_Path: polySurface3/polySurface6
+    m_Weight: 0
+  - m_Path: polySurface3/polySurface6/transform9
+    m_Weight: 0
+  - m_Path: polySurface3/polySurface7
+    m_Weight: 0
+  - m_Path: polySurface3/polySurface7/transform13
+    m_Weight: 0
+  - m_Path: polySurface3/polySurface8
+    m_Weight: 0
+  - m_Path: polySurface3/polySurface8/transform12
+    m_Weight: 0
+  - m_Path: polySurface3/polySurface9
+    m_Weight: 0
+  - m_Path: polySurface3/polySurface9/transform10
+    m_Weight: 0
+  - m_Path: polySurface3/transform6
+    m_Weight: 0
+  - m_Path: polySurface11
+    m_Weight: 0
+  - m_Path: polySurface11/transform11
+    m_Weight: 0
+  - m_Path: pSphere1
+    m_Weight: 0
+  - m_Path: pSphere1/transform2
+    m_Weight: 0
+  - m_Path: pSphere2
+    m_Weight: 0
+  - m_Path: pSphere2/transform16
+    m_Weight: 0
+  - m_Path: pTorus1
+    m_Weight: 0
+  - m_Path: pTorus1/transform8
+    m_Weight: 0
+  - m_Path: pTorus2
+    m_Weight: 0
+  - m_Path: pTorus2/transform7
+    m_Weight: 0
+  - m_Path: spine_curve
+    m_Weight: 1
+  - m_Path: spine_ikHandle
+    m_Weight: 1
