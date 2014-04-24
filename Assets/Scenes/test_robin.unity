@@ -2934,6 +2934,7 @@ GameObject:
   - 4: {fileID: 581612737}
   - 114: {fileID: 581612738}
   - 114: {fileID: 581612736}
+  - 114: {fileID: 581612739}
   m_Layer: 0
   m_Name: global_scripts
   m_TagString: Untagged
@@ -2977,6 +2978,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faa40f5f34d5a5b47bce4bca3e5561b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &581612739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 581612735}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9386d5d4cdb064648aebc239b234ab5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lobbyName: Sean_Scene
 --- !u!1 &599200832
 GameObject:
   m_ObjectHideFlags: 0
@@ -6776,6 +6789,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1681755654}
   - 114: {fileID: 1681755655}
+  - 114: {fileID: 1681755656}
   m_Layer: 0
   m_Name: ControllerCreator
   m_TagString: Untagged
@@ -6806,6 +6820,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ControllerPrefab: {fileID: 100000, guid: e0f6b2e463fb6c84290a6fdf6b52c856, type: 2}
+--- !u!114 &1681755656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1681755653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6621c62e81d6184bbf284bf3cc60dbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_stateTransmitterPrefab: {fileID: 100000, guid: 4872f6937f8738546b0f584f04676e9b,
+    type: 2}
 --- !u!1 &1699198357
 GameObject:
   m_ObjectHideFlags: 0

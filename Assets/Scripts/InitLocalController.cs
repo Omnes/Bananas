@@ -7,6 +7,10 @@ public class InitLocalController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		/*if(Network.TestConnection() == ConnectionTesterStatus.PublicIPNoServerStarted){
+			Debug.LogWarning("No connection detected, might be before server is started...");
+			return;
+		}*/
 		GameObject controller = Network.Instantiate(ControllerPrefab,Vector3.zero,Quaternion.identity,0) as GameObject;
 		PlayerInfo pi = new PlayerInfo("Robin",0);
 		//remote init

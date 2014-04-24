@@ -2295,8 +2295,7 @@ GameObject:
   - 114: {fileID: 11400008}
   - 114: {fileID: 11400010}
   - 95: {fileID: 9500000}
-  - 114: {fileID: 11400018}
-  - 114: {fileID: 11400020}
+  - 114: {fileID: 11400022}
   m_Layer: 0
   m_Name: prefab_ghost
   m_TagString: Player
@@ -6042,7 +6041,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cd0fe9c5e0ac2548b79888156bdde1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11400018
+--- !u!114 &11400022
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -6050,21 +6049,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 100302}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1791b26b31cf0944c86e43ef8134b26f, type: 3}
+  m_Script: {fileID: 11500000, guid: dd0f9aa5e5e38f14cb641753e9e8cba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_input: {fileID: 11400020}
---- !u!114 &11400020
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e52bc5fac6d7d9e49b1a13522d407ee6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_ghostPosition: {x: 0, y: 0, z: 0}
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1
