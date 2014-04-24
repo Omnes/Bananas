@@ -20,18 +20,19 @@ public class InitPlayer : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		setPlayerInfo(new PlayerInfo("Default",m_debug_id)); //temp
+		//setPlayerInfo(new PlayerInfo("Default",m_debug_id)); //temp
 	}
 	
 	public void init(){
 		gameObject.name = "PlayerController: " + m_playerInfo.name;
-		m_spawnpoints = GameObject.FindGameObjectsWithTag("Spawnpoint");
+		m_spawnpoints = sortSpawnpoints(GameObject.FindGameObjectsWithTag("Spawnpoint"));
 		Transform spawnpoint = m_spawnpoints[m_playerInfo.id].transform;
 		
 		if(Network.isServer || (m_debug_is_Server && Application.isEditor)){
 			//om vi är server skapa en faktisk spelare
 			m_player = Instantiate(m_playerPrefab,spawnpoint.position,spawnpoint.rotation) as GameObject;
-			
+			m_player.SendMessage("setID",m_playerInfo.id);
+
 			InputHub hub = m_player.GetComponent<InputHub>();
 			//är det vår spelare? ta input från den lokala klienten och sätt kameran efter
 			if(m_isLocal){
@@ -47,7 +48,7 @@ public class InitPlayer : MonoBehaviour {
 		else if(Network.isClient || (m_debug_is_Client && Application.isEditor)){
 			//om vi är en klient skapa en fake spelare
 			m_player = Instantiate(m_ghostPrefab,spawnpoint.position,spawnpoint.rotation) as GameObject;
-			
+			m_player.SendMessage("setID",m_playerInfo.id);
 			if(m_isLocal){
 				m_player.name = "PlayerGhost " + m_playerInfo.name+ " (Local)";
 				//är det vår fake spalare? få kameran att följa
@@ -71,13 +72,27 @@ public class InitPlayer : MonoBehaviour {
 	}
 
 	void setCameraTarget(Transform target){
-		Camera.main.transform.parent.GetComponent<CameraFollow>().SetTarget(m_player.transform);
+		Camera.main.GetComponent<CameraFollow>().SetTarget(m_player.transform);
 	}
 
 	[RPC]
 	public void RPCInitController(string name,int id){
 		setPlayerInfo(new PlayerInfo(name,id));
 		init ();
+	}
+
+	private GameObject[] sortSpawnpoints(GameObject[] array){
+		int length = array.Length;
+		for(int i = 0; i < length;i++){
+			for(int j = 0; j < length;j++){
+				if(array[i].GetComponent<SpawnpointGizmo>().m_id < array[j].GetComponent<SpawnpointGizmo>().m_id){
+					GameObject temp = array[i];
+					array[i] = array[j];
+					array[j] = temp;
+				}
+			}
+		}
+		return array;
 	}
 
 }

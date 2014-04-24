@@ -12,7 +12,7 @@ public class InitLocalController : MonoBehaviour {
 			return;
 		}*/
 		GameObject controller = Network.Instantiate(ControllerPrefab,Vector3.zero,Quaternion.identity,0) as GameObject;
-		PlayerInfo pi = new PlayerInfo("Robin",0);
+		PlayerInfo pi = new PlayerInfo("Robin",1);
 		//remote init
 		controller.networkView.RPC ("RPCInitController",RPCMode.Others,pi.name,pi.id);
 
