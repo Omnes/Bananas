@@ -21,6 +21,8 @@ public class scr_touchInput : MonoBehaviour {
 	public float offsetY = 0f;
 	public int m_powerSteps = 2; 
 	//public int m_beginsAtStep = 0;
+	public bool m_blowing_state = false;
+	public bool m_blowing_pushed = false;
 	
 	//can add min sizes of areas on request /robin
 
@@ -50,7 +52,19 @@ public class scr_touchInput : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		//do not touch FUCK DA POLICE - Designers
+
+		if (m_blowing_state == true) {
+						m_blowing_power = 1;
+				}
+		else
+		{
+				m_blowing_power = 0;
+		}
+
+
+
+		//do not touch
+		//FUCK DA POLICE - Designers
 		m_y_offset = (m_leftArea.height/2 + offsetY)-(m_vertical_area);
 		
 		Touch[] touches = Input.touches;
@@ -73,15 +87,27 @@ public class scr_touchInput : MonoBehaviour {
 			Vector2 pos = Input.mousePosition;
 			calcMovementMagnitudes(pos);
 			float input_magnitude = calcBlowingMagnitude(pos);
-			    if(input_magnitude > higestPower){
+			if(input_magnitude > higestPower){
 				higestPower = input_magnitude;
-
+				
 			}
+
+			if (input_magnitude >= 1 && !m_blowing_pushed)
+			{
+				m_blowing_state = !m_blowing_state;
+				m_blowing_pushed = true;
+			}
+
+			if (m_blowing_pushed && input_magnitude < 1)
+			{
+				m_blowing_pushed = false;
+			}
+			 
 
 		}
 		//end of pc debug stuff
 
-		m_blowing_power = higestPower;
+		//m_blowing_power = higestPower;
 		
 	}
 
@@ -91,21 +117,21 @@ public class scr_touchInput : MonoBehaviour {
 		if(m_leftArea.Contains(pos)){ //check which half of the screen the input is
 
 
-			m_current_input = new Vector2(calculateMagnitude(pos.y),m_current_input.y);
+			m_current_input = new Vector2(calculateMagnitude(pos.y), m_current_input.y);
 
 
 		}
 		else if(m_rightArea.Contains(pos)){
 
 
-			m_current_input = new Vector2(m_current_input.x,calculateMagnitude(pos.y));
+			m_current_input = new Vector2(m_current_input.x, calculateMagnitude(pos.y));
 
 
 		}
 	}
 
 	float calculateMagnitude(float y){
-		return Mathf.Clamp((y - (m_vertical_area - m_y_offset*2)) / m_vertical_area,0,1.5f);
+		return Mathf.Clamp((y - (m_vertical_area - m_y_offset*2)) / m_vertical_area, 0, 1f);
 	}
 
 
