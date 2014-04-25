@@ -3,7 +3,9 @@ using System.Collections;
 
 public class ButtonSteering : InputMetod {
 
-	public Texture m_button;
+	public Texture m_rightButtonTexture;
+	public Texture m_leftButtonTexture;
+	public Texture m_blowButtonTexture;
 
 	public float m_pushed = -0.5f;
 	public float m_buttonSize = 8;
@@ -91,9 +93,9 @@ public class ButtonSteering : InputMetod {
 
 	void OnGUI()
 	{
-		GUI.DrawTexture(m_rightButton, m_button);
-		GUI.DrawTexture(m_leftButton, m_button);
-		GUI.DrawTexture(m_blowButton, m_button);
+		GUI.DrawTexture(m_rightButton, m_rightButtonTexture);
+		GUI.DrawTexture(m_leftButton, m_leftButtonTexture);
+		GUI.DrawTexture(m_blowButton, m_blowButtonTexture);
 	}
 
 

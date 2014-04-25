@@ -5,8 +5,8 @@ using System.Collections.Generic;
 public class PlayerData : System.Object {
 
 	public int m_id;
-	//public string m_ip;
 	public string m_name;
+	public bool m_isLocal = false;
 	//islocal
 
 
@@ -20,6 +20,10 @@ public class PlayerData : System.Object {
 	public PlayerData(string name, int id) {
 		m_name = name;
 		m_id = id;
+	}
+
+	public void setIsLocal(bool isLocal){
+		m_isLocal = isLocal;
 	}
 
 }
