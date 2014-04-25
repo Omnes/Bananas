@@ -25,8 +25,8 @@ public class Lobby : MonoBehaviour {
 
 
 	//name of user
-	private string tempName = "";
-	private string serverName = "";
+	private string tempName = "TEMPNAME";
+	private string serverName = "TEMPNAME";
 
 	// Use this for initialization
 	void Start () {
@@ -50,7 +50,7 @@ public class Lobby : MonoBehaviour {
 				startServer(serverName);
 				//add ip for player who started server
 				m_myPlayerData = new PlayerData(tempName, 0);
-				m_myPlayerData.setIsLocal(true);
+				m_myPlayerData.local = true;
 				addPlayerToClientList(m_myPlayerData);
 			}
 			tempName = GUI.TextField(new Rect(420, 10, 200, 60), tempName, 25 );
@@ -173,9 +173,9 @@ public class Lobby : MonoBehaviour {
 
 		//set if player is local or not
 		if(localPlayer == Network.player){
-			tempPlayerData.setIsLocal(true);
+			tempPlayerData.local = true;
 		}else{
-			tempPlayerData.setIsLocal(false);
+			tempPlayerData.local = false;
 		}
 
 		//add player in list

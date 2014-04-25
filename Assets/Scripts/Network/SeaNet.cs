@@ -16,8 +16,6 @@ public class SeaNet : MonoBehaviour {
 		}
 	}
 
-
-
 	public List<PlayerData> m_connectedPlayers;
 
 	//dessa två ska tas bort. ### ANVÄND EJ I SERIÖS SYFTE ###
@@ -56,5 +54,10 @@ public class SeaNet : MonoBehaviour {
 			}
 		}
 		return -1;
+	}
+
+	//return playerlist
+	public List<PlayerData> getPlayerArr(){
+		return m_connectedPlayers;
 	}
 }
