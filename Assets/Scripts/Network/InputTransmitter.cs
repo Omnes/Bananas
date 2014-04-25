@@ -3,36 +3,31 @@ using System.Collections;
 
 public class InputTransmitter : MonoBehaviour {
 
-	public InputMetod m_input;
+	private InputMetod m_input;
 	public InputMetod m_inputTarget;
-
-	private PeerType m_type; 
-	enum PeerType{CLIENT,SERVER,NOTCONNECTED};
-
+	
 	// Use this for initialization
 	void Start () {
-		if(Network.isClient){
-			m_type = PeerType.CLIENT;
-		}else if(Network.isServer){
-			m_type = PeerType.SERVER;
-		}else{
-			m_type = PeerType.NOTCONNECTED;
-		}
+		GameObject localInput = GameObject.Find("local_input");
+		if(localInput == null) Debug.LogError("could not find the object local_input");
+		m_input = localInput.GetComponent<InputHub>();
 	}
-
-
+	
 	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info){
 
-		if(m_type == PeerType.CLIENT && stream.isWriting){
+		//bara den som äger networkviewn som kommer köra detta... (det antagandet görs iallafall här)
+		if(Network.isClient && stream.isWriting){
 			//sending to the server (for some reason they can only send vec3 not vec2)
 			Vector3 sendVec = packAsVec3(m_input.getCurrentInputVector(),m_input.getCurrentBlowingPower());
 			stream.Serialize(ref sendVec);
-		}else if (m_type == PeerType.SERVER && stream.isReading){
+//			Debug.Log("sent: " + sendVec);
+		}else if (Network.isServer && stream.isReading){
 			//reciving
 			Vector3 recivedVec = new Vector3();
 			stream.Serialize (ref recivedVec);
-			m_input.setCurrentInputVector(new Vector2(recivedVec.x,recivedVec.y));
-			m_input.setCurrentBlowingPower(recivedVec.z);
+			//Debug.Log("recived: " + recivedVec);
+			m_inputTarget.setCurrentInputVector(new Vector2(recivedVec.x,recivedVec.y));
+			m_inputTarget.setCurrentBlowingPower(recivedVec.z);
 		}
 	}
 

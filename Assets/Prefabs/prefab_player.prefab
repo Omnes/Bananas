@@ -5944,10 +5944,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_rotateProportion: 60
-  m_frictionProportion: .949999988
+  m_frictionProportion: .920000017
   m_minimumSpeed: .00999999978
-  m_maxSpeed: 8
-  m_acceleration: 8
+  m_maxSpeed: 10
+  m_acceleration: 25
   m_powSpeed: 1
   m_BlowPowerSlowFraction: 1
 --- !u!114 &11400002
