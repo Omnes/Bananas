@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-//TODO: FIXA RPC den fungerar ej!!
 public class PowerupManager : MonoBehaviour {
 	private const float SPAWN_INTERVALL = 2.5f;
 	private float spawnTimer = 0.0f;
@@ -23,7 +22,8 @@ public class PowerupManager : MonoBehaviour {
 		Debug.Log ("SynchronizePowerupGet");
 		if (Network.isServer) {
 			Debug.Log ("Sending RPC PowerupGet");
-			network.RPC ("PowerupGet", RPCMode.All, powerupType);
+//			network.RPC ("PowerupGet", RPCMode.All, powerupType, player.GetInstanceID());
+			network.RPC ("PowerupGet", RPCMode.All, powerupType, player.networkView.viewID);
 		}
 
 //		Debug.Log ("PowerupManager.cs: Received powerup(" + powerupType + ")");
@@ -34,15 +34,22 @@ public class PowerupManager : MonoBehaviour {
 //		else if (powerupType == Powerup.LAZERZ) {
 //			Debug.Log("PowerupManager.cs: LAZERZ");
 //		}
+
+//		Player
 	}
 
+	/**
+	 * Tells all players that a powerup was picked up and by who
+	 **/
 	[RPC]
 	public void PowerupGet(int powerupType, int playerID)
 	{
-		Debug.Log ("PowerupManager.cs: Received powerup: " + powerupType + ", " + playerID);
+		Debug.Log ("Received powerup: " + powerupType + ", " + playerID);
 	}
 	
-	// Update is called once per frame
+	/**
+	 * Spawn powerups at a fixed intervall
+	 **/
 	void Update () {
 		if ( Network.isServer ) {
 			spawnTimer += Time.deltaTime;
@@ -52,7 +59,4 @@ public class PowerupManager : MonoBehaviour {
 			}
 		}
 	}
-
-//	private static int ID = 0;
-//	private static int GetUniqueID() {return ID++;}
 }
