@@ -58,6 +58,16 @@ public class ButtonSteering : InputMetod {
 			}
 		}
 
+		if(Input.GetKey(KeyCode.A)){
+			input.y = m_pushed;
+			pressedRight = true;
+		}
+		if(Input.GetKey(KeyCode.D)){
+			input.x = m_pushed;
+			pressedLeft = true;
+		}
+
+
 		if(pressedLeft && pressedRight)
 		{
 			input = new Vector2(1,1);
