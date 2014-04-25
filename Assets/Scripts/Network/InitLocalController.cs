@@ -12,7 +12,8 @@ public class InitLocalController : MonoBehaviour {
 			return;
 		}*/
 		GameObject controller = Network.Instantiate(ControllerPrefab,Vector3.zero,Quaternion.identity,0) as GameObject;
-		PlayerInfo pi = new PlayerInfo("Robin",1);
+		int localPlayerId = SeaNet.Instance.getLocalPlayer();
+		PlayerInfo pi = new PlayerInfo(SeaNet.Instance.getPlayerArr()[localPlayerId].m_name,localPlayerId);
 		//remote init
 		controller.networkView.RPC ("RPCInitController",RPCMode.Others,pi.name,pi.id);
 

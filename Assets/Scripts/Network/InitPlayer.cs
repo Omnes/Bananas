@@ -5,16 +5,20 @@ public class InitPlayer : MonoBehaviour {
 
 	public GameObject m_playerPrefab;
 	public GameObject m_ghostPrefab;
+
+	public GameObject m_stateTransmitterPrefab;
+
 	public GameObject[] m_spawnpoints = new GameObject[4];
+	
 
 	private PlayerInfo m_playerInfo;
 	private GameObject m_player;
 
 	public bool m_isLocal = false;
 
-	public bool m_debug_is_Server = false;
-	public bool m_debug_is_Client = false;
-	public int m_debug_id = 0;
+	//public bool m_debug_is_Server = false;
+	//public bool m_debug_is_Client = false;
+	//public int m_debug_id = 0;
 
 	public InputMetod m_localInput;
 
@@ -28,10 +32,14 @@ public class InitPlayer : MonoBehaviour {
 		m_spawnpoints = sortSpawnpoints(GameObject.FindGameObjectsWithTag("Spawnpoint"));
 		Transform spawnpoint = m_spawnpoints[m_playerInfo.id].transform;
 		
-		if(Network.isServer || (m_debug_is_Server && Application.isEditor)){
+		if(Network.isServer){
 			//om vi är server skapa en faktisk spelare
 			m_player = Instantiate(m_playerPrefab,spawnpoint.position,spawnpoint.rotation) as GameObject;
 			m_player.SendMessage("setID",m_playerInfo.id);
+
+			//setup the StateTransmitter for this player
+			GameObject transmitter = Network.Instantiate(m_stateTransmitterPrefab,Vector3.zero,Quaternion.identity,0) as GameObject;
+			transmitter.networkView.RPC("linkToID",RPCMode.All,m_playerInfo.id);
 
 			InputHub hub = m_player.GetComponent<InputHub>();
 			//är det vår spelare? ta input från den lokala klienten och sätt kameran efter
@@ -45,7 +53,7 @@ public class InitPlayer : MonoBehaviour {
 				m_player.name = "Player " + m_playerInfo.name + " (Remote)";
 			}
 		}
-		else if(Network.isClient || (m_debug_is_Client && Application.isEditor)){
+		else if(Network.isClient){
 			//om vi är en klient skapa en fake spelare
 			m_player = Instantiate(m_ghostPrefab,spawnpoint.position,spawnpoint.rotation) as GameObject;
 			m_player.SendMessage("setID",m_playerInfo.id);
@@ -72,7 +80,7 @@ public class InitPlayer : MonoBehaviour {
 	}
 
 	void setCameraTarget(Transform target){
-		Camera.main.GetComponent<CameraFollow>().SetTarget(m_player.transform);
+		Camera.main.GetComponent<CameraFollow>().SetTarget(target);
 	}
 
 	[RPC]

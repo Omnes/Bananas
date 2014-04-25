@@ -17,6 +17,8 @@ public struct SyncData{
 
 
 public class SyncMovement : MonoBehaviour {
+
+	public static SyncMovement[] s_syncMovements = new SyncMovement[4];
 	
 	public Vector3 m_ghostPosition = new Vector3();
 	private Rigidbody m_rigidbody;
@@ -57,6 +59,7 @@ public class SyncMovement : MonoBehaviour {
 
 	public void setID(int id){
 		m_id = id;
+		s_syncMovements[id] = this;
 	}
 
 	public int getID(){
