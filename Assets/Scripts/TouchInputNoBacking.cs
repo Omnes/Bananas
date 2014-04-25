@@ -5,15 +5,21 @@ public class TouchInputNoBacking : InputMetod {
 
 	public bool m_debug_mode = true;
 	public Texture m_slider;
+	public Texture m_line;
 
 	public float m_edge_threshold_scale = 0.3f;
 	public float m_blowingEdge = 0.2f;
 	public int m_maxSliderHeight = 500;
+	public float m_sliderSizePercentOfScreen = 0.8f;
 	
 	private Vector2 m_currentInput = new Vector2(0,0);
 	private Rect m_leftArea =  new Rect();
 	private Rect m_rightArea = new Rect();
+	private Rect m_leftImage =  new Rect();
+	private Rect m_rightImage = new Rect();
 	private float m_sliderHeight = 0;
+	private Rect m_leftLine = new Rect();
+	private Rect m_rightLine = new Rect();
 
 	private float m_blowingPower = 0f;
 	private float m_blowingEdgeLeft = 0;
@@ -21,16 +27,24 @@ public class TouchInputNoBacking : InputMetod {
 	private bool m_pressedBlowing = false;
 	private bool m_blowing = false;
 
+
+
 	
 	void Start () {
-		m_sliderHeight = (float)Mathf.Min(Screen.height / 2, m_maxSliderHeight);
+		m_sliderHeight = (float)Mathf.Min(Screen.height * m_sliderSizePercentOfScreen, m_maxSliderHeight);
 		float sliderWidth = (float)Screen.width * m_edge_threshold_scale;
 
 		m_blowingEdgeLeft = (float)Screen.width * m_blowingEdge;
 		m_blowingEdgeRight = (float)Screen.width - m_blowingEdgeLeft; 
 
-		m_leftArea = new Rect(0, 0, sliderWidth, Screen.height);
-		m_rightArea = new Rect(Screen.width - sliderWidth, 0, sliderWidth, Screen.height);
+		m_leftImage = new Rect(0, Screen.height - m_sliderHeight, sliderWidth, m_sliderHeight);
+		m_rightImage = new Rect(Screen.width - sliderWidth, Screen.height - m_sliderHeight, sliderWidth, m_sliderHeight);
+
+		m_leftArea = new Rect(0, 0, Screen.width / 2, Screen.height);
+		m_rightArea = new Rect(Screen.width / 2, 0, Screen.width / 2, Screen.height);
+
+		m_leftLine = new Rect(m_blowingEdgeLeft, 0, 5, Screen.height);
+		m_rightLine = new Rect(m_blowingEdgeRight, 0, 5, Screen.height);
 	}
 	
 	// Update is called once per frame
@@ -133,15 +147,11 @@ public class TouchInputNoBacking : InputMetod {
 	
 	
 	void OnGUI(){
-		if (m_debug_mode) {
-			//GUI.Label(new Rect(Screen.width/2-50,0,100,50),"("+m_currentInput.x.ToString("F2") + ","+m_currentInput.y.ToString("F2") +")");
-			//GUI.Label(new Rect(Screen.width/2-100,50,200,50),"Blowing Power! " + m_blowingPower.ToString("F2"));
-			//GUI.Label(new Rect(Screen.width/2-100,100,200,50),"Touches " + Input.touches.Length + " / " + Input.touchCount);
-			//GUI.Box(new Rect(0,m_y_offset,m_edgeThreshold,m_vertical_area*2),"");
+		GUI.DrawTexture(m_leftImage, m_slider);
+		GUI.DrawTexture(m_rightImage, m_slider);
 
-			GUI.DrawTexture(m_leftArea, m_slider);
-			GUI.DrawTexture(m_rightArea, m_slider);
-		}
+		GUI.DrawTexture(m_leftLine, m_line);
+		GUI.DrawTexture(m_rightLine, m_line);
 	}
 	
 	public override Vector2 getCurrentInputVector(){
