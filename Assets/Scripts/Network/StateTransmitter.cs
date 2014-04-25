@@ -18,7 +18,9 @@ public class StateTransmitter : MonoBehaviour {
 				SyncData sd = m_playerMovement.getData();
 				stream.Serialize(ref sd.m_position);
 				stream.Serialize(ref sd.m_velocity);
-				stream.Serialize(ref sd.m_rotation);
+				float angle = sd.m_rotation.eulerAngles.y;
+				stream.Serialize( ref angle);
+				//stream.Serialize(ref sd.m_rotation);
 				stream.Serialize(ref sd.m_blowing);
 
 			}else{
@@ -26,11 +28,16 @@ public class StateTransmitter : MonoBehaviour {
 				Vector3 velocity = new Vector3();
 				Quaternion rotation = new Quaternion();
 				float blowing = new float();
+				float angle = new float();
 
 				stream.Serialize(ref position);
 				stream.Serialize(ref velocity);
-				stream.Serialize(ref rotation);
+
+				stream.Serialize(ref angle);
+				//stream.Serialize(ref rotation);
 				stream.Serialize(ref blowing);
+
+				rotation = Quaternion.Euler(new Vector3(0,angle,0));
 				SyncData sd = new SyncData(position,velocity,rotation,blowing);
 				m_playerMovement.assignData(sd);
 			}
