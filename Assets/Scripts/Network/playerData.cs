@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayerData : System.Object {
+public class PlayerData {
 
 	public int m_id;
 	public string m_name;
@@ -22,8 +22,25 @@ public class PlayerData : System.Object {
 		m_id = id;
 	}
 
-	public void setIsLocal(bool isLocal){
-		m_isLocal = isLocal;
+	public bool local{
+		get{return m_isLocal;}
+		set{m_isLocal = value;}
 	}
 
 }
+
+
+//accessors
+//public string name{
+//	get{return m_name;}
+//	set{m_name = value;}
+//}
+//public int id{
+//	get{return m_id;}
+//	set{m_id = value;}
+//}
+
+//public bool local{
+//	get{return m_local;}
+//	set{m_local = value;}
+//}
