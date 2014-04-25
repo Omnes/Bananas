@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class Powerup : MonoBehaviour {
+	public GameObject prefab_player;
 
 	public static int ENERGY_DRINK 	= GetUniqueID();
 	public static int LAZERZ 		= GetUniqueID();
@@ -11,16 +12,18 @@ public class Powerup : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col)
 	{
-		if (col.gameObject.CompareTag ("Player")) {
-			OnPowerupGet(col.gameObject);
-//			Destroy( gameObject );
-		}
+		if ( Network.isServer ) {
+			if (col.gameObject.CompareTag ("Player")) {
+				OnPowerupGet(col.gameObject);
+//				Network.Destroy(gameObject.networkView.viewID);
+				Network.Destroy( networkView.viewID );
+			}
+	    }
 	}
 
 	public virtual void OnPowerupGet(GameObject obj)
 	{
 		Debug.Log ("Powerup");
 	}
-
 
 }

@@ -7,6 +7,8 @@ public class EnergyDrink : Powerup {
 	{
 		Debug.Log ("EnergyDrink");
 		PowerupManager.SynchronizePowerupGet (Powerup.ENERGY_DRINK, obj);
+//		GameObject.fi
+//		obj.networkView.viewID
 //		PowerupManager.Instance.PowerupGet (obj, EnergyDrink);
 	}
 

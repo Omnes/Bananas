@@ -9,8 +9,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
+  - 148: {fileID: 14800000}
   m_Layer: 0
-  m_Name: PowerupManager
+  m_Name: prefab_powerupManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39,6 +40,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_powerup: {fileID: 100000, guid: f4c38d274f4385e4f93853d36d065ec5, type: 2}
+--- !u!148 &14800000
+NetworkView:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_StateSynchronization: 0
+  m_Observed: {fileID: 0}
+  m_ViewID:
+    m_ID: 0
+    m_Type: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

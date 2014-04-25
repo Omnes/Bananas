@@ -23,7 +23,7 @@ public class PowerupManager : MonoBehaviour {
 		Debug.Log ("SynchronizePowerupGet");
 		if (Network.isServer) {
 			Debug.Log ("Sending RPC PowerupGet");
-			network.RPC ("PowerupGet", RPCMode.All, powerupType, player.GetInstanceID());
+			network.RPC ("PowerupGet", RPCMode.All, powerupType);
 		}
 
 //		Debug.Log ("PowerupManager.cs: Received powerup(" + powerupType + ")");
@@ -37,7 +37,7 @@ public class PowerupManager : MonoBehaviour {
 	}
 
 	[RPC]
-	public static void PowerupGet(int powerupType, int playerID)
+	public void PowerupGet(int powerupType, int playerID)
 	{
 		Debug.Log ("PowerupManager.cs: Received powerup: " + powerupType + ", " + playerID);
 	}
