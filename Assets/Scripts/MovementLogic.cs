@@ -14,6 +14,8 @@ public class MovementLogic : MonoBehaviour
 
 	[Range(0.0f, 1.0f)]
 	public float m_BlowPowerSlowFraction = 1.0f;
+
+	public Vector3 m_currentRotationSpeed = Vector3.zero;
 	
 	private bool m_hasCollided = false;
 
@@ -77,8 +79,8 @@ public class MovementLogic : MonoBehaviour
 
 		//Adding rotation..
 		Vector3 temp = Vector3.up * left + Vector3.down * right;
-		temp *= m_rotateProportion * Time.deltaTime;
-		transform.Rotate (temp);
+		m_currentRotationSpeed = temp * m_rotateProportion;
+		transform.Rotate (m_currentRotationSpeed * Time.deltaTime);
 
 		Vector3 dir = transform.forward;
 		Vector3 currentVelocity = rigidbody.velocity;
@@ -111,6 +113,10 @@ public class MovementLogic : MonoBehaviour
 		//set the speed to newVelocity
 		Vector3 deltaVelocity = newVelocity - currentVelocity;
 		rigidbody.AddForce(deltaVelocity, ForceMode.VelocityChange);
+	}
+
+	public float getRotationSpeed(){
+		return m_currentRotationSpeed.y;
 	}
 
 	public void restoreMovement()
