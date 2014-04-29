@@ -11,6 +11,8 @@ public class scr_movementLogic : MonoBehaviour
 	public float m_acceleration = 0.1f;
 	public float m_dizzySeconds;
 	public float m_powSpeed = 1f;
+	public float tmpSPeed = 0.1f;
+	public string name = "";
 
 	[Range(0.0f, 1.0f)]
 	public float m_BlowPowerSlowFraction = 1.0f;
@@ -23,6 +25,11 @@ public class scr_movementLogic : MonoBehaviour
 	private float m_dizzyFactor = 1.0f;
 	private float m_collisionVelocity;
 	private Vector3 currentVelocity;
+
+
+	private Vector3 resultOfCollision;
+	private float collisionScale;
+
 
 	private float blowPower = 0.0f;
 	private Vector2 m_inputVec;
@@ -48,15 +55,21 @@ public class scr_movementLogic : MonoBehaviour
 		{
 			//collisionTime = Time.time;
 			Debug.Log("Collided");
+			Debug.Log("result" + resultOfCollision.ToString("F2"));
+//			rigidbody.AddForce(resultOfCollision * 2, ForceMode.VelocityChange);
 			m_dizzyFactor = 0.0f;
+//			tmpSPeed = 0.0f;
 			m_hasCollided = false;
 		}
+
 		//After collision, increase the dizzyFactor untill it has reached one(stearing restored)..
 		else
 			if(m_dizzyFactor < 1.0f)
 			{
 				m_dizzyFactor += Time.deltaTime/m_dizzySeconds;
 			}
+
+
 
 		m_inputVec = m_touchIn.getCurrentInputVector ();
 		m_inputVec *= m_dizzyFactor;
@@ -98,16 +111,17 @@ public class scr_movementLogic : MonoBehaviour
 		//Backward force
 //		Vector3 backwardForce = -dir * blowPower * m_BlowPowerForce;
 //		newVelocity += backwardForce * Time.deltaTime;
+
 		//clamp speed
 		if(newVelocity.magnitude > m_maxSpeed)
 		{
 			newVelocity = newVelocity.normalized*m_maxSpeed;
 		}
 
-		newVelocity = (1 - blowPower) > 0.5?newVelocity:newVelocity * m_BlowPowerSlowFraction;
+	//	newVelocity = (1 - blowPower) > 0.5?newVelocity:newVelocity * m_BlowPowerSlowFraction;
 
 		//friction if there 
-		if(Mathf.Abs(inputSpeed) < m_minimumSpeed && !m_hasCollided)
+		if(m_dizzyFactor < 1.0f || Mathf.Abs(inputSpeed) < m_minimumSpeed && !m_hasCollided)
 		{
 			newVelocity *= m_frictionProportion;
 		}
@@ -118,6 +132,17 @@ public class scr_movementLogic : MonoBehaviour
 
 		//set the speed to newVelocity
 		Vector3 deltaVelocity = newVelocity - currentVelocity;
+		deltaVelocity += resultOfCollision;
+//		Debug.Log (name + " DeltaVelocity :" + deltaVelocity.ToString ("F2"));
+//		Debug.Log (name + " NewVelocity :" + newVelocity.ToString ("F2"));
+//		Debug.Log (name + " currentVelocity :" + currentVelocity.ToString ("F2"));
+//		Debug.Log (name + " RigidbodysVelocity :" + rigidbody.velocity.ToString ("F2"));
+//
+//		if(tmpSPeed > 0.0f)
+//		{
+//			rigidbody.AddForce(0.0f, 0.0f, 0.1f, ForceMode.VelocityChange);
+//		}
+//		else
 		rigidbody.AddForce(deltaVelocity, ForceMode.VelocityChange);
 	}
 
@@ -127,7 +152,8 @@ public class scr_movementLogic : MonoBehaviour
 
 	public void restoreMovement()
 	{
-		m_hasCollided = false;
+//		m_hasCollided = false;
+		resultOfCollision = Vector3.zero;
 	}
 
 	public float getRigidVelocity()
@@ -135,8 +161,9 @@ public class scr_movementLogic : MonoBehaviour
 		return m_collisionVelocity;
 	}
 
-	public void setTackled()
+	public void setTackled(Vector3 aCollisionForce)
 	{
+		resultOfCollision = aCollisionForce;
 		m_hasCollided = true;
 	}
 
