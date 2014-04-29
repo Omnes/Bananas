@@ -5,6 +5,7 @@ public class EnergyDrinkBuff : Buff {
 
 	public EnergyDrinkBuff(GameObject playerRef):base(playerRef)
 	{
+		m_duration = 3.0f;
 //		base.
 //		super()
 //		Buff (playerRef);
@@ -12,21 +13,21 @@ public class EnergyDrinkBuff : Buff {
 //		base(playerRef);
 	}
 
-	public void InitEvent()
+	override public void InitEvent()
 	{
 //		base.InitEvent ();
-		//playerRef.transform.speed *= 2;
+//		playerRef.transform.speed *= 2;
 		Debug.Log ("EnergyDrink: init");
 	}
 
-	public void periodicEvent()
+	override public void periodicEvent()
 	{
-		Debug.Log ("EnergyDrink: periodic");
+//		Debug.Log ("EnergyDrink: periodic");
 	}
 
-	public void ExpireEvent()
+	override public void ExpireEvent()
 	{
 		Debug.Log ("EnergyDrink: expire");
-		//playerRef.transform.speed /= 2;
+//		playerRef.transform.speed /= 2;
 	}
 }

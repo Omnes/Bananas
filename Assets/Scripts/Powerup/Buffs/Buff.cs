@@ -6,32 +6,47 @@ public class Buff : MonoBehaviour {
 	public float m_duration;
 	private float m_time;
 
+	private bool m_alive;
+	public bool alive{get { return m_alive; }}
+
 	public Buff(GameObject playerRef)
 	{
 		m_playerRef = playerRef;
+		m_alive = true;
 	}
 
-	public void InitEvent()
+	/**
+	 * Event called when a buff is first added to the BuffManager
+	 */
+	virtual public void InitEvent()
 	{
 
 	}
 
-	public void periodicEvent()
+	/**
+	 * Event called every update
+	 */
+	virtual public void periodicEvent()
 	{
 		
 	}
 
-	public void ExpireEvent()
+	/**
+	 * Event called when a buff is removed from the BuffManager
+	 */
+	virtual public void ExpireEvent()
 	{
 		
 	}
 
-	//TODO: Kalla på update från BuffManager
+	/**
+	 * Check if the buff should be destroyed
+	 */
 	public void Update()
 	{
 		m_time += Time.deltaTime;
 		if (m_time > m_duration) {
-			Destroy(this);
+			m_alive = false;
 		}
 	}
 

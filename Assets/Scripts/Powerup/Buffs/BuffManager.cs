@@ -12,12 +12,24 @@ public class BuffManager : MonoBehaviour {
 
 	public void Add(Buff buff) {
 		m_buffs.Add (buff);
+		buff.InitEvent ();
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
+		//Remove dead buffs
+		List<Buff> tempBuffs = new List<Buff> (m_buffs);
+		foreach (Buff buff in tempBuffs) {
+			if (buff.alive == false) {
+				buff.ExpireEvent();
+				m_buffs.Remove(buff);
+				Destroy(buff);
+			}
+		}
+
+		//Update buffs
 		foreach (Buff buff in m_buffs) {
 			buff.Update();
+			buff.periodicEvent();
 		}
 	}
 }

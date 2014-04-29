@@ -40,21 +40,24 @@ public class PowerupManager : MonoBehaviour {
 
 	/**
 	 * Tells all players that a powerup was picked up and by who
-	 **/
+	 */
 	[RPC]
 	public void PowerupGet(int powerupType, int playerID)
 	{
 		Debug.Log ("Received powerup: " + powerupType + ", " + playerID);
+//		NetworkView.Find (playerID /*NetworkViewID*/);
+//		SyncMovement.m_synchronizeMovement;
 	}
 	
 	/**
 	 * Spawn powerups at a fixed intervall
-	 **/
+	 */
 	void Update () {
 		if ( Network.isServer ) {
 			spawnTimer += Time.deltaTime;
 			if (spawnTimer > SPAWN_INTERVALL) {
-				GameObject child = Network.Instantiate(m_powerup, new Vector3(Random.Range(-SPAWN_RANGE, SPAWN_RANGE), 0.5f, Random.Range(-SPAWN_RANGE, SPAWN_RANGE)), Quaternion.identity, 0) as GameObject;
+//				GameObject child = Network.Instantiate(m_powerup, new Vector3(Random.Range(-SPAWN_RANGE, SPAWN_RANGE), 0.5f, Random.Range(-SPAWN_RANGE, SPAWN_RANGE)), Quaternion.identity, 0) as GameObject;
+				Network.Instantiate(m_powerup, new Vector3(Random.Range(-SPAWN_RANGE, SPAWN_RANGE), 0.5f, Random.Range(-SPAWN_RANGE, SPAWN_RANGE)), Quaternion.identity, 0);
 				spawnTimer = 0;
 			}
 		}
