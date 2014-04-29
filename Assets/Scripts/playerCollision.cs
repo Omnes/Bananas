@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class playerCollision : MonoBehaviour {
+public class PlayerCollision : MonoBehaviour {
 
 	public float m_looserColForce;
-	public scr_movementLogic m_movementLogic;
-	public scr_movementLogic othersMovement;	
+	public MovementLogic m_movementLogic;
+	public MovementLogic othersMovement;	
 	public float e = 1.0f;
 	float lastCollisionTime = 0.0f;
 
@@ -47,7 +47,7 @@ public class playerCollision : MonoBehaviour {
 			}
 			else
 			{
-				scr_soundManager.Instance.playOneShot( "event:/Knockout! (1)", other.transform.position );
+				SoundManager.Instance.playOneShot( "event:/Knockout! (1)", other.transform.position );
 			}
 		}
 	}
