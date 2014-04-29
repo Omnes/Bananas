@@ -13,10 +13,13 @@ public class MovementLogic : MonoBehaviour
 	public float m_powSpeed = 1f;
 
 	[Range(0.0f, 1.0f)]
-	public float m_BlowPowerSlowFraction = 1.0f;
+	public float m_BlowPowerSlowFraction = 1.0f; 
 
 	public Vector3 m_currentRotationSpeed = Vector3.zero;
-	
+
+	[Range(0.0f, 1.0f)]
+	public float m_BlowPowerSlowWhileTurning = 1.0f;
+
 	private bool m_hasCollided = false;
 
 	private float right = 0.0f;
@@ -93,6 +96,7 @@ public class MovementLogic : MonoBehaviour
 
 		//add the new speed
 		newVelocity += dir * m_acceleration * inputSpeed * Time.deltaTime;
+		//Debug.Log("DIR "+dir);
 
 		//Backward force
 //		Vector3 backwardForce = -dir * blowPower * m_BlowPowerForce;
@@ -103,7 +107,13 @@ public class MovementLogic : MonoBehaviour
 			newVelocity = newVelocity.normalized*m_maxSpeed;
 		}
 
-		newVelocity = (1 - blowPower) > 0.5?newVelocity:newVelocity * m_BlowPowerSlowFraction;
+		//turning
+		if(Mathf.Abs(right - left) != 0){
+			newVelocity = (1 - blowPower) > 0.5?newVelocity:newVelocity * m_BlowPowerSlowWhileTurning;
+		}else{	//go straight
+			newVelocity = (1 - blowPower) > 0.5?newVelocity:newVelocity * m_BlowPowerSlowFraction;
+		}
+		
 
 		//friction if there 
 		if(!m_hasCollided){
