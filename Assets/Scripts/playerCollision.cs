@@ -19,7 +19,7 @@ public class PlayerCollision : MonoBehaviour {
 		if(other.gameObject.tag == "Player" && Time.time > (lastCollisionTime + 1.0f))
 		{
 			lastCollisionTime = Time.time;
-			othersMovement = other.gameObject.GetComponent<scr_movementLogic>();
+			othersMovement = other.gameObject.GetComponent<MovementLogic>();
 
 
 
@@ -51,7 +51,7 @@ public class PlayerCollision : MonoBehaviour {
 			}
 		}
 	}
-	void CalculateForces(scr_movementLogic aStronger, scr_movementLogic aWeaker, out Vector3 aStrongerDeltaForce, out Vector3 aWeakerDeltaForce)
+	void CalculateForces(MovementLogic aStronger, MovementLogic aWeaker, out Vector3 aStrongerDeltaForce, out Vector3 aWeakerDeltaForce)
 	{
 		Debug.Log(m_movementLogic.name +" PlayerWithHigerVel: " + aStronger.rigidbody.velocity.ToString("F2"));
 		Debug.Log(m_movementLogic.name +" PlayerWithLowerVel: " + m_movementLogic.rigidbody.velocity.ToString("F2"));
