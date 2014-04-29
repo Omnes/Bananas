@@ -1,10 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Buff : MonoBehaviour {
+/**
+ * Base class for buffs
+ */
+public class Buff : Object {
 	protected GameObject m_playerRef;
 	public float m_duration;
-	private float m_time;
+	private float m_durationTimer;
+
+	public float m_period;
+	private float m_periodTimer;
 
 	private bool m_alive;
 	public bool alive{get { return m_alive; }}
@@ -13,6 +19,10 @@ public class Buff : MonoBehaviour {
 	{
 		m_playerRef = playerRef;
 		m_alive = true;
+		m_duration = 0.0f;
+		m_durationTimer = 0.0f;
+		m_period = 0.0f;
+		m_periodTimer = 0.0f;
 	}
 
 	/**
@@ -26,7 +36,16 @@ public class Buff : MonoBehaviour {
 	/**
 	 * Event called every update
 	 */
-	virtual public void periodicEvent()
+	virtual public void UpdateEvent()
+	{
+		
+	}
+
+	/**
+	 * Event called every period
+	 * Note, this event will only be executed if m_period > 0
+	 */
+	virtual public void PeriodicEvent()
 	{
 		
 	}
@@ -40,14 +59,23 @@ public class Buff : MonoBehaviour {
 	}
 
 	/**
-	 * Check if the buff should be destroyed
+	 * Check if the buff should be destroyed and execute events
 	 */
 	public void Update()
 	{
-		m_time += Time.deltaTime;
-		if (m_time > m_duration) {
+		//Check periodic event
+		m_periodTimer += Time.deltaTime;
+		if (m_period > 0.0f && m_periodTimer > m_period) {
+			PeriodicEvent();
+			m_periodTimer -= m_period;
+		}
+
+		m_durationTimer += Time.deltaTime;
+		if (m_durationTimer > m_duration) {
 			m_alive = false;
 		}
+			
+		UpdateEvent();
 	}
 
 }

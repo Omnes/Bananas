@@ -41,7 +41,7 @@ public class SyncMovement : MonoBehaviour {
 	public bool m_nudge = false;
 	public float m_nudgeDistance = 0.05f;
 
-	public int m_id;
+	private int m_id;
 
 	private bool intiated = false;
 

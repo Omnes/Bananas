@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/**
+ * A local manager for hanlding buffs on specific objects
+ */
 public class BuffManager : MonoBehaviour {
 	private List<Buff> m_buffs = new List<Buff>();
 
@@ -10,9 +13,10 @@ public class BuffManager : MonoBehaviour {
 	
 	}
 
-	public void Add(Buff buff) {
+	public Buff Add(Buff buff) {
 		m_buffs.Add (buff);
 		buff.InitEvent ();
+		return buff;
 	}
 
 	void Update () {
@@ -29,7 +33,7 @@ public class BuffManager : MonoBehaviour {
 		//Update buffs
 		foreach (Buff buff in m_buffs) {
 			buff.Update();
-			buff.periodicEvent();
+//			buff.PeriodicEvent();
 		}
 	}
 }

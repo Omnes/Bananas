@@ -2,6 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/**
+ * A global manager for handling powerups
+ * Can send/receive powerups over the network
+ */
 public class PowerupManager : MonoBehaviour {
 	private const float SPAWN_INTERVALL = 2.5f;
 	private float spawnTimer = 0.0f;
@@ -17,36 +21,39 @@ public class PowerupManager : MonoBehaviour {
 		network = networkView;
 	}
 
+	/**
+	 * Tells all players that a powerup was picked up and by who
+	 */
 	public static void SynchronizePowerupGet(int powerupType, GameObject player)
 	{
 		Debug.Log ("SynchronizePowerupGet");
 		if (Network.isServer) {
 			Debug.Log ("Sending RPC PowerupGet");
-//			network.RPC ("PowerupGet", RPCMode.All, powerupType, player.GetInstanceID());
-			network.RPC ("PowerupGet", RPCMode.All, powerupType, player.networkView.viewID);
+			int playerID = player.GetComponent<SyncMovement>().getID();
+			network.RPC ("PowerupGet", RPCMode.All, powerupType, playerID);
 		}
-
-//		Debug.Log ("PowerupManager.cs: Received powerup(" + powerupType + ")");
-//		if (powerupType == Powerup.ENERGY_DRINK) {
-//			Debug.Log("PowerupManager.cs: ENERGY DRINK");
-
-//		}
-//		else if (powerupType == Powerup.LAZERZ) {
-//			Debug.Log("PowerupManager.cs: LAZERZ");
-//		}
-
-//		Player
 	}
-
-	/**
-	 * Tells all players that a powerup was picked up and by who
-	 */
+	
 	[RPC]
 	public void PowerupGet(int powerupType, int playerID)
 	{
 		Debug.Log ("Received powerup: " + powerupType + ", " + playerID);
-//		NetworkView.Find (playerID /*NetworkViewID*/);
-//		SyncMovement.m_synchronizeMovement;
+//		SyncMovement syncMovement = SyncMovement.s_syncMovements [playerID];
+
+		SyncMovement syncMovement;
+		GameObject player;
+		BuffManager buffManager;
+		for (int id = 0; id < SyncMovement.s_syncMovements.Length; id++) {
+			if (playerID == id) {
+				syncMovement = SyncMovement.s_syncMovements[id];
+				if (syncMovement != null) {
+					player = syncMovement.gameObject;
+					buffManager = player.GetComponent<BuffManager>();
+
+					buffManager.Add(new EnergyDrinkBuff(player));
+				}
+			}
+		}
 	}
 	
 	/**

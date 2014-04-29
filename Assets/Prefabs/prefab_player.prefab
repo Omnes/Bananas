@@ -19,6 +19,7 @@ GameObject:
   - 114: {fileID: 11400024}
   - 114: {fileID: 11400006}
   - 114: {fileID: 11400026}
+  - 114: {fileID: 11400028}
   m_Layer: 0
   m_Name: prefab_player
   m_TagString: Player
@@ -5951,6 +5952,8 @@ MonoBehaviour:
   m_acceleration: 25
   m_powSpeed: 1
   m_BlowPowerSlowFraction: 1
+  m_currentRotationSpeed: {x: 0, y: 0, z: 0}
+  m_BlowPowerSlowWhileTurning: 1
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6110,10 +6113,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd0f9aa5e5e38f14cb641753e9e8cba7, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e98231d82810cb458c2f309001875c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ghostPosition: {x: 0, y: 0, z: 0}
+  m_snapDistance: 1
+  m_nudge: 0
+  m_nudgeDistance: .0500000007
+--- !u!114 &11400028
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0376826f35682640bca7059c09a05cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1
