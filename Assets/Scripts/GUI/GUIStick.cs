@@ -10,11 +10,6 @@ public class GUIStick : MonoBehaviour {
 
 	public enum Side {Left,Right};
 
-	// Use this for initialization
-	void Start () {
-		updateSize();
-	}
-
 	void updateSize(){
 		//hämtar in storleken de ska ha från scr_touchinput så man bara behöver ändra på ett ställe
 		Vector2 size = m_touchInput.getGUIStickSize();
@@ -26,6 +21,11 @@ public class GUIStick : MonoBehaviour {
 		}else{
 			transform.localPosition = new Vector3((0.5f-size.x/2),0f,0f); //the y is assuming the stick always is in the center (might need change)
 		}
+	}
+
+	public void init(TouchInput input){
+		m_touchInput = input;
+		updateSize();
 	}
 	
 	// Update is called once per frame
