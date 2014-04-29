@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Lobby : MonoBehaviour {
 
 	//private string m_remoteIP = "127.0.0.1";
-	private int m_remotePort = 7777;
+	//private int m_remotePort = 7777;
 	private int m_listenPort = 7777;
 	private bool m_useNAT = false;
 
@@ -13,27 +13,25 @@ public class Lobby : MonoBehaviour {
 	public string[] m_levels = {"test_robin"};
 
 	//might not be use3d
-	private string m_myIP = "";
-	private int m_myPort = 0;
+	//private string m_myIP = "";
+	//private int m_myPort = 0;
 
 
-	private int m_playerCount = 0;
+	private int m_playerCount = 1;
 	public List<PlayerData> m_connectedPlayers = new List<PlayerData>();
 
 	//local playerdata
 	public PlayerData m_myPlayerData;
 
 
-	//bad =? seanet reference
-	public GameObject m_seaNet;
-
 	//name of user
-	private string tempName = "";
-	private string serverName = "";
+	private string tempName = "TEMPNAME";
+	private string serverName = "TEMPNAME";
 
 	// Use this for initialization
 	void Start () {
 		MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
+
 	}
 	
 	// Update is called once per frame
@@ -51,7 +49,8 @@ public class Lobby : MonoBehaviour {
 			if(GUI.Button(new Rect(210,140,200,60), "Start Server")){
 				startServer(serverName);
 				//add ip for player who started server
-				m_myPlayerData = new PlayerData(tempName, 1337);
+				m_myPlayerData = new PlayerData(tempName, 0);
+				m_myPlayerData.local = true;
 				addPlayerToClientList(m_myPlayerData);
 			}
 			tempName = GUI.TextField(new Rect(420, 10, 200, 60), tempName, 25 );
@@ -63,6 +62,9 @@ public class Lobby : MonoBehaviour {
 			}
 			if(GUI.Button(new Rect(210, 140, 200, 60), "Stop Server")){
 				stopServer();
+			}
+			if(GUI.Button(new Rect(210, 210, 200, 60), "SEE STUFF")){
+				networkView.RPC("showStuff", RPCMode.All);
 			}
 
 		}/*else if(Network.peerType == NetworkPeerType.Client){
@@ -82,6 +84,7 @@ public class Lobby : MonoBehaviour {
 					//connecting to server
 					//send networkplayer as patramaeter for cleanup ?
 					connectToServer(data[i]);
+					Debug.Log("NETWORKID: "+ Network.player.guid);
 				}
 			}
 		}
@@ -105,7 +108,7 @@ public class Lobby : MonoBehaviour {
 	public void stopServer(){
 		//remove all players
 		m_connectedPlayers.Clear();
-		m_seaNet.SendMessage("setConnectedPlayers", m_connectedPlayers);
+		SeaNet.Instance.setConnectedPlayers(m_connectedPlayers);
 		Network.Disconnect();
 		Debug.Log("lobby.cs : Shuting down Server");
 	}
@@ -151,34 +154,72 @@ public class Lobby : MonoBehaviour {
 	void OnConnectedToServer(){
 		//send playerdata to server and alla others
 		string name = tempName;
-		Debug.Log("IMACONNECTED MOTHERFKERS");
-		networkView.RPC("playerNameRPC", RPCMode.Server, name);
+		networkView.RPC("playerNameRPC", RPCMode.Server, name, Network.player);
 	}
 
 	//lägger till spelare så den kan följa med till nästa scen
 	void addPlayerToClientList(PlayerData p){
 		m_connectedPlayers.Add(p);
-		m_seaNet.SendMessage("setConnectedPlayers", m_connectedPlayers);
+		SeaNet.Instance.setConnectedPlayers(m_connectedPlayers);
 	}
+
+
+	// ###			CLIENT			###
+
+	//add new player
+	[RPC]
+	private void playerDataRPC(string name, int id, NetworkPlayer localPlayer){
+		PlayerData tempPlayerData = new PlayerData(name, id);
+
+		//set if player is local or not
+		if(localPlayer == Network.player){
+			tempPlayerData.local = true;
+		}else{
+			tempPlayerData.local = false;
+		}
+
+		//add player in list
+		addPlayerToClientList(tempPlayerData);
+	}
+
+	//recieve list and add players
+	[RPC]
+	private void addPlayerListRPC(string name, int id){
+		PlayerData tempPlayerData = new PlayerData(name, id);
+		addPlayerToClientList(tempPlayerData);
+	}
+
+	// ###			SERVER			###
 
 	[RPC]
 	private void loadLevelRPC(){
 		Application.LoadLevel(m_levels[0]);
 	}
 
+	//set name and if it's local
 	[RPC]
-	private void playerNameRPC(string name){
-		Debug.Log(" name :"+name);
+	private void playerNameRPC(string name, NetworkPlayer target){
 		int id = m_playerCount++;
 		PlayerData tempPlayerData = new PlayerData(name, id);
 		addPlayerToClientList(tempPlayerData);
+		
+		//skcika lista på alla tidigare spelare och om den är local eller inte 
+		
+		foreach(PlayerData pd in m_connectedPlayers){
+			if(tempPlayerData != pd){
+				networkView.RPC("addPlayerListRPC", target, pd.m_name, pd.m_id);
+			}
+		}
+		
 		//send RPC to all Others
-		networkView.RPC("playerDataRPC", RPCMode.Others, name, id);
+		networkView.RPC("playerDataRPC", RPCMode.Others, name, id, target);
 	}
 
+
+	//###		REMOVE THIS LATER ONLY TEST (fråga sean obv)		####
 	[RPC]
-	private void playerDataRPC(string name, int id){
-		PlayerData tempPlayerData = new PlayerData(name, id);
-		addPlayerToClientList(tempPlayerData);
+	private void showStuff(){
+		SeaNet.Instance.testLookAtStuff();
 	}
+
 }

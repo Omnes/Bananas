@@ -7,8 +7,13 @@ public class InitLocalController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		/*if(Network.TestConnection() == ConnectionTesterStatus.PublicIPNoServerStarted){
+			Debug.LogWarning("No connection detected, might be before server is started...");
+			return;
+		}*/
 		GameObject controller = Network.Instantiate(ControllerPrefab,Vector3.zero,Quaternion.identity,0) as GameObject;
-		PlayerInfo pi = new PlayerInfo("Robin",0);
+		int localPlayerId = SeaNet.Instance.getLocalPlayer();
+		PlayerInfo pi = new PlayerInfo(SeaNet.Instance.getPlayerArr()[localPlayerId].m_name,localPlayerId);
 		//remote init
 		controller.networkView.RPC ("RPCInitController",RPCMode.Others,pi.name,pi.id);
 
