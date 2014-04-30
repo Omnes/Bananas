@@ -20,6 +20,10 @@ public class GUITouches : MonoBehaviour {
 			m_renderers[i] = m_plupps[i].renderer;
 		}
 	}
+
+	public void init(TouchInput input){
+		m_touchInput = input;
+	}
 	
 	// Update is called once per frame
 	void Update () {
