@@ -6,14 +6,9 @@ public class MovementLogic : MonoBehaviour
 	public float m_rotateProportion = 60f;
 	public float m_frictionProportion = 0.95f;
 	public float m_minimumSpeed = 0.01f;
-<<<<<<< HEAD
 
 	public float m_dizzySeconds = 2.0f;
 
-=======
-	
-	public float m_dizzySeconds = 2f;
->>>>>>> master
 	public float m_maxSpeed = 8f;
 	public float m_acceleration = 8f;
 
@@ -30,11 +25,6 @@ public class MovementLogic : MonoBehaviour
 	public float m_BlowPowerSlowWhileTurning = 1.0f;
 
 	private bool m_hasCollided = false;
-<<<<<<< HEAD
-
-=======
-	
->>>>>>> master
 	private float m_Speed;
 	private float right = 0.0f;
 	private float left = 0.0f;
