@@ -4287,8 +4287,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6aaebf328574e74f98ddae1e4497c6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_looserColForce: 0
-  m_movementLogic: {fileID: 0}
+  m_looserColForce: 300
+  m_movementLogic: {fileID: 453806343}
   othersMovement: {fileID: 0}
   e: 1
 --- !u!114 &453806343
@@ -4313,7 +4313,6 @@ MonoBehaviour:
   tmpSPeed: 0
   name: weaker
   m_BlowPowerSlowFraction: 1
-  m_currentRotationSpeed: {x: 0, y: 0, z: 0}
   m_BlowPowerSlowWhileTurning: 1
 --- !u!114 &453806344
 MonoBehaviour:
@@ -4358,9 +4357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd0f9aa5e5e38f14cb641753e9e8cba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_snapDistance: 1
-  m_nudge: 0
-  m_nudgeDistance: .0500000007
+  m_ghostPosition: {x: 0, y: 0, z: 0}
   m_id: 0
 --- !u!1 &454405345
 GameObject:
@@ -5062,8 +5059,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6a4d9dae0c26d247978e44c33262f7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_GUICamera: {fileID: 0}
-  perspective: 1
   m_updateInEditor: 0
   m_cameraDistance: 1
 --- !u!33 &574980207
@@ -6361,7 +6356,6 @@ MonoBehaviour:
   tmpSPeed: .100000001
   name: stronger
   m_BlowPowerSlowFraction: 1
-  m_currentRotationSpeed: {x: 0, y: 0, z: 0}
   m_BlowPowerSlowWhileTurning: 1
 --- !u!54 &741673160
 Rigidbody:
@@ -6406,8 +6400,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6aaebf328574e74f98ddae1e4497c6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_looserColForce: 0
-  m_movementLogic: {fileID: 0}
+  m_looserColForce: 15
+  m_movementLogic: {fileID: 741673159}
   othersMovement: {fileID: 0}
   e: 1
 --- !u!136 &741673163
@@ -6505,9 +6499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd0f9aa5e5e38f14cb641753e9e8cba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_snapDistance: 1
-  m_nudge: 0
-  m_nudgeDistance: .0500000007
+  m_ghostPosition: {x: 0, y: 0, z: 0}
   m_id: 0
 --- !u!1 &745220882
 GameObject:

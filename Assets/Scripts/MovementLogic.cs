@@ -6,8 +6,9 @@ public class MovementLogic : MonoBehaviour
 	public float m_rotateProportion = 60f;
 	public float m_frictionProportion = 0.95f;
 	public float m_minimumSpeed = 0.01f;
-	
+
 	public float m_dizzySeconds = 2.0f;
+
 	public float m_maxSpeed = 8f;
 	public float m_acceleration = 8f;
 
@@ -98,6 +99,11 @@ public class MovementLogic : MonoBehaviour
 
 		float totalSpeed = (Mathf.Abs (right) + Mathf.Abs (left)) / 2;
 		footstepEmitter.evt.setVolume (totalSpeed);
+//		totalSpeed *= 10;
+//		Debug.Log (totalSpeed);
+//		footstepParam.setValue (totalSpeed);
+
+
 //		totalSpeed *= 10;
 //		Debug.Log (totalSpeed);
 //		footstepParam.setValue (totalSpeed);

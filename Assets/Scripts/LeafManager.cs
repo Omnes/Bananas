@@ -9,7 +9,6 @@ public class LeafManager : MonoBehaviour {
 
 	public bool useLerp = true;
 
-
 	public GameObject m_prefabLeaf;
 
 	[Range(0, 10000)]

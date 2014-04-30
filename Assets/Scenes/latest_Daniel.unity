@@ -8295,6 +8295,7 @@ MonoBehaviour:
   m_movementLogic: {fileID: 488931034}
   othersMovement: {fileID: 0}
   e: 1
+  lastCollisionTime: 0
 --- !u!114 &488931034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9698,6 +9699,7 @@ MonoBehaviour:
   m_movementLogic: {fileID: 597608136}
   othersMovement: {fileID: 0}
   e: 1
+  lastCollisionTime: 0
 --- !u!114 &597608136
 MonoBehaviour:
   m_ObjectHideFlags: 0

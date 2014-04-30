@@ -9,11 +9,6 @@ public class PlayerCollision : MonoBehaviour {
 	public float e = 1.0f;
 	float lastCollisionTime = 0.0f;
 
-	// Use this for initialization
-	void Start () 
-	{
-
-	}
 
 	void OnCollisionEnter(Collision other)
 	{
@@ -24,8 +19,8 @@ public class PlayerCollision : MonoBehaviour {
 		if(other.gameObject.tag == "Player" && Time.time > (lastCollisionTime + 1.0f))
 		{
 			lastCollisionTime = Time.time;
-
 			othersMovement = other.gameObject.GetComponent<MovementLogic>();
+
 
 
 			//Check if the "other player" has higher speed .. 
@@ -63,7 +58,6 @@ public class PlayerCollision : MonoBehaviour {
 
 		//the normal .. 
 		Vector3 normal = aStronger.transform.position - aWeaker.transform.position;
-		normal.Normalize();
 //		Debug.Log("Normal: " + normal.ToString("F2"));
 
 		//Get some info about the colliders..
@@ -74,15 +68,15 @@ public class PlayerCollision : MonoBehaviour {
 
 		
 		//Angles from "this" rigidbodys force to the normal.. 
-		float WeakerAngle = Vector3.Angle(m_movementLogic.rigidbody.velocity, normal);
+		float WeakerAngle = Vector3.Angle(WeakerForwardForce, normal);
 //		Debug.Log (m_movementLogic.name +" WeakerAngle: " + WeakerAngle.ToString ("F2"));
 		//Angles from "other" rigidbodys force to the normal.. 
-		float StrongerAngle = Vector3.Angle(othersMovement.rigidbody.velocity, normal);
+		float StrongerAngle = Vector3.Angle(StrongerForwardForce, normal);
 //		Debug.Log (m_movementLogic.name +" StrongerAngle: " + StrongerAngle.ToString ("F2"));
 
 		//forces in the two planes(before collision) for the rigidbody with the lowest velocity
-		Vector3 WeakerTvecBefore = (Mathf.Sin(WeakerAngle) * m_movementLogic.rigidbody.velocity);
-		Vector3 WeakerNvecBefore = (Mathf.Cos(WeakerAngle) * m_movementLogic.rigidbody.velocity);
+		Vector3 WeakerTvecBefore = -(Mathf.Sin(WeakerAngle) * m_movementLogic.rigidbody.velocity);
+		Vector3 WeakerNvecBefore = -(Mathf.Cos(WeakerAngle) * m_movementLogic.rigidbody.velocity);
 		
 		//forces in the two planes(before collision) for the rigidbody with the highest velocity
 		Vector3 StrongerTvecBefore = (Mathf.Sin(StrongerAngle) * othersMovement.rigidbody.velocity);
