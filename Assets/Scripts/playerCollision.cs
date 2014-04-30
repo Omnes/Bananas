@@ -21,7 +21,7 @@ public class PlayerCollision : MonoBehaviour {
 			lastCollisionTime = Time.time;
 			othersMovement = other.gameObject.GetComponent<MovementLogic>();
 
-
+			
 
 			//Check if the "other player" has higher speed .. 
 			if (othersMovement.getRigidVelocity() > m_movementLogic.getRigidVelocity()) //if other speed is higher than mine

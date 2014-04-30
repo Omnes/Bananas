@@ -15,4 +15,26 @@ public class GUIMath{
 		float h = Screen.height / v.y;
 		return new Vector2(w,h);
 	}
+
+	public static Vector2 InchToPixels(Vector2 v){
+		float w = v.x * GUIControl.GetDPI();
+		float h = v.y * GUIControl.GetDPI();
+		return new Vector2(w,h);
+	}
+
+	public static float InchToPixels(float f){
+		return f * GUIControl.GetDPI();
+	}
+
+	public static Vector2 PixelsToInch(Vector2 v){
+		float w = v.x / GUIControl.GetDPI();
+		float h = v.y / GUIControl.GetDPI();
+		return new Vector2(w,h);
+	}
+
+	public static Vector2 InchToPercent(Vector2 v){
+		return pixelsToPercent(InchToPixels(v));
+	}
+	
+
 }

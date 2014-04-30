@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class UvMapper : MonoBehaviour {
 
 	public Rect map = new Rect(0,0,1,1);
@@ -13,21 +13,22 @@ public class UvMapper : MonoBehaviour {
 		meshFilter = GetComponent<MeshFilter>();
 		changeUvs();
 	}
-
+	/*
 	void Update(){
 		if(Application.isEditor && m_updateInEditor){
 			changeUvs();
 		}
 	}
+	*/
 
 	void changeUvs(){
 		//hämta meshen
-		Mesh mesh = meshFilter.sharedMesh;
+		Mesh mesh = meshFilter.mesh;
 		Vector2[] uvs = new Vector2[4];
 		//förkortningar
 		float l = map.x;
-		float r = map.width;
-		float u = 1-map.height;
+		float r = map.x + map.width;
+		float u = 1-(map.y + map.height);
 		float d = 1-map.y;
 
 		//skapar nya uv kordinater
@@ -42,7 +43,7 @@ public class UvMapper : MonoBehaviour {
 		//assignar dem till meshen
 		mesh.uv = uvs;
 		//mesh.RecalculateNormals();
-		meshFilter.sharedMesh = mesh;
+		meshFilter.mesh = mesh;
 
 	}
 }

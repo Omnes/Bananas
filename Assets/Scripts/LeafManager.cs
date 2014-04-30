@@ -53,6 +53,10 @@ public class LeafManager : MonoBehaviour {
 		if (Network.isServer) {
 			network.RPC ("SpawnLeafs", RPCMode.All, Random.Range (int.MinValue, int.MaxValue));
 		}
+		if (Network.connections.Length <= 0)
+		{
+			SpawnLeafs (0);
+		}
 	}
 
 	/**
