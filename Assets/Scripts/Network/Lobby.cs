@@ -46,6 +46,7 @@ public class Lobby : MonoBehaviour {
 		int scrWidth = Screen.width;
 		int scrHeight = Screen.height;
 		Vector2 size = GUIMath.InchToPixels(new Vector2(1.5f, 0.8f));
+		Vector2 textFieldSize = GUIMath.InchToPixels(new Vector2(2f, 0.6f));
 
 		float centerX = scrWidth/2 - (size.x / 2);
 		float centerY = scrHeight/6;
@@ -57,7 +58,7 @@ public class Lobby : MonoBehaviour {
 		if(Network.peerType == NetworkPeerType.Disconnected){
 
 			//start server (server)
-			serverName = GUI.TextField(new Rect(rightX, centerY, size.x, size.y), serverName, 25 );
+			serverName = GUI.TextField(new Rect(rightX, centerY, textFieldSize.x, textFieldSize.y), serverName, 25);
 
 			if(GUI.Button(new Rect(centerX, centerY, size.x, size.y), "Start Server")){
 				startServer(serverName);
@@ -67,7 +68,9 @@ public class Lobby : MonoBehaviour {
 				addPlayerToClientList(m_myPlayerData);
 			}
 
-			tempName = GUI.TextField(new Rect(rightX, centerY + size.y, size.x, size.y), tempName, 25 );
+
+
+			tempName = GUI.TextField(new Rect(rightX, centerY + size.y, textFieldSize.x, textFieldSize.y), tempName, 25);
 		}
 			//started server
 		if(Network.peerType == NetworkPeerType.Server){
@@ -95,9 +98,15 @@ public class Lobby : MonoBehaviour {
 			//
 			HostData[] data = MasterServer.PollHostList();
 			//MasterServer.PollHostList("hej");
-			
+
+			GUILayout.BeginArea(new Rect(leftX, centerY, size.x, size.y * 10));
+			//GUILayout.FlexibleSpace();
+			GUILayout.BeginVertical();
+			//leftX, centerY + i * size.y, size.x, size.y
+			GUILayout.MinHeight(size.y);
+
 			for( int i = 0; i < data.Length; i++){
-				if(GUI.Button(new Rect(leftX, centerY + i * size.y, size.x, size.y), data[i].gameName)){
+				if(GUILayout.Button(data[i].gameName, GUILayout.MinHeight(size.y))){
 
 					//connecting to server
 					//send networkplayer as patramaeter for cleanup ?
@@ -105,6 +114,9 @@ public class Lobby : MonoBehaviour {
 					Debug.Log("NETWORKID: "+ Network.player.guid);
 				}
 			}
+
+			GUILayout.EndVertical();
+			GUILayout.EndArea();
 		}
 
 		for(int i = 0; i < m_connectedPlayers.Count; i++){
