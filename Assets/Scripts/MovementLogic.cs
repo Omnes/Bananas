@@ -7,10 +7,13 @@ public class MovementLogic : MonoBehaviour
 	public float m_frictionProportion = 0.95f;
 	public float m_minimumSpeed = 0.01f;
 	
+	public float m_dizzySeconds;
 	public float m_maxSpeed = 8f;
 	public float m_acceleration = 8f;
 
 	public float m_powSpeed = 1f;
+	public float tmpSPeed = 0.1f;
+	public string name = "";
 
 	[Range(0.0f, 1.0f)]
 	public float m_BlowPowerSlowFraction = 1.0f; 
@@ -21,9 +24,19 @@ public class MovementLogic : MonoBehaviour
 	public float m_BlowPowerSlowWhileTurning = 1.0f;
 
 	private bool m_hasCollided = false;
-
+	
+	private float m_Speed;
 	private float right = 0.0f;
 	private float left = 0.0f;
+	private float m_dizzyFactor = 1.0f;
+	private float m_collisionVelocity;
+	private Vector3 currentVelocity;
+
+
+	private Vector3 resultOfCollision;
+	private float collisionScale;
+
+
 	private float blowPower = 0.0f;
 	private Vector2 m_inputVec;
 	private InputHub m_touchIn = null;
@@ -39,6 +52,7 @@ public class MovementLogic : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+//		m_dizzySeconds = Mathf.Clamp (m_dizzySeconds, 1, 10);
 		m_animation = GetComponent<playerAnimation>();
 		m_touchIn = GetComponent<InputHub> ();
 		footstepEmitter = GetComponent<FMOD_StudioEventEmitter> ();
@@ -49,9 +63,30 @@ public class MovementLogic : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update () 
+	void FixedUpdate () 
 	{
+		if(m_hasCollided)
+		{
+			//collisionTime = Time.time;
+			Debug.Log("Collided");
+			Debug.Log("result" + resultOfCollision.ToString("F2"));
+//			rigidbody.AddForce(resultOfCollision * 2, ForceMode.VelocityChange);
+			m_dizzyFactor = 0.0f;
+//			tmpSPeed = 0.0f;
+			m_hasCollided = false;
+		}
+
+		//After collision, increase the dizzyFactor untill it has reached one(stearing restored)..
+		else
+			if(m_dizzyFactor < 1.0f)
+			{
+				m_dizzyFactor += Time.deltaTime/m_dizzySeconds;
+			}
+
+
+
 		m_inputVec = m_touchIn.getCurrentInputVector ();
+		m_inputVec *= m_dizzyFactor;
 		right = m_inputVec.y;
 		left = m_inputVec.x;
 
@@ -78,7 +113,7 @@ public class MovementLogic : MonoBehaviour
 		}
 
 
-		float inputSpeed =  Mathf.Pow((right + left),m_powSpeed);///m_speedProportion;
+		float inputSpeed =  Mathf.Pow((right + left),m_powSpeed);
 
 		//Adding rotation..
 		Vector3 temp = Vector3.up * left + Vector3.down * right;
@@ -86,13 +121,11 @@ public class MovementLogic : MonoBehaviour
 		transform.Rotate (m_currentRotationSpeed * Time.deltaTime);
 
 		Vector3 dir = transform.forward;
-		Vector3 currentVelocity = rigidbody.velocity;
+		currentVelocity = rigidbody.velocity;
 		Vector3 newVelocity = dir;
 
-		if(!m_hasCollided){
-			//project to remove slide
-			newVelocity = Vector3.Project (currentVelocity, dir.normalized);
-		}
+		//adding som velocity
+		newVelocity = Vector3.Project (currentVelocity, dir.normalized);
 
 		//add the new speed
 		newVelocity += dir * m_acceleration * inputSpeed * Time.deltaTime;
@@ -103,7 +136,8 @@ public class MovementLogic : MonoBehaviour
 //		newVelocity += backwardForce * Time.deltaTime;
 
 		//clamp speed
-		if(newVelocity.magnitude > m_maxSpeed){
+		if(newVelocity.magnitude > m_maxSpeed)
+		{
 			newVelocity = newVelocity.normalized*m_maxSpeed;
 		}
 
@@ -116,13 +150,33 @@ public class MovementLogic : MonoBehaviour
 		
 
 		//friction if there 
-		if(!m_hasCollided){
-			newVelocity *= 1-((1-m_frictionProportion) * (1-(Mathf.Max(Mathf.Abs(right),Mathf.Abs(left)))));
+		if(m_dizzyFactor < 1.0f || Mathf.Abs(inputSpeed) < m_minimumSpeed && !m_hasCollided)
+		{
+			newVelocity *= m_frictionProportion;
 		}
+
+
+		//Setting the velocity for collisiondetection..
+		m_collisionVelocity = rigidbody.velocity.sqrMagnitude;
 
 		//set the speed to newVelocity
 		Vector3 deltaVelocity = newVelocity - currentVelocity;
+		deltaVelocity += resultOfCollision;
+//		Debug.Log (name + " DeltaVelocity :" + deltaVelocity.ToString ("F2"));
+//		Debug.Log (name + " NewVelocity :" + newVelocity.ToString ("F2"));
+//		Debug.Log (name + " currentVelocity :" + currentVelocity.ToString ("F2"));
+//		Debug.Log (name + " RigidbodysVelocity :" + rigidbody.velocity.ToString ("F2"));
+//
+//		if(tmpSPeed > 0.0f)
+//		{
+//			rigidbody.AddForce(0.0f, 0.0f, 0.1f, ForceMode.VelocityChange);
+//		}
+//		else
 		rigidbody.AddForce(deltaVelocity, ForceMode.VelocityChange);
+	}
+
+	void OnGUI(){
+		GUI.Label(new Rect(Screen.width/2-200,100,200,50),"Dizzyfact " + m_dizzyFactor.ToString("F2"));
 	}
 
 	public float getRotationSpeed(){
@@ -131,10 +185,18 @@ public class MovementLogic : MonoBehaviour
 
 	public void restoreMovement()
 	{
-		m_hasCollided = false;
+//		m_hasCollided = false;
+		resultOfCollision = Vector3.zero;
 	}
 
-	public void setTackled(){
+	public float getRigidVelocity()
+	{
+		return m_collisionVelocity;
+	}
+
+	public void setTackled(Vector3 aCollisionForce)
+	{
+		resultOfCollision = aCollisionForce;
 		m_hasCollided = true;
 	}
 
