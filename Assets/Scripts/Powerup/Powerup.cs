@@ -18,14 +18,25 @@ public class Powerup : MonoBehaviour {
 	    }
 	}
 
+//	void OnDestroy()
+//	{
+//		Debug.Log ("DESTROY POWERUUUUP");
+//	}
+
 	public void Update()
 	{
 		transform.Rotate (Vector3.up, 45 * Time.deltaTime);
 	}
 
+//	public void Destroy ()
+//	{
+//
+//	}
+
+//	public abstract void OnPowerupGet(GameObject obj);
 	public virtual void OnPowerupGet(GameObject obj)
 	{
-		Debug.Log ("Powerup");
+//		Debug.Log ("Powerup");
 	}
 
 }

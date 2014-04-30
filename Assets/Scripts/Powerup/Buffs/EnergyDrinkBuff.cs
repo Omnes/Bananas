@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class EnergyDrinkBuff : Buff {
-
+	//Bomb, emp, big leafblower
 	public EnergyDrinkBuff(GameObject playerRef):base(playerRef)
 	{
 		m_duration = 3.0f;

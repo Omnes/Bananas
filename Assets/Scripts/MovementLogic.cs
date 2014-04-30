@@ -13,7 +13,7 @@ public class MovementLogic : MonoBehaviour
 
 	public float m_powSpeed = 1f;
 	public float tmpSPeed = 0.1f;
-	public string name = "";
+//	public string name = "";
 
 	[Range(0.0f, 1.0f)]
 	public float m_BlowPowerSlowFraction = 1.0f; 

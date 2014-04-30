@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+//TODO: Gör så att det endast finns en singleton/static buff manager (eftersom varje buff ändå har en playerRef)
+
 /**
  * A local manager for hanlding buffs on specific objects
  */
@@ -33,7 +35,6 @@ public class BuffManager : MonoBehaviour {
 		//Update buffs
 		foreach (Buff buff in m_buffs) {
 			buff.Update();
-//			buff.PeriodicEvent();
 		}
 	}
 }

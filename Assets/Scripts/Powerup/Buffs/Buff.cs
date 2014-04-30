@@ -71,7 +71,7 @@ public class Buff : Object {
 		}
 
 		m_durationTimer += Time.deltaTime;
-		if (m_durationTimer > m_duration) {
+		if (m_duration > 0.0f && m_durationTimer > m_duration) {
 			m_alive = false;
 		}
 			
