@@ -25,8 +25,8 @@ public class Lobby : MonoBehaviour {
 
 
 	//name of user
-	private string tempName = "NOOB";
-	private string serverName = "NOOBS ONLY";
+	private string tempName = "";
+	private string serverName = "";
 
 	// Use this for initialization
 	void Start () {
@@ -59,18 +59,21 @@ public class Lobby : MonoBehaviour {
 
 			//start server (server)
 			serverName = GUI.TextField(new Rect(rightX, centerY, textFieldSize.x, textFieldSize.y), serverName, 25);
+			tempName = GUI.TextField(new Rect(rightX, centerY + size.y, textFieldSize.x, textFieldSize.y), tempName, 25);
 
 			if(GUI.Button(new Rect(centerX, centerY, size.x, size.y), "Start Server")){
+				if(tempName.Length == 0){
+					tempName = "NOOB";
+				}
+				if(serverName.Length == 0){
+					serverName = "NOOBS ONLY";
+				}
 				startServer(serverName);
 				//add ip for player who started server
 				m_myPlayerData = new PlayerData(tempName, Network.player.guid);
 				m_myPlayerData.local = true;
 				addPlayerToClientList(m_myPlayerData);
 			}
-
-
-
-			tempName = GUI.TextField(new Rect(rightX, centerY + size.y, textFieldSize.x, textFieldSize.y), tempName, 25);
 		}
 			//started server
 		if(Network.peerType == NetworkPeerType.Server){
@@ -81,6 +84,7 @@ public class Lobby : MonoBehaviour {
 				loadLevel();
 			}
 			if(GUI.Button(new Rect(centerX, centerY + size.y, size.x, size.y), "Stop Server")){
+				serverName = "";
 				stopServer();
 			}
 			if(GUI.Button(new Rect(centerX, centerY + (size.y * 2), size.x, size.y), "SEE STUFF")){
@@ -107,7 +111,9 @@ public class Lobby : MonoBehaviour {
 
 			for( int i = 0; i < data.Length; i++){
 				if(GUILayout.Button(data[i].gameName, GUILayout.MinHeight(size.y))){
-
+					if(tempName.Length == 0){
+						tempName = "NOOB";
+					}
 					//connecting to server
 					//send networkplayer as patramaeter for cleanup ?
 					connectToServer(data[i]);
