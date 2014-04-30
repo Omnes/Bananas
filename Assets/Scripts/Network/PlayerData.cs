@@ -7,6 +7,7 @@ public class PlayerData {
 	public int m_id;
 	public string m_name;
 	public bool m_isLocal = false;
+	public string m_guid;
 	//islocal
 
 
@@ -17,9 +18,9 @@ public class PlayerData {
 	//kanske göra en egen serilizable calss med alla info
 	//public List <> connectedPlayers = new List <prefab_player>();
 
-	public PlayerData(string name, int id) {
+	public PlayerData(string name, string guid) {
 		m_name = name;
-		m_id = id;
+		m_guid = guid;
 	}
 
 	public bool local{

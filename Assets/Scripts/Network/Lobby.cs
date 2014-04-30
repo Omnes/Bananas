@@ -17,7 +17,7 @@ public class Lobby : MonoBehaviour {
 	//private int m_myPort = 0;
 
 
-	private int m_playerCount = 1;
+	private int m_playerCount = 0;
 	public List<PlayerData> m_connectedPlayers = new List<PlayerData>();
 
 	//local playerdata
@@ -25,8 +25,8 @@ public class Lobby : MonoBehaviour {
 
 
 	//name of user
-	private string tempName = "TEMPNAME";
-	private string serverName = "TEMPNAME";
+	private string tempName = "NOOB";
+	private string serverName = "NOOBS ONLY";
 
 	// Use this for initialization
 	void Start () {
@@ -42,14 +42,18 @@ public class Lobby : MonoBehaviour {
 
 
 	void OnGUI(){
+
+		int scrWidth = Screen.width;
+		int scrHeight = Screen.height;
+
 			//### server not started ###
 		if(Network.peerType == NetworkPeerType.Disconnected){
 			//start server (server)
 			serverName = GUI.TextField(new Rect(420, 140, 200, 60), serverName, 25 );
-			if(GUI.Button(new Rect(210,140,200,60), "Start Server")){
+			if(GUI.Button(new Rect(scrWidth/2, scrHeight/6, 200, 60), "Start Server")){
 				startServer(serverName);
 				//add ip for player who started server
-				m_myPlayerData = new PlayerData(tempName, 0);
+				m_myPlayerData = new PlayerData(tempName, Network.player.guid);
 				m_myPlayerData.local = true;
 				addPlayerToClientList(m_myPlayerData);
 			}
@@ -58,6 +62,9 @@ public class Lobby : MonoBehaviour {
 			//started server
 		if(Network.peerType == NetworkPeerType.Server){
 			if(GUI.Button(new Rect(210, 70, 200, 60), "Start Game")){
+				//create ID for allplayers
+				createId();
+				//loads next level
 				loadLevel();
 			}
 			if(GUI.Button(new Rect(210, 140, 200, 60), "Stop Server")){
@@ -89,9 +96,10 @@ public class Lobby : MonoBehaviour {
 			}
 		}
 
-		foreach(PlayerData e in m_connectedPlayers){
-			GUILayout.Label("Client Name: "+ e.m_name +" Client Id: " + e.m_id);
+		for(int i = 0; i < m_connectedPlayers.Count; i++){
+			GUILayout.Label("Client Name: "+ m_connectedPlayers[i].m_name+" Client GUID"+m_connectedPlayers[i].m_guid);
 		}
+		GUILayout.Label("ListSize (players): "+m_connectedPlayers.Count);
 	}
 
 	//		For starting server on mobile device use 
@@ -107,6 +115,7 @@ public class Lobby : MonoBehaviour {
 
 	public void stopServer(){
 		//remove all players
+		networkView.RPC("RemoveAllRPC", RPCMode.Others);
 		m_connectedPlayers.Clear();
 		SeaNet.Instance.setConnectedPlayers(m_connectedPlayers);
 		Network.Disconnect();
@@ -138,55 +147,90 @@ public class Lobby : MonoBehaviour {
 		networkView.RPC("loadLevelRPC", RPCMode.All);
 	}
 
-//	void OnPlayerConnected(NetworkPlayer player) {
-//		Debug.Log("Player " + m_playerCount + " connected from " + player.ipAddress + ":" + player.port);
+	//lägger till spelare så den kan följa med till nästa scen
+	public void addPlayerToClientList(PlayerData p){
+		m_connectedPlayers.Add(p);
+		SeaNet.Instance.setConnectedPlayers(m_connectedPlayers);
+	}
+
+	//create id for all players on server
+	public void createId(){
+		for(int i = 0; i < m_connectedPlayers.Count; i++){
+			m_connectedPlayers[i].m_id = i;
+
+			string guid = m_connectedPlayers[i].m_guid;
+			networkView.RPC("createIdRPC", RPCMode.Others, guid, i);
+		}
+	}
+
+	//	void OnPlayerConnected(NetworkPlayer player) {
+	//		Debug.Log("Player " + m_playerCount + " connected from " + player.ipAddress + ":" + player.port);
+	//	}
+
+	//on serverside if client disconnected
+	void OnPlayerDisconnected(NetworkPlayer player){
+		// FIX SO TAHTA m_connectedPlayers have a networkPlayer to know which to remove
+		for(int i = 0; i < m_connectedPlayers.Count; i++){
+			string guid = m_connectedPlayers[i].m_guid;
+
+			if(guid == player.guid){
+				Debug.Log("Removing : "+m_connectedPlayers[i].m_name);
+				networkView.RPC("removePlayerRPC", RPCMode.Others, guid);
+				m_connectedPlayers.RemoveAt(i);
+			}
+		}
+		Debug.Log("connection was lost");
+		Network.RemoveRPCs(player);
+		Network.DestroyPlayerObjects(player);
+	}
+
+//	//tar bort alla spelare från lobbyn
+//	public void removeAllPlayers(){
+//
 //	}
-
-	//tar bort alla spelare från lobbyn
-	public void removeAllPlayers(){
-
-	}
-	//tar bort en spelare från lobbyn
-	public void removePlayer(){
-
-	}
+//	//tar bort en spelare från lobbyn
+//	public void removePlayer(){
+//
+//	}
 
 	void OnConnectedToServer(){
 		//send playerdata to server and alla others
 		string name = tempName;
+		Debug.Log("sänder till server");
 		networkView.RPC("playerNameRPC", RPCMode.Server, name, Network.player);
 	}
 
-	//lägger till spelare så den kan följa med till nästa scen
-	void addPlayerToClientList(PlayerData p){
-		m_connectedPlayers.Add(p);
-		SeaNet.Instance.setConnectedPlayers(m_connectedPlayers);
-	}
 
 
 	// ###			CLIENT			###
 
 	//add new player
 	[RPC]
-	private void playerDataRPC(string name, int id, NetworkPlayer localPlayer){
-		PlayerData tempPlayerData = new PlayerData(name, id);
+	private void playerDataRPC(string name, string localGuid){
+		PlayerData tempPlayerData = new PlayerData(name, localGuid);
 
 		//set if player is local or not
-		if(localPlayer == Network.player){
+		if(localGuid == Network.player.guid){
 			tempPlayerData.local = true;
 		}else{
 			tempPlayerData.local = false;
 		}
-
+	
 		//add player in list
 		addPlayerToClientList(tempPlayerData);
 	}
 
 	//recieve list and add players
 	[RPC]
-	private void addPlayerListRPC(string name, int id){
-		PlayerData tempPlayerData = new PlayerData(name, id);
+	private void addPlayerListRPC(string name, string guid){ 
+		Debug.Log("client networkplayer: "+guid);
+		PlayerData tempPlayerData = new PlayerData(name, guid);
 		addPlayerToClientList(tempPlayerData);
+	}
+
+	[RPC]
+	private void RemoveAllRPC(){
+		m_connectedPlayers.Clear();
 	}
 
 	// ###			SERVER			###
@@ -197,24 +241,46 @@ public class Lobby : MonoBehaviour {
 	}
 
 	//set name and if it's local
+	//THIS IS ONLY DONE ON SERVERSIDE
 	[RPC]
 	private void playerNameRPC(string name, NetworkPlayer target){
-		int id = m_playerCount++;
-		PlayerData tempPlayerData = new PlayerData(name, id);
+		//add to server list
+		PlayerData tempPlayerData = new PlayerData(name, target.guid);
 		addPlayerToClientList(tempPlayerData);
-		
+
 		//skcika lista på alla tidigare spelare och om den är local eller inte 
-		
-		foreach(PlayerData pd in m_connectedPlayers){
-			if(tempPlayerData != pd){
-				networkView.RPC("addPlayerListRPC", target, pd.m_name, pd.m_id);
+		for(int i = 0; i < m_connectedPlayers.Count; i++){
+			if(target.guid != m_connectedPlayers[i].m_guid){
+				networkView.RPC("addPlayerListRPC", target, m_connectedPlayers[i].m_name, m_connectedPlayers[i].m_guid); // NETWORKPLAYER KAN INTE SKICKAS TILL CLIENT, skickar guid ist
 			}
 		}
-		
+
 		//send RPC to all Others
-		networkView.RPC("playerDataRPC", RPCMode.Others, name, id, target);
+		networkView.RPC("playerDataRPC", RPCMode.Others, name, target.guid);
 	}
 
+	[RPC]
+	private void createIdRPC(string guid, int id){
+		for(int i = 0; i < m_connectedPlayers.Count; i++){
+			string tempGuid = m_connectedPlayers[i].m_guid;
+			if(tempGuid == guid){
+				m_connectedPlayers[i].m_id = id;
+			}else{
+				Debug.Log("client listLength: "+m_connectedPlayers.Count);
+			}
+		}
+	}
+
+	[RPC]
+	private void removePlayerRPC(string guid){
+		for(int i = 0; i < m_connectedPlayers.Count; i++){
+			string tempGuid = m_connectedPlayers[i].m_guid;
+			if(tempGuid == guid){
+				Debug.Log("Removing: "+m_connectedPlayers[i].m_name);
+				m_connectedPlayers.RemoveAt(i);
+			}
+		}
+	}
 
 	//###		REMOVE THIS LATER ONLY TEST (fråga sean obv)		####
 	[RPC]
