@@ -3461,12 +3461,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e2d9eacaef09447b12ff19385f0da9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_debug_mode: 0
-  m_input_y_scale: .600000024
-  m_edge_threshold_scale: .100000001
-  m_mid_threshold_scale: .389999986
-  m_powerMetod: 0
-  m_powerSteps: 1
+  m_debug_mode: 1
+  m_verticalAreaInInch: 2.5
+  m_verticalAreaMaxPercent: .699999988
+  m_edgeThresholdInInch: 1
+  m_edgeThresholdMaxPercent: .150000006
 --- !u!4 &600629754
 Transform:
   m_ObjectHideFlags: 0
@@ -4545,7 +4544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_target: {fileID: 0}
-  m_offset: {x: -4, y: 10, z: -4}
+  m_offset: {x: -10, y: 10, z: -10}
 --- !u!114 &871558700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7374,6 +7373,14 @@ Prefab:
     - target: {fileID: 11400014, guid: 8e9f8a25bf6ecac41a969b90b4ed3203, type: 2}
       propertyPath: m_offset.y
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400014, guid: 8e9f8a25bf6ecac41a969b90b4ed3203, type: 2}
+      propertyPath: m_offset.x
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400014, guid: 8e9f8a25bf6ecac41a969b90b4ed3203, type: 2}
+      propertyPath: m_offset.z
+      value: -10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8e9f8a25bf6ecac41a969b90b4ed3203, type: 2}
