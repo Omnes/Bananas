@@ -12,17 +12,9 @@ public class TouchInput : InputMetod {
 
 	//debug fun!
 	public bool m_debug_mode = false;
-
-	//these are in percent
-	public float m_input_y_scale = 0.4f; 
-	public float m_edge_threshold_scale = 0.2f;
-	public float m_mid_threshold_scale = 0.2f;
-	public enum PowerMetod {Step,Smooth};
-	public PowerMetod m_powerMetod = PowerMetod.Step; 
-	public int m_powerSteps = 2; 
-	//public int m_beginsAtStep = 0;
 	
-	//can add min sizes of areas on request /robin
+	public float m_verticalAreaInInch = 2.5f; 
+	public float m_edgeThresholdInInch = 1f;
 
 	private Vector2 m_currentInput = new Vector2(0,0);
 	private Rect m_leftArea =  new Rect();
@@ -30,8 +22,7 @@ public class TouchInput : InputMetod {
 	private float m_vertical_area; 
 
 	private float m_y_offset;
-	private int m_edgeThreshold; //distance from the edge until it starts to blow
-	private int m_midThreshold; //distance from mid it reaches max power
+	private float m_edgeThreshold; //distance from the edge until it starts to blow
 	private float m_blowingPower = 0f;
 
 	//private Queue<Vector2> m_delayedInput = new Queue<Vector2>();
@@ -39,22 +30,15 @@ public class TouchInput : InputMetod {
 	private Vector2 m_delayed;
 	
 	void Start () {
-		//feel free to touch -- Note for programmers :  add min and max size in pixels for the areas
+		//feel free to touch 
 		int parts_covered = 2;  // ex 4; left side will cover from the left edge to one 4th of the screen, rigth side will mirror this
 		m_leftArea = new Rect (0,0, Screen.width/parts_covered, Screen.height);
 		m_rightArea = new Rect ((Screen.width/parts_covered)*(parts_covered-1), 0, Screen.width/parts_covered, Screen.height);
-		m_vertical_area = Screen.height*(m_input_y_scale/2); //the "effective" area for turning controls
-		m_edgeThreshold = (int)(Screen.width*m_edge_threshold_scale); 
-		m_midThreshold = (int)(Screen.width*m_mid_threshold_scale); 
 
 		//do not touch
+		m_vertical_area = GUIMath.InchToPixels(m_verticalAreaInInch); //the "effective" area for turning controls
+		m_edgeThreshold = GUIMath.InchToPixels(m_edgeThresholdInInch); 
 		m_y_offset = (m_leftArea.height/2)-(m_vertical_area);
-
-
-		//testing
-		//for(int i = 0; i < m_delayedFrames;i++){
-		//	m_delayedInput.Enqueue(new Vector2(0,0));
-		//}
 
 	}
 	
@@ -86,7 +70,6 @@ public class TouchInput : InputMetod {
 			}
 
 		}
-		//m_delayedInput.Enqueue(m_currentInput);
 		//end of pc debug stuff
 
 		m_blowingPower = higestPower;
@@ -106,24 +89,13 @@ public class TouchInput : InputMetod {
 	float calculateMagnitude(float y){
 		return Mathf.Clamp((y - (m_vertical_area + m_y_offset)) / m_vertical_area,-1,1);
 	}
-
+	
 
 	float calcBlowingMagnitude(Vector2 pos){
-		//calculate blowing pooooooowwwwwwwwwwweeeer!
-		int screen_center = Screen.width/2;
-		float input_magnitude = Mathf.Abs (pos.x - screen_center);
-		//input_magnitude += m_edgeThreshold;
-		input_magnitude = screen_center - input_magnitude;//inverts it!
-		input_magnitude -= m_edgeThreshold;
-		input_magnitude = input_magnitude/(screen_center-(m_edgeThreshold+m_midThreshold)); // current/max = percent!
-
-		if(m_powerMetod == PowerMetod.Step){
-			//this line "steps" the function ex: 0.25 -> 0.5 -> 0.75
-			input_magnitude = ((int)(input_magnitude*m_powerSteps))*(1f/m_powerSteps);
+		if(pos.x > m_edgeThreshold && pos.x < (Screen.width - m_edgeThreshold)){
+			return 1;
 		}
-		input_magnitude = Mathf.Clamp01(input_magnitude); //clamp between 0-1
-
-		return input_magnitude;
+		return 0;
 	}
 
 	
@@ -135,7 +107,12 @@ public class TouchInput : InputMetod {
 			GUI.Box(new Rect(0,m_y_offset,m_edgeThreshold,m_vertical_area*2),"");
 		}
 	}
+	//used by the GUI
+	public Vector2 getGUIStickSize(){
+		return new Vector2(m_edgeThresholdInInch,m_verticalAreaInInch);
+	}
 
+	//inherit from InputMetod
 	public override Vector2 getCurrentInputVector(){
 		return m_currentInput;
 		//return m_delayed;
@@ -150,11 +127,7 @@ public class TouchInput : InputMetod {
 	
 	public override void setCurrentBlowingPower(float f){
 		m_blowingPower = f;
-		Debug.Log ("NOPE");
 	}
+	
 
-	//warning this does not consider eventual min/max pixelsizes on objects dont forget to update this aswell
-	public Vector2 getGUIStickSize(){
-		return new Vector2(m_edge_threshold_scale,m_input_y_scale);
-	}
 }

@@ -6,9 +6,14 @@ public class MovementLogic : MonoBehaviour
 	public float m_rotateProportion = 60f;
 	public float m_frictionProportion = 0.95f;
 	public float m_minimumSpeed = 0.01f;
+<<<<<<< HEAD
 
 	public float m_dizzySeconds = 2.0f;
 
+=======
+	
+	public float m_dizzySeconds = 2f;
+>>>>>>> master
 	public float m_maxSpeed = 8f;
 	public float m_acceleration = 8f;
 
@@ -25,7 +30,11 @@ public class MovementLogic : MonoBehaviour
 	public float m_BlowPowerSlowWhileTurning = 1.0f;
 
 	private bool m_hasCollided = false;
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> master
 	private float m_Speed;
 	private float right = 0.0f;
 	private float left = 0.0f;
@@ -64,6 +73,10 @@ public class MovementLogic : MonoBehaviour
 		footstepEmitter.evt.setVolume (0);
 //		footstepEmitter.evt.getParameter ("Snabbet", out footstepParam);
 //		footstepParam.setValue (2.0f);
+
+		if(m_dizzySeconds  < 0.01f){
+			Debug.LogError("m_dizzySeconds can't be 0, this will crash the game on collisions!");
+		}
 	}
 
 	// Update is called once per frame
@@ -189,8 +202,8 @@ public class MovementLogic : MonoBehaviour
 	{
 		GUI.Label(new Rect(Screen.width/2-200,100,200,50),"Dizzyfact " + m_dizzyFactor.ToString("F2"));
 	}
-	public float getRotationSpeed()
-	{
+
+	public float getRotationSpeed(){
 		return m_currentRotationSpeed.y;
 	}
 
