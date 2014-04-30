@@ -6,7 +6,9 @@ public class EnergyDrink : Powerup {
 	public override void OnPowerupGet(GameObject obj)
 	{
 		Debug.Log ("EnergyDrink");
-		PowerupManager.PowerupGet (Powerup.ENERGY_DRINK, obj);
+		PowerupManager.SynchronizePowerupGet (Powerup.ENERGY_DRINK, obj);
+//		GameObject.fi
+//		obj.networkView.viewID
 //		PowerupManager.Instance.PowerupGet (obj, EnergyDrink);
 	}
 

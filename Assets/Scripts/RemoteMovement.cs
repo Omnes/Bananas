@@ -5,7 +5,7 @@ public class RemoteMovement : MonoBehaviour {
 
 	public Vector3 m_rotationDelta = Vector3.zero;
 
-	private bool initiated = false;
+//	private bool initiated = false;
 	// Use this for initialization
 	void Start () {
 	
