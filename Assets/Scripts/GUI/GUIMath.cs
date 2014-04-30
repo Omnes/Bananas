@@ -22,6 +22,10 @@ public class GUIMath{
 		return new Vector2(w,h);
 	}
 
+	public static float InchToPixels(float f){
+		return f * GUIControl.GetDPI();
+	}
+
 	public static Vector2 PixelsToInch(Vector2 v){
 		float w = v.x / GUIControl.GetDPI();
 		float h = v.y / GUIControl.GetDPI();

@@ -7,7 +7,7 @@ public class MovementLogic : MonoBehaviour
 	public float m_frictionProportion = 0.95f;
 	public float m_minimumSpeed = 0.01f;
 	
-	public float m_dizzySeconds;
+	public float m_dizzySeconds = 2f;
 	public float m_maxSpeed = 8f;
 	public float m_acceleration = 8f;
 
@@ -60,6 +60,10 @@ public class MovementLogic : MonoBehaviour
 		footstepEmitter.evt.setVolume (0);
 //		footstepEmitter.evt.getParameter ("Snabbet", out footstepParam);
 //		footstepParam.setValue (2.0f);
+
+		if(m_dizzySeconds  < 0.01f){
+			Debug.LogError("m_dizzySeconds can't be 0, this will crash the game on collisions!");
+		}
 	}
 
 	// Update is called once per frame
