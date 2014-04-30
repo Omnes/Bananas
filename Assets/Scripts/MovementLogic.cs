@@ -6,8 +6,14 @@ public class MovementLogic : MonoBehaviour
 	public float m_rotateProportion = 60f;
 	public float m_frictionProportion = 0.95f;
 	public float m_minimumSpeed = 0.01f;
+<<<<<<< HEAD
+
+	public float m_dizzySeconds = 2.0f;
+
+=======
 	
 	public float m_dizzySeconds = 2f;
+>>>>>>> master
 	public float m_maxSpeed = 8f;
 	public float m_acceleration = 8f;
 
@@ -24,7 +30,11 @@ public class MovementLogic : MonoBehaviour
 	public float m_BlowPowerSlowWhileTurning = 1.0f;
 
 	private bool m_hasCollided = false;
+<<<<<<< HEAD
+
+=======
 	
+>>>>>>> master
 	private float m_Speed;
 	private float right = 0.0f;
 	private float left = 0.0f;
@@ -32,6 +42,9 @@ public class MovementLogic : MonoBehaviour
 	private float m_collisionVelocity;
 	private Vector3 currentVelocity;
 
+
+	//Test stuff
+	Vector3 testCollisionVect;
 
 	private Vector3 resultOfCollision;
 	private float collisionScale;
@@ -103,6 +116,11 @@ public class MovementLogic : MonoBehaviour
 //		Debug.Log (totalSpeed);
 //		footstepParam.setValue (totalSpeed);
 
+
+//		totalSpeed *= 10;
+//		Debug.Log (totalSpeed);
+//		footstepParam.setValue (totalSpeed);
+
 		blowPower = m_touchIn.getCurrentBlowingPower ();
 
 		//animationkode och stuff
@@ -162,6 +180,7 @@ public class MovementLogic : MonoBehaviour
 
 		//Setting the velocity for collisiondetection..
 		m_collisionVelocity = rigidbody.velocity.sqrMagnitude;
+		testCollisionVect = rigidbody.velocity;
 
 		//set the speed to newVelocity
 		Vector3 deltaVelocity = newVelocity - currentVelocity;
@@ -179,7 +198,8 @@ public class MovementLogic : MonoBehaviour
 		rigidbody.AddForce(deltaVelocity, ForceMode.VelocityChange);
 	}
 
-	void OnGUI(){
+	void OnGUI()
+	{
 		GUI.Label(new Rect(Screen.width/2-200,100,200,50),"Dizzyfact " + m_dizzyFactor.ToString("F2"));
 	}
 
@@ -197,6 +217,11 @@ public class MovementLogic : MonoBehaviour
 	{
 		return m_collisionVelocity;
 	}
+	public Vector3 getRigidVelVect ()
+	{
+		return testCollisionVect;
+	}
+
 
 	public void setTackled(Vector3 aCollisionForce)
 	{
