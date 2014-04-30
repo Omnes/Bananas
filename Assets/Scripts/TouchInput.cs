@@ -2,12 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-/*
-* How to use this
-* Use GetComponent<TouchInput>() to get a reference
-* and use getCurrentInputVector() and getCurrentblowingPower() to retrive the data
-*/
-
 public class TouchInput : InputMetod {
 
 	//debug fun!
@@ -22,14 +16,18 @@ public class TouchInput : InputMetod {
 	private Rect m_leftArea =  new Rect();
 	private Rect m_rightArea = new Rect();
 	private float m_verticalArea; 
+	private float m_edgeThreshold; //distance from the edge until it starts to blow
 
 	private float m_yOffset;
-	private float m_edgeThreshold; //distance from the edge until it starts to blow
-	private float m_blowingPower = 0f;
+
+	private bool m_blowing = false;
+	private bool m_canToggle = true;
 
 	//private Queue<Vector2> m_delayedInput = new Queue<Vector2>();
 	//public int m_delayedFrames = 10;
 	private Vector2 m_delayed;
+
+	private bool isPC = false;
 	
 	void Start () {
 		//this is the areas that take input
@@ -43,6 +41,8 @@ public class TouchInput : InputMetod {
 
 		m_yOffset = (m_leftArea.height/2)-(m_verticalArea);
 
+		isPC = (Application.isEditor || Application.platform == RuntimePlatform.WindowsPlayer);
+
 	}
 	
 	// Update is called once per frame
@@ -52,30 +52,36 @@ public class TouchInput : InputMetod {
 		m_currentInput = Vector2.zero;
 		//m_delayed = m_delayedInput.Dequeue();
 		
+
+		int toggleBlowing = 0;
 		//check all touches, if they are in the control areas.
-		float higestPower = 0; //for finding the highest "power" off the current inputs  (this is most likly temp when desigerns change their mind)
 		foreach (Touch t in touches) {
 			Vector2 pos = t.position;
 			calcMovementMagnitudes(pos);
-			float input_magnitude = calcBlowingMagnitude(pos);
-			if(input_magnitude > higestPower){
-				higestPower = input_magnitude;
+			if(calcBlowing(pos)){
+				toggleBlowing++;
 			}
 		}
 
 		//pc stuff for debug purpose
-		if (Input.GetMouseButton (0) && (Application.isEditor || Application.platform == RuntimePlatform.WindowsPlayer)) {
+		if (Input.GetMouseButton (0) && isPC) {
 			Vector2 pos = Input.mousePosition;
 			calcMovementMagnitudes(pos);
-			float input_magnitude = calcBlowingMagnitude(pos);
-			    if(input_magnitude > higestPower){
-				higestPower = input_magnitude;
+			if(calcBlowing(pos)){
+				toggleBlowing++;
 			}
 
 		}
-		//end of pc debug stuff
 
-		m_blowingPower = higestPower;
+		int requiredFingersToToggle = isPC ? 1 : 2; // 1 if pc 2 if phone
+		if(toggleBlowing >= requiredFingersToToggle){
+			if(m_canToggle == true){
+				m_blowing = !m_blowing;
+				m_canToggle = false;
+			}
+		}else{
+			m_canToggle = true;
+		}
 		
 	}
 
@@ -108,11 +114,11 @@ public class TouchInput : InputMetod {
 	}
 	
 
-	float calcBlowingMagnitude(Vector2 pos){
+	bool calcBlowing(Vector2 pos){
 		if(pos.x > m_edgeThreshold && pos.x < (Screen.width - m_edgeThreshold)){
-			return 1;
+			return true;
 		}
-		return 0;
+		return false;
 	}
 	
 	//used by the GUI
@@ -127,14 +133,14 @@ public class TouchInput : InputMetod {
 	}
 
 	public override float getCurrentBlowingPower(){
-		return m_blowingPower;
+		return m_blowing ? 1f : 0f;
 	}
 	public override void setCurrentInputVector(Vector2 v){
 		m_currentInput = v;
 	}
 	
 	public override void setCurrentBlowingPower(float f){
-		m_blowingPower = f;
+		m_blowing = f > 0.5f ? true : false;
 	}
 	
 
