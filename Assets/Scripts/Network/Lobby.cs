@@ -45,32 +45,42 @@ public class Lobby : MonoBehaviour {
 
 		int scrWidth = Screen.width;
 		int scrHeight = Screen.height;
+		Vector2 size = GUIMath.InchToPixels(new Vector2(1.5f, 0.8f));
+
+		float centerX = scrWidth/2 - (size.x / 2);
+		float centerY = scrHeight/6;
+
+		float leftX = centerX - size.x;
+		float rightX = centerX + size.x;
 
 			//### server not started ###
 		if(Network.peerType == NetworkPeerType.Disconnected){
+
 			//start server (server)
-			serverName = GUI.TextField(new Rect(420, 140, 200, 60), serverName, 25 );
-			if(GUI.Button(new Rect(scrWidth/2, scrHeight/6, 200, 60), "Start Server")){
+			serverName = GUI.TextField(new Rect(rightX, centerY, size.x, size.y), serverName, 25 );
+
+			if(GUI.Button(new Rect(centerX, centerY, size.x, size.y), "Start Server")){
 				startServer(serverName);
 				//add ip for player who started server
 				m_myPlayerData = new PlayerData(tempName, Network.player.guid);
 				m_myPlayerData.local = true;
 				addPlayerToClientList(m_myPlayerData);
 			}
-			tempName = GUI.TextField(new Rect(420, 10, 200, 60), tempName, 25 );
+
+			tempName = GUI.TextField(new Rect(rightX, centerY + size.y, size.x, size.y), tempName, 25 );
 		}
 			//started server
 		if(Network.peerType == NetworkPeerType.Server){
-			if(GUI.Button(new Rect(210, 70, 200, 60), "Start Game")){
+			if(GUI.Button(new Rect(centerX, centerY, size.x, size.y), "Start Game")){
 				//create ID for allplayers
 				createId();
 				//loads next level
 				loadLevel();
 			}
-			if(GUI.Button(new Rect(210, 140, 200, 60), "Stop Server")){
+			if(GUI.Button(new Rect(centerX, centerY + size.y, size.x, size.y), "Stop Server")){
 				stopServer();
 			}
-			if(GUI.Button(new Rect(210, 210, 200, 60), "SEE STUFF")){
+			if(GUI.Button(new Rect(centerX, centerY + (size.y * 2), size.x, size.y), "SEE STUFF")){
 				networkView.RPC("showStuff", RPCMode.All);
 			}
 
@@ -78,7 +88,7 @@ public class Lobby : MonoBehaviour {
 			//client in serverlobby
 		}*/else{
 			//client in lobby
-			if(GUI.Button(new Rect(210, 10, 200, 60), "Refresh")){
+			if(GUI.Button(new Rect(centerX, centerY + size.y, size.x, size.y), "Refresh")){
 				MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
 			}
 			
@@ -87,7 +97,8 @@ public class Lobby : MonoBehaviour {
 			//MasterServer.PollHostList("hej");
 			
 			for( int i = 0; i < data.Length; i++){
-				if(GUI.Button(new Rect(10, i * 60 + 10, 200, 60), data[i].gameName)){
+				if(GUI.Button(new Rect(leftX, centerY + i * size.y, size.x, size.y), data[i].gameName)){
+
 					//connecting to server
 					//send networkplayer as patramaeter for cleanup ?
 					connectToServer(data[i]);
