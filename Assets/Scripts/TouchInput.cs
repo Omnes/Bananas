@@ -13,15 +13,17 @@ public class TouchInput : InputMetod {
 	//debug fun!
 	public bool m_debug_mode = false;
 	
-	public float m_verticalAreaInInch = 2.5f; 
+	public float m_verticalAreaInInch = 2.5f;
+	public float m_verticalAreaMaxPercent = 0.7f; 
 	public float m_edgeThresholdInInch = 1f;
+	public float m_edgeThresholdMaxPercent = 0.15f;
 
 	private Vector2 m_currentInput = new Vector2(0,0);
 	private Rect m_leftArea =  new Rect();
 	private Rect m_rightArea = new Rect();
-	private float m_vertical_area; 
+	private float m_verticalArea; 
 
-	private float m_y_offset;
+	private float m_yOffset;
 	private float m_edgeThreshold; //distance from the edge until it starts to blow
 	private float m_blowingPower = 0f;
 
@@ -30,15 +32,16 @@ public class TouchInput : InputMetod {
 	private Vector2 m_delayed;
 	
 	void Start () {
-		//feel free to touch 
-		int parts_covered = 2;  // ex 4; left side will cover from the left edge to one 4th of the screen, rigth side will mirror this
+		//this is the areas that take input
+		int parts_covered = 2; 
 		m_leftArea = new Rect (0,0, Screen.width/parts_covered, Screen.height);
 		m_rightArea = new Rect ((Screen.width/parts_covered)*(parts_covered-1), 0, Screen.width/parts_covered, Screen.height);
 
-		//do not touch
-		m_vertical_area = GUIMath.InchToPixels(m_verticalAreaInInch); //the "effective" area for turning controls
-		m_edgeThreshold = GUIMath.InchToPixels(m_edgeThresholdInInch); 
-		m_y_offset = (m_leftArea.height/2)-(m_vertical_area);
+		// sets the areas to be atleast a % of the screen and at most a inch value
+		m_verticalArea = Mathf.Min( GUIMath.InchToPixels(m_verticalAreaInInch), Screen.height * m_verticalAreaMaxPercent); 
+		m_edgeThreshold = Mathf.Min( GUIMath.InchToPixels(m_edgeThresholdInInch), Screen.width * m_edgeThresholdMaxPercent);
+
+		m_yOffset = (m_leftArea.height/2)-(m_verticalArea);
 
 	}
 	
@@ -76,18 +79,32 @@ public class TouchInput : InputMetod {
 		
 	}
 
-	//this and calcBlowing. migth need to take a Touch as argument to allow more info
-	void calcMovementMagnitudes(Vector2 pos){
-		//calcluate the movement stuff
-		if(m_leftArea.Contains(pos)){ //check which half of the screen the input is
-			m_currentInput = new Vector2(calculateMagnitude(pos.y),m_currentInput.y);
-		}else if(m_rightArea.Contains(pos)){
-			m_currentInput = new Vector2(m_currentInput.x,calculateMagnitude(pos.y));
+
+	void OnGUI(){
+		if(m_debug_mode){
+			GUI.Label(new Rect(Screen.width / 2, 0,200,100),"(" + m_currentInput.x + "," + m_currentInput.y + ")");
 		}
 	}
 
+	//This function should not ahve to be altered, it decides what side of the screen the input is on
+	void calcMovementMagnitudes(Vector2 pos){
+		//calcluate the movement stuff
+		if(m_leftArea.Contains(pos)){ //check which half of the screen the input is
+			m_currentInput = new Vector2(calculateMagnitudeNoReverse(pos.y),m_currentInput.y);
+		}else if(m_rightArea.Contains(pos)){
+			m_currentInput = new Vector2(m_currentInput.x,calculateMagnitudeNoReverse(pos.y));
+		}
+	}
+
+	//modify this if you want other steering
 	float calculateMagnitude(float y){
-		return Mathf.Clamp((y - (m_vertical_area + m_y_offset)) / m_vertical_area,-1,1);
+		return Mathf.Clamp((y - (m_verticalArea + m_yOffset)) / m_verticalArea,-1,1);
+	}
+
+	float calculateMagnitudeNoReverse(float y){
+		float center = Screen.height / 2;
+		float offset = center  - m_verticalArea / 2;
+		return Mathf.Clamp( (y - offset) / m_verticalArea ,0,1);
 	}
 	
 
@@ -97,19 +114,10 @@ public class TouchInput : InputMetod {
 		}
 		return 0;
 	}
-
 	
-	void OnGUI(){
-		if (m_debug_mode) {
-			GUI.Label(new Rect(Screen.width/2-50,0,100,50),"("+m_currentInput.x.ToString("F2") + ","+m_currentInput.y.ToString("F2") +")");
-			GUI.Label(new Rect(Screen.width/2-100,50,200,50),"Blowing Power! " + m_blowingPower.ToString("F2"));
-			//GUI.Label(new Rect(Screen.width/2-100,100,200,50),"Touches " + Input.touches.Length + " / " + Input.touchCount);
-			GUI.Box(new Rect(0,m_y_offset,m_edgeThreshold,m_vertical_area*2),"");
-		}
-	}
 	//used by the GUI
 	public Vector2 getGUIStickSize(){
-		return new Vector2(m_edgeThresholdInInch,m_verticalAreaInInch);
+		return GUIMath.PixelsToInch(new Vector2( m_edgeThreshold,m_verticalArea));
 	}
 
 	//inherit from InputMetod
