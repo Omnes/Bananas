@@ -15,8 +15,8 @@ public class TouchInput : InputMetod {
 	private Vector2 m_currentInput = new Vector2(0,0);
 	private Rect m_leftArea =  new Rect();
 	private Rect m_rightArea = new Rect();
-	private float m_verticalArea; 
-	private float m_edgeThreshold; //distance from the edge until it starts to blow
+	public float m_verticalArea; 
+	public float m_edgeThreshold; //distance from the edge until it starts to blow
 
 	private float m_yOffset;
 

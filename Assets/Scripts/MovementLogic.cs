@@ -188,11 +188,6 @@ public class MovementLogic : MonoBehaviour
 		rigidbody.AddForce(deltaVelocity, ForceMode.VelocityChange);
 	}
 
-	void OnGUI()
-	{
-		GUI.Label(new Rect(Screen.width/2-200,100,200,50),"Dizzyfact " + m_dizzyFactor.ToString("F2"));
-	}
-
 	public float getRotationSpeed(){
 		return m_currentRotationSpeed.y;
 	}
