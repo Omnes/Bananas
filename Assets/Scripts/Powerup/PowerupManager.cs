@@ -50,15 +50,13 @@ public class PowerupManager : MonoBehaviour {
 					player = syncMovement.gameObject;
 					buffManager = player.GetComponent<BuffManager>();
 
-					buffManager.Add(new StunBuff(player, 1.5f));
-//					buffManager.Add(new TimeBombBuff(player));
+//					buffManager.Add(new StunBuff(player, 1.5f));
+					buffManager.Add(new TimeBombBuff(player, m_powerup_prefab));
 //					buffManager.Add(new BigLeafBlowerBuff(player));
 //					buffManager.Add(new EnergyDrinkBuff(player));
 				}
 			}
 		}
-
-
 
 		//Destroy powerup
 //		GameObject powerup = GetPowerupByID(powerupID);
@@ -78,9 +76,10 @@ public class PowerupManager : MonoBehaviour {
 		if ( Network.isServer ) {
 			spawnTimer += Time.deltaTime;
 			if (spawnTimer > SPAWN_INTERVALL) {
-//				GameObject powerup = Network.Instantiate(m_powerup_prefab, new Vector3(Random.Range(-SPAWN_RANGE, SPAWN_RANGE), 0.5f, Random.Range(-SPAWN_RANGE, SPAWN_RANGE)), Quaternion.identity, 0) as GameObject;
+				GameObject powerup = Network.Instantiate(m_powerup_prefab, new Vector3(Random.Range(-SPAWN_RANGE, SPAWN_RANGE), 0.5f, Random.Range(-SPAWN_RANGE, SPAWN_RANGE)), Quaternion.identity, 0) as GameObject;
+				powerup.transform.parent = transform;
 //				m_powerups.Add(powerup);
-				Network.Instantiate(m_powerup_prefab, new Vector3(Random.Range(-SPAWN_RANGE, SPAWN_RANGE), 0.5f, Random.Range(-SPAWN_RANGE, SPAWN_RANGE)), Quaternion.identity, 0);
+//				Network.Instantiate(m_powerup_prefab, new Vector3(Random.Range(-SPAWN_RANGE, SPAWN_RANGE), 0.5f, Random.Range(-SPAWN_RANGE, SPAWN_RANGE)), Quaternion.identity, 0);
 				spawnTimer = 0;
 			}
 		}
