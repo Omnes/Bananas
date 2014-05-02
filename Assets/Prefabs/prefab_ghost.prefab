@@ -6068,6 +6068,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_input: {fileID: 11400018}
+  m_stunned: 0
 --- !u!114 &11400022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6081,7 +6082,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_snapDistance: 1
   m_nudge: 0
-  m_nudgeDistance: .0500000007
+  m_nudgeDistance: .5
 --- !u!114 &11400024
 MonoBehaviour:
   m_ObjectHideFlags: 1
