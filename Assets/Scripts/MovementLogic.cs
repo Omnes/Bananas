@@ -82,13 +82,13 @@ public class MovementLogic : MonoBehaviour
 //			tmpSPeed = 0.0f;
 			m_hasCollided = false;
 		}
-
 		//After collision, increase the dizzyFactor untill it has reached one(stearing restored)..
-		else
+		else {
 			if(m_dizzyFactor < 1.0f)
 			{
 				m_dizzyFactor += Time.deltaTime/m_dizzySeconds;
 			}
+		}
 
 
 
@@ -159,7 +159,6 @@ public class MovementLogic : MonoBehaviour
 		}else{	//go straight
 			newVelocity = (1 - blowPower) > 0.5?newVelocity:newVelocity * m_BlowPowerSlowFraction;
 		}
-		
 
 		//friction if there 
 		if(m_dizzyFactor < 1.0f || Mathf.Abs(inputSpeed) < m_minimumSpeed && !m_hasCollided)
@@ -202,11 +201,11 @@ public class MovementLogic : MonoBehaviour
 	{
 		return m_collisionVelocity;
 	}
+
 	public Vector3 getRigidVelVect ()
 	{
 		return testCollisionVect;
 	}
-
 
 	public void setTackled(Vector3 aCollisionForce)
 	{

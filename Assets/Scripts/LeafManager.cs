@@ -27,7 +27,7 @@ public class LeafManager : MonoBehaviour {
 	public float m_totalHeight = 1.0f;
 
 	private NetworkView network;
-	private bool m_spawnInOffline = false;
+	public bool m_spawnInOffline = false;
 
 	/**
 	 * Initializes variables

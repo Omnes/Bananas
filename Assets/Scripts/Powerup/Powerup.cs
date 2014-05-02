@@ -4,7 +4,7 @@ using System.Collections;
 public class Powerup : MonoBehaviour {
 	public static int ENERGY_DRINK 	= GetUniqueID();
 	public static int LAZERZ 		= GetUniqueID();
-//	public static int COUNT			= GetUniqueID();
+	public static int COUNT			= GetUniqueID();
 	private static int ID = 0;
 	private static int GetUniqueID() {return ID++;}
 
@@ -13,7 +13,8 @@ public class Powerup : MonoBehaviour {
 		if ( Network.isServer ) {
 			if (col.gameObject.CompareTag ("Player")) {
 				OnPowerupGet(col.gameObject);
-				Network.Destroy( networkView.viewID );
+//				Network.Destroy( networkView.viewID );
+				PowerupManager.Remove(gameObject);
 			}
 	    }
 	}

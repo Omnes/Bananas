@@ -5,13 +5,14 @@ public class TimeBombBuff : Buff {
 	GameObject m_prefab_bomb;
 	GameObject m_bomb;
 
-	private const float BOMB_DURATION = 10.0f;
-	private const float STUN_DURATION = 4.0f;
+	private const int BOMB_DURATION_MIN = 4;
+	private const int BOMB_DURATION_MAX = 10;
+	private const float STUN_DURATION = 1.5f;
 
 	public TimeBombBuff(GameObject playerRef, GameObject prefab_bomb):base(playerRef)
 	{
 		m_prefab_bomb = prefab_bomb;
-		m_duration = BOMB_DURATION;
+		m_duration = Random.Range(BOMB_DURATION_MIN, BOMB_DURATION_MAX);
 //		m_period = 1.0f;
 	}
 

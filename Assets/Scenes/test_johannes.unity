@@ -3487,7 +3487,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_debug_mode: 0
   m_verticalAreaInInch: 2.5
+  m_verticalAreaMaxPercent: .699999988
   m_edgeThresholdInInch: 1
+  m_edgeThresholdMaxPercent: .150000006
+  m_verticalArea: 0
+  m_edgeThreshold: 0
 --- !u!4 &600629754
 Transform:
   m_ObjectHideFlags: 0
@@ -4905,7 +4909,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_target: {fileID: 0}
-  m_offset: {x: -4, y: 10, z: -4}
+  m_offset: {x: -10, y: 10, z: -10}
 --- !u!114 &871558700
 MonoBehaviour:
   m_ObjectHideFlags: 0
