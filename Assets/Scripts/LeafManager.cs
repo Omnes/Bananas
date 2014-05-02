@@ -27,6 +27,7 @@ public class LeafManager : MonoBehaviour {
 	public float m_totalHeight = 1.0f;
 
 	private NetworkView network;
+	private bool m_spawnInOffline = false;
 
 	/**
 	 * Initializes variables
@@ -53,7 +54,7 @@ public class LeafManager : MonoBehaviour {
 		if (Network.isServer) {
 			network.RPC ("SpawnLeafs", RPCMode.All, Random.Range (int.MinValue, int.MaxValue));
 		}
-		if (Network.connections.Length <= 0)
+		if (m_spawnInOffline)
 		{
 			SpawnLeafs (0);
 		}
