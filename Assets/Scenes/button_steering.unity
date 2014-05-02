@@ -6987,6 +6987,7 @@ MonoBehaviour:
   m_acceleration: 25
   m_powSpeed: 1
   m_BlowPowerSlowFraction: 1
+  m_BlowPowerSlowWhileTurning: 1
 --- !u!54 &1598731794
 Rigidbody:
   m_ObjectHideFlags: 0

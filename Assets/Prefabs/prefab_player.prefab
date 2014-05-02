@@ -18,6 +18,9 @@ GameObject:
   - 95: {fileID: 9500000}
   - 114: {fileID: 11400024}
   - 114: {fileID: 11400006}
+  - 114: {fileID: 11400026}
+  - 114: {fileID: 11400028}
+  - 114: {fileID: 11400030}
   m_Layer: 0
   m_Name: prefab_player
   m_TagString: Player
@@ -5946,10 +5949,14 @@ MonoBehaviour:
   m_rotateProportion: 60
   m_frictionProportion: .920000017
   m_minimumSpeed: .00999999978
+  m_dizzySeconds: 2
   m_maxSpeed: 10
   m_acceleration: 25
   m_powSpeed: 1
+  tmpSPeed: .100000001
   m_BlowPowerSlowFraction: 1
+  m_currentRotationSpeed: {x: 0, y: 0, z: 0}
+  m_BlowPowerSlowWhileTurning: 1
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6049,8 +6056,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6aaebf328574e74f98ddae1e4497c6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_looserColForce: 0
   m_movementLogic: {fileID: 11400000}
-  m_dizzyTime: 6
+  othersMovement: {fileID: 0}
+  e: 1
 --- !u!114 &11400018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6101,6 +6110,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_input: {fileID: 0}
+  m_stunned: 0
+--- !u!114 &11400026
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e98231d82810cb458c2f309001875c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_snapDistance: 1
+  m_nudge: 0
+  m_nudgeDistance: .0500000007
+--- !u!114 &11400028
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0376826f35682640bca7059c09a05cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11400030
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d09a0ab16fc4954ba488fe7b39f79eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1

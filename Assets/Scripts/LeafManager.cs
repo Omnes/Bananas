@@ -27,10 +27,11 @@ public class LeafManager : MonoBehaviour {
 	public float m_totalHeight = 1.0f;
 
 	private NetworkView network;
+	private bool m_spawnInOffline = false;
 
 	/**
 	 * Initializes variables
-	 **/
+	 */
 	void Awake () {
 		network = networkView;
 
@@ -53,12 +54,16 @@ public class LeafManager : MonoBehaviour {
 		if (Network.isServer) {
 			network.RPC ("SpawnLeafs", RPCMode.All, Random.Range (int.MinValue, int.MaxValue));
 		}
+		if (m_spawnInOffline)
+		{
+			SpawnLeafs (0);
+		}
 	}
 
 	/**
 	 * Find and return an unused leaf from the leaf pool
 	 * Returns null if no leaf can be used
-	 **/
+	 */
 	public GameObject SpawnLeaf() {
 		for (int i = 0; i < leafs.Length; i++) {
 			if ( leafs[i].activeSelf == false ) {
@@ -92,7 +97,7 @@ public class LeafManager : MonoBehaviour {
 	/**
 	 * Spawn leaves randomly on the level based on the defined parameters
 	 * The seed is used to make sure that the leaves spawn on the same position for all clients
-	 **/
+	 */
 	[RPC]
 	void SpawnLeafs(int seed){
 		Random.seed = seed;
@@ -108,7 +113,7 @@ public class LeafManager : MonoBehaviour {
 
 	/**
 	 * Send and receive all leaves position
-	 **/
+	 */
 	void OnSerializeNetworkView (BitStream stream, NetworkMessageInfo info) {
 		if (Network.isServer && stream.isWriting) {
 			//Sending
@@ -136,7 +141,7 @@ public class LeafManager : MonoBehaviour {
 
 	/**
 	 * Updates the leaves local position so that the match the server position
-	 **/
+	 */
 	void Update() {
 		if ( Network.isClient ) {
 			if (useLerp) {

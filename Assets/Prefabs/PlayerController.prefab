@@ -44,15 +44,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_playerPrefab: {fileID: 100000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
   m_ghostPrefab: {fileID: 100302, guid: e2e48279b1265ec448c830e1e03d0eb3, type: 2}
+  m_stateTransmitterPrefab: {fileID: 100000, guid: 4872f6937f8738546b0f584f04676e9b,
+    type: 2}
   m_spawnpoints:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   m_isLocal: 0
-  m_debug_is_Server: 0
-  m_debug_is_Client: 0
-  m_debug_id: 0
   m_localInput: {fileID: 0}
 --- !u!114 &11400002
 MonoBehaviour:
@@ -88,7 +87,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 946c742160680c44da2d8b9e6aad3b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_input: {fileID: 11400002}
   m_inputTarget: {fileID: 11400004}
 --- !u!148 &14800000
 NetworkView:
@@ -97,7 +95,7 @@ NetworkView:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
-  m_StateSynchronization: 2
+  m_StateSynchronization: 1
   m_Observed: {fileID: 11400006}
   m_ViewID:
     m_ID: 0
