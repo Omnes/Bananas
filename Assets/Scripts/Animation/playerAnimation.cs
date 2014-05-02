@@ -14,31 +14,6 @@ public class playerAnimation : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-		/*if(Input.GetKey(KeyCode.I)){
-			m_upperBodyScript.changeAnimation(upperBodyAnimation.state.Idle);
-			m_lowerBodyScript.changeAnimation(lowerBodyAnimation.state.IDLE);
-
-			//changeAnimation(upperBodyAnimation.state.Running, lowerBodyAnimation.state.Running);
-		}
-		//if ngt händer do animation
-		if(Input.GetKey(KeyCode.O)){
-			m_upperBodyScript.changeAnimation(upperBodyAnimation.state.Running);
-			m_lowerBodyScript.changeAnimation(lowerBodyAnimation.state.RUNNING);
-
-			//changeAnimation(upperBodyAnimation.state.Idle, lowerBodyAnimation.state.Idle);
-		}*/
-
-		/*if(Input.GetKey(KeyCode.K)){
-			myEnum = animationState.Tackle;
-		}
-		if(Input.GetKey(KeyCode.L)){
-			myEnum = animationState.BlowIdle;
-		}
-		if(Input.GetKey(KeyCode.G)){
-			Debug.Log(myEnum.ToString());
-		}*/
-
 	}
 
 	//upperbody
@@ -76,6 +51,9 @@ public class playerAnimation : MonoBehaviour {
 	}
 	//stopblow
 	public void stopBlowAnim(){
+
+		m_lowerBodyScript.changeAnimation(lowerBodyAnimation.state.STOPBLOW);
+		m_upperBodyScript.changeAnimation(upperBodyAnimation.state.STOPBLOW);
 		//set upperbody stopblow
 		//change anim dontblow
 	}

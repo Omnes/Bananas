@@ -9,7 +9,8 @@ public class upperBodyAnimation : MonoBehaviour {
 		TACKLE, 
 		BLOWRUNNING, 
 		IDLE, 
-		RUNNING
+		RUNNING,
+		STOPBLOW
 	};
 
 	private state m_myState;
@@ -35,7 +36,7 @@ public class upperBodyAnimation : MonoBehaviour {
 	void Update () {
 
 		//fixa så if state != currentstate kör func
-		if(m_myState != m_currentState/* || m_isTackling != true*/){
+		if(m_myState != m_currentState){
 			switch (m_myState){
 				case state.RUNNING:
 				{
@@ -69,6 +70,12 @@ public class upperBodyAnimation : MonoBehaviour {
 				{
 					blowRunningAnimation();
 					m_currentState = state.BLOWRUNNING;
+					break;
+				}
+				case state.STOPBLOW:
+				{
+					stopBlowAnimation();
+					//m_currentState = state.STOPBLOW;
 					break;
 				}
 			}
@@ -116,6 +123,8 @@ public class upperBodyAnimation : MonoBehaviour {
 	//blowing while idle animation
 	public void blowIdleAnimation(){
 		Debug.Log("UpperBody : blowIDLEAnimation");
+		m_playerAnimator.SetBool("isBlowing", true);
+		m_previousState = m_currentState;
 		//start blowIDLE animation
 		//m_playerAnimator.SetFloat("playerSpeed", 1);			//ta bort sen. ersätt med set layer
 	}
@@ -123,10 +132,21 @@ public class upperBodyAnimation : MonoBehaviour {
 	//blowing while running animation
 	public void blowRunningAnimation(){
 		Debug.Log("UpperBody : blowRUNNINGAnimation");
+		m_playerAnimator.SetBool("isBlowing", true);
+		m_previousState = m_currentState;
 		//start blowRUNNING animation
-
-
+	
 	}
+
+	public void stopBlowAnimation(){
+		m_playerAnimator.SetBool("isBlowing", false);
+		//previousAnimation();
+	}
+
+//	public void previousAnimation(){
+//		Debug.Log("UpperBody : PreviousAnimation");
+//		m_myState = m_previousState;
+//	}
 
 	//utomstående funktion kallar denna för att ändra state
 	public void changeAnimation(state UBAnim){

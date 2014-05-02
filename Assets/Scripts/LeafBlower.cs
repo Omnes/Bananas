@@ -25,8 +25,13 @@ public class LeafBlower : MonoBehaviour {
 	public ParticleSystem m_particleSystem;
 	private bool m_particleEmit = false;
 
+	private playerAnimation m_animation;
+
 	void Start()
 	{
+
+		m_animation = transform.parent.GetComponent<playerAnimation>();
+
 		m_touchInput = transform.parent.GetComponent<InputHub>();
 
 //		FMOD.Studio.EventInstance s = SoundManager.Instance.play( "event:/gameplay_concept" );
@@ -44,10 +49,13 @@ public class LeafBlower : MonoBehaviour {
 
 		if(m_blowPower > 0){
 			if(!m_particleEmit){
+				m_animation.blowAnim();
+
 				m_particleEmit = true;
 				m_particleSystem.Play();
 			}
 		}else if(m_particleEmit){
+			m_animation.stopBlowAnim();
 			m_particleEmit = false;
 			m_particleSystem.Stop();
 		}
