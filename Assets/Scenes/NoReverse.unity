@@ -297,7 +297,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.12365901
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
       propertyPath: m_LocalPosition.z
@@ -326,6 +326,14 @@ Prefab:
     - target: {fileID: 11400000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
       propertyPath: m_rotateProportion
       value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
+      propertyPath: m_acceleration
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
+      propertyPath: m_maxSpeed
+      value: 8.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
@@ -3539,7 +3547,7 @@ MonoBehaviour:
   m_sliderWidth: .100000001
   m_sliderDistToEdge: .0299999993
   m_blowingEdge: .200000003
-  m_maxSliderHeight: 500
+  m_maxSliderHeight: 1000
   m_sliderSizePercentOfScreen: .800000012
 --- !u!4 &600629754
 Transform:
@@ -5435,7 +5443,7 @@ Transform:
   m_PrefabInternal: {fileID: 33665551}
   m_GameObject: {fileID: 1146222763}
   m_LocalRotation: {x: 0, y: .382683486, z: 0, w: .923879564}
-  m_LocalPosition: {x: -13.8877182, y: 1.12365901, z: -15.1308527}
+  m_LocalPosition: {x: -13.8877182, y: 1, z: -15.1308527}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 100107279}
@@ -5566,8 +5574,8 @@ MonoBehaviour:
   m_rotateProportion: 90
   m_frictionProportion: .920000017
   m_minimumSpeed: .00999999978
-  m_maxSpeed: 10
-  m_acceleration: 25
+  m_maxSpeed: 8.5
+  m_acceleration: 10
   m_powSpeed: 1
   m_BlowPowerSlowFraction: 1
 --- !u!54 &1146222774
