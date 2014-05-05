@@ -11,6 +11,9 @@ public class GUIControl : MonoBehaviour {
 	void Start () {
 		m_camera = transform.parent.camera;
 		placeQuad();
+		if(m_input == null){
+			Debug.LogError("m_input is not assigned on the GUICamera->GUI->GUIControl script");
+		}
 		BroadcastMessage("init",m_input);
 	}
 

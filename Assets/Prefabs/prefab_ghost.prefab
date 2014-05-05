@@ -6536,7 +6536,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_snapDistance: 1
   m_nudge: 0
-  m_nudgeDistance: .0500000007
+  m_nudgeDistance: .5
 --- !u!114 &11400024
 MonoBehaviour:
   m_ObjectHideFlags: 1

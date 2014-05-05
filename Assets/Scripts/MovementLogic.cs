@@ -82,16 +82,16 @@ public class MovementLogic : MonoBehaviour
 //			tmpSPeed = 0.0f;
 			m_hasCollided = false;
 		}
-
 		//After collision, increase the dizzyFactor untill it has reached one(stearing restored)..
-		else
+		else {
 			if(m_dizzyFactor < 1.0f)
 			{
 				m_dizzyFactor += Time.deltaTime/m_dizzySeconds;
 			}
+		}
 
 
-
+		Profiler.BeginSample("Input");
 		m_inputVec = m_touchIn.getCurrentInputVector ();
 		m_inputVec *= m_dizzyFactor;
 		right = m_inputVec.y;
@@ -112,7 +112,9 @@ public class MovementLogic : MonoBehaviour
 //		footstepParam.setValue (totalSpeed);
 
 		blowPower = m_touchIn.getCurrentBlowingPower ();
+		Profiler.EndSample();
 
+		Profiler.BeginSample("Animation");
 		//animationkode och stuff
 		if(right+left > 0){
 			if(m_running == false){
@@ -123,19 +125,25 @@ public class MovementLogic : MonoBehaviour
 			m_running = false;
 			m_animation.idleAnim();
 		}
+		Profiler.EndSample();
 
 
-		float inputSpeed =  Mathf.Pow((right + left),m_powSpeed);
 
 		//Adding rotation..
+		Profiler.BeginSample("Rotation");
 		Vector3 temp = Vector3.up * left + Vector3.down * right;
 		m_currentRotationSpeed = temp * m_rotateProportion;
-		transform.Rotate (m_currentRotationSpeed * Time.deltaTime);
+		Quaternion prev = transform.rotation;
+		Quaternion newRot = Quaternion.Euler(prev.eulerAngles + m_currentRotationSpeed * Time.deltaTime);
+		rigidbody.MoveRotation (newRot);
+		Profiler.EndSample();
 
 		Vector3 dir = transform.forward;
 		currentVelocity = rigidbody.velocity;
 		Vector3 newVelocity = dir;
 
+		Profiler.BeginSample("Velocity");
+		float inputSpeed =  Mathf.Pow((right + left),m_powSpeed);
 		//adding som velocity
 		newVelocity = Vector3.Project (currentVelocity, dir.normalized);
 
@@ -159,7 +167,6 @@ public class MovementLogic : MonoBehaviour
 		}else{	//go straight
 			newVelocity = (1 - blowPower) > 0.5?newVelocity:newVelocity * m_BlowPowerSlowFraction;
 		}
-		
 
 		//friction if there 
 		if(m_dizzyFactor < 1.0f || Mathf.Abs(inputSpeed) < m_minimumSpeed && !m_hasCollided)
@@ -186,6 +193,7 @@ public class MovementLogic : MonoBehaviour
 //		}
 //		else
 		rigidbody.AddForce(deltaVelocity, ForceMode.VelocityChange);
+		Profiler.EndSample();
 	}
 
 	public float getRotationSpeed(){
@@ -202,11 +210,11 @@ public class MovementLogic : MonoBehaviour
 	{
 		return m_collisionVelocity;
 	}
+
 	public Vector3 getRigidVelVect ()
 	{
 		return testCollisionVect;
 	}
-
 
 	public void setTackled(Vector3 aCollisionForce)
 	{

@@ -22,19 +22,18 @@ public class BuffManager : MonoBehaviour {
 	}
 
 	void Update () {
-		//Remove dead buffs
-		List<Buff> tempBuffs = new List<Buff> (m_buffs);
-		foreach (Buff buff in tempBuffs) {
+		//NOTE TO SELF: Lägg inte till och ta bort saker i listan som itererar!
+		for (int i = 0; i < m_buffs.Count; i++) {
+			Buff buff = m_buffs[i];
 			if (buff.alive == false) {
+				m_buffs.RemoveAt(i);
 				buff.ExpireEvent();
-				m_buffs.Remove(buff);
 				Destroy(buff);
+				i--;
 			}
-		}
-
-		//Update buffs
-		foreach (Buff buff in m_buffs) {
-			buff.Update();
+			else {
+				buff.Update();
+			}
 		}
 	}
 }
