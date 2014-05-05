@@ -5954,9 +5954,9 @@ MonoBehaviour:
   m_acceleration: 25
   m_powSpeed: 1
   tmpSPeed: .100000001
-  m_BlowPowerSlowFraction: 1
+  m_BlowPowerSlowFraction: .930000007
   m_currentRotationSpeed: {x: 0, y: 0, z: 0}
-  m_BlowPowerSlowWhileTurning: 1
+  m_BlowPowerSlowWhileTurning: .930000007
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
