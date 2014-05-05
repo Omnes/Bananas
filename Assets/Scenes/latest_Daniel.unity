@@ -7983,11 +7983,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6aaebf328574e74f98ddae1e4497c6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_looserColForce: 0
-  m_movementLogic: {fileID: 488931034}
-  othersMovement: {fileID: 0}
-  e: 1
-  lastCollisionTime: 0
 --- !u!114 &488931034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9387,11 +9382,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6aaebf328574e74f98ddae1e4497c6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_looserColForce: 0
-  m_movementLogic: {fileID: 597608136}
-  othersMovement: {fileID: 0}
-  e: 1
-  lastCollisionTime: 0
 --- !u!114 &597608136
 MonoBehaviour:
   m_ObjectHideFlags: 0

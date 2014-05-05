@@ -3,6 +3,10 @@ using System.Collections;
 
 public class MovementLogic : MonoBehaviour 
 {
+
+	private ParentMenuItem m_parent;
+
+
 	public float m_rotateProportion = 60f;
 	public float m_frictionProportion = 0.95f;
 	public float m_minimumSpeed = 0.01f;
