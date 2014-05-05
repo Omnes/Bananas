@@ -91,7 +91,7 @@ public class MovementLogic : MonoBehaviour
 		}
 
 
-
+		Profiler.BeginSample("Input");
 		m_inputVec = m_touchIn.getCurrentInputVector ();
 		m_inputVec *= m_dizzyFactor;
 		right = m_inputVec.y;
@@ -112,7 +112,9 @@ public class MovementLogic : MonoBehaviour
 //		footstepParam.setValue (totalSpeed);
 
 		blowPower = m_touchIn.getCurrentBlowingPower ();
+		Profiler.EndSample();
 
+		Profiler.BeginSample("Animation");
 		//animationkode och stuff
 		if(right+left > 0){
 			if(m_running == false){
@@ -123,19 +125,25 @@ public class MovementLogic : MonoBehaviour
 			m_running = false;
 			m_animation.idleAnim();
 		}
+		Profiler.EndSample();
 
 
-		float inputSpeed =  Mathf.Pow((right + left),m_powSpeed);
 
 		//Adding rotation..
+		Profiler.BeginSample("Rotation");
 		Vector3 temp = Vector3.up * left + Vector3.down * right;
 		m_currentRotationSpeed = temp * m_rotateProportion;
-		transform.Rotate (m_currentRotationSpeed * Time.deltaTime);
+		Quaternion prev = transform.rotation;
+		Quaternion newRot = Quaternion.Euler(prev.eulerAngles + m_currentRotationSpeed * Time.deltaTime);
+		rigidbody.MoveRotation (newRot);
+		Profiler.EndSample();
 
 		Vector3 dir = transform.forward;
 		currentVelocity = rigidbody.velocity;
 		Vector3 newVelocity = dir;
 
+		Profiler.BeginSample("Velocity");
+		float inputSpeed =  Mathf.Pow((right + left),m_powSpeed);
 		//adding som velocity
 		newVelocity = Vector3.Project (currentVelocity, dir.normalized);
 
@@ -185,6 +193,7 @@ public class MovementLogic : MonoBehaviour
 //		}
 //		else
 		rigidbody.AddForce(deltaVelocity, ForceMode.VelocityChange);
+		Profiler.EndSample();
 	}
 
 	public float getRotationSpeed(){
