@@ -8,6 +8,7 @@ public class Buff : Object {
 	protected GameObject m_playerRef;
 	public float m_duration;
 	private float m_durationTimer;
+	public float durationTimer {get{return m_durationTimer;}}
 
 	public float m_period;
 	private float m_periodTimer;

@@ -19,6 +19,7 @@ public class LeafPhysics : MonoBehaviour {
 	void Start(){
 		m_rigidbody = rigidbody;
 		m_transform = transform;
+		m_minSleep = Mathf.Sqrt (m_minSleep);
 	}
 	
 	void FixedUpdate () {
@@ -26,14 +27,17 @@ public class LeafPhysics : MonoBehaviour {
 //		velocity *= friction;
 
 		Vector3 velocity = m_rigidbody.velocity;
-		if(velocity.magnitude > m_minSleep){
+		if(velocity.sqrMagnitude > m_minSleep){
 			m_rigidbody.velocity *= m_friction;
 
 	//		rigidbody.velocity.Scale (  );
 	//		if (rigidbody.velocity.magnitude > m_maxVelocity) {
 	//			rigidbody.velocity = rigidbody.velocity.normalized * m_maxVelocity;
 	//		}
-			m_transform.Rotate(Vector3.forward*velocity.magnitude*Time.deltaTime*m_rotationSpeed);
+//			m_transform.Rotate(Vector3.forward*velocity.magnitude*Time.deltaTime*m_rotationSpeed);
+			Quaternion prevAngle = m_transform.rotation;
+			Quaternion newAngle = Quaternion.Euler(prevAngle.eulerAngles + Vector3.forward * velocity.magnitude * Time.deltaTime * m_rotationSpeed);
+			m_rigidbody.MoveRotation(newAngle);
 		}else if(velocity.magnitude > 0){
 			m_rigidbody.velocity = Vector3.zero;
 		}

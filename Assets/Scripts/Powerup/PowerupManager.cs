@@ -14,17 +14,17 @@ public class PowerupManager : MonoBehaviour {
 	private const float INIT_SPAWN_DELAY_MAX = 0.0f;
 
 	//Time between powerup spawns
-//	private const float SPAWN_INTERVALL_MIN = 5.0f;
-//	private const float SPAWN_INTERVALL_MAX = 15.0f;
-	private const float SPAWN_INTERVALL_MIN = 0.1f;
-	private const float SPAWN_INTERVALL_MAX = 0.1f;
+	private const float SPAWN_INTERVALL_MIN = 5.0f;
+	private const float SPAWN_INTERVALL_MAX = 15.0f;
+//	private const float SPAWN_INTERVALL_MIN = 0.1f;
+//	private const float SPAWN_INTERVALL_MAX = 0.1f;
 
 	//Distance from the center that powerups can spawn
 	private const float SPAWN_RADIUS = 25.0f;
 	private const float MIN_SPAWN_DISTANCE_BETWEEN_POWERUPS = 2.5f;
 	private const int MAX_REPOSITION_RETRIES = 5;
 
-	private const int MAX_POWERUPS = 300000;
+	private const int MAX_POWERUPS = 3;
 
 	private float spawnIntervall;                         
 	private float spawnTimer = 0.0f;
@@ -45,9 +45,9 @@ public class PowerupManager : MonoBehaviour {
 	 */
 	public static void SynchronizePowerupGet(int powerupType, GameObject player)
 	{
-		Debug.Log ("SynchronizePowerupGet");
+//		Debug.Log ("SynchronizePowerupGet");
 		if (Network.isServer) {
-			Debug.Log ("Sending RPC PowerupGet");
+//			Debug.Log ("Sending RPC PowerupGet");
 			int playerID = player.GetComponent<SyncMovement>().getID();
 			network.RPC ("PowerupGet", RPCMode.All, Random.Range(0, Powerup.COUNT - 1), playerID);
 			//TODO: Kolla så att powerupen inte redan finns i spelet
@@ -70,7 +70,7 @@ public class PowerupManager : MonoBehaviour {
 //					if (powerupType == Powerup.ENERGY_DRINK)
 
 //					buffManager.Add(new StunBuff(player, 1.5f));
-					buffManager.Add(new TimeBombBuff(player, m_powerup_prefab));
+					buffManager.Add(new TimeBombBuff(player));
 //					buffManager.Add(new BigLeafBlowerBuff(player));
 //					buffManager.Add(new EnergyDrinkBuff(player));
 				}

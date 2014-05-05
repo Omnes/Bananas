@@ -8,6 +8,14 @@ public class Powerup : MonoBehaviour {
 	private static int ID = 0;
 	private static int GetUniqueID() {return ID++;}
 
+	private Rigidbody m_rigidbody;
+	private Transform m_transform;
+
+	void Start() {
+		m_rigidbody = rigidbody;
+		m_transform = transform;
+	}
+
 	void OnTriggerEnter(Collider col)
 	{
 		if ( Network.isServer ) {
@@ -24,9 +32,12 @@ public class Powerup : MonoBehaviour {
 //		Debug.Log ("DESTROY POWERUUUUP");
 //	}
 
-	public void Update()
+	public void FixedUpdate()
 	{
-		transform.Rotate (Vector3.up, 45 * Time.deltaTime);
+//		transform.Rotate (Vector3.up, 45 * Time.deltaTime);
+		Quaternion prevAngle = m_transform.rotation;
+		Quaternion newAngle = Quaternion.Euler(prevAngle.eulerAngles + Vector3.up * 45 * Time.deltaTime );
+		m_rigidbody.MoveRotation(newAngle);
 	}
 
 //	public void Destroy ()

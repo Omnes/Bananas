@@ -119,8 +119,10 @@ public class LeafManager : MonoBehaviour {
 			//Sending
 			Vector3 vec;
 			for (int i = 0; i < leafs.Length; i++) {
-				vec = new Vector3(i, leafs[i].transform.position.x, leafs[i].transform.position.z);
-				stream.Serialize( ref vec );
+				if ( leafs[i].rigidbody.velocity.sqrMagnitude > 1 ) {	//TODO: Kan bli problem eftersom det skickas mindre än det tas emot!
+					vec = new Vector3(i, leafs[i].transform.position.x, leafs[i].transform.position.z);
+					stream.Serialize( ref vec );
+				}
 			}
 		}
 		else if (Network.isClient && stream.isReading) {
@@ -147,9 +149,11 @@ public class LeafManager : MonoBehaviour {
 			if (useLerp) {
 				lerpTime += Time.deltaTime * Network.sendRate;
 				for (int i = 0; i < leafs.Length; i++) {
-					leafs [i].transform.position = new Vector3 (Mathf.Lerp (oldPositions [i].x, newPositions [i].x, lerpTime),
-							                                   leafs [i].transform.position.y, 
-							                                   Mathf.Lerp (oldPositions [i].y, newPositions [i].y, lerpTime));
+					if ( leafs[i].rigidbody.velocity.sqrMagnitude > 1 ) {
+						leafs [i].transform.position = new Vector3 (Mathf.Lerp (oldPositions [i].x, newPositions [i].x, lerpTime),
+								                                   leafs [i].transform.position.y, 
+								                                   Mathf.Lerp (oldPositions [i].y, newPositions [i].y, lerpTime));
+					}
 				}
 			}
 			else {

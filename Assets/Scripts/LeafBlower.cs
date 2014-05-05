@@ -29,9 +29,6 @@ public class LeafBlower : MonoBehaviour {
 	{
 		m_touchInput = transform.parent.GetComponent<InputHub>();
 
-//		FMOD.Studio.EventInstance s = SoundManager.Instance.play( "event:/gameplay_concept" );
-//		s.setTimelinePosition (60000);
-
 		m_blowSound = SoundManager.Instance.play( "event:/leafblower (ytterst kass)" );
 		playerTransform = transform;
 	}
@@ -55,49 +52,39 @@ public class LeafBlower : MonoBehaviour {
 
 	public void OnTriggerStayInChild(Collider col)
 	{
-		if (col.gameObject.CompareTag("Leaf")) {
-			GameObject leaf = col.gameObject;
+		if (Network.isServer) {
+			if (col.gameObject.CompareTag("Leaf")) {
+				GameObject leaf = col.gameObject;
 
-			Transform leafTransform = leaf.transform;
+				Transform leafTransform = leaf.transform;
 
-			//Centreipetal power
-			Vector3 playerDirection = playerTransform.parent.TransformDirection( Vector3.forward );	
-			Vector3 projectionPoint = playerTransform.parent.position + Vector3.Project(leafTransform.position - transform.parent.position, playerDirection);
+				//Centreipetal power
+				Vector3 playerDirection = playerTransform.parent.TransformDirection( Vector3.forward );	
+				Vector3 projectionPoint = playerTransform.parent.position + Vector3.Project(leafTransform.position - transform.parent.position, playerDirection);
 
-			Vector3 projectionDirection = projectionPoint - leafTransform.position;
-			float distance = projectionDirection.magnitude;
-			projectionDirection.Normalize();
-			Vector3 centripetalForce = projectionDirection * m_centripetalPower * m_blowPower * (1 + distance * m_centDistMult);
-//			leaf.rigidbody.AddForce(projectionDirection * m_centripetalPower * m_blowPower * (1 + distance * m_centDistMult));
+				Vector3 projectionDirection = projectionPoint - leafTransform.position;
+				float distance = projectionDirection.magnitude;
+				projectionDirection.Normalize();
+				Vector3 centripetalForce = projectionDirection * m_centripetalPower * m_blowPower * (1 + distance * m_centDistMult);
 
-			//Blow power
-			Vector3 directionVector = (leafTransform.position - playerTransform.parent.position).normalized;
-//			float distanceToLeaf = Vector3.Distance( playerTransform.position, leafTransform.position );
-//			float distanceToLeaf = Vector3.Distance( new Vector3(playerTransform.position.x, 0, playerTransform.position.z), new Vector3(leafTransform.position.x, 0, leafTransform.position.z) );
-			float distanceToLeaf = Vector2.Distance( new Vector2(playerTransform.position.x, playerTransform.position.z), new Vector2(leafTransform.position.x, leafTransform.position.z) );
-			Vector3 forwardForce = directionVector * m_forwardPower * m_blowPower * (1 + (m_colliderLength - distanceToLeaf) * m_distanceMultiplier);
-//			leaf.rigidbody.AddForce(directionVector * m_forwardPower * m_blowPower * (1 + (m_colliderLength - distanceToLeaf) * m_distanceMultiplier));
+				//Blow power
+				Vector3 directionVector = (leafTransform.position - playerTransform.parent.position).normalized;
+				float distanceToLeaf = Vector2.Distance( new Vector2(playerTransform.position.x, playerTransform.position.z), new Vector2(leafTransform.position.x, leafTransform.position.z) );
+				Vector3 forwardForce = directionVector * m_forwardPower * m_blowPower * (1 + (m_colliderLength - distanceToLeaf) * m_distanceMultiplier);
 
-			leaf.rigidbody.AddForce((centripetalForce + forwardForce) * Time.deltaTime);
+				leaf.rigidbody.AddForce((centripetalForce + forwardForce) * Time.deltaTime);
+				Rigidbody leafRigidbody = leaf.rigidbody;
 
-//			if(leaf.rigidbody.velocity.magnitude > m_maxVelocity){
-//				Vector3 newSpeed = leaf.rigidbody.velocity.normalized * m_maxVelocity;
-//				rigidbody.AddForce(newSpeed - leaf.rigidbody.velocity,ForceMode.VelocityChange);
-//			}
-
-			Rigidbody leafRigidbody = leaf.rigidbody;
-			//Minimum velocity
-			if ( leafRigidbody.velocity.magnitude < m_minVelocity ) {
-				if ( m_minVelocityDependsOnBlowPower ) {
-					leafRigidbody.velocity = leafRigidbody.velocity.normalized * m_minVelocity * m_blowPower;
-				}
-				else {
+				//Minimum velocity
+				if ( leafRigidbody.velocity.magnitude < m_minVelocity ) {
+					if ( m_minVelocityDependsOnBlowPower ) {
+						leafRigidbody.velocity = leafRigidbody.velocity.normalized * m_minVelocity * m_blowPower;
+					}
+					else {
 					leafRigidbody.velocity = leafRigidbody.velocity.normalized * m_minVelocity;
+					}
 				}
 			}
-
 		}
-
 	}
-
 }
