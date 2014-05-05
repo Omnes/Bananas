@@ -17,6 +17,9 @@ public class SeaNet : MonoBehaviour {
 	}
 
 	public List<PlayerData> m_connectedPlayers;
+	public string m_nextScene = "Sean_FakeWinScene";
+	public Winstate m_winstate;
+
 
 	//dessa två ska tas bort. ### ANVÄND EJ I SERIÖS SYFTE ###
 	public List<int> m_IDs;
@@ -26,6 +29,14 @@ public class SeaNet : MonoBehaviour {
 	// Use this for initialization
 	void Start() {
 		DontDestroyOnLoad(gameObject);
+
+		m_winstate = gameObject.AddComponent<Winstate>();
+
+		//give seanet a networkview, so it can use RPC
+		NetworkView myNetwork = gameObject.AddComponent<NetworkView>();
+		myNetwork.observed = null;
+		myNetwork.stateSynchronization = NetworkStateSynchronization.Off;
+
 	}
 	
 	// Update is called once per frame
@@ -60,4 +71,19 @@ public class SeaNet : MonoBehaviour {
 	public List<PlayerData> getPlayerArr(){
 		return m_connectedPlayers;
 	}
+
+	public void startGame(){
+		m_winstate.gameStart();
+	}
+
+	//save and shut down the game. this happens when time is up
+	public void savePlayersAndShutDown(){
+		networkView.RPC("stopGameRPC", RPCMode.All);
+	}
+
+	[RPC]
+	private void stopGameRPC(){
+		Application.LoadLevel(m_nextScene);
+	}
+
 }

@@ -54,7 +54,9 @@ public class lowerBodyAnimation : MonoBehaviour {
 				}
 				case state.BLOW:
 				{
-					blowAnimation();
+					if(!m_running){
+						blowAnimation();
+					}
 					m_currentState = state.BLOW;
 					break;
 				}
@@ -69,34 +71,29 @@ public class lowerBodyAnimation : MonoBehaviour {
 	}
 
 	public void runningAnimation(){
-		//Debug.Log("LowerBody : runningAnimation");
+		m_previousState = m_currentState;
+
 		m_playerAnimator.SetFloat("playerSpeed", 1);
 		m_running = true;
-		m_previousState = m_currentState;
-		//switch to run in animator
-		//m_playerAnimator.SetLayerWeight(1, 1);
 	}
 
 	public void idleAnimation(){
-		//Debug.Log("LowerBody : idleAnimation");
+		m_previousState = m_currentState;
 		
 		m_playerAnimator.SetFloat("playerSpeed", 0);
 		m_running = false;
-		m_previousState = m_currentState;
-		//switch to idle in animator
-		//m_playerAnimator.SetLayerWeight(1, 0);
 	}
 
 	public void blowAnimation(){
-		//Debug.Log("LowerBody : blowAnimation");
-		if(!m_running){
-			m_playerAnimator.SetBool("isBlowing", true);
-		}
+		m_previousState = m_currentState;
+
+		m_playerAnimator.SetBool("isBlowing", true);
 	}
 
 	public void stopBlowAnimation(){
+		m_previousState = m_currentState;
+
 		m_playerAnimator.SetBool("isBlowing", false);
-		//previousAnimation();
 	}
 //
 //	public void previousAnimation(){

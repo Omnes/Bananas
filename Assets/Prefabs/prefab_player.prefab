@@ -6525,6 +6525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_isTackling: 0
+  m_priorityList: 040000000400000004000000
 --- !u!114 &11400020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6600,6 +6601,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d09a0ab16fc4954ba488fe7b39f79eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_playerAnim: {fileID: 0}
+  dizzyTime: 1
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1

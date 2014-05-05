@@ -17,7 +17,7 @@ public class Lobby : MonoBehaviour {
 	//private int m_myPort = 0;
 
 
-	private int m_playerCount = 0;
+//	private int m_playerCount = 0;
 	public List<PlayerData> m_connectedPlayers = new List<PlayerData>();
 
 	//local playerdata
@@ -82,6 +82,7 @@ public class Lobby : MonoBehaviour {
 				createId();
 				//loads next level
 				loadLevel();
+				SeaNet.Instance.startGame();
 			}
 			if(GUI.Button(new Rect(centerX, centerY + size.y, size.x, size.y), "Stop Server")){
 				serverName = "";

@@ -4,12 +4,12 @@ using System.Collections;
 public class playerAnimation : MonoBehaviour {
 
 	public upperBodyAnimation m_upperBodyScript;
-	public lowerBodyAnimation m_lowerBodyScript;
+	//public lowerBodyAnimation m_lowerBodyScript;
 
 	// Use this for initialization
 	void Start () {
 		m_upperBodyScript = GetComponent<upperBodyAnimation>();
-		m_lowerBodyScript = GetComponent<lowerBodyAnimation>();
+//		m_lowerBodyScript = GetComponent<lowerBodyAnimation>();
 	}
 	
 	// Update is called once per frame
@@ -19,31 +19,40 @@ public class playerAnimation : MonoBehaviour {
 	//upperbody
 	//running
 	public void runningAnim(){
+		//Debug.Log("RUNNING");
 		//set upperbody running
 		//changeAnimation(running blablabl);
 		//set lowerbody animation to running
 		//changeAnimation(m_lowerBodyScript.changeAnimation(lowerBodyAnimation.state.Running));
-		m_lowerBodyScript.changeAnimation(lowerBodyAnimation.state.RUNNING);
+		//m_lowerBodyScript.changeAnimation(lowerBodyAnimation.state.RUNNING);
 		m_upperBodyScript.changeAnimation(upperBodyAnimation.state.RUNNING);
 	}
 	//idle
 	public void idleAnim(){
+		//Debug.Log("IDLE");
 		//set upperbody idle
-		m_lowerBodyScript.changeAnimation(lowerBodyAnimation.state.IDLE);
+		//m_lowerBodyScript.changeAnimation(lowerBodyAnimation.state.IDLE);
 		m_upperBodyScript.changeAnimation(upperBodyAnimation.state.IDLE);
 		//set lowerbody idle
 		//changeAnimation(m_lowerBodyScript.changeAnimation(lowerBodyAnimation.state.Idle));
 	}
 	//tackle
 	public void tackleAnim(){
-		//set upperbody tackle
-		//change animation (blablab)
+		//Debug.Log("TACKLE");
+		m_upperBodyScript.tackleAnimation();
 	}
+
+	//tackle
+	public void stopTackleAnim(){
+		//Debug.Log("TACKLE");
+		m_upperBodyScript.stopTackleAnimation();
+	}
+
 	//blow
 	public void blowAnim(){
-
-		m_lowerBodyScript.changeAnimation(lowerBodyAnimation.state.BLOW);
-		m_upperBodyScript.changeAnimation(upperBodyAnimation.state.BLOWIDLE);
+		//Debug.Log("BLOW");
+		//m_lowerBodyScript.changeAnimation(lowerBodyAnimation.state.BLOW);
+		m_upperBodyScript.blowAnimation();
 
 		//set upperbody blow
 		//change anim blow
@@ -51,9 +60,9 @@ public class playerAnimation : MonoBehaviour {
 	}
 	//stopblow
 	public void stopBlowAnim(){
-
-		m_lowerBodyScript.changeAnimation(lowerBodyAnimation.state.STOPBLOW);
-		m_upperBodyScript.changeAnimation(upperBodyAnimation.state.STOPBLOW);
+		//Debug.Log("STOPBLOWING");
+		//m_lowerBodyScript.changeAnimation(lowerBodyAnimation.state.STOPBLOW);
+		m_upperBodyScript.stopBlowAnimation();
 		//set upperbody stopblow
 		//change anim dontblow
 	}

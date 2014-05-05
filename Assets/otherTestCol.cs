@@ -6,9 +6,13 @@ public class otherTestCol : MonoBehaviour
 	MovementLogic me;
 	MovementLogic opponent;
 
+	public playerAnimation m_playerAnim;
+
+	public float dizzyTime = 1.0f;
+
 	void Start()
 	{
-
+		m_playerAnim = gameObject.GetComponent<playerAnimation>();
 	}
 	void OnCollisionEnter(Collision other)
 	{
@@ -18,6 +22,10 @@ public class otherTestCol : MonoBehaviour
 		{
 			if(opponent.getRigidVelocity() > me.getRigidVelocity())
 			{
+
+				//tackleanimation
+				m_playerAnim.tackleAnim();
+
 				Vector3 basisVector = other.transform.position - transform.position;
 				basisVector.Normalize();
 
@@ -42,10 +50,11 @@ public class otherTestCol : MonoBehaviour
 				me.setTackled(myResultVel);
 
 
-				me.Invoke("restoreMovement", 1.0f);
-				opponent.Invoke("restoreMovement", 1.0f);
+				me.Invoke("restoreMovement", dizzyTime);
+				opponent.Invoke("restoreMovement", dizzyTime);
 
-
+				//undo tackleanimation
+				m_playerAnim.stopTackleAnim();
 			}
 		}
 	}
