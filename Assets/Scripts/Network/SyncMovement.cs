@@ -78,7 +78,7 @@ public class SyncMovement : MonoBehaviour {
 	}
 
 	//kanske borde flytta detta till removetemovement.cs
-	void Update(){
+	void FixedUpdate(){
 		if(Network.isClient){
 			Vector3 predictedDelta = m_predictedPosition - m_transform.position;
 			
