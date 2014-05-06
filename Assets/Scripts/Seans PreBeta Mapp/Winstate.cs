@@ -18,11 +18,11 @@ public class Winstate : MonoBehaviour {
 	}
 
 	public void gameStart(){
-		if(Network.peerType == NetworkPeerType.Server){
-			StartCoroutine("UpdateTime");
-			Debug.Log("StartTime "+System.DateTime.Now.TimeOfDay);
-			m_startTime = System.DateTime.Now.Second + (System.DateTime.Now.Minute * 60);
-		}	
+//		if(Network.peerType == NetworkPeerType.Server){
+//			StartCoroutine("UpdateTime");
+//			Debug.Log("StartTime "+System.DateTime.Now.TimeOfDay);
+//			m_startTime = System.DateTime.Now.Second + (System.DateTime.Now.Minute * 60);
+//		}	
 	}
 
 	IEnumerator UpdateTime(){

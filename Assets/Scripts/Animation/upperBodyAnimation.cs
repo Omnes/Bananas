@@ -49,35 +49,24 @@ public class upperBodyAnimation : MonoBehaviour {
 
 		//fixa så if state != currentstate kör func
 		if(m_myState != m_currentState){
+			if(m_myState == state.RUNNING){
+					int statePriority = 1;
 
-//			if(m_myState == state.BLOW){
-//				int statePriority = 0;
-//
-//				if(!checkHighPriority(statePriority)){
-//					m_priorityList[1] = state.BLOW;
-//					m_playerAnimator.SetBool("isBlowing", true);
-//					m_currentState = state.BLOW;
-//				}
-//
-//			}else 
-		if(m_myState == state.RUNNING){
-				int statePriority = 1;
+					if(!checkHighPriority(statePriority)){
+						m_priorityList[2] = state.RUNNING;
+						m_playerAnimator.SetFloat("playerSpeed", 1);
+						m_currentState = state.RUNNING;
+					}
+			
+				}else if(m_myState == state.IDLE){
+					int statePriority = 1;
 
-				if(!checkHighPriority(statePriority)){
-					m_priorityList[2] = state.RUNNING;
-					m_playerAnimator.SetFloat("playerSpeed", 1);
-					m_currentState = state.RUNNING;
+					if(!checkHighPriority(statePriority)){
+						m_priorityList[2] = state.IDLE;
+						m_playerAnimator.SetFloat("playerSpeed", 0);
+						m_currentState = state.IDLE;
+					}
 				}
-		
-			}else if(m_myState == state.IDLE){
-				int statePriority = 1;
-
-				if(!checkHighPriority(statePriority)){
-					m_priorityList[2] = state.IDLE;
-					m_playerAnimator.SetFloat("playerSpeed", 0);
-					m_currentState = state.IDLE;
-				}
-			}
 		}
 
 
@@ -115,29 +104,32 @@ public class upperBodyAnimation : MonoBehaviour {
 	//IDLE
 	public void idleAnimation(){
 		m_previousState = m_currentState;
-
+		//Debug.Log("IDLE");
 		m_playerAnimator.SetFloat("playerSpeed", 0);			//ta bort sen.
 	}
 
 	//running
 	public void runningAnimation(){
 		m_previousState = m_currentState;
-
+		//Debug.Log("RUNNING");
 		m_playerAnimator.SetFloat("playerSpeed", 1);			//ta bort sen.
 	}
 
 	//tackle animation
 	public void tackleAnimation(){
-		m_priorityList[0] = state.TACKLE;
-		m_playerAnimator.SetBool("tackle", true);
-		m_currentState = state.TACKLE;
+		if(m_currentState != state.TACKLE){
+			//Debug.Log("TACKLE");
+			m_priorityList[0] = state.TACKLE;
+			m_playerAnimator.SetBool("tackle", true);
+			m_currentState = state.TACKLE;
+		}
 	}
 
 	//tackle animation
 	public void stopTackleAnimation(){
-//		m_priorityList[0] = state.TACKLE;
-//		m_playerAnimator.SetBool("tackle", true);
-//		m_currentState = state.TACKLE;
+		//Debug.Log("STOPTACKLE");
+		m_priorityList[0] = state.NONE;
+		m_playerAnimator.SetBool("tackle", false);
 	}
 
 	//blowing while idle animation
@@ -152,6 +144,7 @@ public class upperBodyAnimation : MonoBehaviour {
 		int statePriority = 0;
 
 		if(!checkHighPriority(statePriority)){
+			//Debug.Log("BLOW");
 			m_priorityList[1] = state.BLOW;
 			m_playerAnimator.SetBool("isBlowing", true);
 			m_currentState = state.BLOW;
@@ -159,6 +152,7 @@ public class upperBodyAnimation : MonoBehaviour {
 	}
 
 	public void stopBlowAnimation(){
+		//Debug.Log("STOPBLOW");
 		m_priorityList[1] = state.NONE;
 		m_playerAnimator.SetBool("isBlowing", false);
 	}

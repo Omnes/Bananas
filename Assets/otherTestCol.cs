@@ -54,7 +54,7 @@ public class otherTestCol : MonoBehaviour
 				opponent.Invoke("restoreMovement", dizzyTime);
 
 				//undo tackleanimation
-				m_playerAnim.stopTackleAnim();
+				//m_playerAnim.stopTackleAnim();
 			}
 		}
 	}

@@ -39,8 +39,6 @@ public class Lobby : MonoBehaviour {
 	
 	}
 
-
-
 	void OnGUI(){
 
 		int scrWidth = Screen.width;

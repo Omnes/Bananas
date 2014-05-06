@@ -33,9 +33,9 @@ public class SeaNet : MonoBehaviour {
 		m_winstate = gameObject.AddComponent<Winstate>();
 
 		//give seanet a networkview, so it can use RPC
-		NetworkView myNetwork = gameObject.AddComponent<NetworkView>();
-		myNetwork.observed = null;
-		myNetwork.stateSynchronization = NetworkStateSynchronization.Off;
+//		NetworkView myNetwork = gameObject.AddComponent<NetworkView>();
+//		myNetwork.observed = null;
+//		myNetwork.stateSynchronization = NetworkStateSynchronization.Off;
 
 	}
 	
