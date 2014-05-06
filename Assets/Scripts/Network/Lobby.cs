@@ -79,6 +79,8 @@ public class Lobby : MonoBehaviour {
 				//create ID for allplayers
 				createId();
 				//loads next level
+				Network.maxConnections = -1;
+				MasterServer.UnregisterHost();
 				loadLevel();
 				SeaNet.Instance.startGame();
 			}

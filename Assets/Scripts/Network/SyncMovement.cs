@@ -67,10 +67,8 @@ public class SyncMovement : MonoBehaviour {
 	public void assignData(SyncData sd){
 		if(m_intiated){
 			m_ghostPosition = sd.m_position;
-			//m_rigidbody.velocity = sd.m_velocity;
-			m_remoteMovement.setSyncRotationSpeed(sd.m_rotationSpeed);
+			m_remoteMovement.setGhostRotation(sd.m_rotation,sd.m_rotationSpeed);
 			m_input.setCurrentBlowingPower(sd.m_blowing);
-			m_transform.rotation = sd.m_rotation; // this one might need a snap treshold
 			m_syncVelocity = sd.m_velocity;
 
 			float syncDeltaTime = Time.time - m_lastSyncTime;
@@ -79,7 +77,8 @@ public class SyncMovement : MonoBehaviour {
 		m_lastSyncTime = Time.time;
 	}
 
-	void Update(){
+	//kanske borde flytta detta till removetemovement.cs
+	void FixedUpdate(){
 		if(Network.isClient){
 			Vector3 predictedDelta = m_predictedPosition - m_transform.position;
 			

@@ -60,7 +60,7 @@ public class LeafBlower : MonoBehaviour {
 
 	public void OnTriggerStayInChild(Collider col)
 	{
-		if (Network.isServer) {
+//		if (Network.isServer) {
 			if (col.gameObject.CompareTag("Leaf")) {
 				GameObject leaf = col.gameObject;
 
@@ -93,6 +93,6 @@ public class LeafBlower : MonoBehaviour {
 					}
 				}
 			}
-		}
+//		}
 	}
 }
