@@ -5,10 +5,10 @@ using System.Collections;
  * Base class for buffs
  */
 public class Buff : Object {
-	protected GameObject m_playerRef;
+	public GameObject m_playerRef;
 	public float m_duration;
-	private float m_durationTimer;
-	public float durationTimer {get{return m_durationTimer;}}
+	public float m_durationTimer;
+	public float m_timeCreated;
 
 	public float m_period;
 	private float m_periodTimer;
@@ -24,6 +24,7 @@ public class Buff : Object {
 		m_durationTimer = 0.0f;
 		m_period = 0.0f;
 		m_periodTimer = 0.0f;
+		m_timeCreated = Time.time;
 	}
 
 	/**
@@ -52,9 +53,17 @@ public class Buff : Object {
 	}
 
 	/**
-	 * Event called when a buff is removed from the BuffManager
+	 * Event called when a buff is removed due to duration expire
 	 */
 	virtual public void ExpireEvent()
+	{
+		
+	}
+
+	/**
+	 * Event called when a buff is removed from the BuffManager (using a remove function)
+	 */
+	virtual public void RemoveEvent()
 	{
 		
 	}
@@ -77,6 +86,11 @@ public class Buff : Object {
 		}
 			
 		UpdateEvent();
+	}
+
+	public override string ToString ()
+	{
+		return string.Format ("[Buff: durationTimer={0}, alive={1}]", m_durationTimer, alive);
 	}
 
 }

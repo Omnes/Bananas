@@ -9,11 +9,12 @@ public class TimeBombBuff : Buff {
 	private const int BOMB_DURATION_MIN = 4;
 	private const int BOMB_DURATION_MAX = 10;
 	private const float STUN_DURATION = 1.5f;
+	private const float TRANSFER_COOLDOWN = 0.5f;
 
 	private static Color START_COLOR = new Color(1, 1, 0);
 	private static Color END_COLOR = new Color(1, 0, 0);
 
-	public TimeBombBuff(GameObject playerRef, int duration):base(playerRef)
+	public TimeBombBuff(GameObject playerRef, float duration):base(playerRef)
 	{
 		m_duration = duration;
 		m_period = 1.0f;
@@ -42,22 +43,40 @@ public class TimeBombBuff : Buff {
 	override public void ExpireEvent()
 	{
 		//Explode & stun
-		Destroy (m_bomb);
-		Destroy (m_playerCircle);
+		RemoveObjects ();
 		BuffManager buffManager = m_playerRef.GetComponent<BuffManager> ();
-		buffManager.Add(new StunBuff(m_playerRef, STUN_DURATION));
+		buffManager.AddBuff(new StunBuff(m_playerRef, STUN_DURATION));
 
 		m_explosion = Instantiate (Prefactory.prefab_bombExplosion) as GameObject;
 		m_explosion.transform.position = m_playerRef.transform.position;
 		Destroy (m_explosion, m_explosion.particleSystem.duration);
 	}
 
+	public override void RemoveEvent ()
+	{
+		RemoveObjects ();
+	}
+
+	private void RemoveObjects() {
+		Destroy (m_bomb);
+		Destroy (m_playerCircle);
+	}
+
+	public void TransferUpdate(float durationTimer) {
+		m_durationTimer = durationTimer;
+		UpdateColor ();
+	}
+
 	private void UpdateColor() {
-		Color newColor = Color.Lerp (START_COLOR, END_COLOR, durationTimer / m_duration);
+		Color newColor = Color.Lerp (START_COLOR, END_COLOR, m_durationTimer / m_duration);
 		m_playerCircle.renderer.material.SetColor ("_Color", newColor);
 	}
 
 	public static int GetDuration() {
 		return Random.Range(BOMB_DURATION_MIN, BOMB_DURATION_MAX);
+	}
+
+	public bool CanTransfer() {
+		return Time.time - m_timeCreated > TRANSFER_COOLDOWN;
 	}
 }

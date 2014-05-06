@@ -75,7 +75,7 @@ public class PowerupManager : MonoBehaviour {
 					player = syncMovement.gameObject;
 					buffManager = player.GetComponent<BuffManager>();
 
-					buffManager.Add(new TimeBombBuff(player, duration));
+					buffManager.AddBuff(new TimeBombBuff(player, duration));
 				}
 			}
 		}
