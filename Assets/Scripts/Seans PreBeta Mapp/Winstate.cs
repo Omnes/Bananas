@@ -5,7 +5,7 @@ public class Winstate : MonoBehaviour {
 
 	private int m_startTime;
 	private int m_currentTime;
-	public int m_MAXTIME = 60;
+	public int m_MAXTIME = 600;
 
 	// Use this for initialization
 	void Start () {

@@ -3314,7 +3314,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_pileOfLeif: {fileID: 100000, guid: 501e1bf3b6a6423489797c9194690a3c, type: 2}
-<<<<<<< HEAD
   m_powerupManager: {fileID: 100000, guid: 04f2c81f27efb024898535659ccfd38b, type: 2}
 --- !u!114 &581612741
 MonoBehaviour:
@@ -3331,9 +3330,6 @@ MonoBehaviour:
   m_bomb: {fileID: 100000, guid: 5ce45fa07473c9e4394e5849e23476f9, type: 2}
   m_playerCircle: {fileID: 100000, guid: 0db5cf6edea4fa9479f74de0926c5bec, type: 2}
   m_bombExplosion: {fileID: 100000, guid: 654d2cd167f017048890b1acaf68804f, type: 2}
-=======
-  m_powerupManager: {fileID: 0}
->>>>>>> andreas
 --- !u!1 &599200832
 GameObject:
   m_ObjectHideFlags: 0
@@ -4394,13 +4390,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_target: {fileID: 0}
   m_offset: {x: -10, y: 10, z: -10}
-<<<<<<< HEAD
   m_speed: 5
   m_predict: 1
   m_predictionMagnitude: .300000012
   m_DebugSnapCamera: 1
-=======
->>>>>>> andreas
 --- !u!114 &871558700
 MonoBehaviour:
   m_ObjectHideFlags: 0
