@@ -86,7 +86,6 @@ GameObject:
   - 124: {fileID: 219933804}
   - 92: {fileID: 219933803}
   - 81: {fileID: 219933802}
-  - 114: {fileID: 219933801}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: Untagged
@@ -94,17 +93,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &219933801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 219933800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de220c85e24236b449599231f875ed58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!81 &219933802
 AudioListener:
   m_ObjectHideFlags: 0
@@ -177,8 +165,9 @@ GameObject:
   - 33: {fileID: 1118095500}
   - 64: {fileID: 1118095499}
   - 23: {fileID: 1118095498}
+  - 114: {fileID: 1118095502}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: networkandplane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -232,10 +221,22 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1118095497}
   m_LocalRotation: {x: .707106829, y: 0, z: 0, w: -.707106829}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.16290069, y: -1.55398538e-07, z: -1.30357742}
   m_LocalScale: {x: 3.09785938, y: 1.73635638, z: 1.73635638}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &1118095502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1118095497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de220c85e24236b449599231f875ed58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_nextScene: Sean_Scene
 --- !u!1 &1455066675
 GameObject:
   m_ObjectHideFlags: 0

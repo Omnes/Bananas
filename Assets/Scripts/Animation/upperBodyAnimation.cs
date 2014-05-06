@@ -69,32 +69,6 @@ public class upperBodyAnimation : MonoBehaviour {
 				}
 		}
 
-
-
-//				case state.STOPBLOW:
-//				{
-//					m_playerAnimator.SetBool("isBlowing", false);
-//					m_currentState = state.STOPBLOW;
-//					break;
-//				}
-
-//				case state.TACKLE:
-//				{
-//					tackleAnimation();
-//					m_currentState = state.TACKLE;
-//					break;
-//				}
-
-
-		//tackle
-//		if(m_isTackling){
-//			//wait for tackle to complete
-//			//if(tackle is complete){
-//			//	m_isTackling = false;
-//			//m_myState = m_previousState;
-//			//}
-//		}
-
 	}
 
 
@@ -122,33 +96,33 @@ public class upperBodyAnimation : MonoBehaviour {
 			m_priorityList[0] = state.TACKLE;
 			m_playerAnimator.SetBool("tackle", true);
 			m_currentState = state.TACKLE;
+
+
+			float dizzytime = 1.0f;
+
+			StartCoroutine("tackleCoroutine", dizzytime);
+
 		}
 	}
 
-	//tackle animation
-	public void stopTackleAnimation(){
-		//Debug.Log("STOPTACKLE");
+	IEnumerator tackleCoroutine(float dizzytime){
+		yield return new WaitForSeconds(dizzytime);
+		
 		m_priorityList[0] = state.NONE;
 		m_playerAnimator.SetBool("tackle", false);
+		m_currentState = state.NONE;
 	}
-
-	//blowing while idle animation
-//	public void blowIdleAnimation(){
-//		m_previousState = m_currentState;
-//
-//		m_playerAnimator.SetBool("isBlowing", true);
-//	}
 
 	//blowing while running animation
 	public void blowAnimation(){
 		int statePriority = 0;
 
-		if(!checkHighPriority(statePriority)){
-			//Debug.Log("BLOW");
-			m_priorityList[1] = state.BLOW;
-			m_playerAnimator.SetBool("isBlowing", true);
-			m_currentState = state.BLOW;
-		}
+//		if(!checkHighPriority(statePriority)){
+//			//Debug.Log("BLOW");
+//			m_priorityList[1] = state.BLOW;
+//			m_playerAnimator.SetBool("isBlowing", true);
+//			m_currentState = state.BLOW;
+//		}
 	}
 
 	public void stopBlowAnimation(){
@@ -166,11 +140,6 @@ public class upperBodyAnimation : MonoBehaviour {
 		}
 		return false;
 	}
-
-//	public void previousAnimation(){
-//		Debug.Log("UpperBody : PreviousAnimation");
-//		m_myState = m_previousState;
-//	}
 
 	//utomstående funktion kallar denna för att ändra state
 	public void changeAnimation(state UBAnim){

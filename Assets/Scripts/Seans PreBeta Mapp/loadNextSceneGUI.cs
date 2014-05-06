@@ -3,6 +3,8 @@ using System.Collections;
 
 public class loadNextSceneGUI : MonoBehaviour {
 
+	public string m_nextScene = "Sean_Scene";
+
 	// Use this for initialization
 	void Start () {
 		
@@ -21,7 +23,7 @@ public class loadNextSceneGUI : MonoBehaviour {
 		float centerY = Screen.height/6;
 
 		if(GUI.Button(new Rect(centerX, centerY + size.y, size.x, size.y), "Start Game")){
-			Application.LoadLevel("Sean_Scene");
+			Application.LoadLevel(m_nextScene);
 		}
 	}
 }
