@@ -15,15 +15,15 @@ public class playerAnimation : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if(Input.GetKey(KeyCode.T)){
-			tackleAnim();
-		}
-		if(Input.GetKey(KeyCode.Y)){
-			stopTackleAnim();
-		}
-		if(Input.GetKey(KeyCode.B)){
-			blowAnim();
-		}
+//		if(Input.GetKey(KeyCode.T)){
+//			tackleAnim();
+//		}
+//		if(Input.GetKey(KeyCode.Y)){
+//			stopTackleAnim();
+//		}
+//		if(Input.GetKey(KeyCode.B)){
+//			blowAnim();
+//		}
 
 	}
 

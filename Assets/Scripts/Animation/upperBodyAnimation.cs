@@ -143,12 +143,12 @@ public class upperBodyAnimation : MonoBehaviour {
 	public void blowAnimation(){
 		int statePriority = 0;
 
-		if(!checkHighPriority(statePriority)){
-			//Debug.Log("BLOW");
-			m_priorityList[1] = state.BLOW;
-			m_playerAnimator.SetBool("isBlowing", true);
-			m_currentState = state.BLOW;
-		}
+//		if(!checkHighPriority(statePriority)){
+//			//Debug.Log("BLOW");
+//			m_priorityList[1] = state.BLOW;
+//			m_playerAnimator.SetBool("isBlowing", true);
+//			m_currentState = state.BLOW;
+//		}
 	}
 
 	public void stopBlowAnimation(){
