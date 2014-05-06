@@ -13,8 +13,12 @@ public class InitPileOfLeaves : MonoBehaviour {
 //		network.observed = null;
 
 		if (Network.isServer) {
-			Network.Instantiate( m_pileOfLeif, Vector3.zero, Quaternion.identity, 0 );
-			Network.Instantiate( m_powerupManager, Vector3.zero, Quaternion.identity, 0 );
+			if(m_pileOfLeif != null){
+				Network.Instantiate( m_pileOfLeif, Vector3.zero, Quaternion.identity, 0 );
+			}
+			if(m_powerupManager != null){
+				Network.Instantiate( m_powerupManager, Vector3.zero, Quaternion.identity, 0 );
+			}
 		}
 	}
 
