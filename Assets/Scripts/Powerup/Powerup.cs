@@ -2,9 +2,10 @@
 using System.Collections;
 
 public class Powerup : MonoBehaviour {
-	public static int ENERGY_DRINK 	= GetUniqueID();
-	public static int LAZERZ 		= GetUniqueID();
-	public static int COUNT			= GetUniqueID();
+	public static int TIME_BOMB 		= GetUniqueID();
+	public static int BIG_LEAF_BLOWER 	= GetUniqueID();
+	public static int EMP 				= GetUniqueID();
+	public static int COUNT				= GetUniqueID();
 	private static int ID = 0;
 	private static int GetUniqueID() {return ID++;}
 
@@ -27,28 +28,21 @@ public class Powerup : MonoBehaviour {
 	    }
 	}
 
-//	void OnDestroy()
-//	{
-//		Debug.Log ("DESTROY POWERUUUUP");
-//	}
-
 	public void FixedUpdate()
 	{
-//		transform.Rotate (Vector3.up, 45 * Time.deltaTime);
 		Quaternion prevAngle = m_transform.rotation;
 		Quaternion newAngle = Quaternion.Euler(prevAngle.eulerAngles + Vector3.up * 45 * Time.deltaTime );
 		m_rigidbody.MoveRotation(newAngle);
 	}
 
-//	public void Destroy ()
+//	public virtual void OnPowerupGet(GameObject obj)
 //	{
-//
+//		Debug.LogError ("Override this!");
 //	}
-
-//	public abstract void OnPowerupGet(GameObject obj);
-	public virtual void OnPowerupGet(GameObject obj)
+	public void OnPowerupGet(GameObject obj)
 	{
-//		Debug.Log ("Powerup");
+		PowerupManager.SynchronizePowerupGet (obj);
 	}
+
 
 }
