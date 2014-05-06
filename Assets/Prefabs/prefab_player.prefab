@@ -3393,7 +3393,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400446}
-  - 95: {fileID: 9500002}
   m_Layer: 0
   m_Name: Animation_04
   m_TagString: Untagged
@@ -6367,24 +6366,10 @@ Animator:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 9b66b8fceb6f6b7459a8b74021a4426b, type: 3}
+  m_Avatar: {fileID: 9000000, guid: ca49146841c865b44a85af7777b23f53, type: 3}
   m_Controller: {fileID: 9100000, guid: 7bf7f2211e5e25c439a30c80961bf93c, type: 2}
   m_CullingMode: 1
   m_ApplyRootMotion: 0
-  m_AnimatePhysics: 0
-  m_HasTransformHierarchy: 1
---- !u!95 &9500002
-Animator:
-  serializedVersion: 2
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100446}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: ca49146841c865b44a85af7777b23f53, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 1
-  m_ApplyRootMotion: 1
   m_AnimatePhysics: 0
   m_HasTransformHierarchy: 1
 --- !u!114 &11400000
