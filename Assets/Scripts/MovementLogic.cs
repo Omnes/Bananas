@@ -81,7 +81,7 @@ public class MovementLogic : MonoBehaviour
 		if(m_buffManager == null){
 			m_buffManager = gameObject.GetComponent<BuffManager>();
 			//stun tre sec, countdown before match
-			m_buffManager.Add(new StunBuff(gameObject, 3));
+			m_buffManager.AddBuff(new StunBuff(gameObject, 3));
 		}
 
 		if(m_hasCollided)
