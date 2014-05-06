@@ -75,8 +75,8 @@ public class MovementLogic : MonoBehaviour
 		if(m_hasCollided)
 		{
 			//collisionTime = Time.time;
-			Debug.Log("Collided");
-			Debug.Log("result" + resultOfCollision.ToString("F2"));
+//			Debug.Log("Collided");
+//			Debug.Log("result" + resultOfCollision.ToString("F2"));
 //			rigidbody.AddForce(resultOfCollision * 2, ForceMode.VelocityChange);
 			m_dizzyFactor = 0.0f;
 //			tmpSPeed = 0.0f;
