@@ -10,20 +10,20 @@ public class TimeBombBuff : Buff {
 	private const int BOMB_DURATION_MAX = 10;
 	private const float STUN_DURATION = 1.5f;
 
-	private static Color START_COLOR = new Color(0, 1, 0);
+	private static Color START_COLOR = new Color(1, 1, 0);
 	private static Color END_COLOR = new Color(1, 0, 0);
 
-	public TimeBombBuff(GameObject playerRef):base(playerRef)
+	public TimeBombBuff(GameObject playerRef, int duration):base(playerRef)
 	{
-		m_duration = Random.Range(BOMB_DURATION_MIN, BOMB_DURATION_MAX);
+		m_duration = duration;
 		m_period = 1.0f;
 	}
 
+	/**
+	 * Creates a bomb over the player head and a circle at its feets
+	 */
 	override public void InitEvent()
 	{
-		//Bomb över huvudet
-		//Cirkel på marken som visar hur långt det är kvar (på alla players)
-
 		m_bomb = Instantiate (Prefactory.prefab_bomb) as GameObject;
 		m_bomb.transform.parent = m_playerRef.transform;
 		m_bomb.transform.localPosition = new Vector3(0.0f, 1.5f, 0.0f);
@@ -33,11 +33,6 @@ public class TimeBombBuff : Buff {
 		m_playerCircle.transform.localPosition = new Vector3(0.0f, -1.0f, 0.0f);
 		UpdateColor ();
 	}
-
-//	override public void UpdateEvent()
-//	{
-//		OnCollide -> Transfer buff (and duration)
-//	}
 
 	override public void PeriodicEvent()
 	{
@@ -60,5 +55,9 @@ public class TimeBombBuff : Buff {
 	private void UpdateColor() {
 		Color newColor = Color.Lerp (START_COLOR, END_COLOR, durationTimer / m_duration);
 		m_playerCircle.renderer.material.SetColor ("_Color", newColor);
+	}
+
+	public static int GetDuration() {
+		return Random.Range(BOMB_DURATION_MIN, BOMB_DURATION_MAX);
 	}
 }
