@@ -43,19 +43,27 @@ public class PowerupManager : MonoBehaviour {
 	/**
 	 * Tells all players that a powerup was picked up and by who
 	 */
-	public static void SynchronizePowerupGet(int powerupType, GameObject player)
+	public static void SynchronizePowerupGet(GameObject player)
 	{
-//		Debug.Log ("SynchronizePowerupGet");
 		if (Network.isServer) {
-//			Debug.Log ("Sending RPC PowerupGet");
 			int playerID = player.GetComponent<SyncMovement>().getID();
-			network.RPC ("PowerupGet", RPCMode.All, Random.Range(0, Powerup.COUNT - 1), playerID);
+			int powerupType = Random.Range(0, Powerup.COUNT - 1);
+			powerupType = Powerup.TIME_BOMB;
+			if (powerupType == Powerup.TIME_BOMB) {
+				network.RPC ("TimeBombGet", RPCMode.All, playerID, TimeBombBuff.GetDuration());
+			}
+			else if (powerupType == Powerup.BIG_LEAF_BLOWER) {
+				network.RPC ("BigLeafBlowerGet", RPCMode.All, playerID);
+			}
+			else if (powerupType == Powerup.EMP) {
+				network.RPC ("EMPGet", RPCMode.All, playerID);
+			}
 			//TODO: Kolla så att powerupen inte redan finns i spelet
 		}
 	}
-	
+
 	[RPC]
-	public void PowerupGet(int powerupType, int playerID)
+	public void TimeBombGet(int playerID, int duration)
 	{
 		SyncMovement syncMovement;
 		GameObject player;
@@ -67,16 +75,41 @@ public class PowerupManager : MonoBehaviour {
 					player = syncMovement.gameObject;
 					buffManager = player.GetComponent<BuffManager>();
 
-//					if (powerupType == Powerup.ENERGY_DRINK)
-
-//					buffManager.Add(new StunBuff(player, 1.5f));
-					buffManager.Add(new TimeBombBuff(player));
-//					buffManager.Add(new BigLeafBlowerBuff(player));
-//					buffManager.Add(new EnergyDrinkBuff(player));
+					buffManager.Add(new TimeBombBuff(player, duration));
 				}
 			}
 		}
 	}
+
+	[RPC]
+	public void BigLeafBlowerGet(int playerID)
+	{
+
+	}
+
+	[RPC]
+	public void EMPGet(int playerID)
+	{
+		
+	}
+
+//	[RPC]
+//	public void PowerupGet(int powerupType, int playerID)
+//	{
+//		SyncMovement syncMovement;
+//		GameObject player;
+//		BuffManager buffManager;
+//		for (int id = 0; id < SyncMovement.s_syncMovements.Length; id++) {
+//			if (playerID == id) {
+//				syncMovement = SyncMovement.s_syncMovements[id];
+//				if (syncMovement != null) {
+//					player = syncMovement.gameObject;
+//					buffManager = player.GetComponent<BuffManager>();
+//					buffManager.Add(new TimeBombBuff(player));
+//				}
+//			}
+//		}
+//	}
 
 	public static void Remove(GameObject powerup) {
 		m_powerups.Remove (powerup);

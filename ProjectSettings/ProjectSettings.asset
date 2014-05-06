@@ -168,7 +168,8 @@ PlayerSettings:
   ps3TrialMode: 0
   flashStrippingLevel: 2
   spritePackerPolicy: 
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    1: 
   metroPackageName: WayOfTheLeaf
   metroPackageLogo: 
   metroPackageVersion: 
