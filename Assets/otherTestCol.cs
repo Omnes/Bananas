@@ -14,33 +14,39 @@ public class otherTestCol : MonoBehaviour
 	 */
 	void Start()
 	{
-		m_movementLogic = GetComponent<MovementLogic> ();
+		//m_movementLogic = gameObject.AddComponent<MovementLogic>();
+		//m_movementLogic = GetComponent<MovementLogic> ();
 		m_playerAnim = GetComponent<playerAnimation>();
 		m_buffManager = GetComponent<BuffManager> ();
 	}
 
 	void OnCollisionEnter(Collision other)
 	{
-		if(other.gameObject.tag == "Player")
+		if(other.gameObject.CompareTag("Player"))
 		{
-			MovementLogic othersMovementLogic = other.gameObject.GetComponent<MovementLogic>();
-			if(othersMovementLogic.getRigidVelocity() > m_movementLogic.getRigidVelocity())
+			otherTestCol otherPlayerTestCol = other.transform.GetComponent<otherTestCol>();
+
+			//MovementLogic othersMovementLogic = other.gameObject.GetComponent<MovementLogic>();
+			//if(othersMovementLogic.getRigidVelocity() > m_movementLogic.getRigidVelocity())
+			if(otherPlayerTestCol.getRigidVelocity() > getRigidVelocity())
 			{
 				//Play tackle animation
-				m_playerAnim.tackleAnim(/*dizzyTime*/);
+				m_playerAnim.tackleAnim(dizzyTime);
 
 				//Calculate tackle physics
 				Vector3 basisVector = other.transform.position - transform.position;
 				basisVector.Normalize();
 
-				Vector3 othersVel = othersMovementLogic.getRigidVelVect();
+				//changed othersMovementLogic.getRigidVelVect() to otherPlayerTestCol.getPreviosVelocity()
+				Vector3 othersVel = otherPlayerTestCol.getPreviosVelocity();
 				float x1 = Vector3.Dot(basisVector, othersVel);
 
 				Vector3 othersXvel = basisVector * x1;
 				Vector3 othersYvel = othersVel - othersXvel;
 
 				basisVector = -basisVector;
-				Vector3 myVel = m_movementLogic.getRigidVelVect();
+				//changed m_movementLogic.getRigidVelVect() to getPreviosVelocity()
+				Vector3 myVel = getPreviosVelocity();
 				float x2 = Vector3.Dot(basisVector, myVel);
 
 				Vector3 myXvel = basisVector * x2;
@@ -49,11 +55,15 @@ public class otherTestCol : MonoBehaviour
 				Vector3 opponentsResultVel = myXvel + othersYvel;
 				Vector3 myResultVel = othersXvel + myYVel;
 
-				othersMovementLogic.setTackled(opponentsResultVel * 0.3f);
-				m_movementLogic.setTackled(myResultVel);
 
-				m_movementLogic.Invoke("restoreMovement", dizzyTime);
-				othersMovementLogic.Invoke("restoreMovement", dizzyTime);
+//				//detta kan tas bort när allt är klart
+//				othersMovementLogic.setTackled(opponentsResultVel * 0.3f);
+//				m_movementLogic.setTackled(myResultVel);
+//				Invoke("restorePlayerMovement", dizzyTime);
+//				otherPlayerTestCol.Invoke("restorePlayerMovement", dizzyTime);
+
+				restorePlayerMovement(other.gameObject);
+
 			}
 
 			//Handle TimeBomb powerup
@@ -69,4 +79,21 @@ public class otherTestCol : MonoBehaviour
 
 		}
 	}
+
+	//moved here from movementlogic
+	public Vector3 getPreviosVelocity(){
+		return rigidbody.velocity;
+	}
+
+	public float getRigidVelocity(){
+		return rigidbody.velocity.sqrMagnitude;
+	}
+
+	public void restorePlayerMovement(GameObject other){
+		//localplayer
+		m_buffManager.AddBuff(new StunBuff(gameObject, 0.3f));
+		//ghost
+		other.GetComponent<BuffManager>().AddBuff(new StunBuff(gameObject, 1.0f));
+	}
+
 }

@@ -47,6 +47,9 @@ public class SyncMovement : MonoBehaviour {
 
 	private float m_lastSyncTime = 0f;
 
+	private playerAnimation m_playerAnim;
+	private bool isRunningAnim = false;
+
 	// Use this for initialization
 	void Start () {
 		m_rigidbody = rigidbody;
@@ -62,6 +65,8 @@ public class SyncMovement : MonoBehaviour {
 		}else{
 			m_remoteMovement = GetComponent<RemoteMovement>();
 		}
+		//playeranimaton
+		m_playerAnim = gameObject.GetComponent<playerAnimation>();
 	}
 
 	public void assignData(SyncData sd){
@@ -80,6 +85,7 @@ public class SyncMovement : MonoBehaviour {
 	//kanske borde flytta detta till removetemovement.cs
 	void FixedUpdate(){
 		if(Network.isClient){
+
 			Vector3 predictedDelta = m_predictedPosition - m_transform.position;
 			
 			//how much we should use of each velocity if we are more desynced we should use more of the predicted correction
@@ -93,7 +99,18 @@ public class SyncMovement : MonoBehaviour {
 			Vector3 predictedDir = predictedDelta.magnitude > 1 ? predictedDelta.normalized : predictedDelta;
 
 			Vector3 newVelocity = m_syncVelocity * share + predictedDir * m_resyncForce * (1-share);
-			
+
+			//animation
+			if(newVelocity.magnitude > 1){
+				if(isRunningAnim == false){
+					isRunningAnim = true;
+					m_playerAnim.runningAnim();
+				}
+			}else if(isRunningAnim == true){
+				isRunningAnim = false;
+				m_playerAnim.idleAnim();
+			}
+
 			m_rigidbody.velocity = newVelocity;
 		}
 	}

@@ -98,9 +98,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21f13efa8f2195a42a1f71e8a21be0cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_friction: .949999988
+  m_friction: .964999974
   m_rotationSpeed: 60
-  m_minSleep: .00999999978
+  m_minSleep: .310000002
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -37,10 +37,10 @@ public class GUITouches : MonoBehaviour {
 		for(int i = 0; i < Mathf.Min(touches.Length,m_foundTouches); i++){
 			placeJoystick(touches[i].position,i);
 		}
-		//debug för editorn
-		if(Application.isEditor && Input.GetMouseButton(0)){
-			placeJoystick(Input.mousePosition,0);
-		}
+//		//debug för editorn
+//		if(Application.isEditor && Input.GetMouseButton(0)){
+//			placeJoystick(Input.mousePosition,0);
+//		}
 	}
 
 	void placeJoystick(Vector2 inputPosition,int i){

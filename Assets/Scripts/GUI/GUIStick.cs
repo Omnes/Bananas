@@ -30,9 +30,9 @@ public class GUIStick : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if(Application.isEditor && m_touchInput != null && m_updateInEditor){
-			updateSize();
-		}
-	}
+//	void Update () {
+//		if(Application.isEditor && m_touchInput != null && m_updateInEditor){
+//			updateSize();
+//		}
+//	}
 }

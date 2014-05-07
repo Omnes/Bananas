@@ -2,15 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class TouchInput : InputMetod {
+public class TouchInputEzMode : InputMetod {
 
 	//debug fun!
 	public bool m_debug_mode = false;
-	
-	public float m_verticalAreaInInch = 2.5f;
-	public float m_verticalAreaMaxPercent = 0.7f; 
+	public bool m_alwaysBlow = false;
+	private float m_verticalAreaInInch = 2.5f;
+	private float m_verticalAreaMaxPercent = 0.7f; 
 	public float m_edgeThresholdInInch = 1f;
 	public float m_edgeThresholdMaxPercent = 0.15f;
+
+
 
 	private Vector2 m_currentInput = new Vector2(0,0);
 	private Rect m_leftArea =  new Rect();
@@ -45,19 +47,17 @@ public class TouchInput : InputMetod {
 
 	}
 	
-	// Update is called once per frame
+	// This migth be smarter to calculate on demand in the get functions
 	void Update () {
 		
 		Touch[] touches = Input.touches;
-		m_currentInput = Vector2.zero;
+		m_currentInput = Vector2.one;
 		//m_delayed = m_delayedInput.Dequeue();
 		
 
 		int toggleBlowing = 0;
 		//check all touches, if they are in the control areas.
-		int length = touches.Length;
-		for (int i = 0; i < length; i++) {
-			Touch t = touches[i];
+		foreach (Touch t in touches) {
 			Vector2 pos = t.position;
 			calcMovementMagnitudes(pos);
 			if(calcBlowing(pos)){
@@ -74,33 +74,36 @@ public class TouchInput : InputMetod {
 			}
 
 		}
-
-		int requiredFingersToToggle = isPC ? 1 : 2; // 1 if pc 2 if phone
-		if(toggleBlowing >= requiredFingersToToggle){
-			if(m_canToggle == true){
-				m_blowing = !m_blowing;
-				m_canToggle = false;
-			}
+		if(m_alwaysBlow){
+			m_blowing = true;
 		}else{
-			m_canToggle = true;
+			int requiredFingersToToggle = isPC ? 1 : 2; // 1 if pc 2 if phone
+			if(toggleBlowing >= requiredFingersToToggle){
+				if(m_canToggle == true){
+					m_blowing = !m_blowing;
+					m_canToggle = false;
+				}
+			}else{
+				m_canToggle = true;
+			}
 		}
 		
 	}
 
 
-//	void OnGUI(){
-//		if(m_debug_mode){
-//			GUI.Label(new Rect(Screen.width / 2, 0,200,100),"(" + m_currentInput.x + "," + m_currentInput.y + ")");
-//		}
-//	}
+	void OnGUI(){
+		if(m_debug_mode){
+			GUI.Label(new Rect(Screen.width / 2, 0,200,100),"(" + m_currentInput.x + "," + m_currentInput.y + ")");
+		}
+	}
 
 	//This function should not ahve to be altered, it decides what side of the screen the input is on
 	void calcMovementMagnitudes(Vector2 pos){
 		//calcluate the movement stuff
 		if(m_leftArea.Contains(pos)){ //check which half of the screen the input is
-			m_currentInput = new Vector2(calculateMagnitudeNoReverse(pos.y),m_currentInput.y);
+			m_currentInput = new Vector2(1f,0);
 		}else if(m_rightArea.Contains(pos)){
-			m_currentInput = new Vector2(m_currentInput.x,calculateMagnitudeNoReverse(pos.y));
+			m_currentInput = new Vector2(0,1f);
 		}
 	}
 
