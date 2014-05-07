@@ -1795,7 +1795,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7ed3364cc8964048836415799bcb66a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_force: 6
+  m_force: 1
 --- !u!23 &348808305
 Renderer:
   m_ObjectHideFlags: 0
@@ -2831,7 +2831,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 7dffa9fe29a401a45a65739452471406, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 12.7742233
+      value: 12.46838
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7dffa9fe29a401a45a65739452471406, type: 2}
       propertyPath: m_LocalPosition.y
@@ -2839,7 +2839,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7dffa9fe29a401a45a65739452471406, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -12.7742262
+      value: -12.4683819
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7dffa9fe29a401a45a65739452471406, type: 2}
       propertyPath: m_LocalRotation.x
@@ -3357,7 +3357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7ed3364cc8964048836415799bcb66a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_force: 6
+  m_force: 1
 --- !u!23 &623989747
 Renderer:
   m_ObjectHideFlags: 0
@@ -3439,7 +3439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7ed3364cc8964048836415799bcb66a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_force: 6
+  m_force: 1
 --- !u!23 &648257731
 Renderer:
   m_ObjectHideFlags: 0
@@ -3886,8 +3886,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a1c7a86ffa87424881edef74323ce5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_id: 3
-  m_gizmoSize: .5
+  m_id: 0
+  m_gizmoSize: .800000012
 --- !u!4 &812916564
 Transform:
   m_ObjectHideFlags: 0
@@ -4258,10 +4258,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_target: {fileID: 0}
   m_offset: {x: -10, y: 10, z: -10}
-  m_speed: 5
-  m_predict: 1
+  m_speed: 20
+  m_predict: 0
   m_predictionMagnitude: .300000012
-  m_DebugSnapCamera: 1
+  m_DebugSnapCamera: 0
 --- !u!114 &871558700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4736,8 +4736,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a1c7a86ffa87424881edef74323ce5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_id: 1
-  m_gizmoSize: .5
+  m_id: 0
+  m_gizmoSize: .800000012
 --- !u!4 &1048897151
 Transform:
   m_ObjectHideFlags: 0
@@ -4745,7 +4745,7 @@ Transform:
   m_PrefabInternal: {fileID: 1823258092}
   m_GameObject: {fileID: 1048897149}
   m_LocalRotation: {x: 0, y: .382683486, z: 0, w: .923879564}
-  m_LocalPosition: {x: -12.4407101, y: 1, z: -12.4407129}
+  m_LocalPosition: {x: -12.1467514, y: 1, z: -12.7422247}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -4880,8 +4880,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a1c7a86ffa87424881edef74323ce5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_id: 2
-  m_gizmoSize: .5
+  m_id: 0
+  m_gizmoSize: .800000012
 --- !u!1001 &1070950054
 Prefab:
   m_ObjectHideFlags: 0
@@ -6810,7 +6810,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_id: 0
-  m_gizmoSize: .5
+  m_gizmoSize: .800000012
 --- !u!4 &1517997425
 Transform:
   m_ObjectHideFlags: 0
@@ -6818,7 +6818,7 @@ Transform:
   m_PrefabInternal: {fileID: 486016746}
   m_GameObject: {fileID: 1517997423}
   m_LocalRotation: {x: 0, y: -.382683486, z: 0, w: .923879564}
-  m_LocalPosition: {x: 12.7742233, y: 1, z: -12.7742262}
+  m_LocalPosition: {x: 12.46838, y: 1, z: -12.4683819}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -7687,7 +7687,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 7dffa9fe29a401a45a65739452471406, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -12.4407101
+      value: -12.1467514
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7dffa9fe29a401a45a65739452471406, type: 2}
       propertyPath: m_LocalPosition.y
@@ -7695,7 +7695,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7dffa9fe29a401a45a65739452471406, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -12.4407129
+      value: -12.7422247
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 7dffa9fe29a401a45a65739452471406, type: 2}
       propertyPath: m_LocalRotation.x
@@ -8285,7 +8285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7ed3364cc8964048836415799bcb66a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_force: 6
+  m_force: 1
 --- !u!23 &2012694724
 Renderer:
   m_ObjectHideFlags: 0
