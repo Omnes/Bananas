@@ -3,12 +3,12 @@ using System.Collections;
 
 public class BigLeafBlowerBuff : Buff {
 //	InputHub inputHub;
-	Transform airTrigger;
+//	Transform airTrigger;
 
 	public BigLeafBlowerBuff(GameObject playerRef):base(playerRef)
 	{
 		m_duration = 6.0f;
-		airTrigger = m_playerRef.transform.GetChild (0);
+//		airTrigger = m_playerRef.transform.GetChild (0);
 	}
 
 	override public void InitEvent()
