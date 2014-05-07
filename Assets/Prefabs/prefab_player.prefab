@@ -3363,7 +3363,7 @@ MonoBehaviour:
   m_frictionProportion: .920000017
   m_minimumSpeed: .00999999978
   m_dizzySeconds: 2
-  m_maxSpeed: 10
+  m_maxSpeed: 8
   m_acceleration: 25
   m_powSpeed: 1
   tmpSPeed: .100000001
@@ -3544,7 +3544,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d09a0ab16fc4954ba488fe7b39f79eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_playerAnim: {fileID: 0}
   dizzyTime: 1
 --- !u!136 &13600000
 CapsuleCollider:
