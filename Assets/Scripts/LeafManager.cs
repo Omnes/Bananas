@@ -3,8 +3,8 @@ using System.Collections;
 
 public class LeafManager : MonoBehaviour {
 	private GameObject[] leafs;
-	private Vector2[] newPositions;
-	private Vector2[] oldPositions;
+	private Vector2[] m_newPositions;
+	private Vector2[] m_oldPositions;
 	private float lerpTime;
 
 	public bool useLerp = true;
@@ -27,16 +27,23 @@ public class LeafManager : MonoBehaviour {
 	public float m_totalHeight = 1.0f;
 
 	private NetworkView network;
+	public bool m_spawnInOffline = false;
+
+//	private float m_lastSyncTime = 0f;
+//	private float m_expectedSyncDelta = 1f/15f;
+//	private float m_syncDeltaTime = 0f;
+
+	public float m_sqrResyncDistance = Mathf.Sqrt(0.4f);
 
 	/**
 	 * Initializes variables
-	 **/
+	 */
 	void Awake () {
 		network = networkView;
 
 		leafs = new GameObject[m_leafCache];
-		newPositions = new Vector2[m_leafCache];
-		oldPositions = new Vector2[m_leafCache];
+		m_newPositions = new Vector2[m_leafCache];
+		m_oldPositions = new Vector2[m_leafCache];
 
 		float heightIncrease = m_totalHeight / m_leafCache;
 
@@ -47,18 +54,25 @@ public class LeafManager : MonoBehaviour {
 			leafs[i].transform.position = new Vector3(0, m_startHeight + heightIncrease * i, 0);
 			leafs[i].SetActive(false);
 		}
+
+//		m_lastSyncTime = Time.time;
+//		m_expectedSyncDelta = 1f/Network.sendRate;
 	}
 	
 	void Start () {
 		if (Network.isServer) {
 			network.RPC ("SpawnLeafs", RPCMode.All, Random.Range (int.MinValue, int.MaxValue));
 		}
+		if (m_spawnInOffline)
+		{
+			SpawnLeafs (0);
+		}
 	}
 
 	/**
 	 * Find and return an unused leaf from the leaf pool
 	 * Returns null if no leaf can be used
-	 **/
+	 */
 	public GameObject SpawnLeaf() {
 		for (int i = 0; i < leafs.Length; i++) {
 			if ( leafs[i].activeSelf == false ) {
@@ -92,7 +106,7 @@ public class LeafManager : MonoBehaviour {
 	/**
 	 * Spawn leaves randomly on the level based on the defined parameters
 	 * The seed is used to make sure that the leaves spawn on the same position for all clients
-	 **/
+	 */
 	[RPC]
 	void SpawnLeafs(int seed){
 		Random.seed = seed;
@@ -101,25 +115,29 @@ public class LeafManager : MonoBehaviour {
 			leaf.transform.position = new Vector3(Random.Range(-m_range, m_range), leaf.transform.position.y, Random.Range(-m_range, m_range));
 			leaf.transform.Rotate(new Vector3(0,0,Random.Range(0f,359f)));
 
-			newPositions[i] = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
-			oldPositions[i] = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
+			m_newPositions[i] = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
+			m_oldPositions[i] = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
 		}
 	}
 
 	/**
 	 * Send and receive all leaves position
-	 **/
+	 */
 	void OnSerializeNetworkView (BitStream stream, NetworkMessageInfo info) {
 		if (Network.isServer && stream.isWriting) {
 			//Sending
 			Vector3 vec;
 			for (int i = 0; i < leafs.Length; i++) {
-				vec = new Vector3(i, leafs[i].transform.position.x, leafs[i].transform.position.z);
-				stream.Serialize( ref vec );
+//				if ( leafs[i].rigidbody.velocity.sqrMagnitude > 1 ) {	//TODO: Kan bli problem eftersom det skickas mindre än det tas emot!
+					vec = new Vector3(i, leafs[i].transform.position.x, leafs[i].transform.position.z);
+					stream.Serialize( ref vec );
+//				}
 			}
 		}
 		else if (Network.isClient && stream.isReading) {
 			//Receiving
+//			m_syncDeltaTime = Time.time - m_lastSyncTime;
+//			m_lastSyncTime = Time.time;
 			Vector3 vec = Vector3.zero;
 			GameObject leaf;
 			int index;
@@ -127,31 +145,44 @@ public class LeafManager : MonoBehaviour {
 				stream.Serialize( ref vec );
 				index = (int)vec.x;
 				leaf = leafs[index];
-				oldPositions[index] = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
-				newPositions[index] = new Vector2(vec.y, vec.z);
+				//m_oldPositions[index] = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
+				Vector2 oldPosition = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
+				Vector2 newPos = new Vector2(vec.y, vec.z);
+				//Vector2 deltaPosition = (newPos - m_oldPositions[index]);
+				//the predicted position at next sync
+				//m_newPositions[index] = newPos + deltaPosition;
+				if((newPos - oldPosition).sqrMagnitude > m_sqrResyncDistance){
+					leaf.transform.position = new Vector3(newPos.x,leaf.transform.position.y,newPos.y);
+				}
+
 			}
-			lerpTime = 0;
 		}
 	}
+	
+
+	//time - lastsynctime / expectedsynctimedelta
 
 	/**
 	 * Updates the leaves local position so that the match the server position
-	 **/
-	void Update() {
-		if ( Network.isClient ) {
-			if (useLerp) {
-				lerpTime += Time.deltaTime * Network.sendRate;
-				for (int i = 0; i < leafs.Length; i++) {
-					leafs [i].transform.position = new Vector3 (Mathf.Lerp (oldPositions [i].x, newPositions [i].x, lerpTime),
-							                                   leafs [i].transform.position.y, 
-							                                   Mathf.Lerp (oldPositions [i].y, newPositions [i].y, lerpTime));
-				}
-			}
-			else {
-				for (int i = 0; i < leafs.Length; i++) {
-					leafs [i].transform.position = new Vector3 (newPositions [i].x, leafs [i].transform.position.y, newPositions [i].y);
-				}
-			}
-		}
-	}
+	 */
+//	void Update() {
+//		if ( Network.isClient ) {
+//			if (useLerp) {
+//				lerpTime = (Time.time - m_lastSyncTime) / m_expectedSyncDelta;
+//				Debug.Log ("LerpTime: " + lerpTime);
+//				for (int i = 0; i < leafs.Length; i++) {
+////					if ( leafs[i].rigidbody.velocity.sqrMagnitude > 1 ) {
+//						leafs [i].transform.position = new Vector3 (Mathf.Lerp (m_oldPositions [i].x, m_newPositions [i].x, lerpTime),
+//								                                   leafs [i].transform.position.y, 
+//								                                   Mathf.Lerp (m_oldPositions [i].y, m_newPositions [i].y, lerpTime));
+////					}
+//				}
+//			}
+//			else {
+//				for (int i = 0; i < leafs.Length; i++) {
+//					leafs [i].transform.position = new Vector3 (m_newPositions [i].x, leafs [i].transform.position.y, m_newPositions [i].y);
+//				}
+//			}
+//		}
+//	}
 }

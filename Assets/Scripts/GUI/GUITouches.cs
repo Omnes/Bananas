@@ -8,17 +8,21 @@ public class GUITouches : MonoBehaviour {
 	private int m_foundTouches = 0;
 
 	public TouchInput m_touchInput;
-	private Vector2 m_guiStickSize; 
+	//private Vector2 m_guiStickSize; 
 
 	// Use this for initialization
 	void Start () {
-		m_guiStickSize = m_touchInput.getGUIStickSize();
+		//m_guiStickSize = m_touchInput.getGUIStickSize();
 		m_foundTouches = transform.childCount;
 		//saves all children and their renderers
 		for(int i = 0; i < m_foundTouches; i++){
 			m_plupps[i] = transform.GetChild(i);
 			m_renderers[i] = m_plupps[i].renderer;
 		}
+	}
+
+	public void init(TouchInput input){
+		m_touchInput = input;
 	}
 	
 	// Update is called once per frame

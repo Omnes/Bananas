@@ -2,43 +2,20 @@
 using System.Collections;
 
 public class CollectorCollider : MonoBehaviour {
-	private GameObject scoreKeeper;
+//	private GameObject scoreKeeper;
+	private int m_ID;
 
 	void Start() {
-//		scoreKeeper = GameObject.Find("global_scripts");
-//		Debug.Log ("1 " + scoreKeeper);
+		m_ID = GetComponent<ID> ().m_ID;
+//		m_ID = 0;
 	}
 
+	//TODO: Ändra till RCP
 	void OnTriggerEnter(Collider col)
 	{
-//		Debug.Log ("Enter :" + col.gameObject.tag + " :" + col.gameObject);
-//		if (col.gameObject.CompareTag ("Leaf")) {
-//			Debug.Log ("Leaf enter");
-//			GameObject leaf = col.gameObject;
-//			score += 1;
-//			Destroy( leaf );
-//		}
-
-		if (col.gameObject.CompareTag ("Leaf_collector")) {
-//			Debug.Log ("Leaf enter");
-//			score += 1;
-//			scoreKeeper.m_score += 1;
-//			Debug.Log ("2 " + scoreKeeper);
-
-			ScoreKeeper.m_score +=1;
-
-//			Debug.Log (scoreKeeper.m_score);
-//			Destroy( gameObject );
-			gameObject.SetActive(false);
+		if (col.gameObject.CompareTag ("Leaf")) {
+			ScoreKeeper.m_scores[m_ID] += 1;
+			col.gameObject.SetActive(false);
 		}
 	}
-
-//	void OnTriggerStay(Collider col)
-//	{
-//		if (col.gameObject.CompareTag ("Leaf")) {
-//			Debug.Log ("Leaf Stay");
-//			GameObject leaf = col.gameObject;
-//			Destroy( leaf );
-//		}
-//	}
 }

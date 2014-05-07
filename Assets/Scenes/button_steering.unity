@@ -1783,6 +1783,14 @@ Prefab:
       propertyPath: m_input
       value: 
       objectReference: {fileID: 600629753}
+    - target: {fileID: 11400000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
+      propertyPath: m_maxSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
+      propertyPath: m_BlowPowerSlowFraction
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
   m_RootGameObject: {fileID: 1598731783}
@@ -2251,10 +2259,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 835c89e1d7bd6f64f8596d2b58a21f59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_rightButtonTexture: {fileID: 2800000, guid: bebb427c1d1f99944bad1a3c92f711f8,
+  m_rightButtonTexture: {fileID: 2800000, guid: 47df3228b3076d24ca7fe47e11d3a4f6,
     type: 3}
-  m_leftButtonTexture: {fileID: 2800000, guid: 1ce819341f14e724ca5b9023b7f939c5, type: 3}
-  m_blowButtonTexture: {fileID: 2800000, guid: 695169fdc7bbf2c4884295aed08423b9, type: 3}
+  m_leftButtonTexture: {fileID: 2800000, guid: 3c391473b04a20f42bb4695406e1bff2, type: 3}
+  m_blowButtonTexture: {fileID: 2800000, guid: 8425ab5438c28c34eb15cc11afbc391a, type: 3}
   m_pushed: -.5
   m_buttonSize: 8
   m_buttonPos: 1
@@ -6975,10 +6983,11 @@ MonoBehaviour:
   m_rotateProportion: 60
   m_frictionProportion: .920000017
   m_minimumSpeed: .00999999978
-  m_maxSpeed: 10
+  m_maxSpeed: 8
   m_acceleration: 25
   m_powSpeed: 1
   m_BlowPowerSlowFraction: 1
+  m_BlowPowerSlowWhileTurning: 1
 --- !u!54 &1598731794
 Rigidbody:
   m_ObjectHideFlags: 0
