@@ -20,6 +20,7 @@ public class LeafPhysics : MonoBehaviour {
 
 	private Vector3 m_ghostPosition = Vector3.zero; 
 	public float m_resyncForce = 15f;
+	public float m_hardResyncLimit = 5f;
 
 	void Start(){
 		m_rigidbody = rigidbody;
@@ -42,16 +43,21 @@ public class LeafPhysics : MonoBehaviour {
 
 			if(m_isClient == true){
 				Vector3 serverDeltaVector = m_ghostPosition - transform.position;
-				float max = velocityMagnitude + serverDeltaVector.magnitude;
-				if(max < 0.05f){
-					max = 1f;
+				float deltaMagnitude = serverDeltaVector.magnitude;
+				if(deltaMagnitude < m_hardResyncLimit){
+					float max = velocityMagnitude + deltaMagnitude;
+					if(max < 0.05f){
+						max = 1f;
+					}
+					float share = velocityMagnitude / max;
+					
+					//normalize if over 1
+					Vector3 predictedDir = deltaMagnitude > 1 ? serverDeltaVector.normalized : serverDeltaVector;
+					
+					velocity = velocity * share + predictedDir * m_resyncForce * (1-share);
+				}else{
+					m_transform.position = m_ghostPosition;
 				}
-				float share = velocityMagnitude / max;
-				
-				//normalize if over 1
-				Vector3 predictedDir = serverDeltaVector.magnitude > 1 ? serverDeltaVector.normalized : serverDeltaVector;
-				
-				velocity = velocity * share + predictedDir * m_resyncForce * (1-share);
 			}
 			m_rigidbody.velocity = velocity;
 

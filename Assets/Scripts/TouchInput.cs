@@ -88,11 +88,11 @@ public class TouchInput : InputMetod {
 	}
 
 
-	void OnGUI(){
-		if(m_debug_mode){
-			GUI.Label(new Rect(Screen.width / 2, 0,200,100),"(" + m_currentInput.x + "," + m_currentInput.y + ")");
-		}
-	}
+//	void OnGUI(){
+//		if(m_debug_mode){
+//			GUI.Label(new Rect(Screen.width / 2, 0,200,100),"(" + m_currentInput.x + "," + m_currentInput.y + ")");
+//		}
+//	}
 
 	//This function should not ahve to be altered, it decides what side of the screen the input is on
 	void calcMovementMagnitudes(Vector2 pos){
