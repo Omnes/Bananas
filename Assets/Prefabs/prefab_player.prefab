@@ -5946,11 +5946,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9ba65d2914ee2468170aaf09ed51d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_rotateProportion: 150
+  m_rotateProportion: 250
   m_frictionProportion: .920000017
   m_minimumSpeed: .00999999978
   m_dizzySeconds: 2
-  m_maxSpeed: 10
+  m_maxSpeed: 7
   m_acceleration: 25
   m_powSpeed: 1
   tmpSPeed: .100000001
