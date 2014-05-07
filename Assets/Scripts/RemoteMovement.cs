@@ -9,8 +9,8 @@ public class RemoteMovement : MonoBehaviour {
 
 	private Quaternion m_ghostRotation;
 
-	private float m_resyncLimit = 0.05f;
-	public float m_resyncForce = 5f;
+//	private float m_resyncLimit = 0.05f;
+//	public float m_resyncForce = 5f;
 
 	//only temp for debug
 	private float share;

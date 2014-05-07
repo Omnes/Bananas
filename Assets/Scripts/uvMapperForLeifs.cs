@@ -15,11 +15,11 @@ public class UvMapperForLeifs : MonoBehaviour {
 		changeUvs();
 	}
 
-	void Update(){
-		if(Application.isEditor && m_updateInEditor){
-			changeUvs();
-		}
-	}
+//	void Update(){
+//		if(Application.isEditor && m_updateInEditor){
+//			changeUvs();
+//		}
+//	}
 
 	void changeUvs(){
 

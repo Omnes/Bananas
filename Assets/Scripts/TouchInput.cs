@@ -55,7 +55,9 @@ public class TouchInput : InputMetod {
 
 		int toggleBlowing = 0;
 		//check all touches, if they are in the control areas.
-		foreach (Touch t in touches) {
+		int length = touches.Length;
+		for (int i = 0; i < length; i++) {
+			Touch t = touches[i];
 			Vector2 pos = t.position;
 			calcMovementMagnitudes(pos);
 			if(calcBlowing(pos)){

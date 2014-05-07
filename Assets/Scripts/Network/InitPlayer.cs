@@ -8,7 +8,7 @@ public class InitPlayer : MonoBehaviour {
 
 	public GameObject m_stateTransmitterPrefab;
 
-	public GameObject[] m_spawnpoints = new GameObject[4];
+	private GameObject[] m_spawnpoints = new GameObject[4];
 	
 
 	private PlayerInfo m_playerInfo;

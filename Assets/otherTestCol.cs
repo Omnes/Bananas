@@ -21,7 +21,7 @@ public class otherTestCol : MonoBehaviour
 
 	void OnCollisionEnter(Collision other)
 	{
-		if(other.gameObject.tag == "Player")
+		if(other.gameObject.CompareTag("Player"))
 		{
 			MovementLogic othersMovementLogic = other.gameObject.GetComponent<MovementLogic>();
 			if(othersMovementLogic.getRigidVelocity() > m_movementLogic.getRigidVelocity())

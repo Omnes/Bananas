@@ -16,7 +16,7 @@ public class PlayerCollision : MonoBehaviour {
 		Vector3 WeakersDeltaForce = new Vector3();
 
 
-		if(other.gameObject.tag == "Player" && Time.time > (lastCollisionTime + 1.0f))
+		if(other.gameObject.CompareTag("Player") && Time.time > (lastCollisionTime + 1.0f))
 		{
 			lastCollisionTime = Time.time;
 			othersMovement = other.gameObject.GetComponent<MovementLogic>();
