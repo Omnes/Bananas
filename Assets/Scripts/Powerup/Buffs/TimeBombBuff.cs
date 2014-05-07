@@ -6,7 +6,7 @@ public class TimeBombBuff : Buff {
 	GameObject m_playerCircle;
 	GameObject m_explosion;
 
-	private const int BOMB_DURATION_MIN = 4;
+	private const int BOMB_DURATION_MIN = 6;
 	private const int BOMB_DURATION_MAX = 10;
 	private const float STUN_DURATION = 1.5f;
 	private const float TRANSFER_COOLDOWN = 0.5f;
@@ -40,9 +40,11 @@ public class TimeBombBuff : Buff {
 		UpdateColor ();
 	}
 
+	/**
+	 * Create an explosion and stun the player 
+	 */
 	override public void ExpireEvent()
 	{
-		//Explode & stun
 		RemoveObjects ();
 		BuffManager buffManager = m_playerRef.GetComponent<BuffManager> ();
 		buffManager.AddBuff(new StunBuff(m_playerRef, STUN_DURATION));
@@ -50,6 +52,8 @@ public class TimeBombBuff : Buff {
 		m_explosion = Instantiate (Prefactory.prefab_bombExplosion) as GameObject;
 		m_explosion.transform.position = m_playerRef.transform.position;
 		Destroy (m_explosion, m_explosion.particleSystem.duration);
+
+		SoundManager.Instance.StartIngameMusic ();
 	}
 
 	public override void RemoveEvent ()
@@ -62,11 +66,17 @@ public class TimeBombBuff : Buff {
 		Destroy (m_playerCircle);
 	}
 
+	/**
+	 * Should be called after a buff transfer has occured
+	 */
 	public void TransferUpdate(float durationTimer) {
 		m_durationTimer = durationTimer;
 		UpdateColor ();
 	}
 
+	/**
+	 * Updates the color of the circle based on the current time and duration
+	 */
 	private void UpdateColor() {
 		Color newColor = Color.Lerp (START_COLOR, END_COLOR, m_durationTimer / m_duration);
 		m_playerCircle.renderer.material.SetColor ("_Color", newColor);
@@ -76,6 +86,9 @@ public class TimeBombBuff : Buff {
 		return Random.Range(BOMB_DURATION_MIN, BOMB_DURATION_MAX);
 	}
 
+	/**
+	 * Returns true if the buff is allowed to be transfered to another player
+	 */
 	public bool CanTransfer() {
 		return Time.time - m_timeCreated > TRANSFER_COOLDOWN;
 	}

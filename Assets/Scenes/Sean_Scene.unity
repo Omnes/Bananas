@@ -86,6 +86,7 @@ GameObject:
   - 92: {fileID: 155042583}
   - 124: {fileID: 155042582}
   - 81: {fileID: 155042581}
+  - 114: {fileID: 155042586}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -158,6 +159,18 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &155042586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 155042580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1275b127dcbb3f24a8af58f235c98f14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pluginPaths: []
 --- !u!1001 &334845335
 Prefab:
   m_ObjectHideFlags: 0
@@ -212,6 +225,7 @@ GameObject:
   - 4: {fileID: 1435568114}
   - 148: {fileID: 1435568113}
   - 114: {fileID: 1435568112}
+  - 114: {fileID: 1435568115}
   m_Layer: 0
   m_Name: NetworkThing
   m_TagString: Untagged
@@ -255,3 +269,15 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &1435568115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1435568111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e56ee194da982de4ba19f0a8d20a4993, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mode: 1

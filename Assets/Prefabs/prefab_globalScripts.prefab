@@ -37,7 +37,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11f23e5e39457104bb29c0f14145061a, type: 3}
   m_Name: 
@@ -95,6 +95,7 @@ MonoBehaviour:
   m_bomb: {fileID: 100000, guid: 5ce45fa07473c9e4394e5849e23476f9, type: 2}
   m_playerCircle: {fileID: 100000, guid: 0db5cf6edea4fa9479f74de0926c5bec, type: 2}
   m_bombExplosion: {fileID: 100000, guid: 654d2cd167f017048890b1acaf68804f, type: 2}
+  m_EMP: {fileID: 100000, guid: a3f14ddb8f68c404991c52565b91a979, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

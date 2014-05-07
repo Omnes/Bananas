@@ -554,7 +554,9 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11400000, guid: 41316c85844941e439356163e2b7c696, type: 2}
+    - {fileID: 11400004, guid: 41316c85844941e439356163e2b7c696, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 41316c85844941e439356163e2b7c696, type: 2}
   m_RootGameObject: {fileID: 581612735}
   m_IsPrefabParent: 0
@@ -1442,7 +1444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93563a85e44e7044b99f224831d078b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_size: {x: 1, y: 1}
+  m_size: {x: .75, y: .75}
   m_maxPercentOfScreen: {x: 1, y: 1}
 --- !u!114 &292441122
 MonoBehaviour:
@@ -3239,10 +3241,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 581612737}
   - 114: {fileID: 581612738}
-  - 114: {fileID: 581612736}
-  - 114: {fileID: 581612739}
   - 114: {fileID: 581612740}
   - 114: {fileID: 581612741}
+  - 114: {fileID: 581612736}
   m_Layer: 0
   m_Name: prefab_globalScripts
   m_TagString: Untagged
@@ -3253,18 +3254,15 @@ GameObject:
 --- !u!114 &581612736
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400000, guid: 41316c85844941e439356163e2b7c696,
-    type: 2}
-  m_PrefabInternal: {fileID: 108597649}
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 581612735}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11f23e5e39457104bb29c0f14145061a, type: 3}
+  m_Script: {fileID: 11500000, guid: e56ee194da982de4ba19f0a8d20a4993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  asset: {fileID: 11400000, guid: a1905177502313846a6f65582f3d45f6, type: 2}
-  path: '{accca678-df14-4875-a371-c7dafd6d1f81}'
-  startEventOnAwake: 1
+  mode: 2
 --- !u!4 &581612737
 Transform:
   m_ObjectHideFlags: 0
@@ -3288,19 +3286,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faa40f5f34d5a5b47bce4bca3e5561b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &581612739
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400004, guid: 41316c85844941e439356163e2b7c696,
-    type: 2}
-  m_PrefabInternal: {fileID: 108597649}
-  m_GameObject: {fileID: 581612735}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9386d5d4cdb064648aebc239b234ab5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lobbyName: Sean_Scene
 --- !u!114 &581612740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3330,6 +3315,7 @@ MonoBehaviour:
   m_bomb: {fileID: 100000, guid: 5ce45fa07473c9e4394e5849e23476f9, type: 2}
   m_playerCircle: {fileID: 100000, guid: 0db5cf6edea4fa9479f74de0926c5bec, type: 2}
   m_bombExplosion: {fileID: 100000, guid: 654d2cd167f017048890b1acaf68804f, type: 2}
+  m_EMP: {fileID: 100000, guid: a3f14ddb8f68c404991c52565b91a979, type: 2}
 --- !u!1 &599200832
 GameObject:
   m_ObjectHideFlags: 0
@@ -4390,10 +4376,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_target: {fileID: 0}
   m_offset: {x: -10, y: 10, z: -10}
-  m_speed: 5
-  m_predict: 1
+  m_speed: 20
+  m_predict: 0
   m_predictionMagnitude: .300000012
-  m_DebugSnapCamera: 1
+  m_DebugSnapCamera: 0
 --- !u!114 &871558700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6793,7 +6779,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d93563a85e44e7044b99f224831d078b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_size: {x: 1, y: 1}
+  m_size: {x: .75, y: .75}
   m_maxPercentOfScreen: {x: 1, y: 1}
 --- !u!114 &1469399776
 MonoBehaviour:

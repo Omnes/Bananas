@@ -48,7 +48,7 @@ public class PowerupManager : MonoBehaviour {
 		if (Network.isServer) {
 			int playerID = player.GetComponent<SyncMovement>().getID();
 			int powerupType = Random.Range(0, Powerup.COUNT - 1);
-			powerupType = Powerup.TIME_BOMB;
+			powerupType = Powerup.EMP;
 			if (powerupType == Powerup.TIME_BOMB) {
 				network.RPC ("TimeBombGet", RPCMode.All, playerID, TimeBombBuff.GetDuration());
 			}
@@ -76,6 +76,8 @@ public class PowerupManager : MonoBehaviour {
 					buffManager = player.GetComponent<BuffManager>();
 
 					buffManager.AddBuff(new TimeBombBuff(player, duration));
+
+					SoundManager.Instance.StartBombMusic();
 				}
 			}
 		}
@@ -90,7 +92,23 @@ public class PowerupManager : MonoBehaviour {
 	[RPC]
 	public void EMPGet(int playerID)
 	{
-		
+		SyncMovement syncMovement;
+		GameObject player;
+		BuffManager buffManager;
+		for (int id = 0; id < SyncMovement.s_syncMovements.Length; id++) {
+			syncMovement = SyncMovement.s_syncMovements[id];
+			if (syncMovement != null) {
+				player = syncMovement.gameObject;
+				buffManager = player.GetComponent<BuffManager>();
+				if (playerID != id) {
+					buffManager.AddBuff(new EMPBuff(player));
+				}
+				else {
+//					buffManager.AddBuff(new EMPBuff(player));
+					Instantiate(Prefactory.prefab_EMP, player.transform.position, Prefactory.prefab_EMP.transform.rotation);
+				}
+			}
+		}
 	}
 
 //	[RPC]

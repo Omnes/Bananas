@@ -112,6 +112,7 @@ public class FMOD_StudioSystem : MonoBehaviour
 			{
 				var go = new GameObject("FMOD_StudioSystem");
 				sInstance = go.AddComponent<FMOD_StudioSystem>();
+				DontDestroyOnLoad(go);
 				
 				if (!FMOD.Studio.UnityUtil.ForceLoadLowLevelBinary()) // do these hacks before calling ANY fmod functions!
 				{
