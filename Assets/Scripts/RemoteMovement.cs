@@ -7,7 +7,7 @@ public class RemoteMovement : MonoBehaviour {
 	private Rigidbody m_rigidbody;
 	private Transform m_transform;
 
-	private Quaternion m_ghostRotation;
+//	private Quaternion m_ghostRotation;
 
 //	private float m_resyncLimit = 0.05f;
 //	public float m_resyncForce = 5f;
@@ -47,7 +47,7 @@ public class RemoteMovement : MonoBehaviour {
 	}
 
 	public void setGhostRotation(Quaternion rot,float rotSpeed){
-		m_ghostRotation = rot;
+//		m_ghostRotation = rot;
 		transform.rotation = rot; //migth need to be masked
 		m_rotationDelta = new Vector3(0,rotSpeed,0);
 	}
