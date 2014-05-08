@@ -2,10 +2,7 @@
 using System.Collections;
 
 public class TimeBombBuff : Buff {
-	GameObject m_bomb;
-	GameObject m_playerCircle;
-	GameObject m_explosion;
-
+	//Design parameters
 	private const int BOMB_DURATION_MIN = 6;
 	private const int BOMB_DURATION_MAX = 10;
 	private const float STUN_DURATION = 1.5f;
@@ -14,10 +11,18 @@ public class TimeBombBuff : Buff {
 	private static Color START_COLOR = new Color(1, 1, 0);
 	private static Color END_COLOR = new Color(1, 0, 0);
 
+	//Variables
+	private GameObject m_bomb = null;
+	private GameObject m_playerCircle = null;
+	private GameObject m_explosion = null;
+
+	private bool m_isLocal;	//TODO: Hämta isLocal från syncMovement
+
 	public TimeBombBuff(GameObject playerRef, float duration):base(playerRef)
 	{
 		m_duration = duration;
 		m_period = 1.0f;
+		m_isLocal = true;
 	}
 
 	/**
@@ -29,15 +34,21 @@ public class TimeBombBuff : Buff {
 		m_bomb.transform.parent = m_playerRef.transform;
 		m_bomb.transform.localPosition = new Vector3(0.0f, 1.5f, 0.0f);
 
-		m_playerCircle = Instantiate (Prefactory.prefab_playerCircle) as GameObject;
-		m_playerCircle.transform.parent = m_playerRef.transform;
-		m_playerCircle.transform.localPosition = new Vector3(0.0f, -1.0f, 0.0f);
-		UpdateColor ();
+		if (m_isLocal) {
+			m_playerCircle = Instantiate (Prefactory.prefab_playerCircle) as GameObject;
+			m_playerCircle.transform.parent = m_playerRef.transform;
+			m_playerCircle.transform.localPosition = new Vector3(0.0f, -1.0f, 0.0f);
+			UpdateColor ();
+
+			//TODO: Create circle at the other players
+		}
 	}
 
 	override public void PeriodicEvent()
 	{
-		UpdateColor ();
+		if (m_isLocal) {
+			UpdateColor ();
+		}
 	}
 
 	/**

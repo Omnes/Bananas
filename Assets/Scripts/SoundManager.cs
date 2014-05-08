@@ -106,6 +106,33 @@ public class SoundManager : MonoBehaviour {
 		m_sounds.Remove (sound);
 	}
 
+
+
+	//Mute
+//	void Update() {
+//		if (Input.GetKey (KeyCode.M))
+//			ToggleMute ();
+//	}
+//
+	public static void Mute() {
+		Debug.Log ("Mute");
+//		FMOD_Listener listener = Camera.main.GetComponent<FMOD_Listener> ();
+//		listener.audio.mute = true;
+	}
+
+	public static void Unmute() {
+		Debug.Log ("Unmute");
+//		FMOD_Listener listener = Camera.main.GetComponent<FMOD_Listener> ();
+//		listener.audio.mute = false;
+	}
+
+	public static void ToggleMute() {
+		Debug.Log ("Toggle mute");
+//		FMOD_Listener listener = Camera.main.GetComponent<FMOD_Listener> ();
+//		listener.audio.mute = !listener.audio.mute;
+//		listener.enabled = !listener.enabled;
+	}
+
 	//MUSIC
 	public static FMOD.Studio.EventInstance getMusic() {
 		return m_music;

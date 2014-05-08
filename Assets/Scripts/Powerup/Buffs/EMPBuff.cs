@@ -2,8 +2,11 @@ using UnityEngine;
 using System.Collections;
 
 public class EMPBuff : Buff {
-	InputHub inputHub;
+	//Design parameters
 	private const float DURATION = 4.0f;
+
+	//Variables
+	InputHub inputHub;
 
 	public EMPBuff(GameObject playerRef):base(playerRef)
 	{

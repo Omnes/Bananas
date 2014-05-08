@@ -11,12 +11,14 @@ public abstract class InputMetod : MonoBehaviour {
 public class InputHub : InputMetod {
 	public InputMetod m_input;
 
+	//Movement stun
 	private uint m_movementStunned = 0;
 	public void StunMovement(){m_movementStunned += 1;}
 	public void UnStunMovement(){m_movementStunned -= 1;}
 	public void ClearMovementStuns(){m_movementStunned = 0;}
 	public bool MovementStunned{get{ return m_movementStunned > 0; }}
 
+	//Leaf blower stun
 	private uint m_leafBlowerStunned = 0;
 	public void StunLeafBlower(){m_leafBlowerStunned += 1;}
 	public void UnStunLeafBlower(){m_leafBlowerStunned -= 1;}

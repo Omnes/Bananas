@@ -4,37 +4,31 @@ using System.Collections.Generic;
 
 /**
  * A global manager for handling powerups
- * Can send/receive powerups over the network
+ * Can update powerups over the network
  */
 public class PowerupManager : MonoBehaviour {
-	//Time until the first powerup spawns
-//	private const float INIT_SPAWN_DELAY_MIN = 10.0f;
-//	private const float INIT_SPAWN_DELAY_MAX = 20.0f;
+	//Design parameters
 	private const float INIT_SPAWN_DELAY_MIN = 0.0f;
 	private const float INIT_SPAWN_DELAY_MAX = 0.0f;
-
-	//Time between powerup spawns
 	private const float SPAWN_INTERVALL_MIN = 5.0f;
 	private const float SPAWN_INTERVALL_MAX = 15.0f;
-//	private const float SPAWN_INTERVALL_MIN = 0.1f;
-//	private const float SPAWN_INTERVALL_MAX = 0.1f;
 
-	//Distance from the center that powerups can spawn
+	private const int MAX_POWERUPS = 3;
 	private const float SPAWN_RADIUS = 25.0f;
 	private const float MIN_SPAWN_DISTANCE_BETWEEN_POWERUPS = 2.5f;
 	private const int MAX_REPOSITION_RETRIES = 5;
 
-	private const int MAX_POWERUPS = 3;
+	//Variables
+	private static List<GameObject> m_powerups = new List<GameObject>();
+	private static NetworkView network;
+	public GameObject m_powerup_prefab;
 
 	private float spawnIntervall;                         
 	private float spawnTimer = 0.0f;
 
-	public GameObject m_powerup_prefab;
-
-	private static NetworkView network;
-
-	private static List<GameObject> m_powerups = new List<GameObject>();
-
+	/**
+	 * Initialize variables
+	 */
 	void Awake() {
 		network = networkView;
 		spawnIntervall = Random.Range (INIT_SPAWN_DELAY_MIN, INIT_SPAWN_DELAY_MAX);
@@ -47,8 +41,8 @@ public class PowerupManager : MonoBehaviour {
 	{
 		if (Network.isServer) {
 			int playerID = player.GetComponent<SyncMovement>().getID();
-			int powerupType = Random.Range(0, Powerup.COUNT - 1);
-			powerupType = Powerup.EMP;
+			int powerupType = Random.Range(0, Powerup.COUNT);
+//			powerupType = Powerup.EMP;
 			if (powerupType == Powerup.TIME_BOMB) {
 				network.RPC ("TimeBombGet", RPCMode.All, playerID, TimeBombBuff.GetDuration());
 			}
@@ -86,7 +80,19 @@ public class PowerupManager : MonoBehaviour {
 	[RPC]
 	public void BigLeafBlowerGet(int playerID)
 	{
-
+		SyncMovement syncMovement;
+		GameObject player;
+		BuffManager buffManager;
+		for (int id = 0; id < SyncMovement.s_syncMovements.Length; id++) {
+			if (playerID == id) {
+				syncMovement = SyncMovement.s_syncMovements[id];
+				if (syncMovement != null) {
+					player = syncMovement.gameObject;
+					buffManager = player.GetComponent<BuffManager>();
+					buffManager.AddBuff(new BigLeafBlowerBuff(player));
+				}
+			}
+		}
 	}
 
 	[RPC]
@@ -104,31 +110,15 @@ public class PowerupManager : MonoBehaviour {
 					buffManager.AddBuff(new EMPBuff(player));
 				}
 				else {
-//					buffManager.AddBuff(new EMPBuff(player));
 					Instantiate(Prefactory.prefab_EMP, player.transform.position, Prefactory.prefab_EMP.transform.rotation);
 				}
 			}
 		}
 	}
 
-//	[RPC]
-//	public void PowerupGet(int powerupType, int playerID)
-//	{
-//		SyncMovement syncMovement;
-//		GameObject player;
-//		BuffManager buffManager;
-//		for (int id = 0; id < SyncMovement.s_syncMovements.Length; id++) {
-//			if (playerID == id) {
-//				syncMovement = SyncMovement.s_syncMovements[id];
-//				if (syncMovement != null) {
-//					player = syncMovement.gameObject;
-//					buffManager = player.GetComponent<BuffManager>();
-//					buffManager.Add(new TimeBombBuff(player));
-//				}
-//			}
-//		}
-//	}
-
+	/**
+	 * Remove a powerup across the network and from the servers powerup list
+	 */
 	public static void Remove(GameObject powerup) {
 		m_powerups.Remove (powerup);
 		Network.Destroy (powerup.networkView.viewID);
