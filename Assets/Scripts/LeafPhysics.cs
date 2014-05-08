@@ -46,7 +46,7 @@ public class LeafPhysics : MonoBehaviour {
 				float deltaMagnitude = serverDeltaVector.magnitude;
 				if(deltaMagnitude < m_hardResyncLimit){
 					float max = velocityMagnitude + deltaMagnitude;
-					if(max < 0.05f){
+					if(max < 1f){
 						max = 1f;
 					}
 					float share = velocityMagnitude / max;
