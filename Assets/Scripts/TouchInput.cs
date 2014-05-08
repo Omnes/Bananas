@@ -135,7 +135,8 @@ public class TouchInput : InputMetod {
 	}
 
 	public override float getCurrentBlowingPower(){
-		return m_blowing ? 1f : 0f;
+//		return m_blowing ? 1f : 0f;
+		return 1f;
 	}
 	public override void setCurrentInputVector(Vector2 v){
 		m_currentInput = v;

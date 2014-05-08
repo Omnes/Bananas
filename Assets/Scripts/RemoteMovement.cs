@@ -59,6 +59,8 @@ public class RemoteMovement : MonoBehaviour {
 			Vector3 pos = transform.position + Vector3.up*0.5f;
 			Gizmos.color = Color.blue;
 			Gizmos.DrawLine(pos,pos + transform.forward*len);
+			Gizmos.color = Color.green;
+			Gizmos.DrawWireSphere(transform.position,0.5f);
 		}
 	}
 }

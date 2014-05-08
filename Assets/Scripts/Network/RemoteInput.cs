@@ -24,6 +24,8 @@ public class RemoteInput : InputMetod {
 	}
 	
 	public override float getCurrentBlowingPower(){
-		return m_blowingPower;
+		//temp since we are always going to blow
+		return 1f;
+//		return m_blowingPower;
 	}
 }
