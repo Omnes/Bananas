@@ -35,7 +35,7 @@ public class LeafManager : MonoBehaviour {
 	private float m_expectedSyncDelta = 1f/15f;
 	private float m_syncDeltaTime = 0f;
 
-	public float m_sqrResyncDistance = Mathf.Sqrt(0.4f);
+//	public float m_sqrResyncDistance = Mathf.Sqrt(0.4f);
 
 	/**
 	 * Initializes variables

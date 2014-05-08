@@ -35,7 +35,7 @@ public class InitPlayer : MonoBehaviour {
 		if(Network.isServer){
 			//om vi är server skapa en faktisk spelare
 			m_player = Instantiate(m_playerPrefab,spawnpoint.position,spawnpoint.rotation) as GameObject;
-			m_player.SendMessage("setID",m_playerInfo.id);
+			m_player.GetComponent<SyncMovement>().setID(m_playerInfo.id,m_isLocal);
 
 			//setup the StateTransmitter for this player
 			GameObject transmitter = Network.Instantiate(m_stateTransmitterPrefab,Vector3.zero,Quaternion.identity,0) as GameObject;
@@ -56,7 +56,7 @@ public class InitPlayer : MonoBehaviour {
 		else if(Network.isClient){
 			//om vi är en klient skapa en fake spelare
 			m_player = Instantiate(m_ghostPrefab,spawnpoint.position,spawnpoint.rotation) as GameObject;
-			m_player.SendMessage("setID",m_playerInfo.id);
+			m_player.GetComponent<SyncMovement>().setID(m_playerInfo.id,m_isLocal);
 			if(m_isLocal){
 				m_player.name = "PlayerGhost " + m_playerInfo.name+ " (Local)";
 				//är det vår fake spalare? få kameran att följa

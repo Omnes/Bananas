@@ -50,6 +50,8 @@ public class SyncMovement : MonoBehaviour {
 	private playerAnimation m_playerAnim;
 	private bool isRunningAnim = false;
 
+	private bool isLocal = false;
+
 	// Use this for initialization
 	void Start () {
 		m_rigidbody = rigidbody;
@@ -134,9 +136,10 @@ public class SyncMovement : MonoBehaviour {
 		}
 	}
 
-	public void setID(int id){
+	public void setID(int id,bool local){
 		m_id = id;
 		s_syncMovements[id] = this;
+		isLocal = local;
 	}
 
 	public int getID(){

@@ -41,13 +41,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useLerp: 1
   m_prefabLeaf: {fileID: 100000, guid: 3c6d9bb5dde52c84d965a56f5bbbc12e, type: 2}
-  m_leafCache: 0
-  m_leafStartCount: 0
+  m_leafCache: 200
+  m_leafStartCount: 200
   m_range: 14
   m_startHeight: .00100000005
   m_totalHeight: .5
   m_spawnInOffline: 0
-  m_sqrResyncDistance: 0
 --- !u!148 &14800000
 NetworkView:
   m_ObjectHideFlags: 1
