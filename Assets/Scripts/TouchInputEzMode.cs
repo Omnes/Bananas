@@ -100,9 +100,9 @@ public class TouchInputEzMode : InputMetod {
 	//This function should not ahve to be altered, it decides what side of the screen the input is on
 	void calcMovementMagnitudes(Vector2 pos){
 		//calcluate the movement stuff
-		if(m_leftArea.Contains(pos)){ //check which half of the screen the input is
+		if(m_rightArea.Contains(pos)){ //check which half of the screen the input is
 			m_currentInput = new Vector2(1f,0);
-		}else if(m_rightArea.Contains(pos)){
+		}else if(m_leftArea.Contains(pos)){
 			m_currentInput = new Vector2(0,1f);
 		}
 	}
