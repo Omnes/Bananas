@@ -6,9 +6,9 @@ public class GUIControl : MonoBehaviour {
 	private Camera m_camera;
 	public TouchInput m_input;
 	public static int DEFAULT_DPI = 96; // 96 for computers and 200-300 ish for phones
-
-	// Use this for initialization
-	void Start () {
+	
+	public void initiateGUI(TouchInput input){
+		m_input = input;
 		m_camera = transform.parent.camera;
 		placeQuad();
 		if(m_input == null){
