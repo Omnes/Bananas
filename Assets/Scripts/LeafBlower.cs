@@ -34,7 +34,7 @@ public class LeafBlower : MonoBehaviour {
 
 		m_touchInput = transform.parent.GetComponent<InputHub>();
 
-		m_blowSound = SoundManager.Instance.play( "event:/leafblower (ytterst kass)" );
+		m_blowSound = SoundManager.Instance.play(SoundManager.LEAFBLOWER);
 		playerTransform = transform;
 	}
 

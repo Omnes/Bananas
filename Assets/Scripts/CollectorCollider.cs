@@ -2,19 +2,17 @@
 using System.Collections;
 
 public class CollectorCollider : MonoBehaviour {
-//	private GameObject scoreKeeper;
 	private int m_ID;
 
 	void Start() {
 		m_ID = GetComponent<ID> ().m_ID;
-//		m_ID = 0;
 	}
-
-	//TODO: Ändra till RCP
+	
 	void OnTriggerEnter(Collider col)
 	{
 		if (col.gameObject.CompareTag ("Leaf")) {
 			ScoreKeeper.m_scores[m_ID] += 1;
+			SoundManager.Instance.playOneShot(SoundManager.SCORE);
 			col.gameObject.SetActive(false);
 		}
 	}

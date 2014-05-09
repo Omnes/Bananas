@@ -16,13 +16,16 @@ public class TimeBombBuff : Buff {
 	private GameObject m_playerCircle = null;
 	private GameObject m_explosion = null;
 
-	private bool m_isLocal;	//TODO: Hämta isLocal från syncMovement
+	SyncMovement m_syncMovement;
+	private bool m_isLocal;
 
 	public TimeBombBuff(GameObject playerRef, float duration):base(playerRef)
 	{
 		m_duration = duration;
 		m_period = 1.0f;
-		m_isLocal = true;
+//		m_isLocal = true;
+		m_syncMovement = playerRef.GetComponent<SyncMovement> ();
+		m_isLocal = m_syncMovement.isLocal;
 	}
 
 	/**
@@ -40,7 +43,11 @@ public class TimeBombBuff : Buff {
 			m_playerCircle.transform.localPosition = new Vector3(0.0f, -1.0f, 0.0f);
 			UpdateColor ();
 
-			//TODO: Create circle at the other players
+			for (int i = 0; i < SyncMovement.s_syncMovements.Length; i++) {
+				if (SyncMovement.s_syncMovements[i].isLocal == false) {
+					BuffManager.m_buffManagers[i].AddBuff(new TimeBombTargetBuff(BuffManager.m_buffManagers[i].gameObject));
+				}
+			}
 		}
 	}
 
@@ -75,6 +82,12 @@ public class TimeBombBuff : Buff {
 	private void RemoveObjects() {
 		Destroy (m_bomb);
 		Destroy (m_playerCircle);
+
+		for (int i = 0; i < SyncMovement.s_syncMovements.Length; i++) {
+//			if (SyncMovement.s_syncMovements[i].isLocal == false) {
+				BuffManager.m_buffManagers[i].RemoveBuff(typeof(TimeBombTargetBuff));
+//			}
+		}
 	}
 
 	/**

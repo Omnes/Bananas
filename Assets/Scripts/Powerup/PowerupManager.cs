@@ -14,7 +14,7 @@ public class PowerupManager : MonoBehaviour {
 	private const float SPAWN_INTERVALL_MAX = 15.0f;
 
 	private const int MAX_POWERUPS = 3;
-	private const float SPAWN_RADIUS = 25.0f;
+	private const float SPAWN_RADIUS = 12f;
 	private const float MIN_SPAWN_DISTANCE_BETWEEN_POWERUPS = 2.5f;
 	private const int MAX_REPOSITION_RETRIES = 5;
 
@@ -42,7 +42,6 @@ public class PowerupManager : MonoBehaviour {
 		if (Network.isServer) {
 			int playerID = player.GetComponent<SyncMovement>().getID();
 			int powerupType = Random.Range(0, Powerup.COUNT);
-//			powerupType = Powerup.EMP;
 			if (powerupType == Powerup.TIME_BOMB) {
 				network.RPC ("TimeBombGet", RPCMode.All, playerID, TimeBombBuff.GetDuration());
 			}
