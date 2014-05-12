@@ -114,6 +114,11 @@ public class SoundManager : MonoBehaviour {
 	private IEnumerator waitAndDestroy(FMOD.Studio.EventInstance sound, float seconds)
 	{
 		yield return new WaitForSeconds(seconds);
+		DestroySound (sound);
+	}
+
+	public void DestroySound(FMOD.Studio.EventInstance sound)
+	{
 		sound.stop ();
 		sound.release ();
 		m_sounds.Remove (sound);

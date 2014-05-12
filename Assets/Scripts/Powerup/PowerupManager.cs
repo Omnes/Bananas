@@ -20,18 +20,33 @@ public class PowerupManager : MonoBehaviour {
 
 	//Variables
 	private static List<GameObject> m_powerups = new List<GameObject>();
+	private static List<int> m_spawnablePowerups = new List<int>();
 	private static NetworkView network;
 	public GameObject m_powerup_prefab;
 
 	private float spawnIntervall;                         
 	private float spawnTimer = 0.0f;
 
+	//Can spawn timer
+	private static float timeBombTimer 			= TimeBombBuff.BOMB_DURATION_MAX;
+	private static float bigLeafBlowerTimer 	= BigLeafBlowerBuff.DURATION;
+	private static float EMPTimer 				= EMPBuff.DURATION;
+	private static bool CanSpawnTimeBomb() { return timeBombTimer > TimeBombBuff.BOMB_DURATION_MAX; }
+	private static bool CanSpawnBigLeafBlower() { return bigLeafBlowerTimer > BigLeafBlowerBuff.DURATION; }
+	private static bool CanSpawnEMP() { return EMPTimer > EMPBuff.DURATION; }
+
 	/**
 	 * Initialize variables
 	 */
-	void Awake() {
+	void Awake()
+	{
 		network = networkView;
 		spawnIntervall = Random.Range (INIT_SPAWN_DELAY_MIN, INIT_SPAWN_DELAY_MAX);
+
+		//Add all powerups that should be spawned here
+		m_spawnablePowerups.Add(Powerup.TIME_BOMB);
+		m_spawnablePowerups.Add(Powerup.BIG_LEAF_BLOWER);
+		m_spawnablePowerups.Add(Powerup.EMP);
 	}
 
 	/**
@@ -40,21 +55,38 @@ public class PowerupManager : MonoBehaviour {
 	public static void SynchronizePowerupGet(GameObject player)
 	{
 		if (Network.isServer) {
+			//Find available powerups
+			List<int> m_availablePowerups = new List<int>(m_spawnablePowerups);
+			if (CanSpawnTimeBomb() == false)
+				m_availablePowerups.Remove(Powerup.TIME_BOMB);
+			if (CanSpawnBigLeafBlower() == false)
+				m_availablePowerups.Remove(Powerup.BIG_LEAF_BLOWER);
+			if (CanSpawnEMP() == false)
+				m_availablePowerups.Remove(Powerup.EMP);
+
+			//Pick a random powerup from available powerups
 			int playerID = player.GetComponent<SyncMovement>().getID();
-			int powerupType = Random.Range(0, Powerup.COUNT);
+			int powerupType = m_availablePowerups[ Random.Range(0, m_availablePowerups.Count) ];	
+
+			//Send RPC to all players depending on powerup
 			if (powerupType == Powerup.TIME_BOMB) {
 				network.RPC ("TimeBombGet", RPCMode.All, playerID, TimeBombBuff.GetDuration());
+				timeBombTimer = 0;
 			}
 			else if (powerupType == Powerup.BIG_LEAF_BLOWER) {
 				network.RPC ("BigLeafBlowerGet", RPCMode.All, playerID);
+				bigLeafBlowerTimer = 0;
 			}
 			else if (powerupType == Powerup.EMP) {
 				network.RPC ("EMPGet", RPCMode.All, playerID);
+				EMPTimer = 0;
 			}
-			//TODO: Kolla så att powerupen inte redan finns i spelet
 		}
 	}
 
+	/**
+	 * Add the TimeBomb buff to the colliding player
+	 */
 	[RPC]
 	public void TimeBombGet(int playerID, int duration)
 	{
@@ -76,6 +108,9 @@ public class PowerupManager : MonoBehaviour {
 		}
 	}
 
+	/**
+	 * Add the BigLeafBlower buff to the colliding player
+	 */
 	[RPC]
 	public void BigLeafBlowerGet(int playerID)
 	{
@@ -94,6 +129,9 @@ public class PowerupManager : MonoBehaviour {
 		}
 	}
 
+	/**
+	 * Add the EMP buff to all player except the colliding player
+	 */
 	[RPC]
 	public void EMPGet(int playerID)
 	{
@@ -128,11 +166,21 @@ public class PowerupManager : MonoBehaviour {
 	 */
 	void Update () {
 		if (Network.isServer) {
+			//Increase timers
 			spawnTimer += Time.deltaTime;
+			timeBombTimer += Time.deltaTime;
+			bigLeafBlowerTimer += Time.deltaTime;
+			EMPTimer += Time.deltaTime;
+
 			if (spawnTimer > spawnIntervall) {
-				//TODO: Kolla så att det finns <3 powerups i spelet (med buffar!)
-				if (m_powerups.Count < MAX_POWERUPS) {
-					//Super advanced random position generator 2.0x
+				//Räkna antalet powerups som är aktiva
+				int powerupCount = m_powerups.Count;
+				powerupCount += CanSpawnTimeBomb() ? 0 : 1;
+				powerupCount += CanSpawnBigLeafBlower() ? 0 : 1;
+				powerupCount += CanSpawnEMP() ? 0 : 1;
+
+				if (powerupCount < MAX_POWERUPS) {
+					//Randomize spawn position in a circle and with a min distance to nearby powerups
 					Vector2 position = Vector2.zero;
 					bool isToClose = false;
 					for (int i = 0; i < MAX_REPOSITION_RETRIES; i++) {
@@ -142,11 +190,11 @@ public class PowerupManager : MonoBehaviour {
 						foreach (GameObject powerup in m_powerups) {
 							if (Vector2.Distance(position, new Vector2(powerup.transform.position.x, powerup.transform.position.z)) < MIN_SPAWN_DISTANCE_BETWEEN_POWERUPS) {
 								isToClose = true;
-								continue;
+								break;
 							}
 						}
 						if (isToClose == false)
-							continue;
+							break;
 					}
 
 					//Spawn powerup

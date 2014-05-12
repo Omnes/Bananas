@@ -41,8 +41,7 @@ public class LeafBlower : MonoBehaviour {
 	void Update()
 	{
 		m_blowPower = m_touchInput.getCurrentBlowingPower();
-		m_blowSound.setVolume (m_blowPower / 3);
-//		m_blowSound.setVolume (0);
+		m_blowSound.setVolume (m_blowPower);
 
 		if(m_blowPower > 0){
 			if(!m_particleEmit){
@@ -56,6 +55,11 @@ public class LeafBlower : MonoBehaviour {
 			m_particleEmit = false;
 			m_particleSystem.Stop();
 		}
+	}
+
+	public void OnDestroy()
+	{
+		SoundManager.Instance.DestroySound (m_blowSound);
 	}
 
 	public void OnTriggerStayInChild(Collider col)

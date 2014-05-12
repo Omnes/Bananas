@@ -3,7 +3,7 @@ using System.Collections;
 
 public class EMPBuff : Buff {
 	//Design parameters
-	private const float DURATION = 4.0f;
+	public const float DURATION = 4.0f;
 
 	//Variables
 	InputHub inputHub;

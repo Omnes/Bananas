@@ -3,10 +3,10 @@ using System.Collections;
 
 public class TimeBombBuff : Buff {
 	//Design parameters
-	private const int BOMB_DURATION_MIN = 6;
-	private const int BOMB_DURATION_MAX = 10;
-	private const float STUN_DURATION = 1.5f;
-	private const float TRANSFER_COOLDOWN = 0.5f;
+	public const int BOMB_DURATION_MIN = 6;
+	public const int BOMB_DURATION_MAX = 10;
+	public const float STUN_DURATION = 1.5f;
+	public const float TRANSFER_COOLDOWN = 0.5f;
 
 	private static Color START_COLOR = new Color(1, 1, 0);
 	private static Color END_COLOR = new Color(1, 0, 0);
@@ -23,7 +23,6 @@ public class TimeBombBuff : Buff {
 	{
 		m_duration = duration;
 		m_period = 1.0f;
-//		m_isLocal = true;
 		m_syncMovement = playerRef.GetComponent<SyncMovement> ();
 		m_isLocal = m_syncMovement.isLocal;
 	}
@@ -44,8 +43,12 @@ public class TimeBombBuff : Buff {
 			UpdateColor ();
 
 			for (int i = 0; i < SyncMovement.s_syncMovements.Length; i++) {
-				if (SyncMovement.s_syncMovements[i].isLocal == false) {
-					BuffManager.m_buffManagers[i].AddBuff(new TimeBombTargetBuff(BuffManager.m_buffManagers[i].gameObject));
+				if (SyncMovement.s_syncMovements[i] != null)
+				{
+					Debug.Log("SyncMovement: " + SyncMovement.s_syncMovements[i]);
+					if (SyncMovement.s_syncMovements[i].isLocal == false) {
+						BuffManager.m_buffManagers[i].AddBuff(new TimeBombTargetBuff(BuffManager.m_buffManagers[i].gameObject));
+					}
 				}
 			}
 		}
@@ -53,6 +56,7 @@ public class TimeBombBuff : Buff {
 
 	override public void PeriodicEvent()
 	{
+		SoundManager.Instance.playOneShot (SoundManager.TIMEBOMB_TICK);
 		if (m_isLocal) {
 			UpdateColor ();
 		}
@@ -72,6 +76,7 @@ public class TimeBombBuff : Buff {
 		Destroy (m_explosion, m_explosion.particleSystem.duration);
 
 		SoundManager.Instance.StartIngameMusic ();
+		SoundManager.Instance.playOneShot (SoundManager.TIMEBOMB_EXPLOSION);
 	}
 
 	public override void RemoveEvent ()
@@ -84,9 +89,9 @@ public class TimeBombBuff : Buff {
 		Destroy (m_playerCircle);
 
 		for (int i = 0; i < SyncMovement.s_syncMovements.Length; i++) {
-//			if (SyncMovement.s_syncMovements[i].isLocal == false) {
+			if (BuffManager.m_buffManagers[i] != null) {
 				BuffManager.m_buffManagers[i].RemoveBuff(typeof(TimeBombTargetBuff));
-//			}
+			}
 		}
 	}
 

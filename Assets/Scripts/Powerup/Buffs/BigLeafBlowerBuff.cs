@@ -3,8 +3,8 @@ using System.Collections;
 
 public class BigLeafBlowerBuff : Buff {
 	//Design parameters
-	private const float DURATION = 6.0f;
-	private const float BLOW_WIDTH = 2.0f;
+	public const float DURATION = 6.0f;
+	public const float BLOW_WIDTH = 2.0f;
 
 	//Variables
 	private Transform airTrigger;
