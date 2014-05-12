@@ -91,9 +91,9 @@ public class otherTestCol : MonoBehaviour
 
 	public void restorePlayerMovement(GameObject other){
 		//localplayer
-		m_buffManager.AddBuff(new StunBuff(gameObject, 0.3f));
+		m_buffManager.AddBuff(new StunBuff(gameObject, 10f));
 		//ghost
-		other.GetComponent<BuffManager>().AddBuff(new StunBuff(gameObject, 1.0f));
+		other.GetComponent<BuffManager>().AddBuff(new StunBuff(gameObject, 10f));
 	}
 
 }
