@@ -6,6 +6,19 @@ using System.Collections.Generic;
 //TODO: Play funktion som inte tar bort ljudet
 //TODO: Ha koll på hur många av varje ljud som spelas upp så att man kan sätta tex, max 2 ljud får spelas samtidigt
 public class SoundManager : MonoBehaviour {
+	public const string MUSIC = "event:/Music/MenuEvent";
+
+	public const string FOOTSTEP = "event:/SFX/Fotstegspring";
+	public const string KNOCKOUT = "event:/SFX/Knockout! (1)";
+	public const string LEAFBLOWER = "event:/SFX/leafblower (ytterst kass)";
+	public const string SCORE = "event:/SFX/leafgoal";
+	public const string TIMEBOMB_EXPLOSION = "event:/SFX/Timebomb_explosion_v2";
+	public const string TIMEBOMB_TICK = "event:/SFX/Timebomb_tick_2";
+
+//	public const string COUNTDOWN = "event:/VO/Countdown";
+	public const string COUNTDOWN = "event:/VO/3,2,1 GO ";
+
+
 	private static FMOD.Studio.EventInstance m_music;
 
 	private static SoundManager instance;
@@ -101,9 +114,41 @@ public class SoundManager : MonoBehaviour {
 	private IEnumerator waitAndDestroy(FMOD.Studio.EventInstance sound, float seconds)
 	{
 		yield return new WaitForSeconds(seconds);
+		DestroySound (sound);
+	}
+
+	public void DestroySound(FMOD.Studio.EventInstance sound)
+	{
 		sound.stop ();
 		sound.release ();
 		m_sounds.Remove (sound);
+	}
+
+
+
+	//Mute
+//	void Update() {
+//		if (Input.GetKey (KeyCode.M))
+//			ToggleMute ();
+//	}
+//
+	public static void Mute() {
+		Debug.Log ("Mute");
+//		FMOD_Listener listener = Camera.main.GetComponent<FMOD_Listener> ();
+//		listener.audio.mute = true;
+	}
+
+	public static void Unmute() {
+		Debug.Log ("Unmute");
+//		FMOD_Listener listener = Camera.main.GetComponent<FMOD_Listener> ();
+//		listener.audio.mute = false;
+	}
+
+	public static void ToggleMute() {
+		Debug.Log ("Toggle mute");
+//		FMOD_Listener listener = Camera.main.GetComponent<FMOD_Listener> ();
+//		listener.audio.mute = !listener.audio.mute;
+//		listener.enabled = !listener.enabled;
 	}
 
 	//MUSIC
@@ -118,7 +163,7 @@ public class SoundManager : MonoBehaviour {
 	static FMOD.Studio.ParameterInstance winParam;
 	public static void initMusic() {
 		if (m_music == null) {
-			m_music = Instance.play("event:/MenuEvent");
+			m_music = Instance.play(MUSIC);
 			m_music.getParameter("Menu", out lobbyParam);
 			m_music.getParameter("Ingame", out ingameParam);
 			m_music.getParameter("Bomb", out bombParam);

@@ -50,7 +50,8 @@ public class SyncMovement : MonoBehaviour {
 	private playerAnimation m_playerAnim;
 	private bool isRunningAnim = false;
 
-	private bool isLocal = false;
+	private bool m_isLocal = false;
+	public bool isLocal { get { return m_isLocal; } }
 
 	// Use this for initialization
 	void Start () {
@@ -139,7 +140,8 @@ public class SyncMovement : MonoBehaviour {
 	public void setID(int id,bool local){
 		m_id = id;
 		s_syncMovements[id] = this;
-		isLocal = local;
+		BuffManager.m_buffManagers [id] = GetComponent<BuffManager> ();
+		m_isLocal = local;
 	}
 
 	public int getID(){
