@@ -7,10 +7,10 @@ public class RemoteMovement : MonoBehaviour {
 	private Rigidbody m_rigidbody;
 	private Transform m_transform;
 
-	private Quaternion m_ghostRotation;
+//	private Quaternion m_ghostRotation;
 
-	private float m_resyncLimit = 0.05f;
-	public float m_resyncForce = 5f;
+//	private float m_resyncLimit = 0.05f;
+//	public float m_resyncForce = 5f;
 
 	//only temp for debug
 	private float share;
@@ -47,7 +47,7 @@ public class RemoteMovement : MonoBehaviour {
 	}
 
 	public void setGhostRotation(Quaternion rot,float rotSpeed){
-		m_ghostRotation = rot;
+//		m_ghostRotation = rot;
 		transform.rotation = rot; //migth need to be masked
 		m_rotationDelta = new Vector3(0,rotSpeed,0);
 	}
@@ -59,6 +59,8 @@ public class RemoteMovement : MonoBehaviour {
 			Vector3 pos = transform.position + Vector3.up*0.5f;
 			Gizmos.color = Color.blue;
 			Gizmos.DrawLine(pos,pos + transform.forward*len);
+			Gizmos.color = Color.green;
+			Gizmos.DrawWireSphere(transform.position,0.5f);
 		}
 	}
 }

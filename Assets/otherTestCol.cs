@@ -22,7 +22,7 @@ public class otherTestCol : MonoBehaviour
 
 	void OnCollisionEnter(Collision other)
 	{
-		if(other.gameObject.tag == "Player")
+		if(other.gameObject.CompareTag("Player"))
 		{
 			otherTestCol otherPlayerTestCol = other.transform.GetComponent<otherTestCol>();
 

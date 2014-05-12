@@ -6,7 +6,19 @@ using System.Collections.Generic;
 //TODO: Play funktion som inte tar bort ljudet
 //TODO: Ha koll på hur många av varje ljud som spelas upp så att man kan sätta tex, max 2 ljud får spelas samtidigt
 public class SoundManager : MonoBehaviour {
+	private static FMOD.Studio.EventInstance m_music;
+
 	private static SoundManager instance;
+//	public static SoundManager Instance{get{return instance;}}
+//	void Awake() {
+//		if (instance != null && instance != this) {
+//			Destroy(this.gameObject);
+//			return;
+//		} else {
+//			instance = this;
+//		}
+//		DontDestroyOnLoad(this.gameObject);
+//	}
 	public static SoundManager Instance
 	{
 		get
@@ -15,6 +27,7 @@ public class SoundManager : MonoBehaviour {
 				GameObject go = new GameObject();
 				instance = go.AddComponent<SoundManager>();
 				go.name = "Sound Manager";
+				DontDestroyOnLoad(go);
 			}
 			return instance;
 		}
@@ -91,6 +104,61 @@ public class SoundManager : MonoBehaviour {
 		sound.stop ();
 		sound.release ();
 		m_sounds.Remove (sound);
+	}
+
+	//MUSIC
+	public static FMOD.Studio.EventInstance getMusic() {
+		return m_music;
+	}
+
+//	FMOD.Studio.ParameterInstance menuParam;
+	static FMOD.Studio.ParameterInstance lobbyParam;
+	static FMOD.Studio.ParameterInstance ingameParam;
+	static FMOD.Studio.ParameterInstance bombParam;
+	static FMOD.Studio.ParameterInstance winParam;
+	public static void initMusic() {
+		if (m_music == null) {
+			m_music = Instance.play("event:/MenuEvent");
+			m_music.getParameter("Menu", out lobbyParam);
+			m_music.getParameter("Ingame", out ingameParam);
+			m_music.getParameter("Bomb", out bombParam);
+			m_music.getParameter("Win", out winParam);
+		}
+	}
+
+	public void StartMenuMusic() {
+		lobbyParam.setValue (0);
+		ingameParam.setValue (0);
+		bombParam.setValue (0);
+		winParam.setValue (0);
+	}
+
+	public void StartLobbyMusic() {
+		lobbyParam.setValue (2);
+		ingameParam.setValue (0);
+		bombParam.setValue (0);
+		winParam.setValue (0);
+	}
+
+	public void StartIngameMusic() {
+		lobbyParam.setValue (2);
+		ingameParam.setValue (1);
+		bombParam.setValue (0);
+		winParam.setValue (0);
+	}
+
+	public void StartBombMusic() {
+		lobbyParam.setValue (0);
+		ingameParam.setValue (1);
+		bombParam.setValue (1);
+		winParam.setValue (0);
+	}
+
+	public void StartWinuMusic() {
+		lobbyParam.setValue (0);
+		ingameParam.setValue (0);
+		bombParam.setValue (0);
+		winParam.setValue (1);
 	}
 
 }

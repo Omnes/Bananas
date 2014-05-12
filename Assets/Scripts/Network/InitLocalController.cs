@@ -21,7 +21,7 @@ public class InitLocalController : MonoBehaviour {
 		InitPlayer initPlayer = controller.GetComponent<InitPlayer>();
 
 		//min själ gjorde ont när jag skrev det här - byt mycket gärna ut mot en vettig lösning!
-		GameObject localInput = GameObject.Find("local_input");
+		GameObject localInput = GetComponent<InitLocalInput>().getLocalInput();
 		if(localInput == null) Debug.LogError("could not find the object local_input");
 		initPlayer.setLocal(true);
 		initPlayer.setLocalInputMetod(localInput.GetComponent<InputHub>()); 
