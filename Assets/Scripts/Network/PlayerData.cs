@@ -8,6 +8,7 @@ public class PlayerData {
 	public string m_name;
 	public bool m_isLocal = false;
 	public string m_guid;
+	public int m_characterMesh = 0;
 	//islocal
 
 
