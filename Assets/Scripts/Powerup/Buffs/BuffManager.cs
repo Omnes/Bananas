@@ -7,6 +7,7 @@ using System;
  * A manager for handling buffs on specific objects
  */
 public class BuffManager : MonoBehaviour {
+	public static BuffManager[] m_buffManagers = new BuffManager[4];
 	private List<Buff> m_buffs = new List<Buff>();
 
 	/**

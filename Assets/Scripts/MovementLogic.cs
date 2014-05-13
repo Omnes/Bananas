@@ -47,15 +47,9 @@ public class MovementLogic : MonoBehaviour
 
 	private bool m_running;
 	private playerAnimation m_animation;
-
-	private FMOD_StudioEventEmitter footstepEmitter;
-//	FMOD.Studio.ParameterInstance footstepParam;
-
-
 	
 	//seans crazy countdown
 	public BuffManager m_buffManager;
-
 
 	// Use this for initialization
 	void Start () 
@@ -63,12 +57,6 @@ public class MovementLogic : MonoBehaviour
 //		m_dizzySeconds = Mathf.Clamp (m_dizzySeconds, 1, 10);
 		m_animation = GetComponent<playerAnimation>();
 		m_touchIn = GetComponent<InputHub> ();
-		footstepEmitter = GetComponent<FMOD_StudioEventEmitter> ();
-		footstepEmitter.StartEvent ();
-		footstepEmitter.evt.setVolume (0);
-//		footstepEmitter.evt.getParameter ("Snabbet", out footstepParam);
-//		footstepParam.setValue (2.0f);
-
 		if(m_dizzySeconds  < 0.01f){
 			Debug.LogError("m_dizzySeconds can't be 0, this will crash the game on collisions!");
 		}
@@ -108,20 +96,6 @@ public class MovementLogic : MonoBehaviour
 		m_inputVec *= m_dizzyFactor;
 		right = m_inputVec.y;
 		left = m_inputVec.x;
-
-//		footstepEmitter.audio.volume = (Mathf.Abs(right) + Mathf.Abs(left)) / 2;
-//		Debug.Log ("Emitter: " + footstepEmitter.audio);
-
-		float totalSpeed = (Mathf.Abs (right) + Mathf.Abs (left)) / 2;
-		footstepEmitter.evt.setVolume (totalSpeed);
-//		totalSpeed *= 10;
-//		Debug.Log (totalSpeed);
-//		footstepParam.setValue (totalSpeed);
-
-
-//		totalSpeed *= 10;
-//		Debug.Log (totalSpeed);
-//		footstepParam.setValue (totalSpeed);
 
 		blowPower = m_touchIn.getCurrentBlowingPower ();
 		Profiler.EndSample();

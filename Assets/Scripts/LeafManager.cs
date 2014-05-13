@@ -11,6 +11,8 @@ public class LeafManager : MonoBehaviour {
 
 	public GameObject m_prefabLeaf;
 
+	private LeafPhysics[] m_leafPhysics;
+
 	[Range(0, 10000)]
 	public int m_leafCache = 100;
 
@@ -29,11 +31,11 @@ public class LeafManager : MonoBehaviour {
 	private NetworkView network;
 	public bool m_spawnInOffline = false;
 
-//	private float m_lastSyncTime = 0f;
-//	private float m_expectedSyncDelta = 1f/15f;
-//	private float m_syncDeltaTime = 0f;
+	private float m_lastSyncTime = 0f;
+	private float m_expectedSyncDelta = 1f/15f;
+	private float m_syncDeltaTime = 0f;
 
-	public float m_sqrResyncDistance = Mathf.Sqrt(0.4f);
+//	public float m_sqrResyncDistance = Mathf.Sqrt(0.4f);
 
 	/**
 	 * Initializes variables
@@ -44,6 +46,7 @@ public class LeafManager : MonoBehaviour {
 		leafs = new GameObject[m_leafCache];
 		m_newPositions = new Vector2[m_leafCache];
 		m_oldPositions = new Vector2[m_leafCache];
+		m_leafPhysics = new LeafPhysics[m_leafCache];
 
 		float heightIncrease = m_totalHeight / m_leafCache;
 
@@ -53,6 +56,7 @@ public class LeafManager : MonoBehaviour {
 			leafs[i].transform.parent = gameObject.transform;
 			leafs[i].transform.position = new Vector3(0, m_startHeight + heightIncrease * i, 0);
 			leafs[i].SetActive(false);
+			m_leafPhysics[i] = leafs[i].GetComponent<LeafPhysics>();
 		}
 
 //		m_lastSyncTime = Time.time;
@@ -141,26 +145,27 @@ public class LeafManager : MonoBehaviour {
 			Vector3 vec = Vector3.zero;
 			GameObject leaf;
 			int index;
+			lerpTime = 0;
 			for (int i = 0; i < leafs.Length; i++) {
 				stream.Serialize( ref vec );
 				index = (int)vec.x;
 				leaf = leafs[index];
-				//m_oldPositions[index] = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
+//				m_oldPositions[index] = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
+//				m_newPositions[index] = new Vector2(vec.y, vec.z);
 				Vector2 oldPosition = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
 				Vector2 newPos = new Vector2(vec.y, vec.z);
-				//Vector2 deltaPosition = (newPos - m_oldPositions[index]);
-				//the predicted position at next sync
-				//m_newPositions[index] = newPos + deltaPosition;
-				if((newPos - oldPosition).sqrMagnitude > m_sqrResyncDistance){
-					leaf.transform.position = new Vector3(newPos.x,leaf.transform.position.y,newPos.y);
-				}
+				m_leafPhysics[index].setGhostLeafPosition(new Vector3(newPos.x,leaf.transform.position.y,newPos.y));
+//				Vector2 deltaPosition = (newPos - m_oldPositions[index]);
+//				m_newPositions[index] = newPos + deltaPosition;
+
+//				if((newPos - oldPosition).sqrMagnitude > m_sqrResyncDistance){
+//					leaf.transform.position = new Vector3(newPos.x,leaf.transform.position.y,newPos.y);
+//				}
 
 			}
+
 		}
 	}
-	
-
-	//time - lastsynctime / expectedsynctimedelta
 
 	/**
 	 * Updates the leaves local position so that the match the server position
@@ -169,7 +174,7 @@ public class LeafManager : MonoBehaviour {
 //		if ( Network.isClient ) {
 //			if (useLerp) {
 //				lerpTime = (Time.time - m_lastSyncTime) / m_expectedSyncDelta;
-//				Debug.Log ("LerpTime: " + lerpTime);
+////				Debug.Log ("LerpTime: " + lerpTime);
 //				for (int i = 0; i < leafs.Length; i++) {
 ////					if ( leafs[i].rigidbody.velocity.sqrMagnitude > 1 ) {
 //						leafs [i].transform.position = new Vector3 (Mathf.Lerp (m_oldPositions [i].x, m_newPositions [i].x, lerpTime),

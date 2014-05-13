@@ -19,8 +19,8 @@ public class loadNextSceneGUI : MonoBehaviour {
 
 		Vector2 size = GUIMath.InchToPixels(new Vector2(1.5f, 0.8f));
 
-		float centerX = Screen.width/2 - (size.x / 2);
-		float centerY = Screen.height/6;
+		float centerX = Screen.width / 2 - (size.x / 2);
+		float centerY = Screen.height / 6;
 
 		if(GUI.Button(new Rect(centerX, centerY + size.y, size.x, size.y), "Start Game")){
 			Application.LoadLevel(m_nextScene);

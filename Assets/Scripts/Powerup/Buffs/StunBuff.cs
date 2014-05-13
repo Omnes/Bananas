@@ -13,16 +13,13 @@ public class StunBuff : Buff {
 	override public void InitEvent()
 	{
 		m_playerRef.rigidbody.velocity = Vector3.zero;
-		inputHub.Stun();
+		inputHub.StunMovement();
+		inputHub.StunLeafBlower ();
 	}
-
-//	public override void UpdateEvent ()
-//	{
-//		movementLogic.enabled = false;
-//	}
 
 	override public void ExpireEvent()
 	{
-		inputHub.UnStun();
+		inputHub.UnStunMovement();
+		inputHub.UnStunLeafBlower ();
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class InitPlayer : MonoBehaviour {
 
@@ -8,7 +9,7 @@ public class InitPlayer : MonoBehaviour {
 
 	public GameObject m_stateTransmitterPrefab;
 
-	public GameObject[] m_spawnpoints = new GameObject[4];
+	private GameObject[] m_spawnpoints = new GameObject[4];
 	
 
 	private PlayerInfo m_playerInfo;
@@ -22,9 +23,21 @@ public class InitPlayer : MonoBehaviour {
 
 	public InputMetod m_localInput;
 
+	private List<PlayerData> m_playerDataList = new List<PlayerData>();
+
 	// Use this for initialization
 	void Start () {
 		//setPlayerInfo(new PlayerInfo("Default",m_debug_id)); //temp
+
+		//used to find out wich mesh is the correct one
+//		m_playerDataList = SeaNet.Instance.m_connectedPlayers;
+//		for(int i = 0; i < m_playerDataList.Count; i++){
+//			if(m_playerDataList[i].m_id == m_playerInfo.id){
+//				//m_playerDataList[i].m_characterMesh;
+	//			GameObject tempMesh = (GameObject)Instantiate(Prefactory.prefab_douglas);
+	//			tempMesh.transform.parent = gameObject.transform;
+//			}
+//		}
 	}
 	
 	public void init(){
@@ -35,7 +48,10 @@ public class InitPlayer : MonoBehaviour {
 		if(Network.isServer){
 			//om vi är server skapa en faktisk spelare
 			m_player = Instantiate(m_playerPrefab,spawnpoint.position,spawnpoint.rotation) as GameObject;
-			m_player.SendMessage("setID",m_playerInfo.id);
+			m_player.GetComponent<SyncMovement>().setID(m_playerInfo.id,m_isLocal);
+
+			//set correct mesh
+			setMesh(m_player);
 
 			//setup the StateTransmitter for this player
 			GameObject transmitter = Network.Instantiate(m_stateTransmitterPrefab,Vector3.zero,Quaternion.identity,0) as GameObject;
@@ -56,7 +72,11 @@ public class InitPlayer : MonoBehaviour {
 		else if(Network.isClient){
 			//om vi är en klient skapa en fake spelare
 			m_player = Instantiate(m_ghostPrefab,spawnpoint.position,spawnpoint.rotation) as GameObject;
-			m_player.SendMessage("setID",m_playerInfo.id);
+			m_player.GetComponent<SyncMovement>().setID(m_playerInfo.id,m_isLocal);
+
+			//set correct mesh
+			setMesh(m_player);
+
 			if(m_isLocal){
 				m_player.name = "PlayerGhost " + m_playerInfo.name+ " (Local)";
 				//är det vår fake spalare? få kameran att följa
@@ -101,6 +121,13 @@ public class InitPlayer : MonoBehaviour {
 			}
 		}
 		return array;
+	}
+
+	public void setMesh(GameObject player){
+		//set correct mesh
+		GameObject tempMesh = (GameObject)Instantiate(Prefactory.prefab_meshList[m_playerInfo.id], player.transform.position, Prefactory.prefab_meshList[m_playerInfo.id].transform.rotation);
+		player.GetComponent<upperBodyAnimation>().setAnimator(tempMesh.GetComponent<Animator>());
+		tempMesh.transform.parent = player.transform;
 	}
 
 }

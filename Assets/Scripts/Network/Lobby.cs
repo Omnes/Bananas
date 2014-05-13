@@ -10,7 +10,7 @@ public class Lobby : MonoBehaviour {
 	private bool m_useNAT = false;
 
 	private int m_maxPlayers = 4;
-	public string[] m_levels = {"test_robin"};
+	public string[] m_levels = {"test_johannes"};
 
 	//might not be use3d
 	//private string m_myIP = "";
