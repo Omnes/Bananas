@@ -125,7 +125,7 @@ public class InitPlayer : MonoBehaviour {
 
 	public void setMesh(GameObject player){
 		//set correct mesh
-		GameObject tempMesh = (GameObject)Instantiate(Prefactory.prefab_meshList[m_playerInfo.id], player.transform.position, Prefactory.prefab_meshList[m_playerInfo.id].transform.rotation);
+		GameObject tempMesh = (GameObject)Instantiate(Prefactory.prefab_meshList[m_playerInfo.id], player.transform.position, player.transform.rotation);
 		player.GetComponent<upperBodyAnimation>().setAnimator(tempMesh.GetComponent<Animator>());
 		tempMesh.transform.parent = player.transform;
 	}
