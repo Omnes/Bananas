@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LeifLogic : MonoBehaviour {
+public class LeafLogic : MonoBehaviour {
 
 	public enum State {OnGround,InBlower,Drop,Pickup};
 	public State m_state = State.OnGround;
 
-	public float m_moveThreshold = 0.05f;
+	public int m_id = -1;
+
 	public float m_baseSpeed = 1f;
 	public float m_maxSpeed = 15f;
 	private float m_speed = 0f;
@@ -31,16 +32,14 @@ public class LeifLogic : MonoBehaviour {
 		if(m_state == State.Pickup){
 			Vector3 endPos = m_toBeParent.TransformPoint(m_endPosition);
 			endPos.y = transform.position.y;
-			moveTowards(endPos);
-			if(Vector3.Distance(transform.position,endPos) < m_moveThreshold){
+			if(moveTowards(endPos)){
 				transform.parent = m_toBeParent;
 				m_state = State.InBlower;
 				m_speed = m_baseSpeed;
 			}
 		}
 		if(m_state == State.Drop){
-			moveTowards(m_endPosition);
-			if(Vector3.Distance(transform.position,m_endPosition) < m_moveThreshold){
+			if(moveTowards(m_endPosition)){
 				transform.parent = null;
 				m_speed = m_baseSpeed;
 				m_state = State.OnGround;
@@ -49,15 +48,21 @@ public class LeifLogic : MonoBehaviour {
 		}
 
 	}
-
-	void moveTowards(Vector3 target){
+	//moves the transform towards the target position, returns true when it has reached the destination
+	bool moveTowards(Vector3 target){
 		Vector3 dir = target - transform.position;
 		Vector3 moveVector = dir.sqrMagnitude > 1f ? dir.normalized : dir;
 		if(m_speed < m_maxSpeed){
-			m_speed += m_accleleration;
+			m_speed += m_accleleration*Time.deltaTime;
 		}
-		moveVector = moveVector.normalized * m_speed;
-		transform.localPosition += moveVector * Time.deltaTime;
+		if(dir.magnitude > m_speed*Time.deltaTime){
+			moveVector = moveVector.normalized * m_speed;
+			transform.localPosition += moveVector * Time.deltaTime;
+			return false;
+		}else{
+			transform.position = target;
+			return true;
+		}
 	}
 
 //	void FixedUpdate(){
