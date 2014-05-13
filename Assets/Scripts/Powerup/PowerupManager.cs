@@ -28,9 +28,9 @@ public class PowerupManager : MonoBehaviour {
 	private float spawnTimer = 0.0f;
 
 	//Can spawn timer
-	private static float timeBombTimer 			= TimeBombBuff.BOMB_DURATION_MAX;
-	private static float bigLeafBlowerTimer 	= BigLeafBlowerBuff.DURATION;
-	private static float EMPTimer 				= EMPBuff.DURATION;
+	private static float timeBombTimer;
+	private static float bigLeafBlowerTimer;
+	private static float EMPTimer;
 	private static bool CanSpawnTimeBomb() { return timeBombTimer > TimeBombBuff.BOMB_DURATION_MAX; }
 	private static bool CanSpawnBigLeafBlower() { return bigLeafBlowerTimer > BigLeafBlowerBuff.DURATION; }
 	private static bool CanSpawnEMP() { return EMPTimer > EMPBuff.DURATION; }
@@ -38,7 +38,7 @@ public class PowerupManager : MonoBehaviour {
 	/**
 	 * Initialize variables
 	 */
-	void Awake()
+	void Start()
 	{
 		network = networkView;
 		spawnIntervall = Random.Range (INIT_SPAWN_DELAY_MIN, INIT_SPAWN_DELAY_MAX);
@@ -47,6 +47,12 @@ public class PowerupManager : MonoBehaviour {
 		m_spawnablePowerups.Add(Powerup.TIME_BOMB);
 		m_spawnablePowerups.Add(Powerup.BIG_LEAF_BLOWER);
 		m_spawnablePowerups.Add(Powerup.EMP);
+		timeBombTimer = TimeBombBuff.BOMB_DURATION_MAX;
+		bigLeafBlowerTimer = BigLeafBlowerBuff.DURATION;
+		EMPTimer = EMPBuff.DURATION;
+
+		spawnTimer = 0.0f;
+		Clear ();
 	}
 
 	/**
@@ -208,5 +214,10 @@ public class PowerupManager : MonoBehaviour {
 				spawnIntervall = Random.Range (SPAWN_INTERVALL_MIN, SPAWN_INTERVALL_MAX);
 			}
 		}
+	}
+
+	public static void Clear()
+	{
+		m_powerups.Clear ();
 	}
 }
