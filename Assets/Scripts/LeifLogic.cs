@@ -11,11 +11,17 @@ public class LeifLogic : MonoBehaviour {
 	public float m_maxSpeed = 15f;
 	private float m_speed = 0f;
 	public float m_accleleration  = 1f;
-	public float m_rotationSpeed = 80f;
+	//public float m_rotationSpeed = 80f;
+
+	public float m_moveAround = 1.5f;
+	public float m_spinSpeedInBlower = 1f;
 
 	private bool m_move = false;
 	private Vector3 m_endPosition;
 	private Transform m_toBeParent;
+
+	private float m_moveRandom;
+	private float m_spinRandom;
 
 
 	public float m_rotationModifierRange = 2f;
@@ -24,6 +30,9 @@ public class LeifLogic : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		m_rotationModifier = Random.Range (-m_rotationModifierRange,m_rotationModifierRange);
+
+		m_moveRandom = Random.Range(0f, 0.5f);
+		m_spinRandom = Random.Range(0f, 0.5f);
 	}
 	
 	// Update is called once per frame
@@ -38,6 +47,19 @@ public class LeifLogic : MonoBehaviour {
 				m_speed = m_baseSpeed;
 			}
 		}
+
+		if(m_state == State.InBlower){
+			Vector3 spin = m_endPosition + new Vector3(
+						(m_moveAround + m_moveRandom) * Mathf.Sin(Time.timeSinceLevelLoad * (m_spinSpeedInBlower + m_spinRandom)), 
+						transform.localPosition.y, 
+						(m_moveAround + m_moveRandom) * Mathf.Cos(Time.timeSinceLevelLoad * (m_spinSpeedInBlower + m_spinRandom)));
+
+			if(m_moveRandom > 0.25f)
+				spin.x *= -1;
+
+			transform.localPosition = spin;
+		}
+
 		if(m_state == State.Drop){
 			moveTowards(m_endPosition);
 			if(Vector3.Distance(transform.position,m_endPosition) < m_moveThreshold){
