@@ -51,11 +51,10 @@ public class MovementLogic : MonoBehaviour
 	private FMOD_StudioEventEmitter footstepEmitter;
 //	FMOD.Studio.ParameterInstance footstepParam;
 
-
-	
 	//seans crazy countdown
 	public BuffManager m_buffManager;
 
+	private LeafBlower m_leafBlower;
 
 	// Use this for initialization
 	void Start () 
@@ -63,6 +62,7 @@ public class MovementLogic : MonoBehaviour
 //		m_dizzySeconds = Mathf.Clamp (m_dizzySeconds, 1, 10);
 		m_animation = GetComponent<playerAnimation>();
 		m_touchIn = GetComponent<InputHub> ();
+		m_leafBlower = GetComponentInChildren<LeafBlower>();
 		footstepEmitter = GetComponent<FMOD_StudioEventEmitter> ();
 		footstepEmitter.StartEvent ();
 		footstepEmitter.evt.setVolume (0);
@@ -167,10 +167,11 @@ public class MovementLogic : MonoBehaviour
 //		Vector3 backwardForce = -dir * blowPower * m_BlowPowerForce;
 //		newVelocity += backwardForce * Time.deltaTime;
 
+		float leafModifier = m_leafBlower.getLeafSpeedModifier();
 		//clamp speed
-		if(newVelocity.magnitude > m_maxSpeed)
+		if(newVelocity.magnitude > m_maxSpeed*leafModifier)
 		{
-			newVelocity = newVelocity.normalized*m_maxSpeed;
+			newVelocity = newVelocity.normalized*m_maxSpeed*leafModifier;
 		}
 
 		//turning

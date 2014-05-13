@@ -46,7 +46,7 @@ public class LeafManager : MonoBehaviour {
 		leafs = new GameObject[m_leafCache];
 		m_newPositions = new Vector2[m_leafCache];
 		m_oldPositions = new Vector2[m_leafCache];
-		m_leafPhysics = new LeafPhysics[m_leafCache];
+//		m_leafPhysics = new LeafPhysics[m_leafCache];
 
 		float heightIncrease = m_totalHeight / m_leafCache;
 
@@ -56,7 +56,7 @@ public class LeafManager : MonoBehaviour {
 			leafs[i].transform.parent = gameObject.transform;
 			leafs[i].transform.position = new Vector3(0, m_startHeight + heightIncrease * i, 0);
 			leafs[i].SetActive(false);
-			m_leafPhysics[i] = leafs[i].GetComponent<LeafPhysics>();
+//			m_leafPhysics[i] = leafs[i].GetComponent<LeafPhysics>();
 		}
 
 //		m_lastSyncTime = Time.time;
@@ -80,7 +80,7 @@ public class LeafManager : MonoBehaviour {
 	public GameObject SpawnLeaf() {
 		for (int i = 0; i < leafs.Length; i++) {
 			if ( leafs[i].activeSelf == false ) {
-				leafs[i].rigidbody.velocity = Vector3.zero;
+//				leafs[i].rigidbody.velocity = Vector3.zero;
 				leafs[i].SetActive(true);
 				return leafs[i];
 			}
@@ -127,45 +127,35 @@ public class LeafManager : MonoBehaviour {
 	/**
 	 * Send and receive all leaves position
 	 */
-	void OnSerializeNetworkView (BitStream stream, NetworkMessageInfo info) {
-		if (Network.isServer && stream.isWriting) {
-			//Sending
-			Vector3 vec;
-			for (int i = 0; i < leafs.Length; i++) {
-//				if ( leafs[i].rigidbody.velocity.sqrMagnitude > 1 ) {	//TODO: Kan bli problem eftersom det skickas mindre än det tas emot!
-					vec = new Vector3(i, leafs[i].transform.position.x, leafs[i].transform.position.z);
-					stream.Serialize( ref vec );
-//				}
-			}
-		}
-		else if (Network.isClient && stream.isReading) {
-			//Receiving
-//			m_syncDeltaTime = Time.time - m_lastSyncTime;
-//			m_lastSyncTime = Time.time;
-			Vector3 vec = Vector3.zero;
-			GameObject leaf;
-			int index;
-			lerpTime = 0;
-			for (int i = 0; i < leafs.Length; i++) {
-				stream.Serialize( ref vec );
-				index = (int)vec.x;
-				leaf = leafs[index];
-//				m_oldPositions[index] = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
-//				m_newPositions[index] = new Vector2(vec.y, vec.z);
-				Vector2 oldPosition = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
-				Vector2 newPos = new Vector2(vec.y, vec.z);
-				m_leafPhysics[index].setGhostLeafPosition(new Vector3(newPos.x,leaf.transform.position.y,newPos.y));
-//				Vector2 deltaPosition = (newPos - m_oldPositions[index]);
-//				m_newPositions[index] = newPos + deltaPosition;
-
-//				if((newPos - oldPosition).sqrMagnitude > m_sqrResyncDistance){
-//					leaf.transform.position = new Vector3(newPos.x,leaf.transform.position.y,newPos.y);
-//				}
-
-			}
-
-		}
-	}
+//	void OnSerializeNetworkView (BitStream stream, NetworkMessageInfo info) {
+//		if (Network.isServer && stream.isWriting) {
+//			//Sending
+//			Vector3 vec;
+//			for (int i = 0; i < leafs.Length; i++) {
+////				if ( leafs[i].rigidbody.velocity.sqrMagnitude > 1 ) {	//TODO: Kan bli problem eftersom det skickas mindre än det tas emot!
+//					vec = new Vector3(i, leafs[i].transform.position.x, leafs[i].transform.position.z);
+//					stream.Serialize( ref vec );
+////				}
+//			}
+//		}
+//		else if (Network.isClient && stream.isReading) {
+//			Vector3 vec = Vector3.zero;
+//			GameObject leaf;
+//			int index;
+//			lerpTime = 0;
+//			for (int i = 0; i < leafs.Length; i++) {
+//				stream.Serialize( ref vec );
+//				index = (int)vec.x;
+//				leaf = leafs[index];
+//
+//				Vector2 oldPosition = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
+//				Vector2 newPos = new Vector2(vec.y, vec.z);
+//				m_leafPhysics[index].setGhostLeafPosition(new Vector3(newPos.x,leaf.transform.position.y,newPos.y));
+//
+//			}
+//
+//		}
+//	}
 
 	/**
 	 * Updates the leaves local position so that the match the server position

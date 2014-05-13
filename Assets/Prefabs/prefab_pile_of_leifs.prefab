@@ -40,7 +40,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useLerp: 1
-  m_prefabLeaf: {fileID: 100000, guid: 3c6d9bb5dde52c84d965a56f5bbbc12e, type: 2}
+  m_prefabLeaf: {fileID: 100000, guid: 89c82b5978a033c4d82a2e7f0b274cf7, type: 2}
   m_leafCache: 200
   m_leafStartCount: 200
   m_range: 14

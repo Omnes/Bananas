@@ -1,0 +1,87 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class LeifLogic : MonoBehaviour {
+
+	public enum State {OnGround,InBlower,Drop,Pickup};
+	public State m_state = State.OnGround;
+
+	public float m_moveThreshold = 0.05f;
+	public float m_baseSpeed = 1f;
+	public float m_maxSpeed = 15f;
+	private float m_speed = 0f;
+	public float m_accleleration  = 1f;
+	public float m_rotationSpeed = 80f;
+
+	private bool m_move = false;
+	private Vector3 m_endPosition;
+	private Transform m_toBeParent;
+
+
+	public float m_rotationModifierRange = 2f;
+	private float m_rotationModifier;
+
+	// Use this for initialization
+	void Start () {
+		m_rotationModifier = Random.Range (-m_rotationModifierRange,m_rotationModifierRange);
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		if(m_state == State.Pickup){
+			Vector3 endPos = m_toBeParent.TransformPoint(m_endPosition);
+			endPos.y = transform.position.y;
+			moveTowards(endPos);
+			if(Vector3.Distance(transform.position,endPos) < m_moveThreshold){
+				transform.parent = m_toBeParent;
+				m_state = State.InBlower;
+				m_speed = m_baseSpeed;
+			}
+		}
+		if(m_state == State.Drop){
+			moveTowards(m_endPosition);
+			if(Vector3.Distance(transform.position,m_endPosition) < m_moveThreshold){
+				transform.parent = null;
+				m_speed = m_baseSpeed;
+				m_state = State.OnGround;
+				collider.enabled = true;
+			}
+		}
+
+	}
+
+	void moveTowards(Vector3 target){
+		Vector3 dir = target - transform.position;
+		Vector3 moveVector = dir.sqrMagnitude > 1f ? dir.normalized : dir;
+		if(m_speed < m_maxSpeed){
+			m_speed += m_accleleration;
+		}
+		moveVector = moveVector.normalized * m_speed;
+		transform.localPosition += moveVector * Time.deltaTime;
+	}
+
+//	void FixedUpdate(){
+//		if(m_inBlower){
+//			Profiler.BeginSample("Rotate Leifs");
+////			Quaternion newAngle = Quaternion.Euler(transform.rotation + Vector3.forward * Time.deltaTime * m_rotationSpeed);
+////			m_rigidbody.MoveRotation(newAngle);
+//			transform.Rotate(Vector3.forward * Time.deltaTime * m_rotationSpeed * m_rotationModifier);
+//			Profiler.EndSample();
+//		}
+//	}
+
+	public void dropFromWhirlwind(Vector3 pos){
+		m_state = State.Drop;
+		m_endPosition = pos;
+		m_toBeParent = null;
+		transform.parent = null;
+
+	} 
+
+	public void addToWhirlwind(Vector3 pos,Transform parent){
+		m_state = State.Pickup;
+		m_endPosition = pos;
+		m_toBeParent = parent;
+		collider.enabled = false;
+	} 
+}
