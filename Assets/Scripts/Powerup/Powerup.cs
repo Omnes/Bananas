@@ -22,7 +22,6 @@ public class Powerup : MonoBehaviour {
 		if ( Network.isServer ) {
 			if (col.gameObject.CompareTag ("Player")) {
 				OnPowerupGet(col.gameObject);
-//				Network.Destroy( networkView.viewID );
 				PowerupManager.Remove(gameObject);
 			}
 	    }
@@ -35,10 +34,6 @@ public class Powerup : MonoBehaviour {
 		m_rigidbody.MoveRotation(newAngle);
 	}
 
-//	public virtual void OnPowerupGet(GameObject obj)
-//	{
-//		Debug.LogError ("Override this!");
-//	}
 	public void OnPowerupGet(GameObject obj)
 	{
 		PowerupManager.SynchronizePowerupGet (obj);
