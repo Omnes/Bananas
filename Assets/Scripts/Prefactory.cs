@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Prefactory : MonoBehaviour {
 	public GameObject m_bomb;
@@ -8,10 +9,7 @@ public class Prefactory : MonoBehaviour {
 	public GameObject m_EMP;
 
 	//meshes
-	public GameObject m_douglas;
-	public GameObject m_leif;
-	public GameObject m_jessica;
-	public GameObject m_sarah;
+	public List<GameObject> m_meshList = new List<GameObject>();
 
 	public static GameObject prefab_bomb;
 	public static GameObject prefab_playerCircle;
@@ -19,10 +17,7 @@ public class Prefactory : MonoBehaviour {
 	public static GameObject prefab_EMP;
 
 	//meshes
-	public static GameObject prefab_douglas;
-	public static GameObject prefab_leif;
-	public static GameObject prefab_jessica;
-	public static GameObject prefab_sarah;
+	public static List<GameObject> prefab_meshList;
 	
 	void Awake () {
 		prefab_bomb = m_bomb;
@@ -31,9 +26,6 @@ public class Prefactory : MonoBehaviour {
 		prefab_EMP = m_EMP;
 
 		//meshes
-		prefab_douglas = m_douglas;
-		prefab_leif = m_leif;
-		prefab_jessica = m_jessica;
-		prefab_sarah = m_sarah;
+		prefab_meshList = m_meshList;
 	}
 }
