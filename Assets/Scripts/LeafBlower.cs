@@ -59,7 +59,9 @@ public class LeafBlower : MonoBehaviour {
 
 	public void OnDestroy()
 	{
-		SoundManager.Instance.DestroySound (m_blowSound);
+		if (SoundManager.IsNull() == false) {
+			SoundManager.Instance.DestroySound (m_blowSound);
+		}
 	}
 
 	public void OnTriggerStayInChild(Collider col)

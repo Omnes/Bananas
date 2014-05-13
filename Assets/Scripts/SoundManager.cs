@@ -15,23 +15,13 @@ public class SoundManager : MonoBehaviour {
 	public const string TIMEBOMB_EXPLOSION = "event:/SFX/Timebomb_explosion_v2";
 	public const string TIMEBOMB_TICK = "event:/SFX/Timebomb_tick_2";
 
-//	public const string COUNTDOWN = "event:/VO/Countdown";
 	public const string COUNTDOWN = "event:/VO/3,2,1 GO ";
 
 
 	private static FMOD.Studio.EventInstance m_music;
 
 	private static SoundManager instance;
-//	public static SoundManager Instance{get{return instance;}}
-//	void Awake() {
-//		if (instance != null && instance != this) {
-//			Destroy(this.gameObject);
-//			return;
-//		} else {
-//			instance = this;
-//		}
-//		DontDestroyOnLoad(this.gameObject);
-//	}
+	public static bool IsNull() {return instance == null;}
 	public static SoundManager Instance
 	{
 		get
@@ -45,6 +35,8 @@ public class SoundManager : MonoBehaviour {
 			return instance;
 		}
 	}
+
+
 
 	public List<FMOD.Studio.EventInstance> m_sounds = new List<FMOD.Studio.EventInstance>();
 
