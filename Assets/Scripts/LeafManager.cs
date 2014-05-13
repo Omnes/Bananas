@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class LeafManager : MonoBehaviour {
-	private GameObject[] leafs;
+	private GameObject[] m_leafs;
 	private Vector2[] m_newPositions;
 	private Vector2[] m_oldPositions;
 	private float lerpTime;
@@ -28,6 +28,8 @@ public class LeafManager : MonoBehaviour {
 	[Range(0f, 10f)]
 	public float m_totalHeight = 1.0f;
 
+	public int m_minLeafCount = 0;
+
 	private NetworkView network;
 	public bool m_spawnInOffline = false;
 
@@ -43,20 +45,20 @@ public class LeafManager : MonoBehaviour {
 	void Awake () {
 		network = networkView;
 
-		leafs = new GameObject[m_leafCache];
+		m_leafs = new GameObject[m_leafCache];
 		m_newPositions = new Vector2[m_leafCache];
 		m_oldPositions = new Vector2[m_leafCache];
 		m_leafPhysics = new LeafPhysics[m_leafCache];
 
 		float heightIncrease = m_totalHeight / m_leafCache;
 
-		for (int i = 0; i < leafs.Length; i++) {
-			leafs[i] = Instantiate(m_prefabLeaf) as GameObject;
-			leafs[i].name = "Leaf_" + i;
-			leafs[i].transform.parent = gameObject.transform;
-			leafs[i].transform.position = new Vector3(0, m_startHeight + heightIncrease * i, 0);
-			leafs[i].SetActive(false);
-			m_leafPhysics[i] = leafs[i].GetComponent<LeafPhysics>();
+		for (int i = 0; i < m_leafs.Length; i++) {
+			m_leafs[i] = Instantiate(m_prefabLeaf) as GameObject;
+			m_leafs[i].name = "Leaf_" + i;
+			m_leafs[i].transform.parent = gameObject.transform;
+			m_leafs[i].transform.position = new Vector3(0, m_startHeight + heightIncrease * i, 0);
+			m_leafs[i].SetActive(false);
+			m_leafPhysics[i] = m_leafs[i].GetComponent<LeafPhysics>();
 		}
 
 //		m_lastSyncTime = Time.time;
@@ -73,38 +75,42 @@ public class LeafManager : MonoBehaviour {
 		}
 	}
 
+	void Update() {
+		if (Network.isServer && ActiveLeafs() <= m_minLeafCount) {
+			network.RPC ("SpawnLeafs", RPCMode.All, Random.Range (int.MinValue, int.MaxValue));
+		}
+	}
+
 	/**
 	 * Find and return an unused leaf from the leaf pool
 	 * Returns null if no leaf can be used
 	 */
 	public GameObject SpawnLeaf() {
-		for (int i = 0; i < leafs.Length; i++) {
-			if ( leafs[i].activeSelf == false ) {
-				leafs[i].rigidbody.velocity = Vector3.zero;
-				leafs[i].SetActive(true);
-				return leafs[i];
+		for (int i = 0; i < m_leafs.Length; i++) {
+			if ( m_leafs[i].activeSelf == false ) {
+				m_leafs[i].rigidbody.velocity = Vector3.zero;
+				m_leafs[i].SetActive(true);
+				return m_leafs[i];
 			}
 		}
-		Debug.LogError ("LeafManager.cs: Trying to create more leafs than is available in the pool (Max " + leafs.Length + ")");
+		Debug.LogError ("LeafManager.cs: Trying to create more leafs than is available in the pool (Max " + m_leafs.Length + ")");
 		return null;
 	}
 
-//	public GameObject SpawnLeaf(int index) {
-//		if (index >= 0 || index < leafs.Length) {
-//			if (leafs[index].activeSelf == false) {
-//				leafs[index].rigidbody.velocity = Vector3.zero;
-//				leafs[index].SetActive (true);
-//				return leafs[index];
-//			}
-//		}
-//		return null;
-//	}
-
 	public GameObject GetLeaf(int index) {
-		if (index >= 0 || index < leafs.Length) {
-			return leafs [index];
+		if (index >= 0 || index < m_leafs.Length) {
+			return m_leafs [index];
 		}
 		return null;
+	}
+
+	public int ActiveLeafs() {
+		int count = 0;
+		for (int i = 0; i < m_leafs.Length; i++) {
+			if (m_leafs[i].activeSelf)
+				count++;
+		}
+		return count;
 	}
 
 	/**
@@ -131,9 +137,9 @@ public class LeafManager : MonoBehaviour {
 		if (Network.isServer && stream.isWriting) {
 			//Sending
 			Vector3 vec;
-			for (int i = 0; i < leafs.Length; i++) {
+			for (int i = 0; i < m_leafs.Length; i++) {
 //				if ( leafs[i].rigidbody.velocity.sqrMagnitude > 1 ) {	//TODO: Kan bli problem eftersom det skickas mindre än det tas emot!
-					vec = new Vector3(i, leafs[i].transform.position.x, leafs[i].transform.position.z);
+					vec = new Vector3(i, m_leafs[i].transform.position.x, m_leafs[i].transform.position.z);
 					stream.Serialize( ref vec );
 //				}
 			}
@@ -146,10 +152,10 @@ public class LeafManager : MonoBehaviour {
 			GameObject leaf;
 			int index;
 			lerpTime = 0;
-			for (int i = 0; i < leafs.Length; i++) {
+			for (int i = 0; i < m_leafs.Length; i++) {
 				stream.Serialize( ref vec );
 				index = (int)vec.x;
-				leaf = leafs[index];
+				leaf = m_leafs[index];
 //				m_oldPositions[index] = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
 //				m_newPositions[index] = new Vector2(vec.y, vec.z);
 				Vector2 oldPosition = new Vector2(leaf.transform.position.x, leaf.transform.position.z);

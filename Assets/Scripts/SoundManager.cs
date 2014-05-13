@@ -2,9 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-//TODO: Lägg till destroyTime parameter
-//TODO: Play funktion som inte tar bort ljudet
-//TODO: Ha koll på hur många av varje ljud som spelas upp så att man kan sätta tex, max 2 ljud får spelas samtidigt
 public class SoundManager : MonoBehaviour {
 	public const string MUSIC = "event:/Music/MenuEvent";
 
@@ -36,30 +33,12 @@ public class SoundManager : MonoBehaviour {
 		}
 	}
 
-
-
 	public List<FMOD.Studio.EventInstance> m_sounds = new List<FMOD.Studio.EventInstance>();
 
 	public FMOD.Studio.EventInstance playOneShot(string path)
 	{
 		//Create sound
 		FMOD.Studio.EventInstance sound = FMOD_StudioSystem.instance.GetEvent (path);
-
-//		FMOD.Studio.EventDescription description;
-//		sound.getDescription (out description);
-//		float minDistance;
-//		description.getMinimumDistance (out minDistance);
-//		minDistance = 0;
-//
-//		float maxDistance;
-//		description.getMinimumDistance (out maxDistance);
-//		maxDistance = 0;
-//		bool is3D;
-//		description.is3D (out is3D);
-//		is3D = false;
-
-//		description.
-//		sound.
 
 		sound.start ();
 		m_sounds.Add (sound);
@@ -115,15 +94,7 @@ public class SoundManager : MonoBehaviour {
 		sound.release ();
 		m_sounds.Remove (sound);
 	}
-
-
-
-	//Mute
-//	void Update() {
-//		if (Input.GetKey (KeyCode.M))
-//			ToggleMute ();
-//	}
-//
+	
 	public static void Mute() {
 		Debug.Log ("Mute");
 //		FMOD_Listener listener = Camera.main.GetComponent<FMOD_Listener> ();
@@ -197,5 +168,4 @@ public class SoundManager : MonoBehaviour {
 		bombParam.setValue (0);
 		winParam.setValue (1);
 	}
-
 }
