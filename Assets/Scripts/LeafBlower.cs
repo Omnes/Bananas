@@ -102,7 +102,7 @@ public class LeafBlower : MonoBehaviour {
 		return m_whirlwind.position + new Vector3(Mathf.Cos(randomAngle),0,Mathf.Sin(randomAngle)) * randomDistance;
 	}
 
-
+	//this is triggered by collisions in the child's colliders
 	public void OnTriggerEnterInChild(Collider other)
 	{
 		if (Network.isServer) {
@@ -115,6 +115,30 @@ public class LeafBlower : MonoBehaviour {
 		}
 	}
 
+	void returnLeafsToPool(int count){
+		for(int i = 0;i < count; i++){
+			m_collectedLeafs[i].GetComponent<LeafLogic>().clean();
+			m_collectedLeafs[i].gameObject.SetActive(false);
+		}
+		m_collectedLeafs.RemoveRange(0,count);
+	}
+
+	//TODO: Authorativ
+	//this is the own "leaf dumper" trigger -- this gives the score to the players
+	public void OnTriggerEnter(Collider other)
+	{
+//		if (Network.isServer) {
+		if (other.CompareTag("Leaf_collector")) {
+			int nrOfLeafs = m_collectedLeafs.Count;
+			returnLeafsToPool(nrOfLeafs);
+			int id = other.gameObject.GetComponent<CollectorCollider>().m_ID;
+			ScoreKeeper.m_scores[id] += nrOfLeafs;
+		}
+//		}
+	}
+
+
+
 
 	public float getLeafSpeedModifier(){
 		float modifier = (float)(m_collectedLeafs.Count -  m_leafThreshold) / (float)(m_maxLeaf - m_leafThreshold); // current/max = percent
@@ -122,6 +146,11 @@ public class LeafBlower : MonoBehaviour {
 		modifier = Mathf.Clamp(1f - modifier,m_lowestSpeedModifier,1f); // invert and clamp
 //		Debug.Log("Post: " + modifier);
 		return modifier;
+	}
+
+
+	public void setWhirlwind(Transform whirl){
+		m_whirlwind = whirl;
 	}
 }
 

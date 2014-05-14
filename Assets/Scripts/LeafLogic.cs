@@ -115,6 +115,12 @@ public class LeafLogic : MonoBehaviour {
 //		}
 //	}
 
+	public void clean(){
+		m_transform.parent = m_originalParent;
+		m_speed = 0f;
+		m_state = State.OnGround;
+	}
+
 	public void dropFromWhirlwind(Vector3 pos){
 		m_state = State.Drop;
 		m_endPosition = pos;
