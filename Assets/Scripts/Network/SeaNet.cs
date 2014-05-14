@@ -27,6 +27,10 @@ public class SeaNet : MonoBehaviour {
 	public List<bool> m_isLocal;
 	public List<string> m_names;
 
+	public static bool isNull(){
+		return instance == null;
+	}
+
 	// Use this for initialization
 	void Start() {
 		DontDestroyOnLoad(gameObject);
@@ -48,6 +52,8 @@ public class SeaNet : MonoBehaviour {
 
 	//TA BORT DENNA SEN; ENDAST TEST
 	public void testLookAtStuff(){
+		Debug.Log("playess still in game "+m_connectedPlayers.Count);
+
 		foreach(PlayerData e in m_connectedPlayers){
 			m_IDs.Add(e.m_id);
 			m_isLocal.Add (e.m_isLocal);

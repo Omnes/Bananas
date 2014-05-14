@@ -244,6 +244,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_levels:
   - test_johannes
+  m_maxGames: 10
 --- !u!148 &1435568113
 NetworkView:
   m_ObjectHideFlags: 0

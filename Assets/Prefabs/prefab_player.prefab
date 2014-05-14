@@ -262,12 +262,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9ba65d2914ee2468170aaf09ed51d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_rotateProportion: 150
+  m_rotateProportion: 100
   m_frictionProportion: .920000017
   m_minimumSpeed: .00999999978
   m_dizzySeconds: 2
   m_maxSpeed: 10
-  m_acceleration: 25
+  m_acceleration: 8
   m_powSpeed: 1
   tmpSPeed: .100000001
   m_BlowPowerSlowFraction: 1
@@ -422,7 +422,7 @@ CapsuleCollider:
   m_Material: {fileID: 13400000, guid: 7e6ceab9fa981434a8d652bec407835c, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: .5
+  m_Radius: .699999988
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
