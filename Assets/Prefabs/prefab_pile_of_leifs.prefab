@@ -43,7 +43,7 @@ MonoBehaviour:
   m_prefabLeaf: {fileID: 100000, guid: 89c82b5978a033c4d82a2e7f0b274cf7, type: 2}
   m_leafCache: 200
   m_leafStartCount: 200
-  m_range: 14
+  m_range: 12
   m_startHeight: .00100000005
   m_totalHeight: .5
   m_spawnInOffline: 0

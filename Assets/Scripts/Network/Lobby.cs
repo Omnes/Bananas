@@ -9,8 +9,8 @@ public class Lobby : MonoBehaviour {
 	private int m_listenPort = 7777;
 	private bool m_useNAT = false;
 
-	private int m_maxPlayers = 4;
-	public string[] m_levels = {"test_robin"};
+	private int m_maxPlayers = 3; // server doesnt count
+	public string[] m_levels = {"test_johannes"};
 
 	//might not be use3d
 	//private string m_myIP = "";
@@ -25,13 +25,21 @@ public class Lobby : MonoBehaviour {
 
 
 	//name of user
-	private string tempName = "";
-	private string serverName = "";
+	private string m_tempPlayerName = "";
+	private string m_tempServerName = "";
+
+	//scroll startpos
+	private Vector2 m_scrollRectPos = new Vector2(100,100);
+	public int m_maxGames = 10;
 
 	// Use this for initialization
 	void Start () {
 		MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
 
+		//check if seanet exist
+		if(!SeaNet.isNull()){
+			m_connectedPlayers = SeaNet.Instance.m_connectedPlayers;
+		}
 	}
 	
 	// Update is called once per frame
@@ -52,23 +60,25 @@ public class Lobby : MonoBehaviour {
 		float leftX = centerX - size.x;
 		float rightX = centerX + size.x;
 
+
+
 			//### server not started ###
 		if(Network.peerType == NetworkPeerType.Disconnected){
 
 			//start server (server)
-			serverName = GUI.TextField(new Rect(rightX, centerY, textFieldSize.x, textFieldSize.y), serverName, 25);
-			tempName = GUI.TextField(new Rect(rightX, centerY + size.y, textFieldSize.x, textFieldSize.y), tempName, 25);
+			m_tempServerName = GUI.TextField(new Rect(rightX, centerY, textFieldSize.x, textFieldSize.y), m_tempServerName, 25);
+			m_tempPlayerName = GUI.TextField(new Rect(rightX, centerY + size.y, textFieldSize.x, textFieldSize.y), m_tempPlayerName, 25);
 
 			if(GUI.Button(new Rect(centerX, centerY, size.x, size.y), "Start Server")){
-				if(tempName.Length == 0){
-					tempName = "NOOB";
+				if(m_tempPlayerName.Length == 0){
+					m_tempPlayerName = "NOOB";
 				}
-				if(serverName.Length == 0){
-					serverName = "NOOBS ONLY";
+				if(m_tempServerName.Length == 0){
+					m_tempServerName = "NOOBS ONLY";
 				}
-				startServer(serverName);
+				startServer(m_tempServerName);
 				//add ip for player who started server
-				m_myPlayerData = new PlayerData(tempName, Network.player.guid);
+				m_myPlayerData = new PlayerData(m_tempPlayerName, Network.player.guid);
 				m_myPlayerData.local = true;
 				addPlayerToClientList(m_myPlayerData);
 			}
@@ -80,12 +90,13 @@ public class Lobby : MonoBehaviour {
 				createId();
 				//loads next level
 				Network.maxConnections = -1;
+				//denna fungerar inte
 				MasterServer.UnregisterHost();
 				loadLevel();
 				SeaNet.Instance.startGame();
 			}
 			if(GUI.Button(new Rect(centerX, centerY + size.y, size.x, size.y), "Stop Server")){
-				serverName = "";
+				m_tempServerName = "";
 				stopServer();
 			}
 			if(GUI.Button(new Rect(centerX, centerY + (size.y * 2), size.x, size.y), "SEE STUFF")){
@@ -104,23 +115,30 @@ public class Lobby : MonoBehaviour {
 			HostData[] data = MasterServer.PollHostList();
 			//MasterServer.PollHostList("hej");
 
-			GUILayout.BeginArea(new Rect(leftX, centerY, size.x, size.y * 10));
+			GUILayout.BeginArea(new Rect(leftX, centerY, size.x, size.y * m_maxGames));
 			//GUILayout.FlexibleSpace();
 			GUILayout.BeginVertical();
 			//leftX, centerY + i * size.y, size.x, size.y
 			GUILayout.MinHeight(size.y);
 
-			for( int i = 0; i < data.Length; i++){
-				if(GUILayout.Button(data[i].gameName, GUILayout.MinHeight(size.y))){
-					if(tempName.Length == 0){
-						tempName = "NOOB";
+			m_scrollRectPos = GUILayout.BeginScrollView(m_scrollRectPos, GUILayout.Width(size.x), GUILayout.Height(scrHeight));
+
+				for( int i = 0; i < data.Length; i++){
+					if(GUILayout.Button(data[i].gameName, GUILayout.MinHeight(size.y))){
+
+							if(m_tempPlayerName.Length == 0){
+								m_tempPlayerName = "NOOB";
+							}
+							//connecting to server
+							//send networkplayer as patramaeter for cleanup ?
+							connectToServer(data[i]);
+							Debug.Log("NETWORKID: "+ Network.player.guid);
+
 					}
-					//connecting to server
-					//send networkplayer as patramaeter for cleanup ?
-					connectToServer(data[i]);
-					Debug.Log("NETWORKID: "+ Network.player.guid);
 				}
-			}
+
+
+			GUILayout.EndScrollView();
 
 			GUILayout.EndVertical();
 			GUILayout.EndArea();
@@ -225,7 +243,7 @@ public class Lobby : MonoBehaviour {
 
 	void OnConnectedToServer(){
 		//send playerdata to server and alla others
-		string name = tempName;
+		string name = m_tempPlayerName;
 		Debug.Log("sänder till server");
 		networkView.RPC("playerNameRPC", RPCMode.Server, name, Network.player);
 	}

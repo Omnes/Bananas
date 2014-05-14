@@ -12,10 +12,13 @@ public class InitPlayerChildren : MonoBehaviour {
 		whirlwind.parent = transform;
 		whirlwind.localPosition = whirlwind.position;
 		whirlwind.localRotation = Quaternion.identity;
+		whirlwind.name = m_whirlwindPrefab.name;
 		Transform airTrigger = Instantiate(m_airTriggerPrefab) as Transform;
 		airTrigger.parent = transform;
 		airTrigger.localRotation = Quaternion.identity;
 		airTrigger.localPosition = Vector3.zero;
+		airTrigger.name = m_airTriggerPrefab.name;
+
 
 		airTrigger.GetComponent<LeafBlower>().setWhirlwind(whirlwind);
 

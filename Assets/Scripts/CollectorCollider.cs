@@ -4,11 +4,11 @@ using System.Collections;
 public class CollectorCollider : MonoBehaviour {
 //	private GameObject scoreKeeper;
 	public int m_ID;
-
+	
 	void Start() {
 		m_ID = GetComponent<ID> ().m_ID;
-//		m_ID = 0;
 	}
+
 
 	//TODO: Ändra till RCP
 //	void OnTriggerEnter(Collider col)
@@ -18,4 +18,5 @@ public class CollectorCollider : MonoBehaviour {
 //			col.gameObject.SetActive(false);
 //		}
 //	}
+
 }

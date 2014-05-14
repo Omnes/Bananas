@@ -3,7 +3,8 @@ using System.Collections;
 
 public class otherTestCol : MonoBehaviour 
 {
-	public float dizzyTime = 1.0f;
+	public float stunTime = 0.3f;
+	public float dizzyTime = 2.0f;
 
 	private MovementLogic m_movementLogic;
 	private playerAnimation m_playerAnim;
@@ -90,10 +91,12 @@ public class otherTestCol : MonoBehaviour
 	}
 
 	public void restorePlayerMovement(GameObject other){
-		//localplayer
-		m_buffManager.AddBuff(new StunBuff(gameObject, 0.3f));
-		//ghost
-		other.GetComponent<BuffManager>().AddBuff(new StunBuff(gameObject, 1.0f));
+		//Local player
+		m_buffManager.AddBuff(new StunBuff(gameObject, stunTime));
+		m_buffManager.AddBuff(new DizzyBuff(gameObject, dizzyTime));
+
+		//Ghost
+		other.GetComponent<BuffManager>().AddBuff(new StunBuff(gameObject, stunTime));
 	}
 
 }

@@ -119,6 +119,8 @@ public class LeafLogic : MonoBehaviour {
 		m_transform.parent = m_originalParent;
 		m_speed = 0f;
 		m_state = State.OnGround;
+		collider.enabled = true;
+		m_toBeParent = null;
 	}
 
 	public void dropFromWhirlwind(Vector3 pos){

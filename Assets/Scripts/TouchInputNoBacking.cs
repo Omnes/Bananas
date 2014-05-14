@@ -7,7 +7,8 @@ public class TouchInputNoBacking : InputMetod {
 	public Texture m_slider;
 	public Texture m_line;
 
-	public float m_edge_threshold_scale = 0.3f;
+	public float m_sliderWidth = 0.3f;
+	public float m_sliderDistToEdge = 0.05f;
 	public float m_blowingEdge = 0.2f;
 	public int m_maxSliderHeight = 500;
 	public float m_sliderSizePercentOfScreen = 0.8f;
@@ -32,13 +33,13 @@ public class TouchInputNoBacking : InputMetod {
 	
 	void Start () {
 		m_sliderHeight = (float)Mathf.Min(Screen.height * m_sliderSizePercentOfScreen, m_maxSliderHeight);
-		float sliderWidth = (float)Screen.width * m_edge_threshold_scale;
+		float sliderWidth = (float)Screen.width * m_sliderWidth;
 
 		m_blowingEdgeLeft = (float)Screen.width * m_blowingEdge;
 		m_blowingEdgeRight = (float)Screen.width - m_blowingEdgeLeft; 
 
-		m_leftImage = new Rect(0, Screen.height - m_sliderHeight, sliderWidth, m_sliderHeight);
-		m_rightImage = new Rect(Screen.width - sliderWidth, Screen.height - m_sliderHeight, sliderWidth, m_sliderHeight);
+		m_leftImage = new Rect(0 + Screen.width * m_sliderDistToEdge, Screen.height - m_sliderHeight, sliderWidth, m_sliderHeight);
+		m_rightImage = new Rect(Screen.width - sliderWidth - Screen.width * m_sliderDistToEdge, Screen.height - m_sliderHeight, sliderWidth, m_sliderHeight);
 
 		m_leftArea = new Rect(0, 0, Screen.width / 2, Screen.height);
 		m_rightArea = new Rect(Screen.width / 2, 0, Screen.width / 2, Screen.height);

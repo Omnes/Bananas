@@ -2,11 +2,11 @@
 using System.Collections;
 
 public class LeafManager : MonoBehaviour {
-
+	
 	public static LeafManager s_lazyInstance = null;
 
-	private GameObject[] leafs;
-	private LeafLogic[] leafLogics;
+	private GameObject[] m_leafs;
+	private LeafLogic[] m_leafLogics;
 
 	public GameObject m_prefabLeaf;
 
@@ -25,6 +25,8 @@ public class LeafManager : MonoBehaviour {
 	[Range(0f, 10f)]
 	public float m_totalHeight = 1.0f;
 
+	public int m_minLeafCount = 0;
+
 	private NetworkView network;
 	public bool m_spawnInOffline = false;
 
@@ -37,19 +39,19 @@ public class LeafManager : MonoBehaviour {
 		s_lazyInstance = this;
 		network = networkView;
 
-		leafs = new GameObject[m_leafCache];
-		leafLogics = new LeafLogic[m_leafCache];
+		m_leafs = new GameObject[m_leafCache];
+		m_leafLogics = new LeafLogic[m_leafCache];
 
 		float heightIncrease = m_totalHeight / m_leafCache;
 
-		for (int i = 0; i < leafs.Length; i++) {
-			leafs[i] = Instantiate(m_prefabLeaf) as GameObject;
-			leafs[i].name = "Leaf_" + i;
-			leafs[i].transform.localPosition = new Vector3(0,m_startHeight + heightIncrease * i,0);
-			leafs[i].transform.parent = gameObject.transform;
-			leafs[i].SetActive(false);
-			leafLogics[i] = leafs[i].GetComponent<LeafLogic>();
-			leafLogics[i].m_id = i;
+		for (int i = 0; i < m_leafs.Length; i++) {
+			m_leafs[i] = Instantiate(m_prefabLeaf) as GameObject;
+			m_leafs[i].name = "Leaf_" + i;
+			m_leafs[i].transform.localPosition = new Vector3(0,m_startHeight + heightIncrease * i,0);
+			m_leafs[i].transform.parent = gameObject.transform;
+			m_leafs[i].SetActive(false);
+			m_leafLogics[i] = m_leafs[i].GetComponent<LeafLogic>();
+			m_leafLogics[i].m_id = i;
 
 		}
 
@@ -65,37 +67,41 @@ public class LeafManager : MonoBehaviour {
 		}
 	}
 
+	void Update() {
+		if (Network.isServer && ActiveLeafs() <= m_minLeafCount) {
+			network.RPC ("SpawnLeafs", RPCMode.All, Random.Range (int.MinValue, int.MaxValue));
+		}
+	}
+
 	/**
 	 * Find and return an unused leaf from the leaf pool
 	 * Returns null if no leaf can be used
 	 */
 	public GameObject SpawnLeaf() {
-		for (int i = 0; i < leafs.Length; i++) {
-			if ( leafs[i].activeSelf == false ) {
-				leafs[i].SetActive(true);
-				return leafs[i];
+		for (int i = 0; i < m_leafs.Length; i++) {
+			if ( m_leafs[i].activeSelf == false ) {
+				m_leafs[i].SetActive(true);
+				return m_leafs[i];
 			}
 		}
-		Debug.LogError ("LeafManager.cs: Trying to create more leafs than is available in the pool (Max " + leafs.Length + ")");
+		Debug.LogError ("LeafManager.cs: Trying to create more leafs than is available in the pool (Max " + m_leafs.Length + ")");
 		return null;
 	}
 
-//	public GameObject SpawnLeaf(int index) {
-//		if (index >= 0 || index < leafs.Length) {
-//			if (leafs[index].activeSelf == false) {
-//				leafs[index].rigidbody.velocity = Vector3.zero;
-//				leafs[index].SetActive (true);
-//				return leafs[index];
-//			}
-//		}
-//		return null;
-//	}
-
 	public GameObject GetLeaf(int index) {
-		if (index >= 0 || index < leafs.Length) {
-			return leafs [index];
+		if (index >= 0 || index < m_leafs.Length) {
+			return m_leafs [index];
 		}
 		return null;
+	}
+
+	public int ActiveLeafs() {
+		int count = 0;
+		for (int i = 0; i < m_leafs.Length; i++) {
+			if (m_leafs[i].activeSelf)
+				count++;
+		}
+		return count;
 	}
 
 	/**
@@ -112,11 +118,12 @@ public class LeafManager : MonoBehaviour {
 
 		}
 	}
-
+	
 	public void requestLeafDrop(int playerID,int count){
 		int seed = Random.Range (0,int.MaxValue);
 		network.RPC("RPCLeafDrop",RPCMode.All,playerID,count,seed);
 	}
+
 
 	[RPC]
 	public void RPCLeafDrop(int playerID,int count,int seed){
@@ -130,6 +137,6 @@ public class LeafManager : MonoBehaviour {
 
 	[RPC]
 	public void RPCPickUpLeaf(int playerID,int leafID){
-		LeafBlower.s_leafBlowers[playerID].addLeaf(leafs[leafID].transform);
+		LeafBlower.s_leafBlowers[playerID].addLeaf(m_leafs[leafID].transform);
 	}
 }

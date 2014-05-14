@@ -37,15 +37,14 @@ public class LeafBlower : MonoBehaviour {
 
 		m_touchInput = transform.parent.GetComponent<InputHub>();
 
-		m_blowSound = SoundManager.Instance.play( "event:/leafblower (ytterst kass)" );
+		m_blowSound = SoundManager.Instance.play(SoundManager.LEAFBLOWER);
 		playerTransform = transform;
 	}
 
 	void Update()
 	{
 		m_blowPower = m_touchInput.getCurrentBlowingPower();
-		m_blowSound.setVolume (m_blowPower / 3);
-//		m_blowSound.setVolume (0);
+		m_blowSound.setVolume (m_blowPower);
 
 		if(m_blowPower > 0){
 			if(!m_particleEmit){
@@ -101,6 +100,15 @@ public class LeafBlower : MonoBehaviour {
 		float randomDistance = Random.Range(-m_randomLeafFallRange,m_randomLeafFallRange);
 		return m_whirlwind.position + new Vector3(Mathf.Cos(randomAngle),0,Mathf.Sin(randomAngle)) * randomDistance;
 	}
+	
+
+
+	public void OnDestroy()
+	{
+		if (SoundManager.IsNull() == false) {
+			SoundManager.Instance.DestroySound (m_blowSound);
+		}
+	}
 
 	//this is triggered by collisions in the child's colliders
 	public void OnTriggerEnterInChild(Collider other)
@@ -133,6 +141,7 @@ public class LeafBlower : MonoBehaviour {
 			returnLeafsToPool(nrOfLeafs);
 			int id = other.gameObject.GetComponent<CollectorCollider>().m_ID;
 			ScoreKeeper.m_scores[id] += nrOfLeafs;
+			SoundManager.Instance.playOneShot(SoundManager.SCORE);
 		}
 //		}
 	}

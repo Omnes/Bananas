@@ -21,7 +21,7 @@ public class upperBodyAnimation : MonoBehaviour {
 	public state[] m_priorityList = new state[3];
 	//public state[] m_priorityList = {state.NONE, state.NONE, state.IDLE};
 
-	private Animator m_playerAnimator;
+	public Animator m_playerAnimator;
 
 	// Use this for initialization
 	void Start () {
@@ -41,7 +41,7 @@ public class upperBodyAnimation : MonoBehaviour {
 		m_priorityList[2] = state.IDLE;
 
 		//hämta animationer osv
-		m_playerAnimator = gameObject.GetComponent<Animator>();
+		//m_playerAnimator = gameObject.GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -143,5 +143,8 @@ public class upperBodyAnimation : MonoBehaviour {
 		m_myState = UBAnim;
 	}
 
+	public void setAnimator(Animator anim){
+		m_playerAnimator = anim;
+	}
 
 }
