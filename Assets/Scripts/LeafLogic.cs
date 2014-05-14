@@ -12,12 +12,20 @@ public class LeafLogic : MonoBehaviour {
 	public float m_maxSpeed = 15f;
 	private float m_speed = 0f;
 	public float m_accleleration  = 1f;
-	public float m_rotationSpeed = 80f;
+	//public float m_rotationSpeed = 80f;
+
+	public float m_moveAround = 0.35f;
+	public float m_spinSpeedInBlower = 1f;
+	public float m_maxAddRandomToMoveAround = 0.5f;
 
 	private bool m_move = false;
 	private Vector3 m_endPosition;
 	private Transform m_toBeParent;
 
+	private float m_moveRandom;
+	private float m_spinRandom;
+	private bool m_spinTheOtherWay = false;
+	private bool m_moveIn = true;
 
 	public float m_rotationModifierRange = 2f;
 	private float m_rotationModifier;
@@ -25,6 +33,10 @@ public class LeafLogic : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		m_rotationModifier = Random.Range (-m_rotationModifierRange,m_rotationModifierRange);
+
+		m_moveRandom = Random.Range(0f, m_maxAddRandomToMoveAround) + m_moveAround;
+		m_spinSpeedInBlower += Random.Range(0f, m_maxAddRandomToMoveAround);
+		m_spinTheOtherWay = Random.Range((int)0, (int)2) == 0 ? true : false;
 	}
 	
 	// Update is called once per frame
@@ -38,6 +50,29 @@ public class LeafLogic : MonoBehaviour {
 				m_speed = m_baseSpeed;
 			}
 		}
+
+		if(m_state == State.InBlower){
+			Vector3 spin = m_endPosition + new Vector3(
+						(m_moveRandom) * Mathf.Sin(Time.timeSinceLevelLoad * (m_spinSpeedInBlower)), 
+						transform.localPosition.y, 
+						(m_moveRandom) * Mathf.Cos(Time.timeSinceLevelLoad * (m_spinSpeedInBlower)));
+
+			if(m_spinTheOtherWay)
+				spin.x *= -1;
+
+			if(m_moveIn)
+				m_moveRandom -= 0.02f;
+			else
+				m_moveRandom += 0.02f;
+
+			if(m_moveRandom < m_moveAround)
+				m_moveIn = false;
+			else if(m_moveRandom > m_moveAround + m_maxAddRandomToMoveAround)
+				m_moveIn = true;
+
+			transform.localPosition = spin;
+		}
+
 		if(m_state == State.Drop){
 			if(moveTowards(m_endPosition)){
 				transform.parent = null;
