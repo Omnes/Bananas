@@ -21,7 +21,8 @@ public class SeaNet : MonoBehaviour {
 	public Winstate m_winstate;
 	public NetworkView m_networkView;
 
-
+	//ta bort sen
+	public int TEST_players;
 
 
 	//dessa två ska tas bort. ### ANVÄND EJ I SERIÖS SYFTE ###
@@ -45,7 +46,7 @@ public class SeaNet : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+		//TEST_players = m_connectedPlayers.Count;
 	}
 	
 	public void setConnectedPlayers(List<PlayerData> arr){
