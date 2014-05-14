@@ -4,13 +4,43 @@ using System.Collections;
 public class Whirlwind : MonoBehaviour {
 
 	public float m_rotationSpeed = 120f;
+	public float m_slideToSideWhenTurnLength = 0.5f;
 
+	private InputHub m_input;
 	private Rigidbody m_rigidbody;
 	private Transform m_transform;
 	// Use this for initialization
 	void Start () {
 		m_rigidbody = rigidbody;
 		m_transform = transform;
+		m_input = m_transform.parent.GetComponent<InputHub>();
+	}
+
+	void Update()
+	{
+		Vector2 input = m_input.getCurrentInputVector();
+		Vector3 pos = m_transform.localPosition;
+
+		if(input.y == 0f && pos.x > - m_slideToSideWhenTurnLength)
+		{
+			pos.x -= 0.1f;
+		}
+		else if(input.x == 0f &&  pos.x < m_slideToSideWhenTurnLength)
+		{
+			pos.x += 0.1f;
+		}
+		else if(input.x == 1f && input.y == 1f && pos.x != 0f)
+		{
+			if(pos.x > 0f)
+				pos.x -= 0.1f;
+			else if(pos.x < 0f)
+				pos.x += 0.1f;
+
+			if(pos.x < 0.11f && pos.x > -0.11f)
+				pos.x = 0f;
+		}
+
+		m_transform.localPosition = pos;
 	}
 	
 	// Update is called once per frame
@@ -25,7 +55,7 @@ public class Whirlwind : MonoBehaviour {
 
 
 	void OnTriggerEnter(Collider other){
-		if(other.CompareTag("Leaf_Collector")){
+		if(other.CompareTag("Leaf_collector")){
 			Debug.Log ("Whirlwind");
 		}
 	}

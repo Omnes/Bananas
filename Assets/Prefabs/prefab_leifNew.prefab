@@ -84,10 +84,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_state: 0
   m_id: -1
+  m_rotationSpeed: 80
+  m_moveThreshold: .0500000007
   m_baseSpeed: 1
   m_maxSpeed: 15
-  m_accleleration: 60
-  m_rotationSpeed: 80
+  m_accleleration: 1
+  m_moveAround: .5
+  m_spinSpeedInBlower: 8
+  m_maxAddRandomToMoveAround: .200000003
   m_rotationModifierRange: 2
 --- !u!114 &11400004
 MonoBehaviour:
