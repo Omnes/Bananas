@@ -21,6 +21,7 @@ GameObject:
   - 114: {fileID: 11400026}
   - 114: {fileID: 11400028}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: prefab_ghost
   m_TagString: Player
@@ -81,6 +82,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_whirlwindPrefab: {fileID: 400000, guid: 8a30ab1bbeac4034fa68aa0cbc5a03d1, type: 2}
   m_airTriggerPrefab: {fileID: 400004, guid: d98e450d02f59cb4582ae3847cd3bd71, type: 2}
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1feda0ff94752fd4c9ea05312c473ed3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -16,8 +16,8 @@ public class LeafBlower : MonoBehaviour {
 	private bool m_particleEmit = false;
 	private playerAnimation m_animation;
 	private float m_blowPower = 0.0f;
-	private Transform playerTransform;
-	private InputHub m_touchInput;
+	private Transform m_playerRef;
+	private InputHub m_inputhub;
 	private FMOD.Studio.EventInstance m_blowSound;
 
 	private List<Transform> m_collectedLeafs = new List<Transform>();
@@ -30,20 +30,23 @@ public class LeafBlower : MonoBehaviour {
 	public int m_maxLeaf = 30;
 	public float m_lowestSpeedModifier = 0.5f;
 
+//	public ParticleSystem m_emitter;
+
 	void Start()
 	{
-
+		m_particleSystem = particleSystem;
 		m_animation = transform.parent.GetComponent<playerAnimation>();
 
-		m_touchInput = transform.parent.GetComponent<InputHub>();
+		m_inputhub = transform.parent.GetComponent<InputHub>();
 
 		m_blowSound = SoundManager.Instance.play(SoundManager.LEAFBLOWER);
-		playerTransform = transform;
+		m_playerRef = transform.parent;
+
 	}
 
 	void Update()
 	{
-		m_blowPower = m_touchInput.getCurrentBlowingPower();
+		m_blowPower = m_inputhub.getCurrentBlowingPower();
 		m_blowSound.setVolume (m_blowPower);
 
 		if(m_blowPower > 0){
@@ -100,8 +103,16 @@ public class LeafBlower : MonoBehaviour {
 		float randomDistance = Random.Range(-m_randomLeafFallRange,m_randomLeafFallRange);
 		return m_whirlwind.position + new Vector3(Mathf.Cos(randomAngle),0,Mathf.Sin(randomAngle)) * randomDistance;
 	}
-	
 
+	void returnLeafsToPool(int count){
+		for(int i = 0;i < count; i++){
+			m_collectedLeafs[i].GetComponent<LeafLogic>().clean();
+			m_collectedLeafs[i].gameObject.SetActive(false);
+		}
+		m_collectedLeafs.RemoveRange(0,count);
+	}
+
+	
 
 	public void OnDestroy()
 	{
@@ -114,24 +125,19 @@ public class LeafBlower : MonoBehaviour {
 	public void OnTriggerEnterInChild(Collider other)
 	{
 		if (Network.isServer) {
-			if (other.CompareTag("Leaf") && tmp_canPickup) {
-				Transform leaf = other.transform;
+			if(m_inputhub.getCurrentBlowingPower() > 0.1f){ //blås bara upp löv när det 
+				if (other.CompareTag("Leaf") && tmp_canPickup) {
+					Transform leaf = other.transform;
 
-				LeafManager.s_lazyInstance.pickUpLeaf(m_id,leaf);
+					LeafManager.s_lazyInstance.pickUpLeaf(m_id,leaf);
 
+				}
 			}
 		}
 	}
 
-	void returnLeafsToPool(int count){
-		for(int i = 0;i < count; i++){
-			m_collectedLeafs[i].GetComponent<LeafLogic>().clean();
-			m_collectedLeafs[i].gameObject.SetActive(false);
-		}
-		m_collectedLeafs.RemoveRange(0,count);
-	}
 
-	//TODO: Authorativ
+	//TODO: Authorativ, låt servern hantera detta istället
 	//this is the own "leaf dumper" trigger -- this gives the score to the players
 	public void OnTriggerEnter(Collider other)
 	{

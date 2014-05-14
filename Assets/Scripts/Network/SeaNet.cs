@@ -41,11 +41,6 @@ public class SeaNet : MonoBehaviour {
 		gameObject.networkView.stateSynchronization = NetworkStateSynchronization.Off;
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-	
 	public void setConnectedPlayers(List<PlayerData> arr){
 		m_connectedPlayers = arr;
 	}
