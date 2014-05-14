@@ -104,7 +104,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: .382683486, z: 0, w: .923879564}
-  m_LocalPosition: {x: -28.6618576, y: .773948669, z: -20.2282677}
+  m_LocalPosition: {x: 19.9724598, y: 20.8035069, z: 18.2547626}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400026}
@@ -262,12 +262,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9ba65d2914ee2468170aaf09ed51d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_rotateProportion: 100
+  m_rotateProportion: 150
   m_frictionProportion: .920000017
   m_minimumSpeed: .00999999978
   m_dizzySeconds: 2
   m_maxSpeed: 10
-  m_acceleration: 8
+  m_acceleration: 25
   m_powSpeed: 1
   tmpSPeed: .100000001
   m_BlowPowerSlowFraction: 1
@@ -285,9 +285,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 576f9cbe0d3b78a43aa9d37338d7a31b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_forwardPower: 45
-  m_distanceMultiplier: 15
-  m_centripetalPower: 180
+  m_forwardPower: 50
+  m_distanceMultiplier: 20
+  m_centripetalPower: 200
   m_centDistMult: 20
   m_colliderLength: 4
   m_minVelocity: 2
@@ -412,6 +412,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d09a0ab16fc4954ba488fe7b39f79eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stunTime: .300000012
   dizzyTime: 1
 --- !u!136 &13600000
 CapsuleCollider:
@@ -419,7 +420,7 @@ CapsuleCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Material: {fileID: 13400000, guid: 7e6ceab9fa981434a8d652bec407835c, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: .699999988
