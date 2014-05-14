@@ -93,7 +93,6 @@ public class Lobby : MonoBehaviour {
 				//denna fungerar inte
 				MasterServer.UnregisterHost();
 				loadLevel();
-				SeaNet.Instance.startGame();
 			}
 			if(GUI.Button(new Rect(centerX, centerY + size.y, size.x, size.y), "Stop Server")){
 				m_tempServerName = "";
