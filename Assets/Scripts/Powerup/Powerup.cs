@@ -20,7 +20,10 @@ public class Powerup : MonoBehaviour {
 	private float m_killTimer = 0;
 
 	void Start() {
-		m_rigidbody = rigidbody;
+//		m_rigidbody = transform.FindChild ("powerup_questionmark").rigidbody;
+		m_rigidbody = GetComponentInChildren<Rigidbody> ();
+//		Debug.Log ("Test: " + m_rigidbody);
+//		m_rigidbody = rigidbody;
 		m_transform = transform;
 	}
 
@@ -49,7 +52,7 @@ public class Powerup : MonoBehaviour {
 
 	public void FixedUpdate()
 	{
-		Quaternion prevAngle = m_transform.rotation;
+		Quaternion prevAngle = m_rigidbody.rotation;
 		Quaternion newAngle = Quaternion.Euler(prevAngle.eulerAngles + Vector3.up * ROTATION_SPEED * Time.deltaTime);
 		m_rigidbody.MoveRotation(newAngle);
 	}
