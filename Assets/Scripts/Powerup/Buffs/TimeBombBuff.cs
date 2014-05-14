@@ -6,8 +6,8 @@ public class TimeBombBuff : Buff {
 	GameObject m_playerCircle;
 	GameObject m_explosion;
 
-	private const int BOMB_DURATION_MIN = 4;
-	private const int BOMB_DURATION_MAX = 10;
+	private const int BOMB_DURATION_MIN = 10;
+	private const int BOMB_DURATION_MAX = 20;
 	private const float STUN_DURATION = 1.5f;
 	private const float TRANSFER_COOLDOWN = 0.5f;
 
