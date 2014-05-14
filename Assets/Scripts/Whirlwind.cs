@@ -11,7 +11,7 @@ public class Whirlwind : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		m_rigidbody = rigidbody;
-		m_input = transform.parent.parent.GetComponent<InputHub>();
+		m_input = transform.parent.GetComponent<InputHub>();
 	}
 
 	void Update()

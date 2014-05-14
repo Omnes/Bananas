@@ -13,8 +13,9 @@ public class LeifLogic : MonoBehaviour {
 	public float m_accleleration  = 1f;
 	//public float m_rotationSpeed = 80f;
 
-	public float m_moveAround = 1.5f;
+	public float m_moveAround = 0.35f;
 	public float m_spinSpeedInBlower = 1f;
+	public float m_maxAddRandomToMoveAround = 0.5f;
 
 	private bool m_move = false;
 	private Vector3 m_endPosition;
@@ -22,7 +23,8 @@ public class LeifLogic : MonoBehaviour {
 
 	private float m_moveRandom;
 	private float m_spinRandom;
-
+	private bool m_spinTheOtherWay = false;
+	private bool m_moveIn = true;
 
 	public float m_rotationModifierRange = 2f;
 	private float m_rotationModifier;
@@ -31,8 +33,9 @@ public class LeifLogic : MonoBehaviour {
 	void Start () {
 		m_rotationModifier = Random.Range (-m_rotationModifierRange,m_rotationModifierRange);
 
-		m_moveRandom = Random.Range(0f, 0.5f);
-		m_spinRandom = Random.Range(0f, 0.5f);
+		m_moveRandom = Random.Range(0f, m_maxAddRandomToMoveAround) + m_moveAround;
+		m_spinSpeedInBlower += Random.Range(0f, m_maxAddRandomToMoveAround);
+		m_spinTheOtherWay = Random.Range((int)0, (int)2) == 0 ? true : false;
 	}
 	
 	// Update is called once per frame
@@ -50,12 +53,22 @@ public class LeifLogic : MonoBehaviour {
 
 		if(m_state == State.InBlower){
 			Vector3 spin = m_endPosition + new Vector3(
-						(m_moveAround + m_moveRandom) * Mathf.Sin(Time.timeSinceLevelLoad * (m_spinSpeedInBlower + m_spinRandom)), 
+						(m_moveRandom) * Mathf.Sin(Time.timeSinceLevelLoad * (m_spinSpeedInBlower)), 
 						transform.localPosition.y, 
-						(m_moveAround + m_moveRandom) * Mathf.Cos(Time.timeSinceLevelLoad * (m_spinSpeedInBlower + m_spinRandom)));
+						(m_moveRandom) * Mathf.Cos(Time.timeSinceLevelLoad * (m_spinSpeedInBlower)));
 
-			if(m_moveRandom > 0.25f)
+			if(m_spinTheOtherWay)
 				spin.x *= -1;
+
+			if(m_moveIn)
+				m_moveRandom -= 0.02f;
+			else
+				m_moveRandom += 0.02f;
+
+			if(m_moveRandom < m_moveAround)
+				m_moveIn = false;
+			else if(m_moveRandom > m_moveAround + m_maxAddRandomToMoveAround)
+				m_moveIn = true;
 
 			transform.localPosition = spin;
 		}
