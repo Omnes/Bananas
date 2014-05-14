@@ -10,7 +10,7 @@ public class LeafBlower : MonoBehaviour {
 	public int m_id = -1;
 	
 	public ParticleSystem m_particleSystem;
-	public float m_randomLeafRange = 1f;
+	public float m_randomLeafInBlowerRange = 1f;
 	public float m_randomLeafFallRange = 4f;
 
 	private bool m_particleEmit = false;
@@ -71,7 +71,7 @@ public class LeafBlower : MonoBehaviour {
 	
 	public void addLeaf(Transform leaf){
 		float randomAngle = Random.Range(0f,360f);
-		float randomDistance = Random.Range(-m_randomLeafRange,m_randomLeafRange);
+		float randomDistance = Random.Range(-m_randomLeafInBlowerRange,m_randomLeafInBlowerRange);
 		Vector2 vec = new Vector2(Mathf.Cos (randomAngle),Mathf.Sin(randomAngle))* randomDistance;
 		Vector3 randomPosition = new Vector3(vec.x,0,vec.y);
 		leaf.GetComponent<LeafLogic>().addToWhirlwind(randomPosition,m_whirlwind);

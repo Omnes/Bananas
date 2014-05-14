@@ -6,6 +6,7 @@ public class LeafManager : MonoBehaviour {
 	public static LeafManager s_lazyInstance = null;
 
 	private GameObject[] leafs;
+	private LeafLogic[] leafLogics;
 
 	public GameObject m_prefabLeaf;
 
@@ -37,16 +38,19 @@ public class LeafManager : MonoBehaviour {
 		network = networkView;
 
 		leafs = new GameObject[m_leafCache];
+		leafLogics = new LeafLogic[m_leafCache];
 
 		float heightIncrease = m_totalHeight / m_leafCache;
 
 		for (int i = 0; i < leafs.Length; i++) {
 			leafs[i] = Instantiate(m_prefabLeaf) as GameObject;
 			leafs[i].name = "Leaf_" + i;
+			leafs[i].transform.localPosition = new Vector3(0,m_startHeight + heightIncrease * i,0);
 			leafs[i].transform.parent = gameObject.transform;
-			leafs[i].transform.position = new Vector3(0, m_startHeight + heightIncrease * i, 0);
 			leafs[i].SetActive(false);
-			leafs[i].GetComponent<LeafLogic>().m_id = i;
+			leafLogics[i] = leafs[i].GetComponent<LeafLogic>();
+			leafLogics[i].m_id = i;
+
 		}
 
 	}
