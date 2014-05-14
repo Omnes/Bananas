@@ -7,7 +7,7 @@ public class Windfield : MonoBehaviour {
 
 	void OnTriggerStay(Collider col){
 		if(col.gameObject.CompareTag("Leaf")){
-			Debug.Log ("Löv is in the house");
+			//Debug.Log ("Löv is in the house");
 			col.rigidbody.AddForce(transform.forward*m_force);
 		}
 
