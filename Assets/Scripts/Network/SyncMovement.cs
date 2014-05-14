@@ -140,8 +140,12 @@ public class SyncMovement : MonoBehaviour {
 	public void setID(int id,bool local){
 		m_id = id;
 		s_syncMovements[id] = this;
-		BuffManager.m_buffManagers [id] = GetComponent<BuffManager> ();
+		LeafBlower localBlower = gameObject.GetComponentInChildren<LeafBlower>();
+		localBlower.m_id = id;
+		LeafBlower.s_leafBlowers[id] = localBlower;
 		m_isLocal = local;
+		BuffManager.m_buffManagers [id] = GetComponent<BuffManager> ();
+
 	}
 
 	public int getID(){

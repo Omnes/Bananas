@@ -47,16 +47,20 @@ public class MovementLogic : MonoBehaviour
 
 	private bool m_running;
 	private playerAnimation m_animation;
-	
+
 	//seans crazy countdown
 	public BuffManager m_buffManager;
 
+	private LeafBlower m_leafBlower;
+	
 	// Use this for initialization
 	void Start () 
 	{
 //		m_dizzySeconds = Mathf.Clamp (m_dizzySeconds, 1, 10);
 		m_animation = GetComponent<playerAnimation>();
 		m_touchIn = GetComponent<InputHub> ();
+		m_leafBlower = GetComponentInChildren<LeafBlower>();
+
 		if(m_dizzySeconds  < 0.01f){
 			Debug.LogError("m_dizzySeconds can't be 0, this will crash the game on collisions!");
 		}
@@ -141,10 +145,11 @@ public class MovementLogic : MonoBehaviour
 //		Vector3 backwardForce = -dir * blowPower * m_BlowPowerForce;
 //		newVelocity += backwardForce * Time.deltaTime;
 
+		float leafModifier = m_leafBlower.getLeafSpeedModifier();
 		//clamp speed
-		if(newVelocity.magnitude > m_maxSpeed)
+		if(newVelocity.magnitude > m_maxSpeed*leafModifier)
 		{
-			newVelocity = newVelocity.normalized*m_maxSpeed;
+			newVelocity = newVelocity.normalized*m_maxSpeed*leafModifier;
 		}
 
 		//turning

@@ -2,16 +2,13 @@
 using System.Collections;
 
 public class LeafManager : MonoBehaviour {
-	private GameObject[] m_leafs;
-	private Vector2[] m_newPositions;
-	private Vector2[] m_oldPositions;
-	private float lerpTime;
+	
+	public static LeafManager s_lazyInstance = null;
 
-	public bool useLerp = true;
+	private GameObject[] m_leafs;
+	private LeafLogic[] m_leafLogics;
 
 	public GameObject m_prefabLeaf;
-
-	private LeafPhysics[] m_leafPhysics;
 
 	[Range(0, 10000)]
 	public int m_leafCache = 100;
@@ -33,36 +30,31 @@ public class LeafManager : MonoBehaviour {
 	private NetworkView network;
 	public bool m_spawnInOffline = false;
 
-	private float m_lastSyncTime = 0f;
-	private float m_expectedSyncDelta = 1f/15f;
-	private float m_syncDeltaTime = 0f;
-
 //	public float m_sqrResyncDistance = Mathf.Sqrt(0.4f);
 
 	/**
 	 * Initializes variables
 	 */
 	void Awake () {
+		s_lazyInstance = this;
 		network = networkView;
 
 		m_leafs = new GameObject[m_leafCache];
-		m_newPositions = new Vector2[m_leafCache];
-		m_oldPositions = new Vector2[m_leafCache];
-		m_leafPhysics = new LeafPhysics[m_leafCache];
+		m_leafLogics = new LeafLogic[m_leafCache];
 
 		float heightIncrease = m_totalHeight / m_leafCache;
 
 		for (int i = 0; i < m_leafs.Length; i++) {
 			m_leafs[i] = Instantiate(m_prefabLeaf) as GameObject;
 			m_leafs[i].name = "Leaf_" + i;
+			m_leafs[i].transform.localPosition = new Vector3(0,m_startHeight + heightIncrease * i,0);
 			m_leafs[i].transform.parent = gameObject.transform;
-			m_leafs[i].transform.position = new Vector3(0, m_startHeight + heightIncrease * i, 0);
 			m_leafs[i].SetActive(false);
-			m_leafPhysics[i] = m_leafs[i].GetComponent<LeafPhysics>();
+			m_leafLogics[i] = m_leafs[i].GetComponent<LeafLogic>();
+			m_leafLogics[i].m_id = i;
+
 		}
 
-//		m_lastSyncTime = Time.time;
-//		m_expectedSyncDelta = 1f/Network.sendRate;
 	}
 	
 	void Start () {
@@ -88,7 +80,6 @@ public class LeafManager : MonoBehaviour {
 	public GameObject SpawnLeaf() {
 		for (int i = 0; i < m_leafs.Length; i++) {
 			if ( m_leafs[i].activeSelf == false ) {
-				m_leafs[i].rigidbody.velocity = Vector3.zero;
 				m_leafs[i].SetActive(true);
 				return m_leafs[i];
 			}
@@ -125,75 +116,27 @@ public class LeafManager : MonoBehaviour {
 			leaf.transform.position = new Vector3(Random.Range(-m_range, m_range), leaf.transform.position.y, Random.Range(-m_range, m_range));
 			leaf.transform.Rotate(new Vector3(0,0,Random.Range(0f,359f)));
 
-			m_newPositions[i] = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
-			m_oldPositions[i] = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
 		}
 	}
-
-	/**
-	 * Send and receive all leaves position
-	 */
-	void OnSerializeNetworkView (BitStream stream, NetworkMessageInfo info) {
-		if (Network.isServer && stream.isWriting) {
-			//Sending
-			Vector3 vec;
-			for (int i = 0; i < m_leafs.Length; i++) {
-//				if ( leafs[i].rigidbody.velocity.sqrMagnitude > 1 ) {	//TODO: Kan bli problem eftersom det skickas mindre än det tas emot!
-					vec = new Vector3(i, m_leafs[i].transform.position.x, m_leafs[i].transform.position.z);
-					stream.Serialize( ref vec );
-//				}
-			}
-		}
-		else if (Network.isClient && stream.isReading) {
-			//Receiving
-//			m_syncDeltaTime = Time.time - m_lastSyncTime;
-//			m_lastSyncTime = Time.time;
-			Vector3 vec = Vector3.zero;
-			GameObject leaf;
-			int index;
-			lerpTime = 0;
-			for (int i = 0; i < m_leafs.Length; i++) {
-				stream.Serialize( ref vec );
-				index = (int)vec.x;
-				leaf = m_leafs[index];
-//				m_oldPositions[index] = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
-//				m_newPositions[index] = new Vector2(vec.y, vec.z);
-				Vector2 oldPosition = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
-				Vector2 newPos = new Vector2(vec.y, vec.z);
-				m_leafPhysics[index].setGhostLeafPosition(new Vector3(newPos.x,leaf.transform.position.y,newPos.y));
-//				Vector2 deltaPosition = (newPos - m_oldPositions[index]);
-//				m_newPositions[index] = newPos + deltaPosition;
-
-//				if((newPos - oldPosition).sqrMagnitude > m_sqrResyncDistance){
-//					leaf.transform.position = new Vector3(newPos.x,leaf.transform.position.y,newPos.y);
-//				}
-
-			}
-
-		}
+	
+	public void requestLeafDrop(int playerID,int count){
+		int seed = Random.Range (0,int.MaxValue);
+		network.RPC("RPCLeafDrop",RPCMode.All,playerID,count,seed);
 	}
 
-	/**
-	 * Updates the leaves local position so that the match the server position
-	 */
-//	void Update() {
-//		if ( Network.isClient ) {
-//			if (useLerp) {
-//				lerpTime = (Time.time - m_lastSyncTime) / m_expectedSyncDelta;
-////				Debug.Log ("LerpTime: " + lerpTime);
-//				for (int i = 0; i < leafs.Length; i++) {
-////					if ( leafs[i].rigidbody.velocity.sqrMagnitude > 1 ) {
-//						leafs [i].transform.position = new Vector3 (Mathf.Lerp (m_oldPositions [i].x, m_newPositions [i].x, lerpTime),
-//								                                   leafs [i].transform.position.y, 
-//								                                   Mathf.Lerp (m_oldPositions [i].y, m_newPositions [i].y, lerpTime));
-////					}
-//				}
-//			}
-//			else {
-//				for (int i = 0; i < leafs.Length; i++) {
-//					leafs [i].transform.position = new Vector3 (m_newPositions [i].x, leafs [i].transform.position.y, m_newPositions [i].y);
-//				}
-//			}
-//		}
-//	}
+
+	[RPC]
+	public void RPCLeafDrop(int playerID,int count,int seed){
+		LeafBlower.s_leafBlowers[playerID].dropLeafs(count,seed);
+	}
+
+	public void pickUpLeaf(int playerID,Transform leaf){
+		int leafID = leaf.GetComponent<LeafLogic>().m_id;
+		network.RPC("RPCPickUpLeaf",RPCMode.All,playerID,leafID);
+	}
+
+	[RPC]
+	public void RPCPickUpLeaf(int playerID,int leafID){
+		LeafBlower.s_leafBlowers[playerID].addLeaf(m_leafs[leafID].transform);
+	}
 }

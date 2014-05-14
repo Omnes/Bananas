@@ -39,6 +39,7 @@ public class InitPlayer : MonoBehaviour {
 		if(Network.isServer){
 			//om vi är server skapa en faktisk spelare
 			m_player = Instantiate(m_playerPrefab,spawnpoint.position,spawnpoint.rotation) as GameObject;
+			m_player.GetComponent<InitPlayerChildren>().Init();
 			m_player.GetComponent<SyncMovement>().setID(m_playerInfo.id,m_isLocal);
 
 			//set correct mesh
@@ -63,6 +64,7 @@ public class InitPlayer : MonoBehaviour {
 		else if(Network.isClient){
 			//om vi är en klient skapa en fake spelare
 			m_player = Instantiate(m_ghostPrefab,spawnpoint.position,spawnpoint.rotation) as GameObject;
+			m_player.GetComponent<InitPlayerChildren>().Init();
 			m_player.GetComponent<SyncMovement>().setID(m_playerInfo.id,m_isLocal);
 
 			//set correct mesh
