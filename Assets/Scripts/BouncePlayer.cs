@@ -16,12 +16,11 @@ public class BouncePlayer : MonoBehaviour {
 			Vector3 otherVelocity = other.rigidbody.velocity;
 //			Vector3 otherVelocity = other.gameObject.GetComponent<MovementLogic>().getRigidVelocity();
 			
-			Vector3 normal = transform.forward;
+			Vector3 normal = transform.forward.normalized;
 
 			if(m_bounceMode == Mode.Realistic){
 				Vector3 reflectedVector = Vector3.Reflect(otherVelocity,normal);
 //				Vector3 reflectedVector = otherVelocity - 2 * (Vector3.Dot(otherVelocity,normal)*normal);
-				//temp
 
 				other.rigidbody.AddForce(reflectedVector * m_bounceForce,m_forceMode);
 			}else if(m_bounceMode == Mode.Simple){

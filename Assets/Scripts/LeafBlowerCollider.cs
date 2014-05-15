@@ -11,6 +11,6 @@ public class LeafBlowerCollider : MonoBehaviour {
 	}
 	
 	void OnTriggerStay(Collider col){
-		parentBlower.OnTriggerStayInChild(col);
+		parentBlower.OnTriggerEnterInChild(col);
 	}
 }

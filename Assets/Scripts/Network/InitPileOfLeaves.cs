@@ -19,7 +19,12 @@ public class InitPileOfLeaves : MonoBehaviour {
 			if(m_powerupManager != null){
 				Network.Instantiate( m_powerupManager, Vector3.zero, Quaternion.identity, 0 );
 			}
+
+			//start Gametimer
+			SeaNet.Instance.startGame();
+
 		}
+	
 	}
 
 }

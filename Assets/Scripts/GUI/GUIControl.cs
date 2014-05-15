@@ -14,7 +14,7 @@ public class GUIControl : MonoBehaviour {
 		if(m_input == null){
 			Debug.LogError("m_input is not assigned on the GUICamera->GUI->GUIControl script");
 		}
-		BroadcastMessage("init",m_input);
+//		BroadcastMessage("init",m_input);
 	}
 
 	void placeQuad(){

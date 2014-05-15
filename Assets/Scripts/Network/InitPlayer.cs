@@ -29,15 +29,6 @@ public class InitPlayer : MonoBehaviour {
 	void Start () {
 		//setPlayerInfo(new PlayerInfo("Default",m_debug_id)); //temp
 
-		//used to find out wich mesh is the correct one
-//		m_playerDataList = SeaNet.Instance.m_connectedPlayers;
-//		for(int i = 0; i < m_playerDataList.Count; i++){
-//			if(m_playerDataList[i].m_id == m_playerInfo.id){
-//				//m_playerDataList[i].m_characterMesh;
-	//			GameObject tempMesh = (GameObject)Instantiate(Prefactory.prefab_douglas);
-	//			tempMesh.transform.parent = gameObject.transform;
-//			}
-//		}
 	}
 	
 	public void init(){
@@ -48,6 +39,7 @@ public class InitPlayer : MonoBehaviour {
 		if(Network.isServer){
 			//om vi är server skapa en faktisk spelare
 			m_player = Instantiate(m_playerPrefab,spawnpoint.position,spawnpoint.rotation) as GameObject;
+			m_player.GetComponent<InitPlayerChildren>().Init();
 			m_player.GetComponent<SyncMovement>().setID(m_playerInfo.id,m_isLocal);
 
 			//set correct mesh
@@ -72,6 +64,7 @@ public class InitPlayer : MonoBehaviour {
 		else if(Network.isClient){
 			//om vi är en klient skapa en fake spelare
 			m_player = Instantiate(m_ghostPrefab,spawnpoint.position,spawnpoint.rotation) as GameObject;
+			m_player.GetComponent<InitPlayerChildren>().Init();
 			m_player.GetComponent<SyncMovement>().setID(m_playerInfo.id,m_isLocal);
 
 			//set correct mesh
