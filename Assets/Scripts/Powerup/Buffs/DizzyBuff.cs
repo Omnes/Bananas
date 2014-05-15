@@ -8,7 +8,6 @@ public class DizzyBuff : Buff {
 	{
 		m_duration = duration;
 		interpolation = 0.0f;
-		Debug.Log ("Duration: " + duration);
 	}
 
 	override public void InitEvent()

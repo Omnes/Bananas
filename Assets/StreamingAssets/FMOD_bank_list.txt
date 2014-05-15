@@ -1,3 +1,2 @@
-Master Bank.bank
-.DS_Store
 Master Bank.strings.bank
+Master Bank.bank

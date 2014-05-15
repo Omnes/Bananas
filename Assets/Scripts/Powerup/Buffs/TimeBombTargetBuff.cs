@@ -17,11 +17,6 @@ public class TimeBombTargetBuff : Buff {
 		m_playerCircle.renderer.material.SetColor ("_Color", Color.gray);
 	}
 
-//	public override void UpdateEvent ()
-//	{
-//		Color pulse
-//	}
-
 	public override void RemoveEvent ()
 	{
 		Destroy (m_playerCircle);

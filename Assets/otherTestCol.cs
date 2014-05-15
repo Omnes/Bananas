@@ -10,6 +10,9 @@ public class otherTestCol : MonoBehaviour
 	private playerAnimation m_playerAnim;
 	private BuffManager m_buffManager;
 
+	private float m_cooldownTimer = 0.0f;
+	private const float COOLDOWN = 0.5f;
+
 	/**
 	 * Initialize components
 	 */
@@ -21,63 +24,66 @@ public class otherTestCol : MonoBehaviour
 		m_buffManager = GetComponent<BuffManager> ();
 	}
 
+	void Update() {
+		m_cooldownTimer += Time.deltaTime;
+	}
+
 	void OnCollisionEnter(Collision other)
 	{
-		if(other.gameObject.CompareTag("Player"))
-		{
-			otherTestCol otherPlayerTestCol = other.transform.GetComponent<otherTestCol>();
-
-			//MovementLogic othersMovementLogic = other.gameObject.GetComponent<MovementLogic>();
-			//if(othersMovementLogic.getRigidVelocity() > m_movementLogic.getRigidVelocity())
-			if(otherPlayerTestCol.getRigidVelocity() > getRigidVelocity())
+		if (m_cooldownTimer > COOLDOWN) {
+			if(other.gameObject.CompareTag("Player"))
 			{
-				//Play tackle animation
-				m_playerAnim.tackleAnim(dizzyTime);
+				otherTestCol otherPlayerTestCol = other.transform.GetComponent<otherTestCol>();
 
-				//Calculate tackle physics
-				Vector3 basisVector = other.transform.position - transform.position;
-				basisVector.Normalize();
+				//MovementLogic othersMovementLogic = other.gameObject.GetComponent<MovementLogic>();
+				//if(othersMovementLogic.getRigidVelocity() > m_movementLogic.getRigidVelocity())
+				if(otherPlayerTestCol.getRigidVelocity() > getRigidVelocity())
+				{
+					m_cooldownTimer = 0.0f;
 
-				//changed othersMovementLogic.getRigidVelVect() to otherPlayerTestCol.getPreviosVelocity()
-				Vector3 othersVel = otherPlayerTestCol.getPreviosVelocity();
-				float x1 = Vector3.Dot(basisVector, othersVel);
+					//Play tackle animation
+					m_playerAnim.tackleAnim(dizzyTime);
 
-				Vector3 othersXvel = basisVector * x1;
-				Vector3 othersYvel = othersVel - othersXvel;
+					//Calculate tackle physics
+					Vector3 basisVector = other.transform.position - transform.position;
+					basisVector.Normalize();
 
-				basisVector = -basisVector;
-				//changed m_movementLogic.getRigidVelVect() to getPreviosVelocity()
-				Vector3 myVel = getPreviosVelocity();
-				float x2 = Vector3.Dot(basisVector, myVel);
+					//changed othersMovementLogic.getRigidVelVect() to otherPlayerTestCol.getPreviosVelocity()
+					Vector3 othersVel = otherPlayerTestCol.getPreviosVelocity();
+					float x1 = Vector3.Dot(basisVector, othersVel);
 
-				Vector3 myXvel = basisVector * x2;
-				Vector3 myYVel = myVel - myXvel;
+					Vector3 othersXvel = basisVector * x1;
+					Vector3 othersYvel = othersVel - othersXvel;
 
-				Vector3 opponentsResultVel = myXvel + othersYvel;
-				Vector3 myResultVel = othersXvel + myYVel;
+					basisVector = -basisVector;
+					//changed m_movementLogic.getRigidVelVect() to getPreviosVelocity()
+					Vector3 myVel = getPreviosVelocity();
+					float x2 = Vector3.Dot(basisVector, myVel);
 
+					Vector3 myXvel = basisVector * x2;
+					Vector3 myYVel = myVel - myXvel;
 
-//				//detta kan tas bort när allt är klart
-//				othersMovementLogic.setTackled(opponentsResultVel * 0.3f);
-//				m_movementLogic.setTackled(myResultVel);
-//				Invoke("restorePlayerMovement", dizzyTime);
-//				otherPlayerTestCol.Invoke("restorePlayerMovement", dizzyTime);
+					Vector3 opponentsResultVel = myXvel + othersYvel;
+					Vector3 myResultVel = othersXvel + myYVel;
 
-				restorePlayerMovement(other.gameObject);
-
-			}
-
-			//Handle TimeBomb powerup
-			if (m_buffManager.HasBuff(typeof(TimeBombBuff))){
-				TimeBombBuff timeBombBuff = m_buffManager.GetBuff(typeof(TimeBombBuff)) as TimeBombBuff;
-				if (timeBombBuff.CanTransfer()) {
-					BuffManager othersBuffManager = other.gameObject.GetComponent<BuffManager> ();
-					TimeBombBuff newTimeBombBuff = othersBuffManager.AddBuff(new TimeBombBuff(other.gameObject, timeBombBuff.m_duration)) as TimeBombBuff;
-					newTimeBombBuff.TransferUpdate(timeBombBuff.m_durationTimer);
-					m_buffManager.RemoveBuff(timeBombBuff);
+					//Add buffs
+					m_buffManager.AddBuff(new StunBuff(gameObject, stunTime));
+					m_buffManager.AddBuff(new DizzyBuff(gameObject, dizzyTime));
+	//				other.gameObject.GetComponent<BuffManager>().AddBuff(new StunBuff(gameObject, stunTime));
 				}
-			}
 
+				//Handle TimeBomb powerup
+				if (m_buffManager.HasBuff(typeof(TimeBombBuff))){
+					TimeBombBuff timeBombBuff = m_buffManager.GetBuff(typeof(TimeBombBuff)) as TimeBombBuff;
+					if (timeBombBuff.CanTransfer()) {
+						BuffManager othersBuffManager = other.gameObject.GetComponent<BuffManager> ();
+						TimeBombBuff newTimeBombBuff = othersBuffManager.AddBuff(new TimeBombBuff(other.gameObject, timeBombBuff.m_duration)) as TimeBombBuff;
+						newTimeBombBuff.TransferUpdate(timeBombBuff.m_durationTimer);
+						m_buffManager.RemoveBuff(timeBombBuff);
+					}
+				}
+
+			}
 		}
 	}
 
@@ -88,15 +94,6 @@ public class otherTestCol : MonoBehaviour
 
 	public float getRigidVelocity(){
 		return rigidbody.velocity.sqrMagnitude;
-	}
-
-	public void restorePlayerMovement(GameObject other){
-		//Local player
-		m_buffManager.AddBuff(new StunBuff(gameObject, stunTime));
-		m_buffManager.AddBuff(new DizzyBuff(gameObject, dizzyTime));
-
-		//Ghost
-		other.GetComponent<BuffManager>().AddBuff(new StunBuff(gameObject, stunTime));
 	}
 
 }
