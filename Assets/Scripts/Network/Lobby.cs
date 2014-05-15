@@ -9,7 +9,7 @@ public class Lobby : MonoBehaviour {
 	private int m_listenPort = 7777;
 	private bool m_useNAT = false;
 
-	private int m_maxPlayers = 3; // server doesnt count
+	private int m_maxPlayers = 4; // server doesnt count, maybe?
 	public string[] m_levels = {"test_johannes"};
 
 	//might not be use3d
@@ -93,7 +93,6 @@ public class Lobby : MonoBehaviour {
 				//denna fungerar inte
 				MasterServer.UnregisterHost();
 				loadLevel();
-				SeaNet.Instance.startGame();
 			}
 			if(GUI.Button(new Rect(centerX, centerY + size.y, size.x, size.y), "Stop Server")){
 				m_tempServerName = "";

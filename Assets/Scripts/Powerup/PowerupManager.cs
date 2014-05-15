@@ -94,7 +94,7 @@ public class PowerupManager : MonoBehaviour {
 	 * Add the TimeBomb buff to the colliding player
 	 */
 	[RPC]
-	public void TimeBombGet(int playerID, int duration)
+	public void TimeBombGet(int playerID, float duration)
 	{
 		SyncMovement syncMovement;
 		GameObject player;

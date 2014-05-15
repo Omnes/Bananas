@@ -2,18 +2,21 @@
 using System.Collections;
 
 public class CollectorCollider : MonoBehaviour {
-	private int m_ID;
-
+//	private GameObject scoreKeeper;
+	public int m_ID;
+	
 	void Start() {
 		m_ID = GetComponent<ID> ().m_ID;
 	}
-	
-	void OnTriggerEnter(Collider col)
-	{
-		if (col.gameObject.CompareTag ("Leaf")) {
-			ScoreKeeper.m_scores[m_ID] += 1;
-			SoundManager.Instance.playOneShot(SoundManager.SCORE);
-			col.gameObject.SetActive(false);
-		}
-	}
+
+
+	//TODO: Ändra till RCP
+//	void OnTriggerEnter(Collider col)
+//	{
+//		if (col.gameObject.CompareTag ("Leaf_collector")) {
+//			ScoreKeeper.m_scores[m_ID] += 1;
+//			col.gameObject.SetActive(false);
+//		}
+//	}
+
 }

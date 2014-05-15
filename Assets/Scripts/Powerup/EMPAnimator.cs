@@ -5,7 +5,7 @@ public class EMPAnimator : MonoBehaviour {
 	//Design parameters
 	public const float DURATION = 1.0f;
 	public const float START_SCALE = 0;
-	public const float TARGET_SCALE = 325;
+	public const float TARGET_SCALE = 3.5f;
 
 	//Variables
 	private float delta;

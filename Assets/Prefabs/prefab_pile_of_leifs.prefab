@@ -24,7 +24,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.33568, y: 15.0580883, z: 16.6960964}
+  m_LocalPosition: {x: -1.6324445, y: 17.8418903, z: 3.82370353}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -39,9 +39,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbb0b4a5eb84cec49919eb72c89aad90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useLerp: 1
-  m_prefabLeaf: {fileID: 100000, guid: 3c6d9bb5dde52c84d965a56f5bbbc12e, type: 2}
-  m_leafCache: 45
+  m_prefabLeaf: {fileID: 100000, guid: 89c82b5978a033c4d82a2e7f0b274cf7, type: 2}
+  m_leafCache: 55
   m_leafStartCount: 45
   m_range: 12
   m_startHeight: .00100000005
