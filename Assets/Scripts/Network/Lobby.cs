@@ -28,6 +28,9 @@ public class Lobby : MonoBehaviour {
 	private string m_tempPlayerName = "";
 	private string m_tempServerName = "";
 
+	//maxtime field
+	private int m_maxTimeField = 600;
+
 	//scroll startpos
 	private Vector2 m_scrollRectPos = new Vector2(100,100);
 	public int m_maxGames = 10;
@@ -86,6 +89,9 @@ public class Lobby : MonoBehaviour {
 			//started server
 		if(Network.peerType == NetworkPeerType.Server){
 			if(GUI.Button(new Rect(centerX, centerY, size.x, size.y), "Start Game")){
+				//set maxtime
+				SeaNet.Instance.setMaxTime(m_maxTimeField);
+
 				//create ID for allplayers
 				createId();
 				//loads next level
@@ -101,6 +107,9 @@ public class Lobby : MonoBehaviour {
 			if(GUI.Button(new Rect(centerX, centerY + (size.y * 2), size.x, size.y), "SEE STUFF")){
 				networkView.RPC("showStuff", RPCMode.All);
 			}
+
+			string tempMax = GUI.TextField(new Rect(centerX, centerY + (size.y * 3), size.x, size.y), m_maxTimeField.ToString(), 25);
+			m_maxTimeField = int.Parse(tempMax);
 
 		}/*else if(Network.peerType == NetworkPeerType.Client){
 			//client in serverlobby
