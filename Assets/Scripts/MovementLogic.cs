@@ -52,21 +52,18 @@ public class MovementLogic : MonoBehaviour
 	private bool m_running;
 	private playerAnimation m_animation;
 
-	private FMOD_StudioEventEmitter footstepEmitter;
-//	FMOD.Studio.ParameterInstance footstepParam;
+	//seans crazy countdown
+	public BuffManager m_buffManager;
 
-
+	private LeafBlower m_leafBlower;
+	
 	// Use this for initialization
 	void Start () 
 	{
 //		m_dizzySeconds = Mathf.Clamp (m_dizzySeconds, 1, 10);
 		m_animation = GetComponent<playerAnimation>();
 		m_touchIn = GetComponent<InputHub> ();
-		footstepEmitter = GetComponent<FMOD_StudioEventEmitter> ();
-		footstepEmitter.StartEvent ();
-		footstepEmitter.evt.setVolume (0);
-//		footstepEmitter.evt.getParameter ("Snabbet", out footstepParam);
-//		footstepParam.setValue (2.0f);
+		m_leafBlower = GetComponentInChildren<LeafBlower>();
 
 		if(m_dizzySeconds  < 0.01f){
 			Debug.LogError("m_dizzySeconds can't be 0, this will crash the game on collisions!");
@@ -76,47 +73,42 @@ public class MovementLogic : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate () 
 	{
+		//buffamanager. add buff new Buff(STUNTUN);
+		if(m_buffManager == null){
+			m_buffManager = gameObject.GetComponent<BuffManager>();
+			//stun tre sec, countdown before match
+			m_buffManager.AddBuff(new StunBuff(gameObject, 3));
+		}
+
 		if(m_hasCollided)
 		{
 			//collisionTime = Time.time;
-			Debug.Log("Collided");
-			Debug.Log("result" + resultOfCollision.ToString("F2"));
+//			Debug.Log("Collided");
+//			Debug.Log("result" + resultOfCollision.ToString("F2"));
 //			rigidbody.AddForce(resultOfCollision * 2, ForceMode.VelocityChange);
 			m_dizzyFactor = 0.0f;
 //			tmpSPeed = 0.0f;
 			m_hasCollided = false;
 		}
-
 		//After collision, increase the dizzyFactor untill it has reached one(stearing restored)..
-		else
+		else {
 			if(m_dizzyFactor < 1.0f)
 			{
 				m_dizzyFactor += Time.deltaTime/m_dizzySeconds;
 			}
+		}
 
 
-
+		Profiler.BeginSample("Input");
 		m_inputVec = m_touchIn.getCurrentInputVector ();
 		m_inputVec *= m_dizzyFactor;
 		right = m_inputVec.y;
 		left = m_inputVec.x;
 
-//		footstepEmitter.audio.volume = (Mathf.Abs(right) + Mathf.Abs(left)) / 2;
-//		Debug.Log ("Emitter: " + footstepEmitter.audio);
-
-		float totalSpeed = (Mathf.Abs (right) + Mathf.Abs (left)) / 2;
-		footstepEmitter.evt.setVolume (totalSpeed);
-//		totalSpeed *= 10;
-//		Debug.Log (totalSpeed);
-//		footstepParam.setValue (totalSpeed);
-
-
-//		totalSpeed *= 10;
-//		Debug.Log (totalSpeed);
-//		footstepParam.setValue (totalSpeed);
-
 		blowPower = m_touchIn.getCurrentBlowingPower ();
+		Profiler.EndSample();
 
+		Profiler.BeginSample("Animation");
 		//animationkode och stuff
 		if(right+left > 0){
 			if(m_running == false){
@@ -127,19 +119,25 @@ public class MovementLogic : MonoBehaviour
 			m_running = false;
 			m_animation.idleAnim();
 		}
+		Profiler.EndSample();
 
 
-		float inputSpeed =  Mathf.Pow((right + left),m_powSpeed);
 
 		//Adding rotation..
+		Profiler.BeginSample("Rotation");
 		Vector3 temp = Vector3.up * left + Vector3.down * right;
 		m_currentRotationSpeed = temp * m_rotateProportion;
-		transform.Rotate (m_currentRotationSpeed * Time.deltaTime);
+		Quaternion prev = transform.rotation;
+		Quaternion newRot = Quaternion.Euler(prev.eulerAngles + m_currentRotationSpeed * Time.deltaTime);
+		rigidbody.MoveRotation (newRot);
+		Profiler.EndSample();
 
 		Vector3 dir = transform.forward;
 		currentVelocity = rigidbody.velocity;
 		Vector3 newVelocity = dir;
 
+		Profiler.BeginSample("Velocity");
+		float inputSpeed =  Mathf.Pow((right + left),m_powSpeed);
 		//adding som velocity
 		newVelocity = Vector3.Project (currentVelocity, dir.normalized);
 
@@ -151,10 +149,11 @@ public class MovementLogic : MonoBehaviour
 //		Vector3 backwardForce = -dir * blowPower * m_BlowPowerForce;
 //		newVelocity += backwardForce * Time.deltaTime;
 
+		float leafModifier = m_leafBlower.getLeafSpeedModifier();
 		//clamp speed
-		if(newVelocity.magnitude > m_maxSpeed)
+		if(newVelocity.magnitude > m_maxSpeed*leafModifier)
 		{
-			newVelocity = newVelocity.normalized*m_maxSpeed;
+			newVelocity = newVelocity.normalized*m_maxSpeed*leafModifier;
 		}
 
 		//turning
@@ -163,7 +162,6 @@ public class MovementLogic : MonoBehaviour
 		}else{	//go straight
 			newVelocity = (1 - blowPower) > 0.5?newVelocity:newVelocity * m_BlowPowerSlowFraction;
 		}
-		
 
 		//friction if there 
 		if(m_dizzyFactor < 1.0f || Mathf.Abs(inputSpeed) < m_minimumSpeed && !m_hasCollided)
@@ -190,6 +188,7 @@ public class MovementLogic : MonoBehaviour
 //		}
 //		else
 		rigidbody.AddForce(deltaVelocity, ForceMode.VelocityChange);
+		Profiler.EndSample();
 	}
 
 	public float getRotationSpeed(){
@@ -206,11 +205,11 @@ public class MovementLogic : MonoBehaviour
 	{
 		return m_collisionVelocity;
 	}
+
 	public Vector3 getRigidVelVect ()
 	{
 		return testCollisionVect;
 	}
-
 
 	public void setTackled(Vector3 aCollisionForce)
 	{

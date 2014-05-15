@@ -7,11 +7,13 @@ public class lowerBodyAnimation : MonoBehaviour {
 	public enum state { 
 		IDLE, 
 		RUNNING,
-		BLOW
+		BLOW,
+		STOPBLOW
 	};
 
-	private state myEnum;
-	private state currentEnum;
+	private state m_myState;
+	private state m_currentState;
+	private state m_previousState;
 
 	private Animator m_playerAnimator;
 
@@ -26,34 +28,42 @@ public class lowerBodyAnimation : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//enum
-		//upperBodyEnum myEnum;
-		myEnum = state.IDLE;
-		currentEnum = myEnum;
+		//upperBodyEnum m_myState;
+		m_myState = state.IDLE;
+		m_currentState = m_myState;
 		//hämta animationer osv
 		m_playerAnimator = gameObject.GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(myEnum != currentEnum){
-			switch (myEnum){
+		if(m_myState != m_currentState){
+			switch (m_myState){
 				case state.RUNNING:
 				{
 					runningAnimation();
-					currentEnum = state.RUNNING;
+					m_currentState = state.RUNNING;
 					break;	
 				}
 					
 				case state.IDLE:
 				{
 					idleAnimation();
-					currentEnum = state.IDLE;
+					m_currentState = state.IDLE;
 					break;
 				}
 				case state.BLOW:
 				{
-					blowAnimation();
-					currentEnum = state.BLOW;
+					if(!m_running){
+						blowAnimation();
+					}
+					m_currentState = state.BLOW;
+					break;
+				}
+				case state.STOPBLOW:
+				{
+					stopBlowAnimation();
+					m_currentState = state.STOPBLOW;
 					break;
 				}
 			}
@@ -61,30 +71,36 @@ public class lowerBodyAnimation : MonoBehaviour {
 	}
 
 	public void runningAnimation(){
-		//Debug.Log("LowerBody : runningAnimation");
+		m_previousState = m_currentState;
+
 		m_playerAnimator.SetFloat("playerSpeed", 1);
 		m_running = true;
-		//switch to run in animator
-		//m_playerAnimator.SetLayerWeight(1, 1);
 	}
 
 	public void idleAnimation(){
-		//Debug.Log("LowerBody : idleAnimation");
+		m_previousState = m_currentState;
 		
 		m_playerAnimator.SetFloat("playerSpeed", 0);
 		m_running = false;
-		//switch to idle in animator
-		//m_playerAnimator.SetLayerWeight(1, 0);
 	}
 
 	public void blowAnimation(){
-		//Debug.Log("LowerBody : blowAnimation");
-		if(!m_running){
-			m_playerAnimator.SetFloat("playerSpeed", 0);
-		}
+		m_previousState = m_currentState;
+
+		m_playerAnimator.SetBool("isBlowing", true);
 	}
 
+	public void stopBlowAnimation(){
+		m_previousState = m_currentState;
+
+		m_playerAnimator.SetBool("isBlowing", false);
+	}
+//
+//	public void previousAnimation(){
+//		m_myState = m_previousState;
+//	}
+
 	public void changeAnimation(state LBAnim){
-		myEnum = LBAnim;
+		m_myState = LBAnim;
 	}
 }

@@ -293,15 +293,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -3.31669712
+      value: -13.8877182
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.12365901
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 6.48151064
+      value: -15.1308527
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
       propertyPath: m_LocalRotation.x
@@ -326,6 +326,14 @@ Prefab:
     - target: {fileID: 11400000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
       propertyPath: m_rotateProportion
       value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
+      propertyPath: m_acceleration
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
+      propertyPath: m_maxSpeed
+      value: 8.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b8d41e375b03b040a564f799e388cc6, type: 2}
@@ -2005,7 +2013,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7ed3364cc8964048836415799bcb66a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_force: 1
 --- !u!54 &153849695
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3492,7 +3499,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7ed3364cc8964048836415799bcb66a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_force: 1
 --- !u!54 &592787991
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3536,11 +3542,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_debug_mode: 1
-  m_slider: {fileID: 2800000, guid: bebb427c1d1f99944bad1a3c92f711f8, type: 3}
+  m_slider: {fileID: 2800000, guid: 31ec9ed3db81daf4097058db5d4dc311, type: 3}
   m_line: {fileID: 2800000, guid: 695169fdc7bbf2c4884295aed08423b9, type: 3}
-  m_edge_threshold_scale: .300000012
+  m_sliderWidth: .100000001
+  m_sliderDistToEdge: .0299999993
   m_blowingEdge: .200000003
-  m_maxSliderHeight: 500
+  m_maxSliderHeight: 1000
   m_sliderSizePercentOfScreen: .800000012
 --- !u!4 &600629754
 Transform:
@@ -4120,7 +4127,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7ed3364cc8964048836415799bcb66a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_force: 1
 --- !u!54 &768262775
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4494,7 +4500,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7ed3364cc8964048836415799bcb66a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_force: 1
 --- !u!54 &868555885
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5438,7 +5443,7 @@ Transform:
   m_PrefabInternal: {fileID: 33665551}
   m_GameObject: {fileID: 1146222763}
   m_LocalRotation: {x: 0, y: .382683486, z: 0, w: .923879564}
-  m_LocalPosition: {x: -3.31669712, y: 1.12365901, z: 6.48151064}
+  m_LocalPosition: {x: -13.8877182, y: 1, z: -15.1308527}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 100107279}
@@ -5554,8 +5559,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6aaebf328574e74f98ddae1e4497c6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_movementLogic: {fileID: 1146222773}
-  m_dizzyTime: 6
 --- !u!114 &1146222773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5571,8 +5574,8 @@ MonoBehaviour:
   m_rotateProportion: 90
   m_frictionProportion: .920000017
   m_minimumSpeed: .00999999978
-  m_maxSpeed: 10
-  m_acceleration: 25
+  m_maxSpeed: 8.5
+  m_acceleration: 10
   m_powSpeed: 1
   m_BlowPowerSlowFraction: 1
 --- !u!54 &1146222774

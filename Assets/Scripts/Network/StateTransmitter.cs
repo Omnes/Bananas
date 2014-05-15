@@ -22,7 +22,7 @@ public class StateTransmitter : MonoBehaviour {
 				stream.Serialize(ref angle);
 				stream.Serialize(ref sd.m_rotationSpeed);
 				//stream.Serialize(ref sd.m_rotation);
-				stream.Serialize(ref sd.m_blowing);
+//				stream.Serialize(ref sd.m_blowing);
 
 			}else{
 				Vector3 position = new Vector3();
@@ -38,7 +38,7 @@ public class StateTransmitter : MonoBehaviour {
 				stream.Serialize(ref angle);
 				stream.Serialize(ref rotationDelta);
 				//stream.Serialize(ref rotation);
-				stream.Serialize(ref blowing);
+//				stream.Serialize(ref blowing);
 
 				rotation = Quaternion.Euler(new Vector3(0,angle,0));
 				SyncData sd = new SyncData(position,velocity,rotation,rotationDelta,blowing);

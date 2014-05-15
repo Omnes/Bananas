@@ -1,103 +1,190 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using FMOD.Studio;
 
 //TODO: Gör om distanceToLeaf så att den använder vector2D
 public class LeafBlower : MonoBehaviour {
-	private float m_blowPower = 0.0f;	
 
-	public float m_forwardPower = 1.0f;
-	public float m_distanceMultiplier = 0.0f;
+	public static LeafBlower[] s_leafBlowers = new LeafBlower[4];
+	public int m_id = -1;
+	
+	public ParticleSystem m_particleSystem;
+	public float m_randomLeafInBlowerRange = 1f;
+	public float m_randomLeafFallRange = 4f;
 
-	public float m_centripetalPower = 1.0f;
-	public float m_centDistMult = 0.0f;
-	//INTE FINT FIXA PLS
-	public float m_colliderLength = 4f;
-
-	public float m_minVelocity = 0.0f;
-	public bool m_minVelocityDependsOnBlowPower = true;
-
+	private bool m_particleEmit = false;
+	private playerAnimation m_animation;
+	private float m_blowPower = 0.0f;
 	private Transform playerTransform;
-
 	private InputHub m_touchInput;
 	private FMOD.Studio.EventInstance m_blowSound;
 
-	public ParticleSystem m_particleSystem;
-	private bool m_particleEmit = false;
+	private List<Transform> m_collectedLeafs = new List<Transform>();
+
+	public Transform m_whirlwind;
+
+	bool tmp_canPickup = true; //TEMP
+
+	public int m_leafThreshold = 10;
+	public int m_maxLeaf = 30;
+	public float m_lowestSpeedModifier = 0.5f;
 
 	void Start()
 	{
+
+		m_animation = transform.parent.GetComponent<playerAnimation>();
+
 		m_touchInput = transform.parent.GetComponent<InputHub>();
 
-//		FMOD.Studio.EventInstance s = SoundManager.Instance.play( "event:/gameplay_concept" );
-//		s.setTimelinePosition (60000);
-
-		m_blowSound = SoundManager.Instance.play( "event:/leafblower (ytterst kass)" );
+		m_blowSound = SoundManager.Instance.play(SoundManager.LEAFBLOWER);
 		playerTransform = transform;
 	}
 
 	void Update()
 	{
 		m_blowPower = m_touchInput.getCurrentBlowingPower();
-		m_blowSound.setVolume (m_blowPower / 3);
-//		m_blowSound.setVolume (0);
+		m_blowSound.setVolume (m_blowPower);
 
 		if(m_blowPower > 0){
 			if(!m_particleEmit){
+				m_animation.blowAnim();
+
 				m_particleEmit = true;
 				m_particleSystem.Play();
 			}
 		}else if(m_particleEmit){
+			m_animation.stopBlowAnim();
 			m_particleEmit = false;
 			m_particleSystem.Stop();
 		}
-	}
 
-	public void OnTriggerStayInChild(Collider col)
-	{
-		if (col.gameObject.CompareTag("Leaf")) {
-			GameObject leaf = col.gameObject;
-
-			Transform leafTransform = leaf.transform;
-
-			//Centreipetal power
-			Vector3 playerDirection = playerTransform.parent.TransformDirection( Vector3.forward );	
-			Vector3 projectionPoint = playerTransform.parent.position + Vector3.Project(leafTransform.position - transform.parent.position, playerDirection);
-
-			Vector3 projectionDirection = projectionPoint - leafTransform.position;
-			float distance = projectionDirection.magnitude;
-			projectionDirection.Normalize();
-			Vector3 centripetalForce = projectionDirection * m_centripetalPower * m_blowPower * (1 + distance * m_centDistMult);
-//			leaf.rigidbody.AddForce(projectionDirection * m_centripetalPower * m_blowPower * (1 + distance * m_centDistMult));
-
-			//Blow power
-			Vector3 directionVector = (leafTransform.position - playerTransform.parent.position).normalized;
-//			float distanceToLeaf = Vector3.Distance( playerTransform.position, leafTransform.position );
-//			float distanceToLeaf = Vector3.Distance( new Vector3(playerTransform.position.x, 0, playerTransform.position.z), new Vector3(leafTransform.position.x, 0, leafTransform.position.z) );
-			float distanceToLeaf = Vector2.Distance( new Vector2(playerTransform.position.x, playerTransform.position.z), new Vector2(leafTransform.position.x, leafTransform.position.z) );
-			Vector3 forwardForce = directionVector * m_forwardPower * m_blowPower * (1 + (m_colliderLength - distanceToLeaf) * m_distanceMultiplier);
-//			leaf.rigidbody.AddForce(directionVector * m_forwardPower * m_blowPower * (1 + (m_colliderLength - distanceToLeaf) * m_distanceMultiplier));
-
-			leaf.rigidbody.AddForce((centripetalForce + forwardForce) * Time.deltaTime);
-
-//			if(leaf.rigidbody.velocity.magnitude > m_maxVelocity){
-//				Vector3 newSpeed = leaf.rigidbody.velocity.normalized * m_maxVelocity;
-//				rigidbody.AddForce(newSpeed - leaf.rigidbody.velocity,ForceMode.VelocityChange);
-//			}
-
-			Rigidbody leafRigidbody = leaf.rigidbody;
-			//Minimum velocity
-			if ( leafRigidbody.velocity.magnitude < m_minVelocity ) {
-				if ( m_minVelocityDependsOnBlowPower ) {
-					leafRigidbody.velocity = leafRigidbody.velocity.normalized * m_minVelocity * m_blowPower;
-				}
-				else {
-					leafRigidbody.velocity = leafRigidbody.velocity.normalized * m_minVelocity;
-				}
+		if(Input.GetKeyDown(KeyCode.A)){ // TEMP DEBUG
+			if(Network.isServer){
+				requestDrop(10);
 			}
-
 		}
+		tmp_canPickup = m_collectedLeafs.Count < m_maxLeaf;
 
 	}
+	
+	public void addLeaf(Transform leaf){
+		float randomAngle = Random.Range(0f,360f);
+		float randomDistance = Random.Range(-m_randomLeafInBlowerRange,m_randomLeafInBlowerRange);
+		Vector2 vec = new Vector2(Mathf.Cos (randomAngle),Mathf.Sin(randomAngle))* randomDistance;
+		Vector3 randomPosition = new Vector3(vec.x,0,vec.y);
+		leaf.GetComponent<LeafLogic>().addToWhirlwind(randomPosition,m_whirlwind);
+		m_collectedLeafs.Add(leaf);
+	}
 
+	public void requestDropAll(){
+		requestDrop(m_collectedLeafs.Count);
+	}
+
+	public void requestDrop(int count){
+		LeafManager.s_lazyInstance.requestLeafDrop(m_id,count);
+	}
+
+
+	public void dropLeafs(int count,int seed){
+		Random.seed = seed;
+		count =  Mathf.Min(count,m_collectedLeafs.Count); //we cant drop more leafs than we have
+		for (int i = 0; i < count; i++){
+			m_collectedLeafs[i].GetComponent<LeafLogic>().dropFromWhirlwind(getRandomFallSpot());
+		}
+		m_collectedLeafs.RemoveRange(0,count);
+	}
+
+	private Vector3 getRandomFallSpot(){
+		float randomAngle = Random.Range(0f,360f);
+		float randomDistance = Random.Range(-m_randomLeafFallRange,m_randomLeafFallRange);
+		return m_whirlwind.position + new Vector3(Mathf.Cos(randomAngle),0,Mathf.Sin(randomAngle)) * randomDistance;
+	}
+	
+
+
+	public void OnDestroy()
+	{
+		if (SoundManager.IsNull() == false) {
+			SoundManager.Instance.DestroySound (m_blowSound);
+		}
+	}
+
+	//this is triggered by collisions in the child's colliders
+	public void OnTriggerEnterInChild(Collider other)
+	{
+		if (Network.isServer) {
+			if (other.CompareTag("Leaf") && tmp_canPickup) {
+				Transform leaf = other.transform;
+
+				LeafManager.s_lazyInstance.pickUpLeaf(m_id,leaf);
+
+			}
+		}
+	}
+
+	void returnLeafsToPool(int count){
+		for(int i = 0;i < count; i++){
+			m_collectedLeafs[i].GetComponent<LeafLogic>().clean();
+			m_collectedLeafs[i].gameObject.SetActive(false);
+		}
+		m_collectedLeafs.RemoveRange(0,count);
+	}
+
+	//TODO: Authorativ
+	//this is the own "leaf dumper" trigger -- this gives the score to the players
+	public void OnTriggerEnter(Collider other)
+	{
+//		if (Network.isServer) {
+		if (other.CompareTag("Leaf_collector")) {
+			int nrOfLeafs = m_collectedLeafs.Count;
+			returnLeafsToPool(nrOfLeafs);
+			int id = other.gameObject.GetComponent<CollectorCollider>().m_ID;
+			ScoreKeeper.m_scores[id] += nrOfLeafs;
+			SoundManager.Instance.playOneShot(SoundManager.SCORE);
+		}
+//		}
+	}
+
+
+
+
+	public float getLeafSpeedModifier(){
+		float modifier = (float)(m_collectedLeafs.Count -  m_leafThreshold) / (float)(m_maxLeaf - m_leafThreshold); // current/max = percent
+//		Debug.Log("Pre: " + modifier);
+		modifier = Mathf.Clamp(1f - modifier,m_lowestSpeedModifier,1f); // invert and clamp
+//		Debug.Log("Post: " + modifier);
+		return modifier;
+	}
+
+
+	public void setWhirlwind(Transform whirl){
+		m_whirlwind = whirl;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

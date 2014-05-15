@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class StunBuff : Buff {
@@ -13,16 +13,13 @@ public class StunBuff : Buff {
 	override public void InitEvent()
 	{
 		m_playerRef.rigidbody.velocity = Vector3.zero;
-		inputHub.m_stunned = true;
+		inputHub.StunMovement();
+		inputHub.StunLeafBlower ();
 	}
-
-//	public override void UpdateEvent ()
-//	{
-//		movementLogic.enabled = false;
-//	}
 
 	override public void ExpireEvent()
 	{
-		inputHub.m_stunned = false;
+		inputHub.UnStunMovement();
+		inputHub.UnStunLeafBlower ();
 	}
 }

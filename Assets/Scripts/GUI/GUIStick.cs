@@ -13,7 +13,7 @@ public class GUIStick : MonoBehaviour {
 	void updateSize(){
 		//hämtar in storleken de ska ha från scr_touchinput så man bara behöver ändra på ett ställe
 		Vector2 size = GUIMath.InchToPercent(m_touchInput.getGUIStickSize());
-		Debug.Log (m_touchInput.getGUIStickSize());
+//		Debug.Log (m_touchInput.getGUIStickSize());
 		//skalar om
 		transform.localScale = new Vector3(size.x,size.y,transform.localScale.z);
 		//placerar dem
@@ -30,9 +30,9 @@ public class GUIStick : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if(Application.isEditor && m_touchInput != null && m_updateInEditor){
-			updateSize();
-		}
-	}
+//	void Update () {
+//		if(Application.isEditor && m_touchInput != null && m_updateInEditor){
+//			updateSize();
+//		}
+//	}
 }

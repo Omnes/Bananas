@@ -2,12 +2,11 @@
 using System.Collections;
 
 public class LeafManager : MonoBehaviour {
-	private GameObject[] leafs;
-	private Vector2[] newPositions;
-	private Vector2[] oldPositions;
-	private float lerpTime;
+	
+	public static LeafManager s_lazyInstance = null;
 
-	public bool useLerp = true;
+	private GameObject[] m_leafs;
+	private LeafLogic[] m_leafLogics;
 
 	public GameObject m_prefabLeaf;
 
@@ -26,28 +25,36 @@ public class LeafManager : MonoBehaviour {
 	[Range(0f, 10f)]
 	public float m_totalHeight = 1.0f;
 
+	public int m_minLeafCount = 0;
+
 	private NetworkView network;
-	private bool m_spawnInOffline = false;
+	public bool m_spawnInOffline = false;
+
+//	public float m_sqrResyncDistance = Mathf.Sqrt(0.4f);
 
 	/**
 	 * Initializes variables
 	 */
 	void Awake () {
+		s_lazyInstance = this;
 		network = networkView;
 
-		leafs = new GameObject[m_leafCache];
-		newPositions = new Vector2[m_leafCache];
-		oldPositions = new Vector2[m_leafCache];
+		m_leafs = new GameObject[m_leafCache];
+		m_leafLogics = new LeafLogic[m_leafCache];
 
 		float heightIncrease = m_totalHeight / m_leafCache;
 
-		for (int i = 0; i < leafs.Length; i++) {
-			leafs[i] = Instantiate(m_prefabLeaf) as GameObject;
-			leafs[i].name = "Leaf_" + i;
-			leafs[i].transform.parent = gameObject.transform;
-			leafs[i].transform.position = new Vector3(0, m_startHeight + heightIncrease * i, 0);
-			leafs[i].SetActive(false);
+		for (int i = 0; i < m_leafs.Length; i++) {
+			m_leafs[i] = Instantiate(m_prefabLeaf) as GameObject;
+			m_leafs[i].name = "Leaf_" + i;
+			m_leafs[i].transform.localPosition = new Vector3(0,m_startHeight + heightIncrease * i,0);
+			m_leafs[i].transform.parent = gameObject.transform;
+			m_leafs[i].SetActive(false);
+			m_leafLogics[i] = m_leafs[i].GetComponent<LeafLogic>();
+			m_leafLogics[i].m_id = i;
+
 		}
+
 	}
 	
 	void Start () {
@@ -60,38 +67,43 @@ public class LeafManager : MonoBehaviour {
 		}
 	}
 
+	void Update() {
+		if (Network.isServer && ActiveLeafs() <= m_minLeafCount) {
+			network.RPC ("SpawnLeafs", RPCMode.All, Random.Range (int.MinValue, int.MaxValue));
+//			GameObject leaf = Instantiate(m_prefabLeaf) as GameObject;
+
+		}
+	}
+
 	/**
 	 * Find and return an unused leaf from the leaf pool
 	 * Returns null if no leaf can be used
 	 */
 	public GameObject SpawnLeaf() {
-		for (int i = 0; i < leafs.Length; i++) {
-			if ( leafs[i].activeSelf == false ) {
-				leafs[i].rigidbody.velocity = Vector3.zero;
-				leafs[i].SetActive(true);
-				return leafs[i];
+		for (int i = 0; i < m_leafs.Length; i++) {
+			if ( m_leafs[i].activeSelf == false ) {
+				m_leafs[i].SetActive(true);
+				return m_leafs[i];
 			}
 		}
-		Debug.LogError ("LeafManager.cs: Trying to create more leafs than is available in the pool (Max " + leafs.Length + ")");
+		Debug.LogError ("LeafManager.cs: Trying to create more leafs than is available in the pool (Max " + m_leafs.Length + ")");
 		return null;
 	}
 
-//	public GameObject SpawnLeaf(int index) {
-//		if (index >= 0 || index < leafs.Length) {
-//			if (leafs[index].activeSelf == false) {
-//				leafs[index].rigidbody.velocity = Vector3.zero;
-//				leafs[index].SetActive (true);
-//				return leafs[index];
-//			}
-//		}
-//		return null;
-//	}
-
 	public GameObject GetLeaf(int index) {
-		if (index >= 0 || index < leafs.Length) {
-			return leafs [index];
+		if (index >= 0 || index < m_leafs.Length) {
+			return m_leafs [index];
 		}
 		return null;
+	}
+
+	public int ActiveLeafs() {
+		int count = 0;
+		for (int i = 0; i < m_leafs.Length; i++) {
+			if (m_leafs[i].activeSelf)
+				count++;
+		}
+		return count;
 	}
 
 	/**
@@ -106,57 +118,27 @@ public class LeafManager : MonoBehaviour {
 			leaf.transform.position = new Vector3(Random.Range(-m_range, m_range), leaf.transform.position.y, Random.Range(-m_range, m_range));
 			leaf.transform.Rotate(new Vector3(0,0,Random.Range(0f,359f)));
 
-			newPositions[i] = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
-			oldPositions[i] = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
 		}
 	}
-
-	/**
-	 * Send and receive all leaves position
-	 */
-	void OnSerializeNetworkView (BitStream stream, NetworkMessageInfo info) {
-		if (Network.isServer && stream.isWriting) {
-			//Sending
-			Vector3 vec;
-			for (int i = 0; i < leafs.Length; i++) {
-				vec = new Vector3(i, leafs[i].transform.position.x, leafs[i].transform.position.z);
-				stream.Serialize( ref vec );
-			}
-		}
-		else if (Network.isClient && stream.isReading) {
-			//Receiving
-			Vector3 vec = Vector3.zero;
-			GameObject leaf;
-			int index;
-			for (int i = 0; i < leafs.Length; i++) {
-				stream.Serialize( ref vec );
-				index = (int)vec.x;
-				leaf = leafs[index];
-				oldPositions[index] = new Vector2(leaf.transform.position.x, leaf.transform.position.z);
-				newPositions[index] = new Vector2(vec.y, vec.z);
-			}
-			lerpTime = 0;
-		}
+	
+	public void requestLeafDrop(int playerID,int count){
+		int seed = Random.Range (0,int.MaxValue);
+		network.RPC("RPCLeafDrop",RPCMode.All,playerID,count,seed);
 	}
 
-	/**
-	 * Updates the leaves local position so that the match the server position
-	 */
-	void Update() {
-		if ( Network.isClient ) {
-			if (useLerp) {
-				lerpTime += Time.deltaTime * Network.sendRate;
-				for (int i = 0; i < leafs.Length; i++) {
-					leafs [i].transform.position = new Vector3 (Mathf.Lerp (oldPositions [i].x, newPositions [i].x, lerpTime),
-							                                   leafs [i].transform.position.y, 
-							                                   Mathf.Lerp (oldPositions [i].y, newPositions [i].y, lerpTime));
-				}
-			}
-			else {
-				for (int i = 0; i < leafs.Length; i++) {
-					leafs [i].transform.position = new Vector3 (newPositions [i].x, leafs [i].transform.position.y, newPositions [i].y);
-				}
-			}
-		}
+
+	[RPC]
+	public void RPCLeafDrop(int playerID,int count,int seed){
+		LeafBlower.s_leafBlowers[playerID].dropLeafs(count,seed);
+	}
+
+	public void pickUpLeaf(int playerID,Transform leaf){
+		int leafID = leaf.GetComponent<LeafLogic>().m_id;
+		network.RPC("RPCPickUpLeaf",RPCMode.All,playerID,leafID);
+	}
+
+	[RPC]
+	public void RPCPickUpLeaf(int playerID,int leafID){
+		LeafBlower.s_leafBlowers[playerID].addLeaf(m_leafs[leafID].transform);
 	}
 }

@@ -35,6 +35,11 @@ public class GUIMath{
 	public static Vector2 InchToPercent(Vector2 v){
 		return pixelsToPercent(InchToPixels(v));
 	}
-	
+
+	public static Vector2 SmallestOfInchAndPercent(Vector2 inch,Vector2 percent){
+		int x = (int)Mathf.Min( GUIMath.InchToPixels(inch.x), Screen.width * percent.x); 
+		int y = (int)Mathf.Min( GUIMath.InchToPixels(inch.y), Screen.height * percent.y); 
+		return new Vector2(x,y);
+	}
 
 }
