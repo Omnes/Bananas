@@ -16,7 +16,7 @@ public class MainMenu : MenuBase
 
 		//Adding item to "MY"(this) menu .. 
 		addMenuItem(instance.getMenuItem(MenuManager.TO_LOBBY));
-		addMenuItem(instance.getMenuItem (MenuManager.BACK_TO_PREV));
+		//addMenuItem(instance.getMenuItem (MenuManager.BACK_TO_PREV));
 		addMenuItem (instance.getMenuItem (MenuManager.START_GAME));
 
 		float top = 100.0f;

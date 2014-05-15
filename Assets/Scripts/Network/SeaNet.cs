@@ -98,6 +98,10 @@ public class SeaNet : MonoBehaviour {
 
 	//save and shut down the game. this happens when time is up
 	public void savePlayersAndShutDown(){
+
+		//sett next currentscenestate
+		MenuManager.remoteMenu = m_winstate.m_nextSceneState;
+
 		//load level
 		networkView.RPC("stopGameRPC", RPCMode.All);
 	}
@@ -114,7 +118,7 @@ public class SeaNet : MonoBehaviour {
 			ScoreKeeper.m_scores[i] = 0;
 		}
 
-		Application.LoadLevel(m_nextScene);
+		Application.LoadLevel(m_winstate.m_nextScene);
 	}
 
 //	[RPC]
