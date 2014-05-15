@@ -109,6 +109,11 @@ public class SeaNet : MonoBehaviour {
 //		//stops messsages over network
 //		Network.isMessageQueueRunning = false;
 		//
+		//reset score
+		for(int i = 0; i < ScoreKeeper.m_scores.Length; i++){
+			ScoreKeeper.m_scores[i] = 0;
+		}
+
 		Application.LoadLevel(m_nextScene);
 	}
 
