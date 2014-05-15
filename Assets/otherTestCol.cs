@@ -6,6 +6,8 @@ public class otherTestCol : MonoBehaviour
 	public float stunTime = 0.3f;
 	public float dizzyTime = 2.0f;
 
+	public float oppAngleMinusValue = 10.0f;
+
 	private MovementLogic m_movementLogic;
 	private playerAnimation m_playerAnim;
 	private BuffManager m_buffManager;
@@ -23,38 +25,52 @@ public class otherTestCol : MonoBehaviour
 
 	void OnCollisionEnter(Collision other)
 	{
-		if(other.gameObject.CompareTag("Player"))
-		{
-			otherTestCol otherPlayerTestCol = other.transform.GetComponent<otherTestCol>();
 
-			//MovementLogic othersMovementLogic = other.gameObject.GetComponent<MovementLogic>();
-			//if(othersMovementLogic.getRigidVelocity() > m_movementLogic.getRigidVelocity())
-			if(otherPlayerTestCol.getRigidVelocity() > getRigidVelocity())
+		otherTestCol opponent = other.transform.GetComponent<otherTestCol>();
+//		opponent = other.gameObject.GetComponent<MovementLogic>();
+//		me = this.gameObject.GetComponent<MovementLogic> ();
+
+
+
+		if(other.gameObject.tag == "Player")
+		{
+			//The centerline between the two "circles" .. 
+			Vector3 cLine = other.transform.position - transform.position;
+			
+			//Info about "my" player..
+			Vector3 myForwardVec = transform.forward;
+			float myAngleToCenter = Mathf.Abs (Vector3.Angle (cLine, myForwardVec));
+			
+			//Info about "opponent" player..
+			Vector3 oppForwardVec = opponent.transform.forward;
+			float oppAngleToCenter = Mathf.Abs (Vector3.Angle (cLine, oppForwardVec));
+
+			if(opponent.getRigidVelocity() > getRigidVelocity() || myAngleToCenter > 45.0f || myAngleToCenter > (oppAngleToCenter - oppAngleMinusValue))
 			{
 				//Play tackle animation
 				m_playerAnim.tackleAnim(dizzyTime);
+//				Vector3 basisVector = other.transform.position - transform.position;
+				cLine.Normalize();
 
-				//Calculate tackle physics
-				Vector3 basisVector = other.transform.position - transform.position;
-				basisVector.Normalize();
+				Vector3 othersVel = opponent.getPreviosVelocity();
+				float x1 = Vector3.Dot(cLine, othersVel);
 
-				//changed othersMovementLogic.getRigidVelVect() to otherPlayerTestCol.getPreviosVelocity()
-				Vector3 othersVel = otherPlayerTestCol.getPreviosVelocity();
-				float x1 = Vector3.Dot(basisVector, othersVel);
+				Vector3 othersXvel = cLine * x1;
+				Vector3 othersYvel = othersVel 	- othersXvel;
 
-				Vector3 othersXvel = basisVector * x1;
-				Vector3 othersYvel = othersVel - othersXvel;
-
-				basisVector = -basisVector;
-				//changed m_movementLogic.getRigidVelVect() to getPreviosVelocity()
+				cLine *= -1.0f;
 				Vector3 myVel = getPreviosVelocity();
-				float x2 = Vector3.Dot(basisVector, myVel);
+				float x2 = Vector3.Dot(cLine, myVel);
 
-				Vector3 myXvel = basisVector * x2;
+				Vector3 myXvel = cLine * x2;
 				Vector3 myYVel = myVel - myXvel;
 
 				Vector3 opponentsResultVel = myXvel + othersYvel;
 				Vector3 myResultVel = othersXvel + myYVel;
+
+				
+//				opponent.setTackled(opponentsResultVel * 0.3f);
+	//			me.setTackled(myResultVel);
 
 
 //				//detta kan tas bort när allt är klart

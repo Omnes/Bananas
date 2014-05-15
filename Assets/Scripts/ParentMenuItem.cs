@@ -5,7 +5,7 @@ public class ParentMenuItem : BaseMenuItem
 {
 	public ParentMenuItem(string aName, OnClickFunc aClickFunc, string aSceneName = "") : base(aName, aClickFunc)
 	{
-		m_SubSceneName = aSceneName;
+		m_SubMenuName = aSceneName;
 	}
 
 	// Use this for initialization
