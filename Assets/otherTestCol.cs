@@ -52,14 +52,14 @@ public class otherTestCol : MonoBehaviour
 //				Vector3 basisVector = other.transform.position - transform.position;
 				cLine.Normalize();
 
-				Vector3 othersVel = opponent.getRigidVelVect();
+				Vector3 othersVel = opponent.getPreviosVelocity();
 				float x1 = Vector3.Dot(cLine, othersVel);
 
 				Vector3 othersXvel = cLine * x1;
 				Vector3 othersYvel = othersVel 	- othersXvel;
 
 				cLine *= -1.0f;
-				Vector3 myVel = getRigidVelVect();
+				Vector3 myVel = getPreviosVelocity();
 				float x2 = Vector3.Dot(cLine, myVel);
 
 				Vector3 myXvel = cLine * x2;
