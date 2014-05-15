@@ -70,6 +70,8 @@ public class LeafManager : MonoBehaviour {
 	void Update() {
 		if (Network.isServer && ActiveLeafs() <= m_minLeafCount) {
 			network.RPC ("SpawnLeafs", RPCMode.All, Random.Range (int.MinValue, int.MaxValue));
+//			GameObject leaf = Instantiate(m_prefabLeaf) as GameObject;
+
 		}
 	}
 
