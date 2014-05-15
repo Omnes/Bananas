@@ -2,14 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class MenuManager //: MonoBehaviour 
+public class MenuManager : MonoBehaviour 
 {
 	private static MenuManager m_menuManagerInstance;	
 	private List<BaseMenuItem> m_allMenus;
-	public const int START_GAME = 0;
-	public const int SECOND_IN_MAIN = 1;
-	public const int THIRD_IN_MAIN = 2;
+	public static string remoteMenu = "MainMenu";
+	private MenuBase m_currentMenu;
+	private MenuBase m_previousMenu;
 
+	public const int START_GAME = 0;
+	public const int TO_LOBBY = 1;
+	public const int TO_MAIN_MENU = 2;
+	public const int BACK_TO_PREV = 3;
+	public const int TO_CHAR_SELECT = 4;
 
 	public static MenuManager Instance
 	{
@@ -17,7 +22,9 @@ public class MenuManager //: MonoBehaviour
 		{
 			if(m_menuManagerInstance == null)
 			{
-				m_menuManagerInstance = new MenuManager();
+				GameObject mm = new GameObject();
+				m_menuManagerInstance = mm.AddComponent<MenuManager>();
+				mm.name = "MenuManager";
 			}
 			Debug.Log(m_menuManagerInstance);
 			return m_menuManagerInstance;
@@ -27,25 +34,35 @@ public class MenuManager //: MonoBehaviour
 	public MenuManager()
 	{
 		m_allMenus = new List<BaseMenuItem>();
-		addActionMenuItem ("Start Game", StartGame);
-		addParentMenuItem ("SecondInMain", LoadSubMenu, "latest_Daniel");
-		addActionMenuItem ("ThirdInMain", ThirdButtonClicked);
 
+
+		addParentMenuItem ("StartGame", StartGame, "latest_daniel");
+		addParentMenuItem ("Lobby", LoadSubMenu, "Lobby");
+		addParentMenuItem ("Main Menu", LoadSubMenu, "MainMenu");
+		addParentMenuItem ("Back", BackToPrev, "");
+		addParentMenuItem ("CharSelect", LoadSubMenu, "CharacterSelectionMenu");
 	}
 	// Use this for initialization
 	void Start () 
 	{
+//		DontDestroyOnLoad (gameObject);
+		//if currentobject is not camera, change this line
+		m_currentMenu = (MenuBase) Camera.main.GetComponent(remoteMenu);
 	}
-	
+
 	// Update is called once per frame
 	void Update () 
 	{
-	
+	}
+
+	void OnGUI()
+	{
+
+		m_currentMenu.DoGUI ();
 	}
 
 	public BaseMenuItem getMenuItem(int aID)
 	{
-		Debug.Log (m_allMenus);
 		return m_allMenus [aID];
 	}
 	
@@ -58,18 +75,26 @@ public class MenuManager //: MonoBehaviour
 		m_allMenus.Add (new ParentMenuItem (aName, aOnClickFunc, aSceneName));
 	}
 
+
+
 	private void StartGame(BaseMenuItem aSender)
 	{
-
+		Application.LoadLevel (aSender.SubMenuName);
 	}
 	private void LoadSubMenu(BaseMenuItem aSender)
 	{
-		Application.LoadLevel (aSender.SubSceneName);
-		Debug.Log ("Second clicked");
+		string nextMenu = aSender.SubMenuName;
+		m_previousMenu = m_currentMenu;
+		m_currentMenu = (MenuBase)Camera.main.GetComponent (nextMenu);
 	}
 
-	private void ThirdButtonClicked(BaseMenuItem aSender)
+	private void BackToPrev(BaseMenuItem aSender)
 	{
-		Debug.Log ("Third clicked");
+		m_currentMenu = m_previousMenu;
 	}
+
+//	public static void RemoteSetMenu(string aMenuName)
+//	{
+//		remoteMenu = aMenuName;
+//	}
 }

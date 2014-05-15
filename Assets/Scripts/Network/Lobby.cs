@@ -2,7 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Lobby : MonoBehaviour {
+public class Lobby : MenuBase 
+{
+
+
+	//Daniel
+	MenuManager instance;
+
+
 
 	//private string m_remoteIP = "127.0.0.1";
 	//private int m_remotePort = 7777;
@@ -10,7 +17,7 @@ public class Lobby : MonoBehaviour {
 	private bool m_useNAT = false;
 
 	private int m_maxPlayers = 4;
-	public string[] m_levels = {"test_robin"};
+	public string[] m_levels = {"latest_Daniel"};
 
 	//might not be use3d
 	//private string m_myIP = "";
@@ -30,6 +37,11 @@ public class Lobby : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		//Daniel
+		instance = MenuManager.Instance;
+		m_menuItems = new List<BaseMenuItem> ();
+		addMenuItem(instance.getMenuItem(MenuManager.BACK_TO_PREV));
+
 		MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
 
 	}
@@ -41,7 +53,15 @@ public class Lobby : MonoBehaviour {
 
 
 
-	void OnGUI(){
+	public override void DoGUI(){
+
+		if(GUI.Button(new Rect(100.0f, 300.0f, 300.0f, 30.0f), m_menuItems[0].Name))		//Hårdkodat för det "enda" elementet från Daniel
+		{
+			if(m_menuItems[0].OnClick != null)
+			{
+				m_menuItems[0].OnClick(m_menuItems[0]);
+			}
+		}
 
 		int scrWidth = Screen.width;
 		int scrHeight = Screen.height;
