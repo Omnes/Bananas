@@ -29,15 +29,6 @@ public class InitPlayer : MonoBehaviour {
 	void Start () {
 		//setPlayerInfo(new PlayerInfo("Default",m_debug_id)); //temp
 
-		//used to find out wich mesh is the correct one
-//		m_playerDataList = SeaNet.Instance.m_connectedPlayers;
-//		for(int i = 0; i < m_playerDataList.Count; i++){
-//			if(m_playerDataList[i].m_id == m_playerInfo.id){
-//				//m_playerDataList[i].m_characterMesh;
-	//			GameObject tempMesh = (GameObject)Instantiate(Prefactory.prefab_douglas);
-	//			tempMesh.transform.parent = gameObject.transform;
-//			}
-//		}
 	}
 	
 	public void init(){

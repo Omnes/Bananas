@@ -17,9 +17,12 @@ public class SeaNet : MonoBehaviour {
 	}
 
 	public List<PlayerData> m_connectedPlayers;
-	public string m_nextScene = "Sean_FakeWinScene";
+	public string m_nextScene = "test_johannes";
 	public Winstate m_winstate;
 	public NetworkView m_networkView;
+
+	//ta bort sen
+	public int TEST_players;
 
 
 	//dessa två ska tas bort. ### ANVÄND EJ I SERIÖS SYFTE ###
@@ -40,7 +43,8 @@ public class SeaNet : MonoBehaviour {
 		gameObject.AddComponent<NetworkView>();
 		gameObject.networkView.stateSynchronization = NetworkStateSynchronization.Off;
 	}
-	
+
+
 	public void setConnectedPlayers(List<PlayerData> arr){
 		m_connectedPlayers = arr;
 	}
@@ -75,18 +79,33 @@ public class SeaNet : MonoBehaviour {
 		m_winstate.gameStart();
 	}
 
-//	public void stopGame(){
-//		Application.LoadLevel(m_nextScene);
-//	}
-
 	//save and shut down the game. this happens when time is up
 	public void savePlayersAndShutDown(){
+		//load level
 		networkView.RPC("stopGameRPC", RPCMode.All);
 	}
 
 	[RPC]
 	private void stopGameRPC(){
+		//stops recieving of information over network
+//		Network.SetSendingEnabled(Network.player, 0, false);
+//		//stops messsages over network
+//		Network.isMessageQueueRunning = false;
+		//
 		Application.LoadLevel(m_nextScene);
 	}
 
+//	[RPC]
+//	private void startGameRPC(){
+//		//starts sending data
+//		//Network.isMessageQueueRunning = true;
+//		//starts sending of information over network
+//		//Network.SetSendingEnabled(Network.player, 0, true);
+//
+//		Debug.Log("MEJAHHAEHE");
+//	}
+
 }
+
+
+
