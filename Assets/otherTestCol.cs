@@ -34,13 +34,11 @@ public class otherTestCol : MonoBehaviour
 	{
 		if (m_cooldownTimer > COOLDOWN) {
 			otherTestCol opponent = other.transform.GetComponent<otherTestCol>();
-	//		opponent = other.gameObject.GetComponent<MovementLogic>();
-	//		me = this.gameObject.GetComponent<MovementLogic> ();
-
-
 
 			if(other.gameObject.tag == "Player")
 			{
+				SoundManager.Instance.playOneShot (SoundManager.KNOCKOUT);
+
 				//The centerline between the two "circles" .. 
 				Vector3 cLine = other.transform.position - transform.position;
 				
@@ -56,7 +54,6 @@ public class otherTestCol : MonoBehaviour
 				{
 					//Play tackle animation
 					m_playerAnim.tackleAnim(dizzyTime);
-	//				Vector3 basisVector = other.transform.position - transform.position;
 					cLine.Normalize();
 
 					Vector3 othersVel = opponent.getPreviosVelocity();
@@ -71,41 +68,27 @@ public class otherTestCol : MonoBehaviour
 
 					Vector3 myXvel = cLine * x2;
 					Vector3 myYVel = myVel - myXvel;
-					basisVector = -basisVector;
-					//changed m_movementLogic.getRigidVelVect() to getPreviosVelocity()
-					Vector3 myVel = getPreviosVelocity();
-					float x2 = Vector3.Dot(basisVector, myVel);
-		
-	//				opponent.setTackled(opponentsResultVel * 0.3f);
-		//			me.setTackled(myResultVel);
+					Vector3 opponentsResultVel = myXvel + othersYvel;
+					Vector3 myResultVel = othersXvel + myYVel;
 
-						Vector3 myXvel = basisVector * x2;
-						Vector3 myYVel = myVel - myXvel;
+					//Add buffs
+					m_buffManager.AddBuff(new StunBuff(gameObject, stunTime));
+					m_buffManager.AddBuff(new DizzyBuff(gameObject, dizzyTime));
+//					other.gameObject.GetComponent<BuffManager>().AddBuff(new StunBuff(gameObject, stunTime));
+				}
 
-						Vector3 opponentsResultVel = myXvel + othersYvel;
-						Vector3 myResultVel = othersXvel + myYVel;
-
-						//Add buffs
-						m_buffManager.AddBuff(new StunBuff(gameObject, stunTime));
-						m_buffManager.AddBuff(new DizzyBuff(gameObject, dizzyTime));
-		//				other.gameObject.GetComponent<BuffManager>().AddBuff(new StunBuff(gameObject, stunTime));
+				//Handle TimeBomb powerup
+				if (m_buffManager.HasBuff(typeof(TimeBombBuff))){
+					TimeBombBuff timeBombBuff = m_buffManager.GetBuff(typeof(TimeBombBuff)) as TimeBombBuff;
+					if (timeBombBuff.CanTransfer()) {
+						BuffManager othersBuffManager = other.gameObject.GetComponent<BuffManager> ();
+						TimeBombBuff newTimeBombBuff = othersBuffManager.AddBuff(new TimeBombBuff(other.gameObject, timeBombBuff.m_duration)) as TimeBombBuff;
+						newTimeBombBuff.TransferUpdate(timeBombBuff.m_durationTimer);
+						m_buffManager.RemoveBuff(timeBombBuff);
 					}
-
-					//Handle TimeBomb powerup
-					if (m_buffManager.HasBuff(typeof(TimeBombBuff))){
-						TimeBombBuff timeBombBuff = m_buffManager.GetBuff(typeof(TimeBombBuff)) as TimeBombBuff;
-						if (timeBombBuff.CanTransfer()) {
-							BuffManager othersBuffManager = other.gameObject.GetComponent<BuffManager> ();
-							TimeBombBuff newTimeBombBuff = othersBuffManager.AddBuff(new TimeBombBuff(other.gameObject, timeBombBuff.m_duration)) as TimeBombBuff;
-							newTimeBombBuff.TransferUpdate(timeBombBuff.m_durationTimer);
-							m_buffManager.RemoveBuff(timeBombBuff);
-						}
-					}
-
 				}
 			}
 		}
-		
 	}
 
 	//moved here from movementlogic

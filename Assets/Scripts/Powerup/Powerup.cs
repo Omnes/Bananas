@@ -34,7 +34,7 @@ public class Powerup : MonoBehaviour {
 				m_hasBeenPickedUp = true;
 				m_pickingObject = col.gameObject;
 				//Play animation
-				//SoundManager.playOneShot(SoundManager.POWERUP);
+				SoundManager.Instance.playOneShot (SoundManager.POWERUP_PICKUP);
 			}
 	    }
 	}

@@ -37,14 +37,16 @@ public class LeafBlower : MonoBehaviour {
 
 		m_touchInput = transform.parent.GetComponent<InputHub>();
 
-		m_blowSound = SoundManager.Instance.play(SoundManager.LEAFBLOWER);
+//		m_blowSound = SoundManager.Instance.play(SoundManager.LEAFBLOWER);
 		playerTransform = transform;
 	}
 
 	void Update()
 	{
-		m_blowPower = m_touchInput.getCurrentBlowingPower();
-		m_blowSound.setVolume (m_blowPower);
+		if (m_blowSound != null) {
+			m_blowPower = m_touchInput.getCurrentBlowingPower();
+			m_blowSound.setVolume (m_blowPower);
+		}
 
 		if(m_blowPower > 0){
 			if(!m_particleEmit){
@@ -65,7 +67,6 @@ public class LeafBlower : MonoBehaviour {
 			}
 		}
 		tmp_canPickup = m_collectedLeafs.Count < m_maxLeaf;
-
 	}
 	
 	public void addLeaf(Transform leaf){
