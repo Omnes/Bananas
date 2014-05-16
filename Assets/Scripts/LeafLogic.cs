@@ -33,6 +33,7 @@ public class LeafLogic : MonoBehaviour {
 
 	private Transform m_transform;
 	private float m_startYPos = 0f;
+	private float m_randomStartOffset = 0;
 	
 	void Start () {
 		m_rotationModifier = Random.Range (-m_rotationModifierRange,m_rotationModifierRange);
@@ -42,6 +43,8 @@ public class LeafLogic : MonoBehaviour {
 		m_moveRandom = Random.Range(0f, m_maxAddRandomToMoveAround) + m_moveAround;
 		m_spinSpeedInBlower += Random.Range(0f, m_maxAddRandomToMoveAround);
 		m_spinTheOtherWay = Random.Range((int)0, (int)2) == 0 ? true : false;
+		m_randomStartOffset = Random.Range(0,2*Mathf.PI);
+
 	}
 
 	void Update () {
@@ -58,9 +61,9 @@ public class LeafLogic : MonoBehaviour {
 		//change to onground when it reaches the destination
 		if(m_state == State.InBlower){
 			Vector3 spin = m_endPosition + new Vector3(
-						(m_moveRandom) * Mathf.Sin(Time.timeSinceLevelLoad * (m_spinSpeedInBlower)), 
+				(m_moveRandom) * Mathf.Sin(Time.timeSinceLevelLoad * (m_spinSpeedInBlower)+m_randomStartOffset), 
 						transform.localPosition.y, 
-						(m_moveRandom) * Mathf.Cos(Time.timeSinceLevelLoad * (m_spinSpeedInBlower)));
+				(m_moveRandom) * Mathf.Cos(Time.timeSinceLevelLoad * (m_spinSpeedInBlower)+m_randomStartOffset));
 
 			if(m_spinTheOtherWay)
 				spin.x *= -1;

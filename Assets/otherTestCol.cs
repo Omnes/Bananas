@@ -12,6 +12,11 @@ public class otherTestCol : MonoBehaviour
 	private playerAnimation m_playerAnim;
 	private BuffManager m_buffManager;
 
+	MovementLogic m_otherMovLogic = null;
+	MovementLogic m_myMovLogic = null;
+
+	//public bool m_tackled = false;
+
 	private float m_cooldownTimer = 0.0f;
 	private const float COOLDOWN = 0.5f;
 
@@ -33,15 +38,20 @@ public class otherTestCol : MonoBehaviour
 	void OnCollisionEnter(Collision other)
 	{
 		if (m_cooldownTimer > COOLDOWN) {
-			otherTestCol opponent = other.transform.GetComponent<otherTestCol>();
+
 
 			if(other.gameObject.tag == "Player")
 			{
-				SoundManager.Instance.playOneShot (SoundManager.KNOCKOUT);
-
+				otherTestCol opponent = other.transform.GetComponent<otherTestCol>();
+			
+				if(Network.isServer){
+					m_otherMovLogic = other.gameObject.GetComponent<MovementLogic>();
+					m_myMovLogic = gameObject.GetComponent<MovementLogic> ();
+				}
+			
 				//The centerline between the two "circles" .. 
 				Vector3 cLine = other.transform.position - transform.position;
-				
+
 				//Info about "my" player..
 				Vector3 myForwardVec = transform.forward;
 				float myAngleToCenter = Mathf.Abs (Vector3.Angle (cLine, myForwardVec));
@@ -52,8 +62,10 @@ public class otherTestCol : MonoBehaviour
 
 				if(opponent.getRigidVelocity() > getRigidVelocity() || myAngleToCenter > 45.0f || myAngleToCenter > (oppAngleToCenter - oppAngleMinusValue))
 				{
+					m_cooldownTimer = 0;
 					//Play tackle animation
 					m_playerAnim.tackleAnim(dizzyTime);
+	//				Vector3 basisVector = other.transform.position - transform.position;
 					cLine.Normalize();
 
 					Vector3 othersVel = opponent.getPreviosVelocity();
@@ -68,13 +80,21 @@ public class otherTestCol : MonoBehaviour
 
 					Vector3 myXvel = cLine * x2;
 					Vector3 myYVel = myVel - myXvel;
+
 					Vector3 opponentsResultVel = myXvel + othersYvel;
 					Vector3 myResultVel = othersXvel + myYVel;
+
+					if(m_myMovLogic != null && m_otherMovLogic != null){
+						m_myMovLogic.setTackled(myResultVel);
+						m_otherMovLogic.setTackled(opponentsResultVel);
+						StartCoroutine("startTackle", dizzyTime);
+						//m_tackled = true;
+					}
 
 					//Add buffs
 					m_buffManager.AddBuff(new StunBuff(gameObject, stunTime));
 					m_buffManager.AddBuff(new DizzyBuff(gameObject, dizzyTime));
-//					other.gameObject.GetComponent<BuffManager>().AddBuff(new StunBuff(gameObject, stunTime));
+	//				other.gameObject.GetComponent<BuffManager>().AddBuff(new StunBuff(gameObject, stunTime));
 				}
 
 				//Handle TimeBomb powerup
@@ -100,4 +120,14 @@ public class otherTestCol : MonoBehaviour
 		return rigidbody.velocity.sqrMagnitude;
 	}
 
+	IEnumerator startTackle(float dizzyTime) {
+		yield return new WaitForSeconds(dizzyTime);
+
+		Debug.Log("me "+m_myMovLogic);
+		Debug.Log("other "+m_otherMovLogic);
+
+		m_myMovLogic.restoreMovement();
+		m_otherMovLogic.restoreMovement();
+	//	m_tackled = false;
+	}
 }
