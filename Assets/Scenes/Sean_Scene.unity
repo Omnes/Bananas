@@ -242,6 +242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f7135bcd0f16574d8ac69d34558edcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fcenter: 500
   m_levels:
   - test_robin
   m_maxGames: 10
