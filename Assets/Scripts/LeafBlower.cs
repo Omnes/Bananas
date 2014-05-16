@@ -142,7 +142,7 @@ public class LeafBlower : MonoBehaviour {
 	public void doGoal(int nrOfLeafs,int goalID){
 		returnLeafsToPool(nrOfLeafs);
 		ScoreKeeper.m_scores[goalID] += nrOfLeafs;
-		SoundManager.Instance.playOneShot(SoundManager.SCORE);
+//		SoundManager.Instance.playOneShot(SoundManager.SCORE);
 	}
 
 	//this is the own "leaf dumper" trigger -- this gives the score to the players
