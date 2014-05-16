@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class TimeBombBuff : Buff {
 	//Design parameters
-	public const int BOMB_DURATION_MIN = 6;
-	public const int BOMB_DURATION_MAX = 10;
+	public const int BOMB_DURATION_MIN = 10;
+	public const int BOMB_DURATION_MAX = 20;
 	public const float STUN_DURATION = 1.5f;
 	public const float TRANSFER_COOLDOWN = 0.5f;
 
