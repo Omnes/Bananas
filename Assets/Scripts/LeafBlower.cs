@@ -30,6 +30,8 @@ public class LeafBlower : MonoBehaviour {
 	public int m_maxLeaf = 30;
 	public float m_lowestSpeedModifier = 0.5f;
 
+	public bool m_canScoreInOtherGoal = false;
+
 //	public ParticleSystem m_emitter;
 
 	void Start()
@@ -85,23 +87,24 @@ public class LeafBlower : MonoBehaviour {
 	}
 
 	public void requestDrop(int count){
-		LeafManager.s_lazyInstance.requestLeafDrop(m_id,count);
+		LeafManager.s_lazyInstance.requestLeafDrop(m_id,count,m_whirlwind.position);
 	}
 
 
-	public void dropLeafs(int count,int seed){
+	public void dropLeafs(int count,int seed,Vector3 dropOrigin){
 		Random.seed = seed;
 		count =  Mathf.Min(count,m_collectedLeafs.Count); //we cant drop more leafs than we have
+
 		for (int i = 0; i < count; i++){
-			m_collectedLeafs[i].GetComponent<LeafLogic>().dropFromWhirlwind(getRandomFallSpot());
+			m_collectedLeafs[i].GetComponent<LeafLogic>().dropFromWhirlwind(getRandomFallSpot(dropOrigin));
 		}
 		m_collectedLeafs.RemoveRange(0,count);
 	}
 
-	private Vector3 getRandomFallSpot(){
+	private Vector3 getRandomFallSpot(Vector3 origin){
 		float randomAngle = Random.Range(0f,360f);
 		float randomDistance = Random.Range(-m_randomLeafFallRange,m_randomLeafFallRange);
-		return m_whirlwind.position + new Vector3(Mathf.Cos(randomAngle),0,Mathf.Sin(randomAngle)) * randomDistance;
+		return origin + new Vector3(Mathf.Cos(randomAngle),0,Mathf.Sin(randomAngle)) * randomDistance;
 	}
 
 	void returnLeafsToPool(int count){
@@ -135,26 +138,28 @@ public class LeafBlower : MonoBehaviour {
 			}
 		}
 	}
+	
+	public void doGoal(int nrOfLeafs,int goalID){
+		returnLeafsToPool(nrOfLeafs);
+		ScoreKeeper.m_scores[goalID] += nrOfLeafs;
+		SoundManager.Instance.playOneShot(SoundManager.SCORE);
+	}
 
-
-	//TODO: Authorativ, låt servern hantera detta istället
 	//this is the own "leaf dumper" trigger -- this gives the score to the players
 	public void OnTriggerEnter(Collider other)
 	{
-//		if (Network.isServer) {
-		if (other.CompareTag("Leaf_collector")) {
-			int nrOfLeafs = m_collectedLeafs.Count;
-			returnLeafsToPool(nrOfLeafs);
-			int id = other.gameObject.GetComponent<CollectorCollider>().m_ID;
-			ScoreKeeper.m_scores[id] += nrOfLeafs;
-			SoundManager.Instance.playOneShot(SoundManager.SCORE);
+		if (Network.isServer) {
+			if (other.CompareTag("Leaf_collector")) {
+				int goalID = other.gameObject.GetComponent<CollectorCollider>().m_ID;
+				if(m_canScoreInOtherGoal || m_id == goalID){
+
+					int nrOfLeafs = m_collectedLeafs.Count;
+					LeafManager.s_lazyInstance.requestDoGoal(nrOfLeafs,m_id,goalID);
+				}
+			}
 		}
-//		}
 	}
-
-
-
-
+	
 	public float getLeafSpeedModifier(){
 		float modifier = (float)(m_collectedLeafs.Count -  m_leafThreshold) / (float)(m_maxLeaf - m_leafThreshold); // current/max = percent
 //		Debug.Log("Pre: " + modifier);

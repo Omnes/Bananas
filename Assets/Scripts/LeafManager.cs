@@ -59,7 +59,8 @@ public class LeafManager : MonoBehaviour {
 	
 	void Start () {
 		if (Network.isServer) {
-			network.RPC ("SpawnLeafs", RPCMode.All, Random.Range (int.MinValue, int.MaxValue));
+			int seed = Random.Range (0, 1000);
+			network.RPC ("SpawnLeafs", RPCMode.All, seed);
 		}
 		if (m_spawnInOffline)
 		{
@@ -67,13 +68,16 @@ public class LeafManager : MonoBehaviour {
 		}
 	}
 
-	void Update() {
-		if (Network.isServer && ActiveLeafs() <= m_minLeafCount) {
-			network.RPC ("SpawnLeafs", RPCMode.All, Random.Range (int.MinValue, int.MaxValue));
-//			GameObject leaf = Instantiate(m_prefabLeaf) as GameObject;
-
-		}
-	}
+//	void OnGUI(){
+//		for(int i = 0; i < m_leafCache;i++){
+//			GameObject leaf = GetLeaf(i);
+//			if(leaf.activeSelf == true){
+//				Vector3 sp = Camera.main.WorldToScreenPoint(leaf.transform.position);
+//				GUI.Label(new Rect(sp.x,Screen.width - sp.y,200,200),leaf.name);
+//			}
+//		}
+//	}
+	
 
 	/**
 	 * Find and return an unused leaf from the leaf pool
@@ -105,13 +109,21 @@ public class LeafManager : MonoBehaviour {
 		}
 		return count;
 	}
+//
+//	public int ResetPool(){
+//		for (int i = 0; i < m_leafs.Length; i++) {
+//			m_leafs[i].SetActive(false);
+//		}
+//	}
 
 	/**
 	 * Spawn leaves randomly on the level based on the defined parameters
 	 * The seed is used to make sure that the leaves spawn on the same position for all clients
 	 */
+
 	[RPC]
 	void SpawnLeafs(int seed){
+//		Debug.Log ("Spawnleafs");
 		Random.seed = seed;
 		for (int i = 0; i < m_leafStartCount; i++) {
 			GameObject leaf = SpawnLeaf();
@@ -121,20 +133,46 @@ public class LeafManager : MonoBehaviour {
 		}
 	}
 	
-	public void requestLeafDrop(int playerID,int count){
-		int seed = Random.Range (0,int.MaxValue);
-		network.RPC("RPCLeafDrop",RPCMode.All,playerID,count,seed);
+	public void requestLeafDrop(int playerID,int count,Vector3 dropOrigin){
+		if(Network.isServer){
+			int seed = Random.Range (0,1000);
+			network.RPC("RPCLeafDrop",RPCMode.All,playerID,count,seed,dropOrigin);
+		}
 	}
 
-
-	[RPC]
-	public void RPCLeafDrop(int playerID,int count,int seed){
-		LeafBlower.s_leafBlowers[playerID].dropLeafs(count,seed);
+	public void requestDoGoal(int leafCount,int playerID,int goalID){
+		if(Network.isServer){
+			if((ActiveLeafs() - leafCount) > m_minLeafCount ){
+				network.RPC("RPCDoGoal",RPCMode.All,leafCount,playerID,goalID);
+			}else{
+				int seed =  Random.Range(0,1000);
+				network.RPC ("RPCDoGoalRespawn",RPCMode.All,leafCount,playerID,goalID,seed);
+			}
+		}
 	}
 
 	public void pickUpLeaf(int playerID,Transform leaf){
-		int leafID = leaf.GetComponent<LeafLogic>().m_id;
+		int leafID = leaf.GetComponent<LeafLogic>().m_id; 
 		network.RPC("RPCPickUpLeaf",RPCMode.All,playerID,leafID);
+	}
+
+	
+	[RPC]
+	public void RPCDoGoal(int leafCount,int playerID,int goalID){
+		LeafBlower.s_leafBlowers[playerID].doGoal(leafCount,goalID);
+//		Debug.Log ("DoGoal");
+	}
+
+	[RPC]
+	public void RPCDoGoalRespawn(int leafCount,int playerID,int goalID,int seed){
+		LeafBlower.s_leafBlowers[playerID].doGoal(leafCount,goalID);
+//		Debug.Log ("DoGoal and respawn");
+		SpawnLeafs(seed);
+	}
+
+	[RPC]
+	public void RPCLeafDrop(int playerID,int count,int seed,Vector3 dropOrigin){
+		LeafBlower.s_leafBlowers[playerID].dropLeafs(count,seed,dropOrigin);
 	}
 
 	[RPC]
