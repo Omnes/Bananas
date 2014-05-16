@@ -141,7 +141,7 @@ public class LeafBlower : MonoBehaviour {
 			returnLeafsToPool(nrOfLeafs);
 			int id = other.gameObject.GetComponent<CollectorCollider>().m_ID;
 			ScoreKeeper.m_scores[id] += nrOfLeafs;
-			SoundManager.Instance.playOneShot(SoundManager.SCORE);
+//			SoundManager.Instance.playOneShot(SoundManager.SCORE);
 		}
 //		}
 	}

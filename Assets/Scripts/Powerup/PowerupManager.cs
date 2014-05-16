@@ -108,7 +108,7 @@ public class PowerupManager : MonoBehaviour {
 
 					buffManager.AddBuff(new TimeBombBuff(player, duration));
 
-					SoundManager.Instance.StartBombMusic();
+//					SoundManager.Instance.StartBombMusic();
 				}
 			}
 		}

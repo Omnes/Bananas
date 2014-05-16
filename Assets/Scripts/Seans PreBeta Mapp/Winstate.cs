@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Winstate : MonoBehaviour {
 
+	private int m_startTime;
+	private int m_currentTime;
 	public int m_MAXTIME;
 	
 	public string m_nextScene = "MainMenuScene";
