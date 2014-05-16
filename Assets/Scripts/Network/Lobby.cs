@@ -2,12 +2,20 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Lobby : MonoBehaviour {
+public class Lobby : MenuBase 
+{
+
+
+	//Daniel
+	MenuManager instance;
+
+
 
 	//private string m_remoteIP = "127.0.0.1";
 	//private int m_remotePort = 7777;
 	private int m_listenPort = 7777;
 	private bool m_useNAT = false;
+
 
 	private int m_maxPlayers = 4; // server doesnt count, maybe?
 	public string[] m_levels = {"test_johannes"};
@@ -28,12 +36,20 @@ public class Lobby : MonoBehaviour {
 	private string m_tempPlayerName = "";
 	private string m_tempServerName = "";
 
+	//maxtime field
+	private int m_maxTimeField = 600;
+
 	//scroll startpos
 	private Vector2 m_scrollRectPos = new Vector2(100,100);
 	public int m_maxGames = 10;
 
 	// Use this for initialization
 	void Start () {
+		//Daniel
+		instance = MenuManager.Instance;
+		m_menuItems = new List<BaseMenuItem> ();
+		addMenuItem(instance.getMenuItem(MenuManager.BACK_TO_PREV));
+
 		MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
 
 		//check if seanet exist
@@ -47,7 +63,17 @@ public class Lobby : MonoBehaviour {
 	
 	}
 
-	void OnGUI(){
+
+
+	public override void DoGUI(){
+
+		if(GUI.Button(new Rect(100.0f, 300.0f, 300.0f, 30.0f), m_menuItems[0].Name))		//Hårdkodat för det "enda" elementet från Daniel
+		{
+			if(m_menuItems[0].OnClick != null)
+			{
+				m_menuItems[0].OnClick(m_menuItems[0]);
+			}
+		}
 
 		int scrWidth = Screen.width;
 		int scrHeight = Screen.height;
@@ -86,6 +112,9 @@ public class Lobby : MonoBehaviour {
 			//started server
 		if(Network.peerType == NetworkPeerType.Server){
 			if(GUI.Button(new Rect(centerX, centerY, size.x, size.y), "Start Game")){
+				//set maxtime
+				SeaNet.Instance.setMaxTime(m_maxTimeField);
+
 				//create ID for allplayers
 				createId();
 				//loads next level
@@ -101,6 +130,9 @@ public class Lobby : MonoBehaviour {
 			if(GUI.Button(new Rect(centerX, centerY + (size.y * 2), size.x, size.y), "SEE STUFF")){
 				networkView.RPC("showStuff", RPCMode.All);
 			}
+
+			string tempMax = GUI.TextField(new Rect(centerX, centerY + (size.y * 3), size.x, size.y), m_maxTimeField.ToString(), 25);
+			m_maxTimeField = int.Parse(tempMax);
 
 		}/*else if(Network.peerType == NetworkPeerType.Client){
 			//client in serverlobby

@@ -79,12 +79,29 @@ public class SeaNet : MonoBehaviour {
 		return m_connectedPlayers;
 	}
 
+	//return playernames
+	public string[] getPlayerNames(){
+		string[] tempArr = new string[4];
+		for(int i = 0; i < m_connectedPlayers.Count; i++){
+			tempArr[i] = m_connectedPlayers[i].m_name;
+		}
+		return tempArr;
+	}
+
 	public void startGame(){
 		m_winstate.gameStart();
 	}
 
+	public void setMaxTime(int maxTime){
+		m_winstate.m_MAXTIME = maxTime;
+	}
+
 	//save and shut down the game. this happens when time is up
 	public void savePlayersAndShutDown(){
+
+		//sett next currentscenestate
+		MenuManager.remoteMenu = m_winstate.m_nextSceneState;
+
 		//load level
 		networkView.RPC("stopGameRPC", RPCMode.All);
 	}
@@ -96,7 +113,12 @@ public class SeaNet : MonoBehaviour {
 //		//stops messsages over network
 //		Network.isMessageQueueRunning = false;
 		//
-		Application.LoadLevel(m_nextScene);
+		//reset score
+		for(int i = 0; i < ScoreKeeper.m_scores.Length; i++){
+			ScoreKeeper.m_scores[i] = 0;
+		}
+
+		Application.LoadLevel(m_winstate.m_nextScene);
 	}
 
 //	[RPC]
