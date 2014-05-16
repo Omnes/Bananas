@@ -108,7 +108,7 @@ public class PowerupManager : MonoBehaviour {
 
 					buffManager.AddBuff(new TimeBombBuff(player, duration));
 
-//					SoundManager.Instance.StartBombMusic();
+					SoundManager.Instance.StartBombMusic();
 				}
 			}
 		}
@@ -133,6 +133,7 @@ public class PowerupManager : MonoBehaviour {
 				}
 			}
 		}
+		SoundManager.Instance.playOneShot(SoundManager.LEAFBLOWER_WARCRY);
 	}
 
 	/**
@@ -157,6 +158,7 @@ public class PowerupManager : MonoBehaviour {
 				}
 			}
 		}
+		SoundManager.Instance.playOneShot (SoundManager.EMP);
 	}
 
 	/**

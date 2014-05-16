@@ -92,6 +92,8 @@ GameObject:
   - 114: {fileID: 755868658}
   - 148: {fileID: 755868662}
   - 114: {fileID: 755868663}
+  - 114: {fileID: 755868664}
+  - 114: {fileID: 755868665}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -173,7 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fcenter: 500
   m_levels:
-  - LemonPark
+  - test_johannes
   m_maxGames: 10
 --- !u!114 &755868659
 MonoBehaviour:
@@ -235,3 +237,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fcenter: 500
+--- !u!114 &755868664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 755868652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e56ee194da982de4ba19f0a8d20a4993, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mode: 0
+--- !u!114 &755868665
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 755868652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1275b127dcbb3f24a8af58f235c98f14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pluginPaths: []
