@@ -12,6 +12,12 @@ public class otherTestCol : MonoBehaviour
 	private playerAnimation m_playerAnim;
 	private BuffManager m_buffManager;
 
+	MovementLogic m_otherMovLogic = null;
+	MovementLogic m_myMovLogic = null;
+
+	public bool m_tackled = false;
+
+
 	/**
 	 * Initialize components
 	 */
@@ -26,14 +32,16 @@ public class otherTestCol : MonoBehaviour
 	void OnCollisionEnter(Collision other)
 	{
 
-		otherTestCol opponent = other.transform.GetComponent<otherTestCol>();
-//		opponent = other.gameObject.GetComponent<MovementLogic>();
-//		me = this.gameObject.GetComponent<MovementLogic> ();
-
-
-
 		if(other.gameObject.tag == "Player")
 		{
+
+			otherTestCol opponent = other.transform.GetComponent<otherTestCol>();
+			
+			if(Network.isServer){
+				m_otherMovLogic = other.gameObject.GetComponent<MovementLogic>();
+				m_myMovLogic = gameObject.GetComponent<MovementLogic> ();
+			}
+
 			//The centerline between the two "circles" .. 
 			Vector3 cLine = other.transform.position - transform.position;
 			
@@ -69,17 +77,22 @@ public class otherTestCol : MonoBehaviour
 				Vector3 myResultVel = othersXvel + myYVel;
 
 				
-//				opponent.setTackled(opponentsResultVel * 0.3f);
-	//			me.setTackled(myResultVel);
+//				opponent.setm_tackled(opponentsResultVel * 0.3f);
+				if(m_myMovLogic != null && m_otherMovLogic != null && !m_tackled){
+					m_myMovLogic.setTackled(myResultVel);
+					m_otherMovLogic.setTackled(opponentsResultVel);
+					StartCoroutine("startTackle", dizzyTime);
+					m_tackled = true;
+				}
 
 
 //				//detta kan tas bort när allt är klart
-//				othersMovementLogic.setTackled(opponentsResultVel * 0.3f);
-//				m_movementLogic.setTackled(myResultVel);
-//				Invoke("restorePlayerMovement", dizzyTime);
-//				otherPlayerTestCol.Invoke("restorePlayerMovement", dizzyTime);
+//				othersMovementLogic.setm_tackled(opponentsResultVel * 0.3f);
+//				m_movementLogic.setm_tackled(myResultVel);
+//				Invoke("addPlayerStun", dizzyTime);
+//				otherPlayerTestCol.Invoke("addPlayerStun", dizzyTime);
 
-				restorePlayerMovement(other.gameObject);
+				addPlayerStun(other.gameObject);
 
 			}
 
@@ -106,13 +119,24 @@ public class otherTestCol : MonoBehaviour
 		return rigidbody.velocity.sqrMagnitude;
 	}
 
-	public void restorePlayerMovement(GameObject other){
+	public void addPlayerStun(GameObject other){
 		//Local player
 		m_buffManager.AddBuff(new StunBuff(gameObject, stunTime));
 		m_buffManager.AddBuff(new DizzyBuff(gameObject, dizzyTime));
 
 		//Ghost
 		other.GetComponent<BuffManager>().AddBuff(new StunBuff(gameObject, stunTime));
+	}
+
+	IEnumerator startTackle(float dizzyTime) {
+		yield return new WaitForSeconds(dizzyTime);
+
+		Debug.Log("me "+m_myMovLogic);
+		Debug.Log("other "+m_otherMovLogic);
+
+		m_myMovLogic.restoreMovement();
+		m_otherMovLogic.restoreMovement();
+		m_tackled = false;
 	}
 
 }
