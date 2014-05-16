@@ -50,7 +50,7 @@ public class TimeBombBuff : Buff {
 			for (int i = 0; i < SyncMovement.s_syncMovements.Length; i++) {
 				if (SyncMovement.s_syncMovements[i] != null)
 				{
-					Debug.Log("SyncMovement: " + SyncMovement.s_syncMovements[i]);
+//					Debug.Log("SyncMovement: " + SyncMovement.s_syncMovements[i]);
 					if (SyncMovement.s_syncMovements[i].isLocal == false) {
 						Buff b = BuffManager.m_buffManagers[i].AddBuff(new TimeBombTargetBuff(BuffManager.m_buffManagers[i].gameObject));
 						m_targetBuffs.Add(b);
