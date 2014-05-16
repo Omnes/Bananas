@@ -98,19 +98,57 @@ public class BuffManager : MonoBehaviour {
 	 * Updates and removes buffs
 	 */
 	void Update () {
+//		if (Input.GetKeyDown(KeyCode.Q)) {
+//			for (int i = 0; i < 2; i++) {
+//				AddBuff( new StunBuff(gameObject, 1.0f) );
+//			}
+//		}
+//		if (Input.GetKeyDown(KeyCode.W)) {
+//			for (int i = 0; i < 5; i++) {
+//				AddBuff( new DizzyBuff(gameObject, 1.0f) );
+//			}
+//		}
+//		if (Input.GetKeyDown(KeyCode.E)) {
+//			for (int i = 0; i < 2; i++) {
+//				AddBuff( new TimeBombBuff(gameObject, 1.0f) );
+//			}
+//		}
+//		if (Input.GetKeyDown(KeyCode.R)) {
+//			for (int i = 0; i < 2; i++) {
+//				AddBuff( new EMPBuff(gameObject) );
+//			}
+//		}
+
+		//########################################
+		List<Buff> m_deadBuff = new List<Buff>();
+
+		for (int i = 0; i < m_buffs.Count; i++) {
+			m_buffs[i].Update();
+		}
+
 		for (int i = 0; i < m_buffs.Count; i++) {
 			Buff buff = m_buffs[i];
 			if (buff.alive == false) {
 				buff.ExpireEvent();
-				m_buffs.RemoveAt(i);
-//				Destroy(buff);
-				DestroyObject(buff);
-				i--;
-			}
-			else {
-				buff.Update();
+				m_deadBuff.Add(buff);
 			}
 		}
+
+		for (int i = 0; i < m_deadBuff.Count; i++) {
+			m_buffs.Remove(m_deadBuff[i]);
+			Destroy(m_deadBuff[i]);
+		}
+
+//		for (int i = 0; i < m_buffs.Count; i++) {
+//			Buff buff = m_buffs[i];
+//			if (buff.alive == false) {
+//				buff.ExpireEvent(); 
+//				m_buffs.RemoveAt(i);
+//				m_buffs.Remove(buff);
+//				Destroy(buff);
+//				i--;
+//			}
+//		}
 
 //		List<Buff> m_deadBuffs = new List<Buff>();
 //

@@ -19,7 +19,10 @@ public class SoundManager : MonoBehaviour {
 	public const string LEAFBLOWER_WARCRY = "event:/VO/SvenskVO/VO_Warcry";
 
 	private string m_currentMusic = "";
-	private FMOD.Studio.EventInstance m_music;
+	private FMOD.Studio.EventInstance m_music;	//TODO: Byt ut till ett track per musik så att man inte kör destroy på ljuden (blir hack då)
+//	private FMOD.Studio.EventInstance m_music_menu;
+//	private FMOD.Studio.EventInstance m_musicLevel1;
+//	private FMOD.Studio.EventInstance m_musicLevel2;
 	private FMOD.Studio.ParameterInstance m_musicParam1;
 	private FMOD.Studio.ParameterInstance m_musicParam2;
 
@@ -121,21 +124,6 @@ public class SoundManager : MonoBehaviour {
 //		listener.audio.mute = !listener.audio.mute;
 //		listener.enabled = !listener.enabled;
 	}
-
-//	FMOD.Studio.ParameterInstance menuParam;
-//	static FMOD.Studio.ParameterInstance lobbyParam;
-//	static FMOD.Studio.ParameterInstance ingameParam;
-//	static FMOD.Studio.ParameterInstance bombParam;
-//	static FMOD.Studio.ParameterInstance winParam;
-//	public static void initMusic() {
-//		if (m_music == null) {
-//			m_music = Instance.play(MUSIC);
-//			m_music.getParameter("Menu", out lobbyParam);
-//			m_music.getParameter("Ingame", out ingameParam);
-//			m_music.getParameter("Bomb", out bombParam);
-//			m_music.getParameter("Win", out winParam);
-//		}
-//	}
 
 	public void StartMenuMusic() {
 		if (m_currentMusic != MUSIC_MENU) {
