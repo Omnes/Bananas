@@ -1,9 +1,2 @@
-.DS_Store
 Master Bank.strings.bank
-Ingamemusic.bank
 Master Bank.bank
-Knockout.bank
-BetaMusik.bank
-Footsteps.bank
-Leafgoal.bank
-Leafblower.bank

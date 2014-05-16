@@ -2,15 +2,23 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Lobby : MonoBehaviour {
+public class Lobby : MenuBase 
+{
+
+
+	//Daniel
+	MenuManager instance;
+
+
 
 	//private string m_remoteIP = "127.0.0.1";
 	//private int m_remotePort = 7777;
 	private int m_listenPort = 7777;
 	private bool m_useNAT = false;
 
-	private int m_maxPlayers = 4;
-	public string[] m_levels = {"test_robin"};
+
+	private int m_maxPlayers = 4; // server doesnt count, maybe?
+	public string[] m_levels = {"test_johannes"};
 
 	//might not be use3d
 	//private string m_myIP = "";
@@ -25,13 +33,29 @@ public class Lobby : MonoBehaviour {
 
 
 	//name of user
-	private string tempName = "";
-	private string serverName = "";
+	private string m_tempPlayerName = "";
+	private string m_tempServerName = "";
+
+	//maxtime field
+	private int m_maxTimeField = 600;
+
+	//scroll startpos
+	private Vector2 m_scrollRectPos = new Vector2(100,100);
+	public int m_maxGames = 10;
 
 	// Use this for initialization
 	void Start () {
+		//Daniel
+		instance = MenuManager.Instance;
+		m_menuItems = new List<BaseMenuItem> ();
+		addMenuItem(instance.getMenuItem(MenuManager.BACK_TO_PREV));
+
 		MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
 
+		//check if seanet exist
+		if(!SeaNet.isNull()){
+			m_connectedPlayers = SeaNet.Instance.m_connectedPlayers;
+		}
 	}
 	
 	// Update is called once per frame
@@ -39,7 +63,17 @@ public class Lobby : MonoBehaviour {
 	
 	}
 
-	void OnGUI(){
+
+
+	public override void DoGUI(){
+
+		if(GUI.Button(new Rect(100.0f, 300.0f, 300.0f, 30.0f), m_menuItems[0].Name))		//Hårdkodat för det "enda" elementet från Daniel
+		{
+			if(m_menuItems[0].OnClick != null)
+			{
+				m_menuItems[0].OnClick(m_menuItems[0]);
+			}
+		}
 
 		int scrWidth = Screen.width;
 		int scrHeight = Screen.height;
@@ -52,23 +86,25 @@ public class Lobby : MonoBehaviour {
 		float leftX = centerX - size.x;
 		float rightX = centerX + size.x;
 
+
+
 			//### server not started ###
 		if(Network.peerType == NetworkPeerType.Disconnected){
 
 			//start server (server)
-			serverName = GUI.TextField(new Rect(rightX, centerY, textFieldSize.x, textFieldSize.y), serverName, 25);
-			tempName = GUI.TextField(new Rect(rightX, centerY + size.y, textFieldSize.x, textFieldSize.y), tempName, 25);
+			m_tempServerName = GUI.TextField(new Rect(rightX, centerY, textFieldSize.x, textFieldSize.y), m_tempServerName, 25);
+			m_tempPlayerName = GUI.TextField(new Rect(rightX, centerY + size.y, textFieldSize.x, textFieldSize.y), m_tempPlayerName, 25);
 
 			if(GUI.Button(new Rect(centerX, centerY, size.x, size.y), "Start Server")){
-				if(tempName.Length == 0){
-					tempName = "NOOB";
+				if(m_tempPlayerName.Length == 0){
+					m_tempPlayerName = "NOOB";
 				}
-				if(serverName.Length == 0){
-					serverName = "NOOBS ONLY";
+				if(m_tempServerName.Length == 0){
+					m_tempServerName = "NOOBS ONLY";
 				}
-				startServer(serverName);
+				startServer(m_tempServerName);
 				//add ip for player who started server
-				m_myPlayerData = new PlayerData(tempName, Network.player.guid);
+				m_myPlayerData = new PlayerData(m_tempPlayerName, Network.player.guid);
 				m_myPlayerData.local = true;
 				addPlayerToClientList(m_myPlayerData);
 			}
@@ -76,21 +112,27 @@ public class Lobby : MonoBehaviour {
 			//started server
 		if(Network.peerType == NetworkPeerType.Server){
 			if(GUI.Button(new Rect(centerX, centerY, size.x, size.y), "Start Game")){
+				//set maxtime
+				SeaNet.Instance.setMaxTime(m_maxTimeField);
+
 				//create ID for allplayers
 				createId();
 				//loads next level
 				Network.maxConnections = -1;
+				//denna fungerar inte
 				MasterServer.UnregisterHost();
 				loadLevel();
-				SeaNet.Instance.startGame();
 			}
 			if(GUI.Button(new Rect(centerX, centerY + size.y, size.x, size.y), "Stop Server")){
-				serverName = "";
+				m_tempServerName = "";
 				stopServer();
 			}
 			if(GUI.Button(new Rect(centerX, centerY + (size.y * 2), size.x, size.y), "SEE STUFF")){
 				networkView.RPC("showStuff", RPCMode.All);
 			}
+
+			string tempMax = GUI.TextField(new Rect(centerX, centerY + (size.y * 3), size.x, size.y), m_maxTimeField.ToString(), 25);
+			m_maxTimeField = int.Parse(tempMax);
 
 		}/*else if(Network.peerType == NetworkPeerType.Client){
 			//client in serverlobby
@@ -104,23 +146,30 @@ public class Lobby : MonoBehaviour {
 			HostData[] data = MasterServer.PollHostList();
 			//MasterServer.PollHostList("hej");
 
-			GUILayout.BeginArea(new Rect(leftX, centerY, size.x, size.y * 10));
+			GUILayout.BeginArea(new Rect(leftX, centerY, size.x, size.y * m_maxGames));
 			//GUILayout.FlexibleSpace();
 			GUILayout.BeginVertical();
 			//leftX, centerY + i * size.y, size.x, size.y
 			GUILayout.MinHeight(size.y);
 
-			for( int i = 0; i < data.Length; i++){
-				if(GUILayout.Button(data[i].gameName, GUILayout.MinHeight(size.y))){
-					if(tempName.Length == 0){
-						tempName = "NOOB";
+			m_scrollRectPos = GUILayout.BeginScrollView(m_scrollRectPos, GUILayout.Width(size.x), GUILayout.Height(scrHeight));
+
+				for( int i = 0; i < data.Length; i++){
+					if(GUILayout.Button(data[i].gameName, GUILayout.MinHeight(size.y))){
+
+							if(m_tempPlayerName.Length == 0){
+								m_tempPlayerName = "NOOB";
+							}
+							//connecting to server
+							//send networkplayer as patramaeter for cleanup ?
+							connectToServer(data[i]);
+							Debug.Log("NETWORKID: "+ Network.player.guid);
+
 					}
-					//connecting to server
-					//send networkplayer as patramaeter for cleanup ?
-					connectToServer(data[i]);
-					Debug.Log("NETWORKID: "+ Network.player.guid);
 				}
-			}
+
+
+			GUILayout.EndScrollView();
 
 			GUILayout.EndVertical();
 			GUILayout.EndArea();
@@ -225,7 +274,7 @@ public class Lobby : MonoBehaviour {
 
 	void OnConnectedToServer(){
 		//send playerdata to server and alla others
-		string name = tempName;
+		string name = m_tempPlayerName;
 		Debug.Log("sänder till server");
 		networkView.RPC("playerNameRPC", RPCMode.Server, name, Network.player);
 	}

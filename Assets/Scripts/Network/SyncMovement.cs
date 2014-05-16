@@ -50,7 +50,8 @@ public class SyncMovement : MonoBehaviour {
 	private playerAnimation m_playerAnim;
 	private bool isRunningAnim = false;
 
-	private bool isLocal = false;
+	private bool m_isLocal = false;
+	public bool isLocal { get { return m_isLocal; } }
 
 	// Use this for initialization
 	void Start () {
@@ -142,7 +143,9 @@ public class SyncMovement : MonoBehaviour {
 		LeafBlower localBlower = gameObject.GetComponentInChildren<LeafBlower>();
 		localBlower.m_id = id;
 		LeafBlower.s_leafBlowers[id] = localBlower;
-		isLocal = local;
+		m_isLocal = local;
+		BuffManager.m_buffManagers [id] = GetComponent<BuffManager> ();
+
 	}
 
 	public int getID(){

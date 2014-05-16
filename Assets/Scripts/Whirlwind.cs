@@ -8,16 +8,18 @@ public class Whirlwind : MonoBehaviour {
 
 	private InputHub m_input;
 	private Rigidbody m_rigidbody;
+	private Transform m_transform;
 	// Use this for initialization
 	void Start () {
 		m_rigidbody = rigidbody;
-		m_input = transform.parent.GetComponent<InputHub>();
+		m_transform = transform;
+		m_input = m_transform.parent.GetComponent<InputHub>();
 	}
 
 	void Update()
 	{
 		Vector2 input = m_input.getCurrentInputVector();
-		Vector3 pos = transform.localPosition;
+		Vector3 pos = m_transform.localPosition;
 
 		if(input.y == 0f && pos.x > - m_slideToSideWhenTurnLength)
 		{
@@ -38,7 +40,7 @@ public class Whirlwind : MonoBehaviour {
 				pos.x = 0f;
 		}
 
-		transform.localPosition = pos;
+		m_transform.localPosition = pos;
 	}
 	
 	// Update is called once per frame
@@ -47,7 +49,14 @@ public class Whirlwind : MonoBehaviour {
 //		Vector3 prevAngle = transform.rotation.eulerAngles;
 //		Quaternion newAngle = Quaternion.Euler(prevAngle + Vector3.forward * Time.deltaTime * m_rotationSpeed);
 //		m_rigidbody.MoveRotation(newAngle);
-		transform.Rotate(Vector3.up * Time.deltaTime * m_rotationSpeed);
+		m_transform.Rotate(Vector3.up * Time.deltaTime * m_rotationSpeed);
 		Profiler.EndSample();
+	}
+
+
+	void OnTriggerEnter(Collider other){
+		if(other.CompareTag("Leaf_collector")){
+			Debug.Log ("Whirlwind");
+		}
 	}
 }

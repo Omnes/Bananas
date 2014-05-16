@@ -1,23 +1,35 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class TimeBombBuff : Buff {
-	GameObject m_bomb;
-	GameObject m_playerCircle;
-	GameObject m_explosion;
+	//Design parameters
+	public const int BOMB_DURATION_MIN = 6;
+	public const int BOMB_DURATION_MAX = 10;
+	public const float STUN_DURATION = 1.5f;
+	public const float TRANSFER_COOLDOWN = 0.5f;
 
-	private const int BOMB_DURATION_MIN = 6;
-	private const int BOMB_DURATION_MAX = 10;
-	private const float STUN_DURATION = 1.5f;
-	private const float TRANSFER_COOLDOWN = 0.5f;
-
+	public const float SOUND_LENGTH = 1.0f;
 	private static Color START_COLOR = new Color(1, 1, 0);
 	private static Color END_COLOR = new Color(1, 0, 0);
 
+	//Variables
+	private GameObject m_bomb = null;
+	private GameObject m_playerCircle = null;
+	private GameObject m_explosion = null;
+
+	SyncMovement m_syncMovement;
+	private bool m_isLocal;
+
+	private List<Buff> m_targetBuffs = new List<Buff>();
+
+	//TODO: Lägg till TimeBombBuffTarget i en lista och ta bort dem ur den istället för som det är nu
 	public TimeBombBuff(GameObject playerRef, float duration):base(playerRef)
 	{
 		m_duration = duration;
 		m_period = 1.0f;
+		m_syncMovement = playerRef.GetComponent<SyncMovement> ();
+		m_isLocal = m_syncMovement.isLocal;
 	}
 
 	/**
@@ -29,15 +41,31 @@ public class TimeBombBuff : Buff {
 		m_bomb.transform.parent = m_playerRef.transform;
 		m_bomb.transform.localPosition = new Vector3(0.0f, 1.5f, 0.0f);
 
-		m_playerCircle = Instantiate (Prefactory.prefab_playerCircle) as GameObject;
-		m_playerCircle.transform.parent = m_playerRef.transform;
-		m_playerCircle.transform.localPosition = new Vector3(0.0f, -1.0f, 0.0f);
-		UpdateColor ();
+		if (m_isLocal) {
+			m_playerCircle = Instantiate (Prefactory.prefab_playerCircle) as GameObject;
+			m_playerCircle.transform.parent = m_playerRef.transform;
+			m_playerCircle.transform.localPosition = new Vector3(0.0f, -1.0f, 0.0f);
+			UpdateColor ();
+
+			for (int i = 0; i < SyncMovement.s_syncMovements.Length; i++) {
+				if (SyncMovement.s_syncMovements[i] != null)
+				{
+					Debug.Log("SyncMovement: " + SyncMovement.s_syncMovements[i]);
+					if (SyncMovement.s_syncMovements[i].isLocal == false) {
+						Buff b = BuffManager.m_buffManagers[i].AddBuff(new TimeBombTargetBuff(BuffManager.m_buffManagers[i].gameObject));
+						m_targetBuffs.Add(b);
+					}
+				}
+			}
+		}
 	}
 
 	override public void PeriodicEvent()
 	{
-		UpdateColor ();
+		SoundManager.Instance.playOneShot (SoundManager.TIMEBOMB_TICK);
+		if (m_isLocal) {
+			UpdateColor ();
+		}
 	}
 
 	/**
@@ -53,7 +81,8 @@ public class TimeBombBuff : Buff {
 		m_explosion.transform.position = m_playerRef.transform.position;
 		Destroy (m_explosion, m_explosion.particleSystem.duration);
 
-		SoundManager.Instance.StartIngameMusic ();
+//		SoundManager.Instance.StartIngameMusic ();
+		SoundManager.Instance.playOneShot (SoundManager.TIMEBOMB_EXPLOSION);
 	}
 
 	public override void RemoveEvent ()
@@ -64,6 +93,12 @@ public class TimeBombBuff : Buff {
 	private void RemoveObjects() {
 		Destroy (m_bomb);
 		Destroy (m_playerCircle);
+
+		for (int i = 0; i < SyncMovement.s_syncMovements.Length; i++) {
+			if (BuffManager.m_buffManagers[i] != null) {
+				BuffManager.m_buffManagers[i].RemoveBuff(typeof(TimeBombTargetBuff));
+			}
+		}
 	}
 
 	/**
@@ -71,7 +106,9 @@ public class TimeBombBuff : Buff {
 	 */
 	public void TransferUpdate(float durationTimer) {
 		m_durationTimer = durationTimer;
-		UpdateColor ();
+		if (m_playerCircle != null) {
+			UpdateColor ();
+		}
 	}
 
 	/**
@@ -82,14 +119,14 @@ public class TimeBombBuff : Buff {
 		m_playerCircle.renderer.material.SetColor ("_Color", newColor);
 	}
 
-	public static int GetDuration() {
-		return Random.Range(BOMB_DURATION_MIN, BOMB_DURATION_MAX);
+	public static float GetDuration() {
+		return Random.Range(BOMB_DURATION_MIN, BOMB_DURATION_MAX) * SOUND_LENGTH;
 	}
 
 	/**
 	 * Returns true if the buff is allowed to be transfered to another player
 	 */
 	public bool CanTransfer() {
-		return Time.time - m_timeCreated > TRANSFER_COOLDOWN;
+		return (Time.time - m_timeCreated) > TRANSFER_COOLDOWN;
 	}
 }
