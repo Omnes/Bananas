@@ -16,6 +16,7 @@ public class Whirlwind : MonoBehaviour {
 		m_transform = transform;
 		m_input = m_transform.parent.GetComponent<InputHub>();
 		m_parent = m_transform.parent;
+		m_transform.localScale = Vector3.one; //batching breaks if this line isnt here
 	}
 
 	void Update()
