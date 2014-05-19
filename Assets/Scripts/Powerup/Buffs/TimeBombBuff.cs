@@ -50,7 +50,7 @@ public class TimeBombBuff : Buff {
 			for (int i = 0; i < SyncMovement.s_syncMovements.Length; i++) {
 				if (SyncMovement.s_syncMovements[i] != null)
 				{
-					Debug.Log("SyncMovement: " + SyncMovement.s_syncMovements[i]);
+//					Debug.Log("SyncMovement: " + SyncMovement.s_syncMovements[i]);
 					if (SyncMovement.s_syncMovements[i].isLocal == false) {
 						Buff b = BuffManager.m_buffManagers[i].AddBuff(new TimeBombTargetBuff(BuffManager.m_buffManagers[i].gameObject));
 						m_targetBuffs.Add(b);
@@ -77,11 +77,10 @@ public class TimeBombBuff : Buff {
 		BuffManager buffManager = m_playerRef.GetComponent<BuffManager> ();
 		buffManager.AddBuff(new StunBuff(m_playerRef, STUN_DURATION));
 
-		m_explosion = Instantiate (Prefactory.prefab_bombExplosion) as GameObject;
-		m_explosion.transform.position = m_playerRef.transform.position;
+		m_explosion = Instantiate (Prefactory.prefab_bombExplosion,m_playerRef.transform.position,Quaternion.identity) as GameObject;
 		Destroy (m_explosion, m_explosion.particleSystem.duration);
 
-//		SoundManager.Instance.StartIngameMusic ();
+		SoundManager.Instance.StartIngameMusic ();
 		SoundManager.Instance.playOneShot (SoundManager.TIMEBOMB_EXPLOSION);
 	}
 
