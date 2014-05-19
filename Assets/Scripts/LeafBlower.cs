@@ -142,7 +142,7 @@ public class LeafBlower : MonoBehaviour {
 	
 	public void doGoal(int nrOfLeafs,int goalID){
 		returnLeafsToPool(nrOfLeafs);
-		ScoreKeeper.m_scores[goalID] += nrOfLeafs;
+		ScoreKeeper.AddScore(goalID,nrOfLeafs);
 		// SoundManager.Instance.playOneShot(SoundManager.SCORE);
 	}
 	

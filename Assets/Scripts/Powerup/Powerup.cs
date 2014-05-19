@@ -2,8 +2,7 @@
 using System.Collections;
 
 public class Powerup : MonoBehaviour {
-	public const float ROTATION_SPEED = 45;
-	public const float DEATH_TIME = 0.5f;
+	public float m_rotationSpeed = 45;
 
 	public static int TIME_BOMB 		= GetUniqueID();
 	public static int BIG_LEAF_BLOWER 	= GetUniqueID();
@@ -16,11 +15,8 @@ public class Powerup : MonoBehaviour {
 	private Transform m_transform;
 
 	private bool m_hasBeenPickedUp = false;
-	private GameObject m_pickingObject;
-	private float m_killTimer = 0;
-
+	
 	void Start() {
-//		m_rigidbody = transform.FindChild ("powerup_questionmark").rigidbody;
 		m_rigidbody = GetComponent<Rigidbody> ();
 //		Debug.Log ("Test: " + m_rigidbody);
 //		m_rigidbody = rigidbody;
@@ -29,31 +25,28 @@ public class Powerup : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col)
 	{
-		if ( Network.isServer ) {
+		if ( Network.isServer && !m_hasBeenPickedUp) {
 			if (col.gameObject.CompareTag ("Player")) {
 				m_hasBeenPickedUp = true;
-				m_pickingObject = col.gameObject;
+
+				PowerupManager.SynchronizePowerupGet (col.gameObject);
+
+				GameObject particles = Instantiate(Prefactory.prefab_powerupPickup,transform.position,Prefactory.prefab_powerupPickup.transform.localRotation) as GameObject;
+				Destroy(particles,particles.particleSystem.duration);
+
+				PowerupManager.Remove(gameObject);
 				//Play animation
 				SoundManager.Instance.playOneShot (SoundManager.POWERUP_PICKUP);
 			}
 	    }
 	}
 
-	void Update()
-	{
-		if (m_hasBeenPickedUp) {
-			m_killTimer += Time.deltaTime;
-			if (m_killTimer > DEATH_TIME) {
-				PowerupManager.SynchronizePowerupGet (m_pickingObject);
-				PowerupManager.Remove(gameObject);
-			}
-		}
-	}
+
 
 	public void FixedUpdate()
 	{
 		Quaternion prevAngle = m_rigidbody.rotation;
-		Quaternion newAngle = Quaternion.Euler(prevAngle.eulerAngles + Vector3.up * ROTATION_SPEED * Time.deltaTime);
+		Quaternion newAngle = Quaternion.Euler(prevAngle.eulerAngles + Vector3.up * m_rotationSpeed * Time.deltaTime);
 		m_rigidbody.MoveRotation(newAngle);
 	}
 

@@ -173,9 +173,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f7135bcd0f16574d8ac69d34558edcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fcenter: 500
   m_levels:
-  - LemonPark
+  - test_johannes
   m_maxGames: 10
 --- !u!114 &755868659
 MonoBehaviour:
@@ -188,7 +187,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7465d1b9525822240a83885cf5a158af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fcenter: 500
 --- !u!114 &755868660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,7 +198,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c2b1e47e3decb14693b45bf4742a3ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fcenter: 500
 --- !u!114 &755868661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,7 +209,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0a3241e77a4561408263a9206ae23bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fcenter: 500
 --- !u!148 &755868662
 NetworkView:
   m_ObjectHideFlags: 0
@@ -236,7 +232,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4c6ce71585e555448da253086fa347f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fcenter: 500
 --- !u!114 &755868664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,10 +240,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 755868652}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e56ee194da982de4ba19f0a8d20a4993, type: 3}
+  m_Script: {fileID: 11500000, guid: 61ab2b39805e44b459c8ff44cd13c73b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mode: 0
+  m_loadingScreen: {fileID: 2800000, guid: db9929fb3d9b1734ead351199342b2b2, type: 3}
 --- !u!114 &755868665
 MonoBehaviour:
   m_ObjectHideFlags: 0

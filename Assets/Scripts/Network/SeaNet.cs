@@ -17,12 +17,15 @@ public class SeaNet : MonoBehaviour {
 	}
 
 	public List<PlayerData> m_connectedPlayers;
-	public string m_nextScene = "test_johannes";
+	private string m_nextScene = "LemonPark";
 	public Winstate m_winstate;
+	public WinstateAnimation m_winstateAnimation;
 	public NetworkView m_networkView;
 
-	//ta bort sen
-	public int TEST_players;
+	public bool m_gameEnded = false;
+
+	public string m_sceneAfterWin = "MainMenuScene";
+	public string m_sceneStateAfterWin = "MainMenu";
 
 
 	//dessa två ska tas bort. ### ANVÄND EJ I SERIÖS SYFTE ###
@@ -39,6 +42,8 @@ public class SeaNet : MonoBehaviour {
 		DontDestroyOnLoad(gameObject);
 
 		m_winstate = gameObject.AddComponent<Winstate>();
+		m_winstateAnimation = gameObject.AddComponent<WinstateAnimation>();
+
 
 		gameObject.AddComponent<NetworkView>();
 		gameObject.networkView.stateSynchronization = NetworkStateSynchronization.Off;
@@ -93,28 +98,63 @@ public class SeaNet : MonoBehaviour {
 	}
 
 	//save and shut down the game. this happens when time is up
-	public void savePlayersAndShutDown(){
+	public void savePlayersAndShutDown(int id){
+		networkView.RPC("endGameSceneRPC", RPCMode.All, id);
+	}
 
-		//sett next currentscenestate
-		MenuManager.remoteMenu = m_winstate.m_nextSceneState;
+	void OnGUI(){
+		if(m_gameEnded){
+			Vector2 size = GUIMath.InchToPixels(new Vector2(1.5f, 0.8f));
 
-		//load level
-		networkView.RPC("stopGameRPC", RPCMode.All);
+			Vector2 leaveButtonPos = new Vector2(Screen.width - size.x, Screen.height - size.y);
+			Vector2 rematchButtonPos = new Vector2(0, Screen.height - size.y);
+
+
+			if(GUI.Button(new Rect(leaveButtonPos.x, leaveButtonPos.y, size.x, size.y), "Leave game")){
+				//load level
+				networkView.RPC("stopGameRPC", RPCMode.All, "MainMenuScene", "MainMenu");
+				//disconnect form game
+				disconnect();
+			}
+			if(GUI.Button(new Rect(rematchButtonPos.x, rematchButtonPos.y, size.x, size.y), "Rematch")){
+				//load level, menustate doesnt matter here
+				networkView.RPC("stopGameRPC", RPCMode.All, m_nextScene, "MainMenu");
+			}
+		}
+	}
+
+	public void disconnect(){
+
+		//måste säga till alla att spelet är slut
+		if(Network.isServer){
+			m_connectedPlayers = null;
+			Network.Disconnect();
+		}else if(Network.isClient){
+			m_connectedPlayers = null;
+			Network.Disconnect();
+		}
 	}
 
 	[RPC]
-	private void stopGameRPC(){
+	private void stopGameRPC(string nextScene, string menuState){
 		//stops recieving of information over network
 //		Network.SetSendingEnabled(Network.player, 0, false);
 //		//stops messsages over network
 //		Network.isMessageQueueRunning = false;
 		//
 		//reset score
-		for(int i = 0; i < ScoreKeeper.m_scores.Length; i++){
-			ScoreKeeper.m_scores[i] = 0;
-		}
 
-		Application.LoadLevel(m_winstate.m_nextScene);
+		ScoreKeeper.ResetScore();
+		m_gameEnded = false;
+		MenuManager.remoteMenu = menuState;
+		Application.LoadLevel(nextScene);
+	}
+
+
+	[RPC]
+	private void endGameSceneRPC(int id){
+		m_gameEnded = true;
+		m_winstateAnimation.playWinScene(id);
 	}
 
 //	[RPC]

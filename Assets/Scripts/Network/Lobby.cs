@@ -18,7 +18,7 @@ public class Lobby : MenuBase
 
 
 	private int m_maxPlayers = 4; // server doesnt count, maybe?
-	public string[] m_levels = {"test_johannes"};
+	public string[] m_levels = {"LemonPark"};
 
 	//might not be use3d
 	//private string m_myIP = "";
@@ -49,12 +49,25 @@ public class Lobby : MenuBase
 		instance = MenuManager.Instance;
 		m_menuItems = new List<BaseMenuItem> ();
 		addMenuItem(instance.getMenuItem(MenuManager.BACK_TO_PREV));
+		screenWidth = Screen.width;
+		screenHeight = Screen.height;
+		size = GUIMath.InchToPixels(new Vector2(1.5f, 0.8f));
+
+		centerX = screenWidth/2 - (size.x / 2);
+		centerY = screenHeight/6;
+		
+		leftX = centerX - size.x;
+		rightX = centerX + size.x;
+
+
 
 		MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
 
 		//check if seanet exist
 		if(!SeaNet.isNull()){
-			m_connectedPlayers = SeaNet.Instance.m_connectedPlayers;
+			if(SeaNet.Instance.m_connectedPlayers != null){
+				m_connectedPlayers = SeaNet.Instance.m_connectedPlayers;
+			}
 		}
 	}
 	
@@ -67,24 +80,22 @@ public class Lobby : MenuBase
 
 	public override void DoGUI(){
 
-		if(GUI.Button(new Rect(100.0f, 300.0f, 300.0f, 30.0f), m_menuItems[0].Name))		//Hårdkodat för det "enda" elementet från Daniel
-		{
-			if(m_menuItems[0].OnClick != null)
+		//back
+		foreach(BaseMenuItem item in m_menuItems){
+			if(LeanTween.isTweening(item.LtRect) == false){
+				LeanTween.move(item.LtRect, item.ToPos, 3.0f).setEase(item.LeanTweenType);
+			}
+
+			if(GUI.Button(item.LtRect.rect, item.Name))		//Hårdkodat för det "enda" elementet från Daniel
 			{
-				m_menuItems[0].OnClick(m_menuItems[0]);
+				if(item.OnClick != null)
+				{
+					item.OnClick(item);
+				}
 			}
 		}
 
-		int scrWidth = Screen.width;
-		int scrHeight = Screen.height;
-		Vector2 size = GUIMath.InchToPixels(new Vector2(1.5f, 0.8f));
 		Vector2 textFieldSize = GUIMath.InchToPixels(new Vector2(2f, 0.6f));
-
-		float centerX = scrWidth/2 - (size.x / 2);
-		float centerY = scrHeight/6;
-
-		float leftX = centerX - size.x;
-		float rightX = centerX + size.x;
 
 
 
@@ -152,7 +163,7 @@ public class Lobby : MenuBase
 			//leftX, centerY + i * size.y, size.x, size.y
 			GUILayout.MinHeight(size.y);
 
-			m_scrollRectPos = GUILayout.BeginScrollView(m_scrollRectPos, GUILayout.Width(size.x), GUILayout.Height(scrHeight));
+			m_scrollRectPos = GUILayout.BeginScrollView(m_scrollRectPos, GUILayout.Width(size.x), GUILayout.Height(screenHeight));
 
 				for( int i = 0; i < data.Length; i++){
 					if(GUILayout.Button(data[i].gameName, GUILayout.MinHeight(size.y))){
@@ -179,7 +190,18 @@ public class Lobby : MenuBase
 			GUILayout.Label("Client Name: "+ m_connectedPlayers[i].m_name+" Client GUID"+m_connectedPlayers[i].m_guid);
 		}
 		GUILayout.Label("ListSize (players): "+m_connectedPlayers.Count);
+
 	}
+
+	//From Daniel
+	public override void InitMenuItems()
+	{
+		AdjustMenuItem (m_menuItems [0], new LTRect (-200.0f, 100.0f, size.x, size.y), new Vector2 (centerX, centerY + size.y * 2), LeanTweenType.easeOutElastic);
+	}
+
+
+
+
 
 	//		For starting server on mobile device use 
 	//		Network.TestConnnection to check if device can use NAT punchthrough

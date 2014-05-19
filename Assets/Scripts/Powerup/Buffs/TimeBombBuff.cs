@@ -76,9 +76,7 @@ public class TimeBombBuff : Buff {
 		BuffManager buffManager = m_playerRef.GetComponent<BuffManager> ();
 		buffManager.AddBuff(new StunBuff(m_playerRef, STUN_DURATION));
 
-		m_explosion = Instantiate (Prefactory.prefab_bombExplosion) as GameObject;
-		m_explosion.transform.position = m_playerRef.transform.position;
-//		Destroy (m_explosion, m_explosion.particleSystem.duration);
+		m_explosion = Instantiate (Prefactory.prefab_bombExplosion,m_playerRef.transform.position,Quaternion.identity) as GameObject;
 		Destroy (m_explosion, ExplosionUVAnimator.DURATION);
 
 		SoundManager.Instance.StartIngameMusic ();
