@@ -18,7 +18,7 @@ public class Lobby : MenuBase
 
 
 	private int m_maxPlayers = 4; // server doesnt count, maybe?
-	public string[] m_levels = {"test_johannes"};
+	public string[] m_levels = {"LemonPark"};
 
 	//might not be use3d
 	//private string m_myIP = "";
@@ -65,7 +65,9 @@ public class Lobby : MenuBase
 
 		//check if seanet exist
 		if(!SeaNet.isNull()){
-			m_connectedPlayers = SeaNet.Instance.m_connectedPlayers;
+			if(SeaNet.Instance.m_connectedPlayers != null){
+				m_connectedPlayers = SeaNet.Instance.m_connectedPlayers;
+			}
 		}
 	}
 	
@@ -78,11 +80,18 @@ public class Lobby : MenuBase
 
 	public override void DoGUI(){
 
-		if(GUI.Button(new Rect(100.0f, 300.0f, size.x, size.y), m_menuItems[0].Name))		//Hårdkodat för det "enda" elementet från Daniel
-		{
-			if(m_menuItems[0].OnClick != null)
+		//back
+		foreach(BaseMenuItem item in m_menuItems){
+			if(LeanTween.isTweening(item.LtRect) == false){
+				LeanTween.move(item.LtRect, item.ToPos, 3.0f).setEase(item.LeanTweenType);
+			}
+
+			if(GUI.Button(item.LtRect.rect, item.Name))		//Hårdkodat för det "enda" elementet från Daniel
 			{
-				m_menuItems[0].OnClick(m_menuItems[0]);
+				if(item.OnClick != null)
+				{
+					item.OnClick(item);
+				}
 			}
 		}
 
@@ -181,12 +190,13 @@ public class Lobby : MenuBase
 			GUILayout.Label("Client Name: "+ m_connectedPlayers[i].m_name+" Client GUID"+m_connectedPlayers[i].m_guid);
 		}
 		GUILayout.Label("ListSize (players): "+m_connectedPlayers.Count);
+
 	}
 
 	//From Daniel
 	public override void InitMenuItems()
 	{
-		AdjustMenuItem (m_menuItems [0], new LTRect (-200.0f, 100.0f, size.x, size.y), new Vector2 (centerX, centerY), LeanTweenType.easeOutElastic);
+		AdjustMenuItem (m_menuItems [0], new LTRect (-200.0f, 100.0f, size.x, size.y), new Vector2 (centerX, centerY + size.y * 2), LeanTweenType.easeOutElastic);
 	}
 
 

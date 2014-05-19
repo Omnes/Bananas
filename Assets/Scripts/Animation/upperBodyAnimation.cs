@@ -128,6 +128,10 @@ public class upperBodyAnimation : MonoBehaviour {
 		m_playerAnimator.SetBool("isBlowing", false);
 	}
 
+	public void winAnimation(){
+		m_playerAnimator.SetBool("win", true);
+	}
+
 	//check if higher priority states exist
 	public bool checkHighPriority(int priority){
 		for(int i = 0; i < priority; i++){
