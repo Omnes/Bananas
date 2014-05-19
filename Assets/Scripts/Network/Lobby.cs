@@ -49,6 +49,17 @@ public class Lobby : MenuBase
 		instance = MenuManager.Instance;
 		m_menuItems = new List<BaseMenuItem> ();
 		addMenuItem(instance.getMenuItem(MenuManager.BACK_TO_PREV));
+		screenWidth = Screen.width;
+		screenHeight = Screen.height;
+		size = GUIMath.InchToPixels(new Vector2(1.5f, 0.8f));
+
+		centerX = screenWidth/2 - (size.x / 2);
+		centerY = screenHeight/6;
+		
+		leftX = centerX - size.x;
+		rightX = centerX + size.x;
+
+
 
 		MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
 
@@ -67,7 +78,7 @@ public class Lobby : MenuBase
 
 	public override void DoGUI(){
 
-		if(GUI.Button(new Rect(100.0f, 300.0f, 300.0f, 30.0f), m_menuItems[0].Name))		//Hårdkodat för det "enda" elementet från Daniel
+		if(GUI.Button(new Rect(100.0f, 300.0f, size.x, size.y), m_menuItems[0].Name))		//Hårdkodat för det "enda" elementet från Daniel
 		{
 			if(m_menuItems[0].OnClick != null)
 			{
@@ -75,16 +86,7 @@ public class Lobby : MenuBase
 			}
 		}
 
-		int scrWidth = Screen.width;
-		int scrHeight = Screen.height;
-		Vector2 size = GUIMath.InchToPixels(new Vector2(1.5f, 0.8f));
 		Vector2 textFieldSize = GUIMath.InchToPixels(new Vector2(2f, 0.6f));
-
-		float centerX = scrWidth/2 - (size.x / 2);
-		float centerY = scrHeight/6;
-
-		float leftX = centerX - size.x;
-		float rightX = centerX + size.x;
 
 
 
@@ -152,7 +154,7 @@ public class Lobby : MenuBase
 			//leftX, centerY + i * size.y, size.x, size.y
 			GUILayout.MinHeight(size.y);
 
-			m_scrollRectPos = GUILayout.BeginScrollView(m_scrollRectPos, GUILayout.Width(size.x), GUILayout.Height(scrHeight));
+			m_scrollRectPos = GUILayout.BeginScrollView(m_scrollRectPos, GUILayout.Width(size.x), GUILayout.Height(screenHeight));
 
 				for( int i = 0; i < data.Length; i++){
 					if(GUILayout.Button(data[i].gameName, GUILayout.MinHeight(size.y))){
@@ -180,6 +182,16 @@ public class Lobby : MenuBase
 		}
 		GUILayout.Label("ListSize (players): "+m_connectedPlayers.Count);
 	}
+
+	//From Daniel
+	public override void InitMenuItems()
+	{
+		AdjustMenuItem (m_menuItems [0], new LTRect (-200.0f, 100.0f, size.x, size.y), new Vector2 (centerX, centerY), LeanTweenType.easeOutElastic);
+	}
+
+
+
+
 
 	//		For starting server on mobile device use 
 	//		Network.TestConnnection to check if device can use NAT punchthrough
