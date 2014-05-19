@@ -37,4 +37,23 @@ public class GUIControl : MonoBehaviour {
 	{
 		return Screen.dpi == 0 ? DEFAULT_DPI : Screen.dpi;
 	}
+
+	//Mute button
+	private const float WIDTH = 50;
+	private const float HEIGHT = 50;
+	private const float PADDING = 10;
+	void OnGUI() {
+		if (SoundManager.Instance.m_paused == false) {
+			if(GUI.Button(new Rect(Screen.width - (WIDTH + PADDING), PADDING, WIDTH, HEIGHT), Prefactory.texture_muteButton))
+			{
+				SoundManager.Instance.ToggleMute();
+			}
+		}
+		else {
+			if(GUI.Button(new Rect(Screen.width - (WIDTH + PADDING), PADDING, WIDTH, HEIGHT), Prefactory.texture_muteButton2))
+			{
+				SoundManager.Instance.ToggleMute();
+			}
+		}
+	}
 }

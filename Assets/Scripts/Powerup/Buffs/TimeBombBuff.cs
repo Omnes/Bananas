@@ -78,7 +78,8 @@ public class TimeBombBuff : Buff {
 
 		m_explosion = Instantiate (Prefactory.prefab_bombExplosion) as GameObject;
 		m_explosion.transform.position = m_playerRef.transform.position;
-		Destroy (m_explosion, m_explosion.particleSystem.duration);
+//		Destroy (m_explosion, m_explosion.particleSystem.duration);
+		Destroy (m_explosion, ExplosionUVAnimator.DURATION);
 
 		SoundManager.Instance.StartIngameMusic ();
 		SoundManager.Instance.playOneShot (SoundManager.TIMEBOMB_EXPLOSION);

@@ -45,17 +45,17 @@ public class BuffManager : MonoBehaviour {
 	/**
 	 * Removes the first buff of the specified type (without executing its ExpireEvent)
 	 */
-	public bool RemoveBuff(Type buffType) {
-		foreach (Buff buff in m_buffs) {
-			if (buff.GetType() == buffType && buff.alive) {
-				buff.RemoveEvent ();
-				m_buffs.Remove(buff);
-				Destroy(buff);
-				return true;
-			}
-		}
-		return false;
-	}
+//	public bool RemoveBuff(Type buffType) {
+//		foreach (Buff buff in m_buffs) {
+//			if (buff.GetType() == buffType && buff.alive) {
+//				buff.RemoveEvent ();
+//				m_buffs.Remove(buff);
+//				Destroy(buff);
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 
 	/**
 	 * Find a buff of a specific type (if it exists) and return it
@@ -98,26 +98,26 @@ public class BuffManager : MonoBehaviour {
 	 * Updates and removes buffs
 	 */
 	void Update () {
-//		if (Input.GetKeyDown(KeyCode.Q)) {
-//			for (int i = 0; i < 2; i++) {
-//				AddBuff( new StunBuff(gameObject, 1.0f) );
-//			}
-//		}
-//		if (Input.GetKeyDown(KeyCode.W)) {
-//			for (int i = 0; i < 5; i++) {
-//				AddBuff( new DizzyBuff(gameObject, 1.0f) );
-//			}
-//		}
-//		if (Input.GetKeyDown(KeyCode.E)) {
-//			for (int i = 0; i < 2; i++) {
-//				AddBuff( new TimeBombBuff(gameObject, 1.0f) );
-//			}
-//		}
-//		if (Input.GetKeyDown(KeyCode.R)) {
-//			for (int i = 0; i < 2; i++) {
-//				AddBuff( new EMPBuff(gameObject) );
-//			}
-//		}
+		if (Input.GetKeyDown(KeyCode.Q)) {
+			for (int i = 0; i < 2; i++) {
+				AddBuff( new StunBuff(gameObject, 1.0f) );
+			}
+		}
+		if (Input.GetKeyDown(KeyCode.W)) {
+			for (int i = 0; i < 5; i++) {
+				AddBuff( new DizzyBuff(gameObject, 1.0f) );
+			}
+		}
+		if (Input.GetKeyDown(KeyCode.E)) {
+			for (int i = 0; i < 2; i++) {
+				AddBuff( new TimeBombBuff(gameObject, 1.0f) );
+			}
+		}
+		if (Input.GetKeyDown(KeyCode.R)) {
+			for (int i = 0; i < 2; i++) {
+				AddBuff( new EMPBuff(gameObject) );
+			}
+		}
 
 		//########################################
 		List<Buff> m_deadBuff = new List<Buff>();

@@ -26,6 +26,13 @@ public class SoundManager : MonoBehaviour {
 	private FMOD.Studio.ParameterInstance m_musicParam1;
 	private FMOD.Studio.ParameterInstance m_musicParam2;
 
+	//TEST
+	private FMOD.Studio.MixerStrip m_masterBus;
+	private FMOD.Studio.MixerStrip m_musicBus;
+	private FMOD.Studio.MixerStrip m_SFXBus;
+	private FMOD.Studio.System m_system;
+	public bool m_paused = false;
+
 	private static SoundManager instance;
 	public static bool IsNull() {return instance == null;}
 	public static SoundManager Instance
@@ -37,9 +44,27 @@ public class SoundManager : MonoBehaviour {
 				instance = go.AddComponent<SoundManager>();
 				go.name = "Sound Manager";
 				DontDestroyOnLoad(go);
+
+				instance.InitChannels();
 			}
 			return instance;
 		}
+	}
+
+	private void InitChannels () {
+		m_system = FMOD_StudioSystem.instance.System;
+		
+		FMOD.GUID masterGuid = new FMOD.GUID();
+		m_system.lookupID ("bus:/", out masterGuid);
+		m_system.getMixerStrip (masterGuid, FMOD.Studio.LOADING_MODE.BEGIN_NOW, out m_masterBus);
+		
+		FMOD.GUID musicGuid = new FMOD.GUID();
+		m_system.lookupID ("bus:/Music", out musicGuid);
+		m_system.getMixerStrip (musicGuid, FMOD.Studio.LOADING_MODE.BEGIN_NOW, out m_musicBus);
+		
+		FMOD.GUID SFXguid = new FMOD.GUID();
+		m_system.lookupID ("bus:/SFX", out SFXguid);
+		m_system.getMixerStrip (SFXguid, FMOD.Studio.LOADING_MODE.BEGIN_NOW, out m_SFXBus);
 	}
 
 	public List<FMOD.Studio.EventInstance> m_sounds = new List<FMOD.Studio.EventInstance>();
@@ -106,23 +131,23 @@ public class SoundManager : MonoBehaviour {
 		}
 	}
 	
-	public static void Mute() {
-		Debug.Log ("Mute");
-//		FMOD_Listener listener = Camera.main.GetComponent<FMOD_Listener> ();
-//		listener.audio.mute = true;
+	void Update() {
+		if (Input.GetKeyDown (KeyCode.M)) {
+			ToggleMute();
+		}
 	}
 
-	public static void Unmute() {
-		Debug.Log ("Unmute");
-//		FMOD_Listener listener = Camera.main.GetComponent<FMOD_Listener> ();
-//		listener.audio.mute = false;
-	}
+//	public void Mute() {
+//	}
 
-	public static void ToggleMute() {
-		Debug.Log ("Toggle mute");
-//		FMOD_Listener listener = Camera.main.GetComponent<FMOD_Listener> ();
-//		listener.audio.mute = !listener.audio.mute;
-//		listener.enabled = !listener.enabled;
+//	public void Unmute() {
+//	}
+
+	public void ToggleMute() {
+		m_paused = !m_paused;
+		m_masterBus.setPaused (m_paused);
+//		m_musicBus.setPaused (m_paused);
+//		m_SFXBus.setPaused (m_paused);
 	}
 
 	public void StartMenuMusic() {
