@@ -143,13 +143,13 @@ public class SeaNet : MonoBehaviour {
 //		Network.isMessageQueueRunning = false;
 		//
 		//reset score
-		for(int i = 0; i < ScoreKeeper.m_scores.Length; i++){
-			ScoreKeeper.m_scores[i] = 0;
-		}
+
+		ScoreKeeper.ResetScore();
 		m_gameEnded = false;
 		MenuManager.remoteMenu = menuState;
 		Application.LoadLevel(nextScene);
 	}
+
 
 	[RPC]
 	private void endGameSceneRPC(int id){
