@@ -144,6 +144,7 @@ public class SeaNet : MonoBehaviour {
 		//
 		//reset score
 
+		SoundManager.Instance.ResetMusic();
 		ScoreKeeper.ResetScore();
 		m_gameEnded = false;
 		MenuManager.remoteMenu = menuState;
@@ -153,6 +154,7 @@ public class SeaNet : MonoBehaviour {
 
 	[RPC]
 	private void endGameSceneRPC(int id){
+		SoundManager.Instance.StartWinMusic();
 		m_gameEnded = true;
 		m_winstateAnimation.playWinScene(id);
 	}

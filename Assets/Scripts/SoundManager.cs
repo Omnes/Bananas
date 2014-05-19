@@ -181,4 +181,8 @@ public class SoundManager : MonoBehaviour {
 		m_musicParam1.setValue (1);
 		m_musicParam2.setValue (0);
 	}
+
+	public void ResetMusic() {
+		m_currentMusic = "";
+	}
 }
