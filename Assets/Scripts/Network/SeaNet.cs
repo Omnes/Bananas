@@ -17,7 +17,7 @@ public class SeaNet : MonoBehaviour {
 	}
 
 	public List<PlayerData> m_connectedPlayers;
-	public string m_nextScene = "test_johannes";
+	public string m_nextScene = "LemonPark";
 	public Winstate m_winstate;
 	public WinstateAnimation m_winstateAnimation;
 	public NetworkView m_networkView;
@@ -118,7 +118,7 @@ public class SeaNet : MonoBehaviour {
 			}
 			if(GUI.Button(new Rect(rematchButtonPos.x, rematchButtonPos.y, size.x, size.y), "Rematch")){
 				//load level, menustate doesnt matter here
-				networkView.RPC("stopGameRPC", RPCMode.All, "test_johannes", "MainMenu");
+				networkView.RPC("stopGameRPC", RPCMode.All, m_nextScene, "MainMenu");
 			}
 		}
 	}
