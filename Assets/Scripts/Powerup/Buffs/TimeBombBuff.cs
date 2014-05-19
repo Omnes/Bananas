@@ -1,14 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class TimeBombBuff : Buff {
 	//Design parameters
-	public const int BOMB_DURATION_MIN = 6;
-	public const int BOMB_DURATION_MAX = 10;
+	public const int BOMB_DURATION_MIN = 10;
+	public const int BOMB_DURATION_MAX = 20;
 	public const float STUN_DURATION = 1.5f;
 	public const float TRANSFER_COOLDOWN = 0.5f;
 
-	public const float SOUND_LENGTH = 5.0f;
+	public const float SOUND_LENGTH = 1.0f;
 	private static Color START_COLOR = new Color(1, 1, 0);
 	private static Color END_COLOR = new Color(1, 0, 0);
 
@@ -20,6 +21,9 @@ public class TimeBombBuff : Buff {
 	SyncMovement m_syncMovement;
 	private bool m_isLocal;
 
+	private List<Buff> m_targetBuffs = new List<Buff>();
+
+	//TODO: Lägg till TimeBombBuffTarget i en lista och ta bort dem ur den istället för som det är nu
 	public TimeBombBuff(GameObject playerRef, float duration):base(playerRef)
 	{
 		m_duration = duration;
@@ -46,9 +50,10 @@ public class TimeBombBuff : Buff {
 			for (int i = 0; i < SyncMovement.s_syncMovements.Length; i++) {
 				if (SyncMovement.s_syncMovements[i] != null)
 				{
-					Debug.Log("SyncMovement: " + SyncMovement.s_syncMovements[i]);
+//					Debug.Log("SyncMovement: " + SyncMovement.s_syncMovements[i]);
 					if (SyncMovement.s_syncMovements[i].isLocal == false) {
-						BuffManager.m_buffManagers[i].AddBuff(new TimeBombTargetBuff(BuffManager.m_buffManagers[i].gameObject));
+						Buff b = BuffManager.m_buffManagers[i].AddBuff(new TimeBombTargetBuff(BuffManager.m_buffManagers[i].gameObject));
+						m_targetBuffs.Add(b);
 					}
 				}
 			}
@@ -101,7 +106,9 @@ public class TimeBombBuff : Buff {
 	 */
 	public void TransferUpdate(float durationTimer) {
 		m_durationTimer = durationTimer;
-		UpdateColor ();
+		if (m_playerCircle != null) {
+			UpdateColor ();
+		}
 	}
 
 	/**
@@ -120,6 +127,6 @@ public class TimeBombBuff : Buff {
 	 * Returns true if the buff is allowed to be transfered to another player
 	 */
 	public bool CanTransfer() {
-		return Time.time - m_timeCreated > TRANSFER_COOLDOWN;
+		return (Time.time - m_timeCreated) > TRANSFER_COOLDOWN;
 	}
 }

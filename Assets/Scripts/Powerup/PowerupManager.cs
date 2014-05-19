@@ -133,6 +133,7 @@ public class PowerupManager : MonoBehaviour {
 				}
 			}
 		}
+		SoundManager.Instance.playOneShot(SoundManager.LEAFBLOWER_WARCRY);
 	}
 
 	/**
@@ -157,6 +158,7 @@ public class PowerupManager : MonoBehaviour {
 				}
 			}
 		}
+		SoundManager.Instance.playOneShot (SoundManager.EMP);
 	}
 
 	/**

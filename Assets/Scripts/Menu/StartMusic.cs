@@ -7,8 +7,9 @@ public class StartMusic : MonoBehaviour {
 	public Mode mode = new Mode ();
 
 	void Start () {
-		SoundManager.initMusic ();
-
+//		SoundManager.initMusic ();
+//
+		Debug.Log ("Play music: " + mode);
 		if (mode == Mode.MainMenu) {
 			SoundManager.Instance.StartMenuMusic();
 		}
@@ -20,7 +21,7 @@ public class StartMusic : MonoBehaviour {
 			SoundManager.Instance.playOneShot(SoundManager.COUNTDOWN);
 		}
 		else if (mode == Mode.Win) {
-			SoundManager.Instance.StartWinuMusic();
+			SoundManager.Instance.StartWinMusic();
 		}
 	}
 }

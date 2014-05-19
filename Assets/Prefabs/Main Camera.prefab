@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_target: {fileID: 0}
-  m_offset: {x: -10, y: 10, z: -10}
+  m_offset: {x: -10, y: 8, z: -10}
   m_speed: 20
   m_predict: 0
   m_predictionMagnitude: .300000012
