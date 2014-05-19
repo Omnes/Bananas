@@ -12,7 +12,7 @@ public class Powerup : MonoBehaviour {
 	private static int GetUniqueID() {return ID++;}
 
 	private Rigidbody m_rigidbody;
-	private Transform m_transform;
+//	private Transform m_transform;
 
 	private bool m_hasBeenPickedUp = false;
 	
@@ -20,7 +20,7 @@ public class Powerup : MonoBehaviour {
 		m_rigidbody = GetComponent<Rigidbody> ();
 //		Debug.Log ("Test: " + m_rigidbody);
 //		m_rigidbody = rigidbody;
-		m_transform = transform;
+//		m_transform = transform;
 	}
 
 	void OnTriggerEnter(Collider col)

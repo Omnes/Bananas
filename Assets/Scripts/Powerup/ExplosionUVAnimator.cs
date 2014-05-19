@@ -45,10 +45,10 @@ public class ExplosionUVAnimator : MonoBehaviour {
 		float d = u - m_map.height;
 		
 		//skapar nya uv kordinater
-		uvs[0] = new Vector2(l,u); 
-		uvs[1] = new Vector2(r,d);
-		uvs[2] = new Vector2(r,u); 
-		uvs[3] = new Vector2(l,d);
+		uvs[0] = new Vector2(l, u); 
+		uvs[1] = new Vector2(r, d);
+		uvs[2] = new Vector2(r, u); 
+		uvs[3] = new Vector2(l, d);
 
 		//assignar dem till meshen
 		mesh.uv = uvs;

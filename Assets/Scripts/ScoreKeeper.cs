@@ -34,5 +34,13 @@ public class ScoreKeeper : MonoBehaviour {
 		m_scoreBoard = guiscore;
 	}
 
-
+	public static int GetFirstPlaceID() {
+		int playerID = 0;
+		for(int i = 0; i < m_scores.Length; i++){
+			if(m_scores[i] > m_scores[playerID]){
+				playerID = i;
+			}
+		}
+		return playerID;
+	}
 }

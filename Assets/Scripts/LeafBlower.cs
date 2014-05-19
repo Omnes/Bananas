@@ -16,7 +16,7 @@ public class LeafBlower : MonoBehaviour {
 	private bool m_particleEmit = false;
 	private playerAnimation m_animation;
 	private float m_blowPower = 0.0f;
-	private Transform m_playerRef;
+//	private Transform m_playerRef;
 	private InputHub m_inputhub;
 	private FMOD.Studio.EventInstance m_blowSound;
 	
@@ -42,7 +42,7 @@ public class LeafBlower : MonoBehaviour {
 		m_inputhub = transform.parent.GetComponent<InputHub>();
 		
 		m_blowSound = SoundManager.Instance.play(SoundManager.LEAFBLOWER);
-		m_playerRef = transform.parent;
+//		m_playerRef = transform.parent;
 	}
 	
 	void Update()

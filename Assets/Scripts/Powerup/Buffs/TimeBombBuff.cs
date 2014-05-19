@@ -21,7 +21,7 @@ public class TimeBombBuff : Buff {
 	SyncMovement m_syncMovement;
 	private bool m_isLocal;
 
-	private List<Buff> m_targetBuffs = new List<Buff>();
+//	private List<Buff> m_targetBuffs = new List<Buff>();
 	
 	public TimeBombBuff(GameObject playerRef, float duration):base(playerRef)
 	{

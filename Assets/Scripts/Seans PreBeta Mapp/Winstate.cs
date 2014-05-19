@@ -24,14 +24,7 @@ public class Winstate : MonoBehaviour {
 	IEnumerator UpdateTime(){
 		yield return new WaitForSeconds(m_MAXTIME);
 
-		int temp = 0;
-		for(int i = 0; i < ScoreKeeper.m_scores.Length; i++){
-			if(ScoreKeeper.m_scores[i] > temp){
-				temp = i;
-			}
-		}
-
 		//shuts down game
-		SeaNet.Instance.savePlayersAndShutDown(temp);
+		SeaNet.Instance.savePlayersAndShutDown(ScoreKeeper.GetFirstPlaceID());
 	}
 }

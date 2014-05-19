@@ -28,8 +28,8 @@ public class SoundManager : MonoBehaviour {
 
 	//TEST
 	private FMOD.Studio.MixerStrip m_masterBus;
-	private FMOD.Studio.MixerStrip m_musicBus;
-	private FMOD.Studio.MixerStrip m_SFXBus;
+//	private FMOD.Studio.MixerStrip m_musicBus;
+//	private FMOD.Studio.MixerStrip m_SFXBus;
 	private FMOD.Studio.System m_system;
 	public bool m_paused = false;
 
@@ -58,13 +58,13 @@ public class SoundManager : MonoBehaviour {
 		m_system.lookupID ("bus:/", out masterGuid);
 		m_system.getMixerStrip (masterGuid, FMOD.Studio.LOADING_MODE.BEGIN_NOW, out m_masterBus);
 		
-		FMOD.GUID musicGuid = new FMOD.GUID();
-		m_system.lookupID ("bus:/Music", out musicGuid);
-		m_system.getMixerStrip (musicGuid, FMOD.Studio.LOADING_MODE.BEGIN_NOW, out m_musicBus);
-		
-		FMOD.GUID SFXguid = new FMOD.GUID();
-		m_system.lookupID ("bus:/SFX", out SFXguid);
-		m_system.getMixerStrip (SFXguid, FMOD.Studio.LOADING_MODE.BEGIN_NOW, out m_SFXBus);
+//		FMOD.GUID musicGuid = new FMOD.GUID();
+//		m_system.lookupID ("bus:/Music", out musicGuid);
+//		m_system.getMixerStrip (musicGuid, FMOD.Studio.LOADING_MODE.BEGIN_NOW, out m_musicBus);
+//		
+//		FMOD.GUID SFXguid = new FMOD.GUID();
+//		m_system.lookupID ("bus:/SFX", out SFXguid);
+//		m_system.getMixerStrip (SFXguid, FMOD.Studio.LOADING_MODE.BEGIN_NOW, out m_SFXBus);
 	}
 
 	public List<FMOD.Studio.EventInstance> m_sounds = new List<FMOD.Studio.EventInstance>();
@@ -130,24 +130,10 @@ public class SoundManager : MonoBehaviour {
 			m_sounds.Remove (sound);
 		}
 	}
-	
-	void Update() {
-		if (Input.GetKeyDown (KeyCode.M)) {
-			ToggleMute();
-		}
-	}
-
-//	public void Mute() {
-//	}
-
-//	public void Unmute() {
-//	}
 
 	public void ToggleMute() {
 		m_paused = !m_paused;
 		m_masterBus.setPaused (m_paused);
-//		m_musicBus.setPaused (m_paused);
-//		m_SFXBus.setPaused (m_paused);
 	}
 
 	public void StartMenuMusic() {
