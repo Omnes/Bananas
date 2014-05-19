@@ -54,7 +54,9 @@ public class Lobby : MenuBase
 
 		//check if seanet exist
 		if(!SeaNet.isNull()){
-			m_connectedPlayers = SeaNet.Instance.m_connectedPlayers;
+			if(SeaNet.Instance.m_connectedPlayers != null){
+				m_connectedPlayers = SeaNet.Instance.m_connectedPlayers;
+			}
 		}
 	}
 	
@@ -179,6 +181,7 @@ public class Lobby : MenuBase
 			GUILayout.Label("Client Name: "+ m_connectedPlayers[i].m_name+" Client GUID"+m_connectedPlayers[i].m_guid);
 		}
 		GUILayout.Label("ListSize (players): "+m_connectedPlayers.Count);
+
 	}
 
 	//		For starting server on mobile device use 

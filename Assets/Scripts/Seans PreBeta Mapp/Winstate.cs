@@ -3,12 +3,7 @@ using System.Collections;
 
 public class Winstate : MonoBehaviour {
 
-	private int m_startTime;
-	private int m_currentTime;
 	public int m_MAXTIME;
-	
-	public string m_nextScene = "MainMenuScene";
-	public string m_nextSceneState = "MainMenu";
 
 	// Use this for initialization
 	void Start () {
@@ -23,15 +18,20 @@ public class Winstate : MonoBehaviour {
 	public void gameStart(){
 		if(Network.peerType == NetworkPeerType.Server){
 			StartCoroutine("UpdateTime");
-			Debug.Log("StartTime "+System.DateTime.Now.TimeOfDay);
 		}	
 	}
 
 	IEnumerator UpdateTime(){
 		yield return new WaitForSeconds(m_MAXTIME);
-		Debug.Log("EndTime "+System.DateTime.Now.TimeOfDay);
+
+		int temp = 0;
+		for(int i = 0; i < ScoreKeeper.m_scores.Length; i++){
+			if(ScoreKeeper.m_scores[i] > temp){
+				temp = i;
+			}
+		}
 
 		//shuts down game
-		SeaNet.Instance.savePlayersAndShutDown();
+		SeaNet.Instance.savePlayersAndShutDown(temp);
 	}
 }

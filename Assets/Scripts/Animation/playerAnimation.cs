@@ -42,6 +42,10 @@ public class playerAnimation : MonoBehaviour {
 //		m_upperBodyScript.stopTackleAnimation();
 //	}
 
+	public void winAnim(){
+		m_upperBodyScript.winAnimation();
+	}
+
 	//blow
 	public void blowAnim(){
 		m_upperBodyScript.blowAnimation();
