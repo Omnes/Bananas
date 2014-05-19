@@ -35,7 +35,7 @@ public class MenuManager : MonoBehaviour
 		m_allMenus = new List<BaseMenuItem>();
 
 
-		addParentMenuItem ("StartGame", StartGame, "test_johannes");
+		addParentMenuItem ("StartGame", StartGame, "LemonPark");
 		addParentMenuItem ("Lobby", LoadSubMenu, "Lobby");
 		addParentMenuItem ("Main Menu", LoadSubMenu, "MainMenu");
 		addParentMenuItem ("Back", BackToPrev, "");

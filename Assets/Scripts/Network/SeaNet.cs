@@ -17,7 +17,7 @@ public class SeaNet : MonoBehaviour {
 	}
 
 	public List<PlayerData> m_connectedPlayers;
-	public string m_nextScene = "LemonPark";
+	private string m_nextScene = "LemonPark";
 	public Winstate m_winstate;
 	public WinstateAnimation m_winstateAnimation;
 	public NetworkView m_networkView;
