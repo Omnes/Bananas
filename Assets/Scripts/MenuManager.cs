@@ -83,6 +83,8 @@ public class MenuManager : MonoBehaviour
 	}
 	private void LoadSubMenu(BaseMenuItem aSender)
 	{
+		SoundManager.Instance.StartLobbyMusic ();
+
 		string nextMenu = aSender.SubMenuName;
 		m_previousMenu = m_currentMenu;
 		m_currentMenu = (MenuBase)Camera.main.GetComponent (nextMenu);

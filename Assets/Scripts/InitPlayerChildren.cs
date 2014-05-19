@@ -19,11 +19,7 @@ public class InitPlayerChildren : MonoBehaviour {
 		airTrigger.localPosition = Vector3.zero;
 		airTrigger.name = m_airTriggerPrefab.name;
 
-
 		airTrigger.GetComponent<LeafBlower>().setWhirlwind(whirlwind);
-
-
-
 
 	}
 

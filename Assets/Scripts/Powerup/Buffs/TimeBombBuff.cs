@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class TimeBombBuff : Buff {
 	//Design parameters
-	public const int BOMB_DURATION_MIN = 6;
-	public const int BOMB_DURATION_MAX = 10;
+	public const int BOMB_DURATION_MIN = 10;
+	public const int BOMB_DURATION_MAX = 20;
 	public const float STUN_DURATION = 1.5f;
 	public const float TRANSFER_COOLDOWN = 0.5f;
 
@@ -50,7 +50,7 @@ public class TimeBombBuff : Buff {
 			for (int i = 0; i < SyncMovement.s_syncMovements.Length; i++) {
 				if (SyncMovement.s_syncMovements[i] != null)
 				{
-					Debug.Log("SyncMovement: " + SyncMovement.s_syncMovements[i]);
+//					Debug.Log("SyncMovement: " + SyncMovement.s_syncMovements[i]);
 					if (SyncMovement.s_syncMovements[i].isLocal == false) {
 						Buff b = BuffManager.m_buffManagers[i].AddBuff(new TimeBombTargetBuff(BuffManager.m_buffManagers[i].gameObject));
 						m_targetBuffs.Add(b);
@@ -81,7 +81,7 @@ public class TimeBombBuff : Buff {
 		m_explosion.transform.position = m_playerRef.transform.position;
 		Destroy (m_explosion, m_explosion.particleSystem.duration);
 
-//		SoundManager.Instance.StartIngameMusic ();
+		SoundManager.Instance.StartIngameMusic ();
 		SoundManager.Instance.playOneShot (SoundManager.TIMEBOMB_EXPLOSION);
 	}
 
