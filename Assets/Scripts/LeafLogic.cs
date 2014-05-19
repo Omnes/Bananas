@@ -34,6 +34,8 @@ public class LeafLogic : MonoBehaviour {
 	private Transform m_transform;
 	private float m_startYPos = 0f;
 	private float m_randomStartOffset = 0;
+
+	public float m_maxConstraintRange = 10f;
 	
 	void Start () {
 		m_rotationModifier = Random.Range (-m_rotationModifierRange,m_rotationModifierRange);
@@ -83,13 +85,11 @@ public class LeafLogic : MonoBehaviour {
 
 		if(m_state == State.Drop){
 			if(moveTowards(m_endPosition)){
-//				m_transform.parent = null;
 				m_speed = m_baseSpeed;
 				m_state = State.OnGround;
 				collider.enabled = true;
 			}
 		}
-
 	}
 	//moves the transform towards the target position, returns true when it has reached the destination
 	bool moveTowards(Vector3 target){
@@ -106,6 +106,18 @@ public class LeafLogic : MonoBehaviour {
 			m_transform.position = target;
 			return true;
 		}
+	}
+
+//	bool isWithinConstraints(){
+//		return Vector3.Distance(m_transform.position,m_originalParent.position) < m_constraintRange;
+//	}
+
+	Vector3 getConstrainedPosition(Vector3 pos){
+		Vector3 delta = (pos - m_originalParent.position);
+		if(delta.magnitude > m_maxConstraintRange){
+			return delta.normalized * m_maxConstraintRange;
+		}
+		return pos;
 	}
 
 //	void FixedUpdate(){
@@ -128,7 +140,7 @@ public class LeafLogic : MonoBehaviour {
 
 	public void dropFromWhirlwind(Vector3 pos){
 		m_state = State.Drop;
-		m_endPosition = pos;
+		m_endPosition = getConstrainedPosition(pos);
 		m_toBeParent = null;
 		m_transform.parent = m_originalParent;
 	} 

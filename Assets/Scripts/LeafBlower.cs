@@ -43,7 +43,6 @@ public class LeafBlower : MonoBehaviour {
 		
 		m_blowSound = SoundManager.Instance.play(SoundManager.LEAFBLOWER);
 		m_playerRef = transform.parent;
-		
 	}
 	
 	void Update()

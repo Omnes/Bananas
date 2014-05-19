@@ -170,6 +170,7 @@ PlayerSettings:
   spritePackerPolicy: 
   scriptingDefineSymbols:
     1: 
+    4: FMOD_LIVEUPDATE
   metroPackageName: WayOfTheLeaf
   metroPackageLogo: 
   metroPackageVersion: 

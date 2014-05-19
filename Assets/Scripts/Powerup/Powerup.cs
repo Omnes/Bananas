@@ -21,7 +21,7 @@ public class Powerup : MonoBehaviour {
 
 	void Start() {
 //		m_rigidbody = transform.FindChild ("powerup_questionmark").rigidbody;
-		m_rigidbody = GetComponentInChildren<Rigidbody> ();
+		m_rigidbody = GetComponent<Rigidbody> ();
 //		Debug.Log ("Test: " + m_rigidbody);
 //		m_rigidbody = rigidbody;
 		m_transform = transform;

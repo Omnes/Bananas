@@ -96,6 +96,7 @@ MonoBehaviour:
   m_playerCircle: {fileID: 100000, guid: 0db5cf6edea4fa9479f74de0926c5bec, type: 2}
   m_bombExplosion: {fileID: 100000, guid: 654d2cd167f017048890b1acaf68804f, type: 2}
   m_EMP: {fileID: 100000, guid: a79a773766ff80145ac0b2fa9c007fde, type: 2}
+  m_EMPHit: {fileID: 100000, guid: 74eb5785c6333ea4b86bdf0012a4607a, type: 2}
   m_meshList:
   - {fileID: 100154, guid: 12be1562d5ffe06448f6625c1f0b3f8f, type: 2}
   - {fileID: 100202, guid: e818abe9127baa341a941a2b26eda229, type: 2}
