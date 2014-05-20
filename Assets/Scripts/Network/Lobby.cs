@@ -106,21 +106,6 @@ public class Lobby : MenuBase
 
 	public override void DoGUI(){
 
-		//back
-		if(LeanTween.isTweening(m_menuItems[0].LtRect) == false){
-			LeanTween.move(m_menuItems[0].LtRect, m_menuItems[0].ToPos, 5.0f).setEase(m_menuItems[0].LeanTweenType);
-		}
-
-		if(GUI.Button(m_menuItems[0].LtRect.rect, m_menuItems[0].Name))		//Hårdkodat för det "enda" elementet från Daniel
-		{
-			if(m_menuItems[0].OnClick != null)
-			{
-				m_menuItems[0].OnClick(m_menuItems[0]);
-			}
-		}
-
-
-
 			//### server not started ###
 		if(Network.peerType == NetworkPeerType.Disconnected){
 
@@ -202,6 +187,20 @@ public class Lobby : MenuBase
 //			
 //			GUILayout.EndVertical();
 //			GUILayout.EndArea();
+
+			//back
+			if(LeanTween.isTweening(m_menuItems[0].LtRect) == false){
+				LeanTween.move(m_menuItems[0].LtRect, m_menuItems[0].ToPos, 5.0f).setEase(m_menuItems[0].LeanTweenType);
+			}
+			
+			if(GUI.Button(m_menuItems[0].LtRect.rect, m_menuItems[0].Name))		//Hårdkodat för det "enda" elementet från Daniel
+			{
+				if(m_menuItems[0].OnClick != null)
+				{
+					m_menuItems[0].OnClick(m_menuItems[0]);
+				}
+			}
+
 
 		}
 

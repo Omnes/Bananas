@@ -27,11 +27,8 @@ public class SeaNet : MonoBehaviour {
 	public string m_sceneAfterWin = "MainMenuScene";
 	public string m_sceneStateAfterWin = "MainMenu";
 
-
-	//dessa två ska tas bort. ### ANVÄND EJ I SERIÖS SYFTE ###
-	public List<int> m_IDs;
-	public List<bool> m_isLocal;
-	public List<string> m_names;
+	public LobbyButton m_leaveButton;
+	public LobbyButton m_rematchButton;
 
 	public static bool isNull(){
 		return instance == null;
@@ -44,25 +41,23 @@ public class SeaNet : MonoBehaviour {
 		m_winstate = gameObject.AddComponent<Winstate>();
 		m_winstateAnimation = gameObject.AddComponent<WinstateAnimation>();
 
-
 		gameObject.AddComponent<NetworkView>();
 		gameObject.networkView.stateSynchronization = NetworkStateSynchronization.Off;
+
+		//knappar
+		Vector2 size = GUIMath.InchToPixels(new Vector2(1.5f, 0.8f));
+
+		Vector2 leaveButtonPos = new Vector2(Screen.width - size.x, Screen.height - size.y);
+		Vector2 rematchButtonPos = new Vector2(0, Screen.height - size.y);
+
+		m_leaveButton = new LobbyButton(leaveButtonPos.x, leaveButtonPos.y + 100, size.x, size.y,		"Leave Game", leaveButtonPos, 3.0f, LeanTweenType.easeOutElastic);
+		m_rematchButton = new LobbyButton(rematchButtonPos.x, rematchButtonPos.y + 100, size.x, size.y,	"Rematch", rematchButtonPos, 3.0f, LeanTweenType.easeOutElastic);
+
 	}
 
 
 	public void setConnectedPlayers(List<PlayerData> arr){
 		m_connectedPlayers = arr;
-	}
-
-	//TA BORT DENNA SEN; ENDAST TEST
-	public void testLookAtStuff(){
-		Debug.Log("playess still in game "+m_connectedPlayers.Count);
-
-		foreach(PlayerData e in m_connectedPlayers){
-			m_IDs.Add(e.m_id);
-			m_isLocal.Add (e.m_isLocal);
-			m_names.Add(e.m_name);
-		}
 	}
 
 	//get local player
@@ -109,14 +104,19 @@ public class SeaNet : MonoBehaviour {
 			Vector2 leaveButtonPos = new Vector2(Screen.width - size.x, Screen.height - size.y);
 			Vector2 rematchButtonPos = new Vector2(0, Screen.height - size.y);
 
+			m_leaveButton.move();
+			if(m_leaveButton.isClicked()){
 
-			if(GUI.Button(new Rect(leaveButtonPos.x, leaveButtonPos.y, size.x, size.y), "Leave game")){
+			//if(GUI.Button(new Rect(leaveButtonPos.x, leaveButtonPos.y, size.x, size.y), "Leave game")){
 				//load level
 				networkView.RPC("stopGameRPC", RPCMode.All, "MainMenuScene", "MainMenu");
 				//disconnect form game
 				disconnect();
 			}
-			if(GUI.Button(new Rect(rematchButtonPos.x, rematchButtonPos.y, size.x, size.y), "Rematch")){
+			m_rematchButton.move();
+			if(m_rematchButton.isClicked()){
+			
+			//if(GUI.Button(new Rect(rematchButtonPos.x, rematchButtonPos.y, size.x, size.y), "Rematch")){
 				//load level, menustate doesnt matter here
 				networkView.RPC("stopGameRPC", RPCMode.All, m_nextScene, "MainMenu");
 			}
@@ -137,6 +137,8 @@ public class SeaNet : MonoBehaviour {
 
 	[RPC]
 	private void stopGameRPC(string nextScene, string menuState){
+		m_leaveButton.resetButton();
+		m_rematchButton.resetButton();
 		//stops recieving of information over network
 //		Network.SetSendingEnabled(Network.player, 0, false);
 //		//stops messsages over network
