@@ -21,6 +21,9 @@ public class GUITouch : MonoBehaviour {
 		float heigth = m_quads[0].localScale.y;
 		m_quads[0].localPosition = new Vector3(-0.5f + width/2,-0.5f + heigth/2,m_quads[0].localPosition.z);
 		m_quads[1].localPosition = new Vector3(0.5f - width/2,-0.5f + heigth/2,m_quads[1].localPosition.z);
+		m_quads[0].renderer.material.color = new Color(1,1,1,0);
+		m_quads[1].renderer.material.color = new Color(1,1,1,0);
+		
 	}
 
 	public void Press(Side side){
