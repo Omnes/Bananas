@@ -44,4 +44,9 @@ public class BigLeafBlowerBuff : Buff {
 		airTrigger.particleSystem.emissionRate /= 2;
 		airTrigger.particleSystem.startLifetime /= 1.5f;
 	}
+
+	public override string ToString ()
+	{
+		return string.Format ("[BigLeafBlowerBuff], alive={0}]", alive);
+	}
 }

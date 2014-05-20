@@ -140,4 +140,9 @@ public class TimeBombBuff : Buff {
 	public bool CanTransfer() {
 		return (Time.time - m_timeCreated) > TRANSFER_COOLDOWN;
 	}
+
+	public override string ToString ()
+	{
+		return string.Format ("[TimeBombBuff], alive={0}]", alive);
+	}
 }

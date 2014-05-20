@@ -21,4 +21,9 @@ public class TimeBombTargetBuff : Buff {
 	{
 		Destroy (m_playerCircle);
 	}
+
+	public override string ToString ()
+	{
+		return string.Format ("[TimeBombTargetBuff], alive={0}]", alive);
+	}
 }

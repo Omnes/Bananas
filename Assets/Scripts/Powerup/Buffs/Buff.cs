@@ -17,6 +17,11 @@ public class Buff : UnityEngine.Object {
 	public bool alive{get { return m_alive; }}
 	public void kill() { m_alive = false; }
 
+	private static int ID = 0;
+	private static int GetUniqueID() {return ID++;}
+
+	public int uid;
+	
 	public Buff(GameObject playerRef)
 	{
 		m_playerRef = playerRef;
@@ -26,6 +31,8 @@ public class Buff : UnityEngine.Object {
 		m_period = 0.0f;
 		m_periodTimer = 0.0f;
 		m_timeCreated = Time.time;
+
+		uid = GetUniqueID ();
 	}
 
 	/**

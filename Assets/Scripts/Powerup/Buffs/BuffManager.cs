@@ -97,7 +97,10 @@ public class BuffManager : MonoBehaviour {
 	/**
 	 * Updates and removes buffs
 	 */
+	private static int FRAME = 0;
 	void Update () {
+		FRAME += 1;
+
 		if (Input.GetKeyDown(KeyCode.Q)) {
 			for (int i = 0; i < 2; i++) {
 				AddBuff( new StunBuff(gameObject, 1.0f) );
@@ -126,44 +129,35 @@ public class BuffManager : MonoBehaviour {
 			m_buffs[i].Update();
 		}
 
-		for (int i = 0; i < m_buffs.Count; i++) {
-			Buff buff = m_buffs[i];
-			if (buff.alive == false) {
-				buff.ExpireEvent();
-				m_deadBuff.Add(buff);
+		int buffLength = m_buffs.Count;
+		for (int i = 0; i < buffLength; i++) {
+//			Buff buff = m_buffs[i];
+			if (m_buffs[i].alive == false) {
+				Debug.Log("Expire: " + m_buffs[i].ToString() + " ID: " + m_buffs[i].uid);
+				foreach ( Buff b0 in m_buffs )
+					Debug.Log(b0.uid);
+				m_buffs[i].ExpireEvent();
+				m_deadBuff.Add(m_buffs[i]);
 			}
 		}
 
-		for (int i = 0; i < m_deadBuff.Count; i++) {
-			m_buffs.Remove(m_deadBuff[i]);
-			Destroy(m_deadBuff[i]);
+		int deadBuffLength = m_deadBuff.Count;
+		for (int i = 0; i < deadBuffLength; i++) {
+			Debug.Log( m_deadBuff[i].alive+ " " +  m_deadBuff[i].uid );
+//			m_buffs.Remove(m_deadBuff[i]);
+//			Destroy(m_deadBuff[i]);
+
+//			foreach (Buff b in m_buffs) {
+//			int length = m_buffs.Count;
+			for (int k = 0; k < m_buffs.Count; k++) {
+				if ( m_buffs[k].uid == m_deadBuff[i].uid) {
+					m_buffs.RemoveAt(k);
+					k--;
+				}
+			}
+
+			foreach ( Buff b0 in m_buffs )
+				Debug.Log(b0.uid);
 		}
-
-//		for (int i = 0; i < m_buffs.Count; i++) {
-//			Buff buff = m_buffs[i];
-//			if (buff.alive == false) {
-//				buff.ExpireEvent(); 
-//				m_buffs.RemoveAt(i);
-//				m_buffs.Remove(buff);
-//				Destroy(buff);
-//				i--;
-//			}
-//		}
-
-//		List<Buff> m_deadBuffs = new List<Buff>();
-//
-//		for (int i = 0; i < m_buffs.Count; i++) {
-//			if (m_buffs[i].alive == false) {
-//				m_deadBuffs.Add(m_buffs[i]);
-//			}
-//			else {
-//				m_buffs[i].Update();
-//			}
-//		}
-//		for (int i = 0; i < m_deadBuffs.Count; i++) {
-//			m_deadBuffs[i].ExpireEvent();
-//			m_buffs.Remove(m_deadBuffs[i]);
-//			Destroy(m_deadBuffs[i]);
-//		}
 	}
 }

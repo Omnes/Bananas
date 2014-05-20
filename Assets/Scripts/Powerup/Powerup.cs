@@ -12,15 +12,11 @@ public class Powerup : MonoBehaviour {
 	private static int GetUniqueID() {return ID++;}
 
 	private Rigidbody m_rigidbody;
-//	private Transform m_transform;
 
 	private bool m_hasBeenPickedUp = false;
 	
 	void Start() {
 		m_rigidbody = GetComponent<Rigidbody> ();
-//		Debug.Log ("Test: " + m_rigidbody);
-//		m_rigidbody = rigidbody;
-//		m_transform = transform;
 	}
 
 	void OnTriggerEnter(Collider col)
@@ -31,12 +27,11 @@ public class Powerup : MonoBehaviour {
 
 				PowerupManager.SynchronizePowerupGet (col.gameObject);
 
-				GameObject particles = Instantiate(Prefactory.prefab_powerupPickup,transform.position,Prefactory.prefab_powerupPickup.transform.localRotation) as GameObject;
-				Destroy(particles,particles.particleSystem.duration);
+				GameObject particles = Instantiate(Prefactory.prefab_powerupPickup, transform.position, Prefactory.prefab_powerupPickup.transform.localRotation) as GameObject;
+				Destroy(particles, particles.particleSystem.duration + particles.particleSystem.startLifetime);
 
-				PowerupManager.Remove(gameObject);
-				//Play animation
 				SoundManager.Instance.playOneShot (SoundManager.POWERUP_PICKUP);
+				PowerupManager.Remove(gameObject);
 			}
 	    }
 	}

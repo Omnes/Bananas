@@ -40,4 +40,9 @@ public class EMPBuff : Buff {
 	{
 		inputHub.UnStunLeafBlower ();
 	}
+
+	public override string ToString ()
+	{
+		return string.Format ("[EMPBuff], alive={0}]", alive);
+	}
 }

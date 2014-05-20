@@ -23,4 +23,9 @@ public class DizzyBuff : Buff {
 		}
 		m_playerRef.rigidbody.velocity *= interpolation;
 	}
+
+	public override string ToString ()
+	{
+		return string.Format ("[DizzyBuff], alive={0}]", alive);
+	}
 }
