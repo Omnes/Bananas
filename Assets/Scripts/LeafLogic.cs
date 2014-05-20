@@ -12,7 +12,7 @@ public class LeafLogic : MonoBehaviour {
 	public float m_maxSpeed = 15f;
 	private float m_speed = 0f;
 	public float m_accleleration  = 60f;
-	//public float m_rotationSpeed = 80f;
+	public float m_rotationSpeed = 80f;
 
 	public float m_moveAround = 0.35f;
 	public float m_spinSpeedInBlower = 1f;
@@ -34,6 +34,8 @@ public class LeafLogic : MonoBehaviour {
 	private Transform m_transform;
 	private float m_startYPos = 0f;
 	private float m_randomStartOffset = 0;
+
+	public float m_maxConstraintRange = 10f;
 	
 	void Start () {
 		m_rotationModifier = Random.Range (-m_rotationModifierRange,m_rotationModifierRange);
@@ -83,13 +85,11 @@ public class LeafLogic : MonoBehaviour {
 
 		if(m_state == State.Drop){
 			if(moveTowards(m_endPosition)){
-//				m_transform.parent = null;
 				m_speed = m_baseSpeed;
 				m_state = State.OnGround;
 				collider.enabled = true;
 			}
 		}
-
 	}
 	//moves the transform towards the target position, returns true when it has reached the destination
 	bool moveTowards(Vector3 target){
@@ -108,15 +108,27 @@ public class LeafLogic : MonoBehaviour {
 		}
 	}
 
-//	void FixedUpdate(){
-//		if(m_inBlower){
-//			Profiler.BeginSample("Rotate Leifs");
-////			Quaternion newAngle = Quaternion.Euler(m_transform.rotation + Vector3.forward * Time.deltaTime * m_rotationSpeed);
-////			m_rigidbody.MoveRotation(newAngle);
-//			m_transform.Rotate(Vector3.forward * Time.deltaTime * m_rotationSpeed * m_rotationModifier);
-//			Profiler.EndSample();
-//		}
+//	bool isWithinConstraints(){
+//		return Vector3.Distance(m_transform.position,m_originalParent.position) < m_constraintRange;
 //	}
+
+	Vector3 getConstrainedPosition(Vector3 pos){
+		Vector3 delta = (pos - m_originalParent.position);
+		if(delta.magnitude > m_maxConstraintRange){
+			return delta.normalized * m_maxConstraintRange;
+		}
+		return pos;
+	}
+
+	void FixedUpdate(){
+		if(m_state == State.InBlower){
+			Profiler.BeginSample("Rotate Leifs");
+//			Quaternion newAngle = Quaternion.Euler(m_transform.rotation + Vector3.forward * Time.deltaTime * m_rotationSpeed);
+//			m_rigidbody.MoveRotation(newAngle);
+			m_transform.Rotate(Vector3.forward * Time.deltaTime * m_rotationSpeed * m_rotationModifier);
+			Profiler.EndSample();
+		}
+	}
 
 	public void clean(){
 		m_transform.parent = m_originalParent;
@@ -128,7 +140,7 @@ public class LeafLogic : MonoBehaviour {
 
 	public void dropFromWhirlwind(Vector3 pos){
 		m_state = State.Drop;
-		m_endPosition = pos;
+		m_endPosition = getConstrainedPosition(pos);
 		m_toBeParent = null;
 		m_transform.parent = m_originalParent;
 	} 

@@ -26,7 +26,6 @@ public class MenuManager : MonoBehaviour
 				m_menuManagerInstance = mm.AddComponent<MenuManager>();
 				mm.name = "MenuManager";
 			}
-			Debug.Log(m_menuManagerInstance);
 			return m_menuManagerInstance;
 		}
 	}
@@ -36,7 +35,7 @@ public class MenuManager : MonoBehaviour
 		m_allMenus = new List<BaseMenuItem>();
 
 
-		addParentMenuItem ("StartGame", StartGame, "latest_Daniel");
+		addParentMenuItem ("StartGame", StartGame, "LemonPark");
 		addParentMenuItem ("Lobby", LoadSubMenu, "Lobby");
 		addParentMenuItem ("Main Menu", LoadSubMenu, "MainMenu");
 		addParentMenuItem ("Back", BackToPrev, "");
@@ -48,6 +47,7 @@ public class MenuManager : MonoBehaviour
 //		DontDestroyOnLoad (gameObject);
 		//if currentobject is not camera, change this line
 		m_currentMenu = (MenuBase) Camera.main.GetComponent(remoteMenu);
+		m_currentMenu.InitMenuItems ();
 	}
 
 	// Update is called once per frame
@@ -57,7 +57,6 @@ public class MenuManager : MonoBehaviour
 
 	void OnGUI()
 	{
-
 		m_currentMenu.DoGUI ();
 	}
 
@@ -79,19 +78,38 @@ public class MenuManager : MonoBehaviour
 
 	private void StartGame(BaseMenuItem aSender)
 	{
-		Application.LoadLevel (aSender.SubMenuName);
+		m_currentMenu = (MenuBase)Camera.main.GetComponent ("LoadingScreenMenu");
+		AsyncOperation async = Application.LoadLevelAsync (aSender.SubMenuName);
+//		StartCoroutine (LoadAsynch(aSender.SubMenuName));
+//		Application.LoadLevel (aSender.SubMenuName);
 	}
 	private void LoadSubMenu(BaseMenuItem aSender)
 	{
+		SoundManager.Instance.StartLobbyMusic ();
+
 		string nextMenu = aSender.SubMenuName;
 		m_previousMenu = m_currentMenu;
 		m_currentMenu = (MenuBase)Camera.main.GetComponent (nextMenu);
+		m_currentMenu.FirstTime = true;
+		m_currentMenu.InitMenuItems ();
 	}
 
 	private void BackToPrev(BaseMenuItem aSender)
 	{
 		m_currentMenu = m_previousMenu;
+		m_currentMenu.FirstTime = true;
+		m_currentMenu.InitMenuItems ();
 	}
+
+//	IEnumerator LoadAsynch(string aSceneName)
+//	{
+//		AsyncOperation async = Application.LoadLevelAsync (aSceneName);
+//		while(!async.isDone)
+//		{
+//			yield return null;
+//		}
+//	}
+
 
 //	public static void RemoteSetMenu(string aMenuName)
 //	{

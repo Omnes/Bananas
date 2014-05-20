@@ -15,6 +15,7 @@ public class StunBuff : Buff {
 
 	override public void InitEvent()
 	{
+//		Debug.Log ("STUN");
 		m_playerRef.rigidbody.velocity = Vector3.zero;
 		inputHub.StunMovement();
 		inputHub.StunLeafBlower ();
@@ -23,6 +24,7 @@ public class StunBuff : Buff {
 
 	override public void ExpireEvent()
 	{
+//		Debug.Log ("UNSTUN");
 		inputHub.UnStunMovement();
 		inputHub.UnStunLeafBlower ();
 	}

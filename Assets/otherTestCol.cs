@@ -39,63 +39,68 @@ public class otherTestCol : MonoBehaviour
 	{
 		if (m_cooldownTimer > COOLDOWN) {
 
-
-			if(other.gameObject.tag == "Player")
-			{
-				otherTestCol opponent = other.transform.GetComponent<otherTestCol>();
-			
+			if(other.gameObject.CompareTag("Player")){
 				if(Network.isServer){
+					otherTestCol opponent = other.transform.GetComponent<otherTestCol>();
+
 					m_otherMovLogic = other.gameObject.GetComponent<MovementLogic>();
 					m_myMovLogic = gameObject.GetComponent<MovementLogic> ();
-				}
-			
-				//The centerline between the two "circles" .. 
-				Vector3 cLine = other.transform.position - transform.position;
-
-				//Info about "my" player..
-				Vector3 myForwardVec = transform.forward;
-				float myAngleToCenter = Mathf.Abs (Vector3.Angle (cLine, myForwardVec));
 				
-				//Info about "opponent" player..
-				Vector3 oppForwardVec = opponent.transform.forward;
-				float oppAngleToCenter = Mathf.Abs (Vector3.Angle (cLine, oppForwardVec));
+			
+					//The centerline between the two "circles" .. 
+					Vector3 cLine = other.transform.position - transform.position;
 
-				if(opponent.getRigidVelocity() > getRigidVelocity() || myAngleToCenter > 45.0f || myAngleToCenter > (oppAngleToCenter - oppAngleMinusValue))
-				{
-					m_cooldownTimer = 0;
-					//Play tackle animation
-					m_playerAnim.tackleAnim(dizzyTime);
-	//				Vector3 basisVector = other.transform.position - transform.position;
-					cLine.Normalize();
+					//Info about "my" player..
+					Vector3 myForwardVec = transform.forward;
+					float myAngleToCenter = Mathf.Abs (Vector3.Angle (cLine, myForwardVec));
+					
+					//Info about "opponent" player..
+					Vector3 oppForwardVec = opponent.transform.forward;
+					float oppAngleToCenter = Mathf.Abs (Vector3.Angle (cLine, oppForwardVec));
 
-					Vector3 othersVel = opponent.getPreviosVelocity();
-					float x1 = Vector3.Dot(cLine, othersVel);
 
-					Vector3 othersXvel = cLine * x1;
-					Vector3 othersYvel = othersVel 	- othersXvel;
+					if(m_otherMovLogic.getRigidVelocity() > m_myMovLogic.getRigidVelocity() || myAngleToCenter > 45.0f || myAngleToCenter > (oppAngleToCenter - oppAngleMinusValue))
+					{
+						m_cooldownTimer = 0;
+						//Play tackle animation
+						m_playerAnim.tackleAnim(dizzyTime);
 
-					cLine *= -1.0f;
-					Vector3 myVel = getPreviosVelocity();
-					float x2 = Vector3.Dot(cLine, myVel);
+						cLine.Normalize();
 
-					Vector3 myXvel = cLine * x2;
-					Vector3 myYVel = myVel - myXvel;
+						//				MOVEMTNLOGIC
+					
 
-					Vector3 opponentsResultVel = myXvel + othersYvel;
-					Vector3 myResultVel = othersXvel + myYVel;
+						Vector3 othersVel = m_otherMovLogic.getRigidVelVect();
+						float x1 = Vector3.Dot(cLine, othersVel);
 
-					if(m_myMovLogic != null && m_otherMovLogic != null){
+						Vector3 othersXvel = cLine * x1;
+						Vector3 othersYvel = othersVel 	- othersXvel;
+
+						cLine *= -1.0f;
+
+						//			MOVEMENTLOGIC
+						Vector3 myVel = m_myMovLogic.getRigidVelVect();
+						float x2 = Vector3.Dot(cLine, myVel);
+
+						Vector3 myXvel = cLine * x2;
+						Vector3 myYVel = myVel - myXvel;
+
+						Vector3 opponentsResultVel = myXvel + othersYvel;
+						Vector3 myResultVel = othersXvel + myYVel;
+
 						m_myMovLogic.setTackled(myResultVel);
 						m_otherMovLogic.setTackled(opponentsResultVel);
 						StartCoroutine("startTackle", dizzyTime);
 						//m_tackled = true;
-					}
+						
 
-					//Add buffs
-					m_buffManager.AddBuff(new StunBuff(gameObject, stunTime));
-					m_buffManager.AddBuff(new DizzyBuff(gameObject, dizzyTime));
-	//				other.gameObject.GetComponent<BuffManager>().AddBuff(new StunBuff(gameObject, stunTime));
+						//Add buffs
+						//m_buffManager.AddBuff(new StunBuff(gameObject, stunTime));
+						m_buffManager.AddBuff(new DizzyBuff(gameObject, dizzyTime));
+		//				other.gameObject.GetComponent<BuffManager>().AddBuff(new StunBuff(gameObject, stunTime));
+					}
 				}
+
 
 				//Handle TimeBomb powerup
 				if (m_buffManager.HasBuff(typeof(TimeBombBuff))){
@@ -112,13 +117,13 @@ public class otherTestCol : MonoBehaviour
 	}
 
 	//moved here from movementlogic
-	public Vector3 getPreviosVelocity(){
-		return rigidbody.velocity;
-	}
-
-	public float getRigidVelocity(){
-		return rigidbody.velocity.sqrMagnitude;
-	}
+//	public Vector3 getPreviosVelocity(){
+//		return rigidbody.velocity;
+//	}
+//
+//	public float getRigidVelocity(){
+//		return rigidbody.velocity.sqrMagnitude;
+//	}
 
 	IEnumerator startTackle(float dizzyTime) {
 		yield return new WaitForSeconds(dizzyTime);

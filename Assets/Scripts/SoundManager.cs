@@ -18,8 +18,20 @@ public class SoundManager : MonoBehaviour {
 	public const string COUNTDOWN = "event:/VO/VO_Countdown";
 	public const string LEAFBLOWER_WARCRY = "event:/VO/SvenskVO/VO_Warcry";
 
+	private string m_currentMusic = "";
+	private FMOD.Studio.EventInstance m_music;	//TODO: Byt ut till ett track per musik så att man inte kör destroy på ljuden (blir hack då)
+//	private FMOD.Studio.EventInstance m_music_menu;
+//	private FMOD.Studio.EventInstance m_musicLevel1;
+//	private FMOD.Studio.EventInstance m_musicLevel2;
+	private FMOD.Studio.ParameterInstance m_musicParam1;
+	private FMOD.Studio.ParameterInstance m_musicParam2;
 
-	private static FMOD.Studio.EventInstance m_music;
+	//TEST
+	private FMOD.Studio.MixerStrip m_masterBus;
+//	private FMOD.Studio.MixerStrip m_musicBus;
+//	private FMOD.Studio.MixerStrip m_SFXBus;
+	private FMOD.Studio.System m_system;
+	public bool m_paused = false;
 
 	private static SoundManager instance;
 	public static bool IsNull() {return instance == null;}
@@ -32,9 +44,27 @@ public class SoundManager : MonoBehaviour {
 				instance = go.AddComponent<SoundManager>();
 				go.name = "Sound Manager";
 				DontDestroyOnLoad(go);
+
+				instance.InitChannels();
 			}
 			return instance;
 		}
+	}
+
+	private void InitChannels () {
+		m_system = FMOD_StudioSystem.instance.System;
+		
+		FMOD.GUID masterGuid = new FMOD.GUID();
+		m_system.lookupID ("bus:/", out masterGuid);
+		m_system.getMixerStrip (masterGuid, FMOD.Studio.LOADING_MODE.BEGIN_NOW, out m_masterBus);
+		
+//		FMOD.GUID musicGuid = new FMOD.GUID();
+//		m_system.lookupID ("bus:/Music", out musicGuid);
+//		m_system.getMixerStrip (musicGuid, FMOD.Studio.LOADING_MODE.BEGIN_NOW, out m_musicBus);
+//		
+//		FMOD.GUID SFXguid = new FMOD.GUID();
+//		m_system.lookupID ("bus:/SFX", out SFXguid);
+//		m_system.getMixerStrip (SFXguid, FMOD.Studio.LOADING_MODE.BEGIN_NOW, out m_SFXBus);
 	}
 
 	public List<FMOD.Studio.EventInstance> m_sounds = new List<FMOD.Studio.EventInstance>();
@@ -94,82 +124,65 @@ public class SoundManager : MonoBehaviour {
 
 	public void DestroySound(FMOD.Studio.EventInstance sound)
 	{
-		sound.stop ();
-		sound.release ();
-		m_sounds.Remove (sound);
-	}
-	
-	public static void Mute() {
-		Debug.Log ("Mute");
-//		FMOD_Listener listener = Camera.main.GetComponent<FMOD_Listener> ();
-//		listener.audio.mute = true;
+		if (sound != null) {
+			sound.stop ();
+			sound.release ();
+			m_sounds.Remove (sound);
+		}
 	}
 
-	public static void Unmute() {
-		Debug.Log ("Unmute");
-//		FMOD_Listener listener = Camera.main.GetComponent<FMOD_Listener> ();
-//		listener.audio.mute = false;
+	public void ToggleMute() {
+		m_paused = !m_paused;
+		m_masterBus.setPaused (m_paused);
 	}
 
-	public static void ToggleMute() {
-		Debug.Log ("Toggle mute");
-//		FMOD_Listener listener = Camera.main.GetComponent<FMOD_Listener> ();
-//		listener.audio.mute = !listener.audio.mute;
-//		listener.enabled = !listener.enabled;
+	public void StartMenuMusic() {
+		if (m_currentMusic != MUSIC_MENU) {
+			m_currentMusic = MUSIC_MENU;
+			DestroySound (m_music);
+			m_music = play (MUSIC_MENU);
+			m_music.getParameter("Menu", out m_musicParam1);
+		}
+		m_musicParam1.setValue (0);
 	}
 
-	//MUSIC
-//	public static FMOD.Studio.EventInstance getMusic() {
-//		return m_music;
-//	}
+	public void StartLobbyMusic() {
+		StartMenuMusic ();
+		m_musicParam1.setValue (2);
+	}
 
-//	FMOD.Studio.ParameterInstance menuParam;
-//	static FMOD.Studio.ParameterInstance lobbyParam;
-//	static FMOD.Studio.ParameterInstance ingameParam;
-//	static FMOD.Studio.ParameterInstance bombParam;
-//	static FMOD.Studio.ParameterInstance winParam;
-//	public static void initMusic() {
-//		if (m_music == null) {
-//			m_music = Instance.play(MUSIC);
-//			m_music.getParameter("Menu", out lobbyParam);
-//			m_music.getParameter("Ingame", out ingameParam);
-//			m_music.getParameter("Bomb", out bombParam);
-//			m_music.getParameter("Win", out winParam);
-//		}
-//	}
+	public void StartIngameMusic() {
 
-//	public void StartMenuMusic() {
-//		lobbyParam.setValue (0);
-//		ingameParam.setValue (0);
-//		bombParam.setValue (0);
-//		winParam.setValue (0);
-//	}
-//
-//	public void StartLobbyMusic() {
-//		lobbyParam.setValue (2);
-//		ingameParam.setValue (0);
-//		bombParam.setValue (0);
-//		winParam.setValue (0);
-//	}
-//
-//	public void StartIngameMusic() {
-//		lobbyParam.setValue (2);
-//		ingameParam.setValue (1);
-//		bombParam.setValue (0);
-//		winParam.setValue (0);
-//	}
-//
-//	public void StartBombMusic() {
-//		lobbyParam.setValue (0);
-//		ingameParam.setValue (1);
-//		bombParam.setValue (1);
-//		winParam.setValue (0);
-//	}
-//
-//	public void StartWinuMusic() {
-//		lobbyParam.setValue (0);
-//		ingameParam.setValue (0);
-//		bombParam.setValue (0);
-//		winParam.setValue (1);
-//	}
+		if (m_currentMusic != MUSIC_LEVEL1) {
+			m_currentMusic = MUSIC_LEVEL1;
+			DestroySound (m_music);
+
+			int rand = Random.Range(0, 2);
+			if (rand == 0) {
+				m_music = play (MUSIC_LEVEL1);
+			}
+			else {
+				m_music = play (MUSIC_LEVEL2);
+			}
+			m_music.getParameter("Win", out m_musicParam1);
+			m_music.getParameter("Bomb", out m_musicParam2);
+		}
+		m_musicParam1.setValue (0);
+		m_musicParam2.setValue (0);
+	}
+
+	public void StartBombMusic() {
+		StartIngameMusic ();
+		m_musicParam1.setValue (0);
+		m_musicParam2.setValue (1);
+	}
+
+	public void StartWinMusic() {
+		m_musicParam1.setValue (1);
+		m_musicParam2.setValue (0);
+	}
+
+	public void ResetMusic() {
+		m_currentMusic = "";
+	}
 }

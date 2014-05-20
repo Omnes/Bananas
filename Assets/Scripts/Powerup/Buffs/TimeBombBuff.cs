@@ -4,8 +4,9 @@ using System.Collections.Generic;
 
 public class TimeBombBuff : Buff {
 	//Design parameters
-	public const int BOMB_DURATION_MIN = 6;
-	public const int BOMB_DURATION_MAX = 10;
+	public const int BOMB_DURATION_MIN = 12;
+	public const int BOMB_DURATION_MAX = 12;
+	
 	public const float STUN_DURATION = 1.5f;
 	public const float TRANSFER_COOLDOWN = 0.5f;
 
@@ -21,9 +22,8 @@ public class TimeBombBuff : Buff {
 	SyncMovement m_syncMovement;
 	private bool m_isLocal;
 
-	private List<Buff> m_targetBuffs = new List<Buff>();
-
-	//TODO: Lägg till TimeBombBuffTarget i en lista och ta bort dem ur den istället för som det är nu
+//	private List<Buff> m_targetBuffs = new List<Buff>();
+	
 	public TimeBombBuff(GameObject playerRef, float duration):base(playerRef)
 	{
 		m_duration = duration;
@@ -47,23 +47,23 @@ public class TimeBombBuff : Buff {
 			m_playerCircle.transform.localPosition = new Vector3(0.0f, -1.0f, 0.0f);
 			UpdateColor ();
 
-			for (int i = 0; i < SyncMovement.s_syncMovements.Length; i++) {
-				if (SyncMovement.s_syncMovements[i] != null)
-				{
-					Debug.Log("SyncMovement: " + SyncMovement.s_syncMovements[i]);
-					if (SyncMovement.s_syncMovements[i].isLocal == false) {
-						Buff b = BuffManager.m_buffManagers[i].AddBuff(new TimeBombTargetBuff(BuffManager.m_buffManagers[i].gameObject));
-						m_targetBuffs.Add(b);
-					}
-				}
-			}
+//			for (int i = 0; i < SyncMovement.s_syncMovements.Length; i++) {
+//				if (SyncMovement.s_syncMovements[i] != null)
+//				{
+//					Debug.Log("SyncMovement: " + SyncMovement.s_syncMovements[i]);
+//					if (SyncMovement.s_syncMovements[i].isLocal == false) {
+//						Buff b = BuffManager.m_buffManagers[i].AddBuff(new TimeBombTargetBuff(BuffManager.m_buffManagers[i].gameObject));
+//						m_targetBuffs.Add(b);
+//					}
+//				}
+//			}
 		}
 	}
 
 	override public void PeriodicEvent()
 	{
 		SoundManager.Instance.playOneShot (SoundManager.TIMEBOMB_TICK);
-		if (m_isLocal) {
+		if (m_playerCircle != null) {
 			UpdateColor ();
 		}
 	}
@@ -77,11 +77,10 @@ public class TimeBombBuff : Buff {
 		BuffManager buffManager = m_playerRef.GetComponent<BuffManager> ();
 		buffManager.AddBuff(new StunBuff(m_playerRef, STUN_DURATION));
 
-		m_explosion = Instantiate (Prefactory.prefab_bombExplosion) as GameObject;
-		m_explosion.transform.position = m_playerRef.transform.position;
-		Destroy (m_explosion, m_explosion.particleSystem.duration);
+		m_explosion = Instantiate (Prefactory.prefab_bombExplosion,m_playerRef.transform.position,Quaternion.identity) as GameObject;
+		Destroy (m_explosion, ExplosionUVAnimator.DURATION);
 
-//		SoundManager.Instance.StartIngameMusic ();
+		SoundManager.Instance.StartIngameMusic ();
 		SoundManager.Instance.playOneShot (SoundManager.TIMEBOMB_EXPLOSION);
 	}
 
@@ -91,14 +90,26 @@ public class TimeBombBuff : Buff {
 	}
 
 	private void RemoveObjects() {
-		Destroy (m_bomb);
-		Destroy (m_playerCircle);
-
-		for (int i = 0; i < SyncMovement.s_syncMovements.Length; i++) {
-			if (BuffManager.m_buffManagers[i] != null) {
-				BuffManager.m_buffManagers[i].RemoveBuff(typeof(TimeBombTargetBuff));
-			}
+		if (m_bomb != null) {
+			Destroy (m_bomb);
+		} else {
+			Debug.Log("SOMETHING WENT TERRIBLY WRONG 1");
 		}
+		if (m_playerCircle != null) {
+			Destroy (m_playerCircle);
+		} else {
+			Debug.Log("SOMETHING WENT TERRIBLY WRONG 2");
+		}
+
+		//Ta inte bort saker i expire!
+//		for (int i = 0; i < SyncMovement.s_syncMovements.Length; i++) {
+//			if (BuffManager.m_buffManagers[i] != null) {
+//				if (BuffManager.m_buffManagers[i].HasBuff(typeof(TimeBombTargetBuff))) {
+//					BuffManager.m_buffManagers[i].GetBuff(typeof(TimeBombTargetBuff)).kill();
+//					BuffManager.m_buffManagers[i].RemoveBuff(typeof(TimeBombTargetBuff));
+//				}
+//			}
+//		}
 	}
 
 	/**

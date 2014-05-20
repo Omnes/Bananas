@@ -11,20 +11,13 @@ public class LobbyMenu : MenuBase
 	{
 		instance = MenuManager.Instance;
 		m_menuItems = new List<BaseMenuItem> ();
-		m_menuItems = new List<BaseMenuItem> ();
-		m_buttonRects = new List<LTRect> ();
-		m_centers = new List<Vector2> ();
 
 		addMenuItem (instance.getMenuItem (MenuManager.START_GAME));
 		addMenuItem (instance.getMenuItem (MenuManager.BACK_TO_PREV));
-
-		float top = 100.0f;
-		for (int i = 0; i < m_menuItems.Count; i++) 
-		{
-			m_buttonRects.Add (new LTRect (-300.0f, top, 300.0f, 30.0f));
-			m_centers.Add(new Vector2(300.0f, top));
-			top += 30.0f;
-		}
-
+	}
+	public override void InitMenuItems()
+	{
+		AdjustMenuItem (m_menuItems [0], new LTRect (-300.0f, 100.0f, 300.0f, 30.0f), new Vector2 (400.0f, 100.0f));
+		AdjustMenuItem (m_menuItems [1], new LTRect (-300.0f, 150.0f, 300.0f, 30.0f), new Vector2 (400.0f, 200.0f));
 	}
 }

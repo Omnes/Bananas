@@ -4,7 +4,7 @@ using System.Collections;
 /**
  * Base class for buffs
  */
-public class Buff : Object {
+public class Buff : UnityEngine.Object {
 	public GameObject m_playerRef;
 	public float m_duration;
 	public float m_durationTimer;
@@ -15,6 +15,7 @@ public class Buff : Object {
 
 	private bool m_alive;
 	public bool alive{get { return m_alive; }}
+	public void kill() { m_alive = false; }
 
 	public Buff(GameObject playerRef)
 	{

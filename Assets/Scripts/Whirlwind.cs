@@ -9,11 +9,14 @@ public class Whirlwind : MonoBehaviour {
 	private InputHub m_input;
 	private Rigidbody m_rigidbody;
 	private Transform m_transform;
+	private Transform m_parent;
 	// Use this for initialization
 	void Start () {
 		m_rigidbody = rigidbody;
 		m_transform = transform;
 		m_input = m_transform.parent.GetComponent<InputHub>();
+		m_parent = m_transform.parent;
+		m_transform.localScale = Vector3.one; //batching breaks if this line isnt here
 	}
 
 	void Update()
