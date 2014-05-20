@@ -90,7 +90,8 @@ public class SeaNet : MonoBehaviour {
 	}
 
 	public void startGame(){
-		m_winstate.gameStart();
+//		m_winstate.gameStart();
+		m_winstate.StartGameTimer();
 	}
 
 	public void setMaxTime(int maxTime){

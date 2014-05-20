@@ -6,6 +6,7 @@ public class GUIControl : MonoBehaviour {
 	private Camera m_camera;
 //	public TouchInput m_input;
 	public static int DEFAULT_DPI = 96; // 96 for computers and 200-300 ish for phones
+	public GUIStyle m_muteButtonStyle;
 	
 	public void initiateGUI(TouchInput input){
 //		m_input = input;
@@ -44,13 +45,13 @@ public class GUIControl : MonoBehaviour {
 	private const float PADDING = 10;
 	void OnGUI() {
 		if (SoundManager.Instance.m_paused == false) {
-			if(GUI.Button(new Rect(Screen.width - (WIDTH + PADDING), PADDING, WIDTH, HEIGHT), Prefactory.texture_muteButton))
+			if(GUI.Button(new Rect(Screen.width - (WIDTH + PADDING), PADDING, WIDTH, HEIGHT), Prefactory.texture_muteButton,m_muteButtonStyle))
 			{
 				SoundManager.Instance.ToggleMute();
 			}
 		}
 		else {
-			if(GUI.Button(new Rect(Screen.width - (WIDTH + PADDING), PADDING, WIDTH, HEIGHT), Prefactory.texture_muteButton2))
+			if(GUI.Button(new Rect(Screen.width - (WIDTH + PADDING), PADDING, WIDTH, HEIGHT), Prefactory.texture_muteButton2,m_muteButtonStyle))
 			{
 				SoundManager.Instance.ToggleMute();
 			}
