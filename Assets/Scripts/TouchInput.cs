@@ -102,8 +102,10 @@ public class TouchInput : InputMetod {
 		//calcluate the movement stuff
 		if(m_rightArea.Contains(pos)){ //check which half of the screen the input is
 			m_currentInput = new Vector2(1f,0);
+			GUITouch.s_lazyInstance.Press(GUITouch.Side.Rigth);
 		}else if(m_leftArea.Contains(pos)){
 			m_currentInput = new Vector2(0,1f);
+			GUITouch.s_lazyInstance.Press(GUITouch.Side.Left);
 		}
 	}
 	

@@ -12,7 +12,7 @@ public class LeafLogic : MonoBehaviour {
 	public float m_maxSpeed = 15f;
 	private float m_speed = 0f;
 	public float m_accleleration  = 60f;
-	//public float m_rotationSpeed = 80f;
+	public float m_rotationSpeed = 80f;
 
 	public float m_moveAround = 0.35f;
 	public float m_spinSpeedInBlower = 1f;
@@ -120,15 +120,15 @@ public class LeafLogic : MonoBehaviour {
 		return pos;
 	}
 
-//	void FixedUpdate(){
-//		if(m_inBlower){
-//			Profiler.BeginSample("Rotate Leifs");
-////			Quaternion newAngle = Quaternion.Euler(m_transform.rotation + Vector3.forward * Time.deltaTime * m_rotationSpeed);
-////			m_rigidbody.MoveRotation(newAngle);
-//			m_transform.Rotate(Vector3.forward * Time.deltaTime * m_rotationSpeed * m_rotationModifier);
-//			Profiler.EndSample();
-//		}
-//	}
+	void FixedUpdate(){
+		if(m_state == State.InBlower){
+			Profiler.BeginSample("Rotate Leifs");
+//			Quaternion newAngle = Quaternion.Euler(m_transform.rotation + Vector3.forward * Time.deltaTime * m_rotationSpeed);
+//			m_rigidbody.MoveRotation(newAngle);
+			m_transform.Rotate(Vector3.forward * Time.deltaTime * m_rotationSpeed * m_rotationModifier);
+			Profiler.EndSample();
+		}
+	}
 
 	public void clean(){
 		m_transform.parent = m_originalParent;
