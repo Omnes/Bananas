@@ -39,7 +39,7 @@ public class MenuManager : MonoBehaviour
 		addParentMenuItem ("Lobby", LoadSubMenu, "Lobby");
 		addParentMenuItem ("Main Menu", LoadSubMenu, "MainMenu");
 		addParentMenuItem ("Back", BackToPrev, "");
-		addParentMenuItem ("CharSelect", LoadSubMenu, "CharacterSelectionMenu");
+
 	}
 	// Use this for initialization
 	void Start () 
@@ -75,7 +75,6 @@ public class MenuManager : MonoBehaviour
 	}
 
 
-
 	private void StartGame(BaseMenuItem aSender)
 	{
 		m_currentMenu = (MenuBase)Camera.main.GetComponent ("LoadingScreenMenu");
@@ -100,6 +99,7 @@ public class MenuManager : MonoBehaviour
 		m_currentMenu.FirstTime = true;
 		m_currentMenu.InitMenuItems ();
 	}
+
 
 //	IEnumerator LoadAsynch(string aSceneName)
 //	{
