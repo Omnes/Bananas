@@ -26,6 +26,7 @@ public class MainMenu : MenuBase
 	{
 		AdjustMenuItem (m_menuItems [0], new LTRect (-200.0f, 100.0f, size.x, size.y), new Vector2 (centerX, centerY), LeanTweenType.easeOutElastic);
 		AdjustMenuItem (m_menuItems [1], new LTRect (-200.0f, 150.0f, size.x, size.y), new Vector2 (centerX, centerY + size.y));
+		SoundManager.Instance.StartMenuMusic ();
 
 	}
 }
