@@ -4,43 +4,27 @@ using System.Collections;
 public class Whirlwind : MonoBehaviour {
 
 	public float m_rotationSpeed = 120f;
-	public float m_slideToSideWhenTurnLength = 0.5f;
+	public float m_slideBehindScale = 0.25f;
+	public Transform m_target;
 
-	private InputHub m_input;
 	private Rigidbody m_rigidbody;
 	private Transform m_transform;
-	private Transform m_parent;
+
 	// Use this for initialization
 	void Start () {
 		m_rigidbody = rigidbody;
 		m_transform = transform;
-		m_input = m_transform.parent.GetComponent<InputHub>();
-		m_parent = m_transform.parent;
+		m_transform.localScale = Vector3.one; //batching breaks if this line isnt here
 	}
 
 	void Update()
 	{
-		Vector2 input = m_input.getCurrentInputVector();
+
+		Vector3 targetPos = m_target.position + m_target.forward * 3;
+
 		Vector3 pos = m_transform.localPosition;
 
-		if(input.y == 0f && pos.x > - m_slideToSideWhenTurnLength)
-		{
-			pos.x -= 0.1f;
-		}
-		else if(input.x == 0f &&  pos.x < m_slideToSideWhenTurnLength)
-		{
-			pos.x += 0.1f;
-		}
-		else if(input.x == 1f && input.y == 1f && pos.x != 0f)
-		{
-			if(pos.x > 0f)
-				pos.x -= 0.1f;
-			else if(pos.x < 0f)
-				pos.x += 0.1f;
-
-			if(pos.x < 0.11f && pos.x > -0.11f)
-				pos.x = 0f;
-		}
+		pos += ((targetPos - pos) * m_slideBehindScale);
 
 		m_transform.localPosition = pos;
 	}
