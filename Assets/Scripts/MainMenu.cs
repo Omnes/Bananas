@@ -20,7 +20,7 @@ public class MainMenu : MenuBase
 
 		//Adding item to "MY"(this) menu .. 
 		addMenuItem(instance.getMenuItem(MenuManager.TO_LOBBY));
-		addMenuItem(instance.getMenuItem (MenuManager.START_GAME));
+//		addMenuItem(instance.getMenuItem (MenuManager.START_GAME));
 	}
 	public override void InitMenuItems()
 	{

@@ -8,7 +8,7 @@ public class TimeBombBuff : Buff {
 	public const int BOMB_DURATION_MAX = 12;
 	
 	public const float STUN_DURATION = 1.5f;
-	public const float TRANSFER_COOLDOWN = 0.5f;
+	public const float TRANSFER_COOLDOWN = 1f;
 
 	private static Color START_COLOR = new Color(1, 1, 0);
 	private static Color END_COLOR = new Color(1, 0, 0);
