@@ -103,13 +103,13 @@ public class otherTestCol : MonoBehaviour
 
 
 				//Handle TimeBomb powerup
-				if (m_buffManager.HasBuff(typeof(TimeBombBuff))){
-					TimeBombBuff timeBombBuff = m_buffManager.GetBuff(typeof(TimeBombBuff)) as TimeBombBuff;
+				if (m_buffManager.HasBuff((int)Buff.Type.TIME_BOMB)){
+					TimeBombBuff timeBombBuff = m_buffManager.GetBuff((int)Buff.Type.TIME_BOMB) as TimeBombBuff;
 					if (timeBombBuff.CanTransfer()) {
 						BuffManager othersBuffManager = other.gameObject.GetComponent<BuffManager> ();
 						TimeBombBuff newTimeBombBuff = othersBuffManager.AddBuff(new TimeBombBuff(other.gameObject, timeBombBuff.m_duration)) as TimeBombBuff;
 						newTimeBombBuff.TransferUpdate(timeBombBuff.m_durationTimer);
-						m_buffManager.RemoveBuff(timeBombBuff);
+						m_buffManager.RemoveBuff((int)Buff.Type.TIME_BOMB);
 					}
 				}
 			}

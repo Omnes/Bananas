@@ -26,4 +26,9 @@ public class TimeBombTargetBuff : Buff {
 	{
 		return string.Format ("[TimeBombTargetBuff], alive={0}]", alive);
 	}
+
+	public override int GetType ()
+	{
+		return (int)Buff.Type.TIME_BOMB_TARGET;
+	}
 }

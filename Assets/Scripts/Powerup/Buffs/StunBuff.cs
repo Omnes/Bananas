@@ -33,4 +33,9 @@ public class StunBuff : Buff {
 	{
 		return string.Format ("[StunBuff], alive={0}]", alive);
 	}
+
+	public override int GetType ()
+	{
+		return (int)Buff.Type.STUN;
+	}
 }

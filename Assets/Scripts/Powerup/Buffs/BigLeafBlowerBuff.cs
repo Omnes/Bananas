@@ -49,4 +49,9 @@ public class BigLeafBlowerBuff : Buff {
 	{
 		return string.Format ("[BigLeafBlowerBuff], alive={0}]", alive);
 	}
+
+	public override int GetType ()
+	{
+		return (int)Buff.Type.BIG_LEAF_BLOWER;
+	}
 }

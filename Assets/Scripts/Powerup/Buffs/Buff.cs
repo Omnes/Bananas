@@ -1,11 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+
 /**
  * Base class for buffs
  */
 public class Buff : UnityEngine.Object {
+	public enum Type {
+		BIG_LEAF_BLOWER,
+		DIZZY,
+		EMP,
+		STUN,
+		TIME_BOMB,
+		TIME_BOMB_TARGET
+	}
+
 	public GameObject m_playerRef;
+
 	public float m_duration;
 	public float m_durationTimer;
 	public float m_timeCreated;
@@ -17,10 +29,9 @@ public class Buff : UnityEngine.Object {
 	public bool alive{get { return m_alive; }}
 	public void kill() { m_alive = false; }
 
+	public int uid = -1;
 	private static int ID = 0;
 	private static int GetUniqueID() {return ID++;}
-
-	public int uid;
 	
 	public Buff(GameObject playerRef)
 	{
@@ -99,6 +110,11 @@ public class Buff : UnityEngine.Object {
 	public override string ToString ()
 	{
 		return string.Format ("[Buff: durationTimer={0}, alive={1}]", m_durationTimer, alive);
+	}
+
+	virtual public int GetType() {
+		Debug.LogError ("OVERRIDE THIS FUNCTION!");
+		return -1;
 	}
 
 }

@@ -32,15 +32,26 @@ public class BuffManager : MonoBehaviour {
 	/**
 	 * Removes a buff (without executing its ExpireEvent)
 	 */
-	public bool RemoveBuff(Buff buff) {
-		if (m_buffs.Contains(buff)) {
-			buff.RemoveEvent ();
-			m_buffs.Remove (buff);
-			Destroy(buff);
-			return true;
+	public bool RemoveBuff(int buffType) {
+		for (int i = 0; i < m_buffs.Count; i++) {
+			if (m_buffs[i].GetType() == buffType && m_buffs[i].alive) {
+				m_buffs[i].RemoveEvent();
+				m_buffs.RemoveAt (i);
+				Destroy(m_buffs[i]);
+				return true;
+			}
 		}
 		return false;
 	}
+//	public bool RemoveBuff(Buff buff) {
+//		if (m_buffs.Contains(buff)) {
+//			buff.RemoveEvent ();
+//			m_buffs.Remove (buff);
+//			Destroy(buff);
+//			return true;
+//		}
+//		return false;
+//	}
 
 	/**
 	 * Removes the first buff of the specified type (without executing its ExpireEvent)
@@ -60,14 +71,23 @@ public class BuffManager : MonoBehaviour {
 	/**
 	 * Find a buff of a specific type (if it exists) and return it
 	 */
-	public Buff GetBuff(Type buffType) {
-		foreach (Buff buff in m_buffs) {
-			if (buff.GetType() == buffType && buff.alive) {
-				return buff;
+	public Buff GetBuff(int buffType) {
+		for (int i = 0; i < m_buffs.Count; i++) {
+			if (m_buffs[i].GetType() == buffType && m_buffs[i].alive) {
+				return m_buffs[i];
 			}
 		}
 		return null;
 	}
+
+//	public Buff GetBuff(Type buffType) {
+//		foreach (Buff buff in m_buffs) {
+//			if (buff.GetType() == buffType && buff.alive) {
+//				return buff;
+//			}
+//		}
+//		return null;
+//	}
 
 	/**
 	 * Find a buff of a specific type (if it exists) and return it
@@ -85,22 +105,27 @@ public class BuffManager : MonoBehaviour {
 	/**
 	 * Returns true if the manager contains a buff of the specified type
 	 */
-	public bool HasBuff(Type buffType) {
-		foreach (Buff buff in m_buffs) {
-			if (buff.GetType() == buffType && buff.alive) {
+	public bool HasBuff(int buffType) {
+		for (int i = 0; i < m_buffs.Count; i++) {
+			if (m_buffs[i].GetType() == buffType && m_buffs[i].alive) {
 				return true;
 			}
 		}
 		return false;
 	}
+//	public bool HasBuff(Type buffType) {
+//		foreach (Buff buff in m_buffs) {
+//			if (buff.GetType() == buffType && buff.alive) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 
 	/**
 	 * Updates and removes buffs
 	 */
-	private static int FRAME = 0;
 	void Update () {
-		FRAME += 1;
-
 		if (Input.GetKeyDown(KeyCode.Q)) {
 			for (int i = 0; i < 2; i++) {
 				AddBuff( new StunBuff(gameObject, 1.0f) );
@@ -131,11 +156,7 @@ public class BuffManager : MonoBehaviour {
 
 		int buffLength = m_buffs.Count;
 		for (int i = 0; i < buffLength; i++) {
-//			Buff buff = m_buffs[i];
 			if (m_buffs[i].alive == false) {
-				Debug.Log("Expire: " + m_buffs[i].ToString() + " ID: " + m_buffs[i].uid);
-				foreach ( Buff b0 in m_buffs )
-					Debug.Log(b0.uid);
 				m_buffs[i].ExpireEvent();
 				m_deadBuff.Add(m_buffs[i]);
 			}
@@ -143,21 +164,12 @@ public class BuffManager : MonoBehaviour {
 
 		int deadBuffLength = m_deadBuff.Count;
 		for (int i = 0; i < deadBuffLength; i++) {
-			Debug.Log( m_deadBuff[i].alive+ " " +  m_deadBuff[i].uid );
-//			m_buffs.Remove(m_deadBuff[i]);
-//			Destroy(m_deadBuff[i]);
-
-//			foreach (Buff b in m_buffs) {
-//			int length = m_buffs.Count;
 			for (int k = 0; k < m_buffs.Count; k++) {
 				if ( m_buffs[k].uid == m_deadBuff[i].uid) {
 					m_buffs.RemoveAt(k);
 					k--;
 				}
 			}
-
-			foreach ( Buff b0 in m_buffs )
-				Debug.Log(b0.uid);
 		}
 	}
 }

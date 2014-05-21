@@ -28,4 +28,9 @@ public class DizzyBuff : Buff {
 	{
 		return string.Format ("[DizzyBuff], alive={0}]", alive);
 	}
+
+	public override int GetType ()
+	{
+		return (int)Buff.Type.DIZZY;
+	}
 }

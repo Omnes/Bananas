@@ -45,4 +45,9 @@ public class EMPBuff : Buff {
 	{
 		return string.Format ("[EMPBuff], alive={0}]", alive);
 	}
+
+	public override int GetType ()
+	{
+		return (int)Buff.Type.EMP;
+	}
 }

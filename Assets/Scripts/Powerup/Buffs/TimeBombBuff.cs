@@ -10,7 +10,6 @@ public class TimeBombBuff : Buff {
 	public const float STUN_DURATION = 1.5f;
 	public const float TRANSFER_COOLDOWN = 0.5f;
 
-	public const float SOUND_LENGTH = 1.0f;
 	private static Color START_COLOR = new Color(1, 1, 0);
 	private static Color END_COLOR = new Color(1, 0, 0);
 
@@ -131,7 +130,7 @@ public class TimeBombBuff : Buff {
 	}
 
 	public static float GetDuration() {
-		return Random.Range(BOMB_DURATION_MIN, BOMB_DURATION_MAX) * SOUND_LENGTH;
+		return Random.Range(BOMB_DURATION_MIN, BOMB_DURATION_MAX);
 	}
 
 	/**
@@ -144,5 +143,10 @@ public class TimeBombBuff : Buff {
 	public override string ToString ()
 	{
 		return string.Format ("[TimeBombBuff], alive={0}]", alive);
+	}
+
+	public override int GetType ()
+	{
+		return (int)Buff.Type.TIME_BOMB;
 	}
 }
