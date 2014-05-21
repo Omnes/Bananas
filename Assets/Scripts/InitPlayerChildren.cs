@@ -9,7 +9,7 @@ public class InitPlayerChildren : MonoBehaviour {
 	// Use this for initialization
 	public void Init () {
 	 	Transform whirlwind = Instantiate(m_whirlwindPrefab) as Transform;
-		whirlwind.parent = transform;
+		whirlwind.GetComponent<Whirlwind>().m_target = transform;
 		whirlwind.localPosition = whirlwind.position;
 		whirlwind.localRotation = Quaternion.identity;
 		whirlwind.name = m_whirlwindPrefab.name;
