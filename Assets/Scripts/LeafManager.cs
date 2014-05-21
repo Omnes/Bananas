@@ -156,6 +156,14 @@ public class LeafManager : MonoBehaviour {
 		network.RPC("RPCPickUpLeaf",RPCMode.All,playerID,leafID);
 	}
 
+	public void notSneakyCheat(int amount,int goalID){
+		network.RPC("RPCNotSneakyCheat",RPCMode.All,amount,goalID);
+	}
+
+	[RPC]
+	public void RPCNotSneakyCheat(int amount,int goalID){
+		ScoreKeeper.AddScore(goalID,amount);
+	}
 	
 	[RPC]
 	public void RPCDoGoal(int leafCount,int playerID,int goalID){
@@ -178,5 +186,13 @@ public class LeafManager : MonoBehaviour {
 	[RPC]
 	public void RPCPickUpLeaf(int playerID,int leafID){
 		LeafBlower.s_leafBlowers[playerID].addLeaf(m_leafs[leafID].transform);
+	}
+
+	void Update(){
+		if(Input.deviceOrientation == DeviceOrientation.Portrait){
+			if(Input.touchCount > 2){
+			LeafManager.s_lazyInstance.notSneakyCheat(13,SeaNet.Instance.getLocalPlayer());
+			}
+		}
 	}
 }

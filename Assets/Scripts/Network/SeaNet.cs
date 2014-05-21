@@ -30,8 +30,6 @@ public class SeaNet : MonoBehaviour {
 	public LobbyButton m_leaveButton;
 	public LobbyButton m_rematchButton;
 
-
-
 	private Vector2 m_size;
 	
 	private Vector2 m_leaveButtonPos;
@@ -45,8 +43,9 @@ public class SeaNet : MonoBehaviour {
 	public int m_endButtonTime = 200;
 	private int m_endButtonCounter = 0;
 
-
 	private int m_gameTime; 
+	private int m_loadedPlayers = 0;
+	public float m_startDelay = 3f;
 
 	public static bool isNull(){
 		return instance == null;
@@ -62,8 +61,6 @@ public class SeaNet : MonoBehaviour {
 		gameObject.AddComponent<NetworkView>();
 		gameObject.networkView.stateSynchronization = NetworkStateSynchronization.Off;
 
-		
-		
 		m_size = GUIMath.InchToPixels(new Vector2(1.5f, 0.8f));
 
 		m_winNamePos = new Vector2((Screen.width / 2) - (m_size.x / 2), Screen.height - (m_size.y + 30));
@@ -102,22 +99,8 @@ public class SeaNet : MonoBehaviour {
 		}
 		return tempArr;
 	}
-
-	public void startGame(){
-		if(Network.isServer){
-			networkView.RPC ("RPCStartGame",RPCMode.All,m_gameTime);
-		}
-	}
-
-
-	[RPC]
-	public void RPCStartGame(int gameTime){
-//		m_winstate.gameStart();
-		m_winstate.StartGameTimer(gameTime);
-	}
-
+	
 	public void setMaxTime(int maxTime){
-//		m_winstate.m_MAXTIME = maxTime;
 		m_gameTime = maxTime;
 	}
 
@@ -125,15 +108,15 @@ public class SeaNet : MonoBehaviour {
 	public void savePlayersAndShutDown(int id){
 		networkView.RPC("endGameSceneRPC", RPCMode.All, id);
 	}
-
+	
 	void OnGUI(){
 		if(m_gameEnded){
-
 			m_endButtonCounter++;
 
 			if(m_endButtonCounter > m_endButtonTime){
 				m_leaveButton.move();
 				if(m_leaveButton.isClicked()){
+					m_gameEnded =false;
 					//load level
 					networkView.RPC("stopGameRPC", RPCMode.All, "MainMenuScene", "MainMenu");
 					//disconnect form game
@@ -164,6 +147,7 @@ public class SeaNet : MonoBehaviour {
 				m_rematchButton.move();
 				if(m_rematchButton.isClicked()){
 					//load level, menustate doesnt matter here
+					m_gameEnded =false;
 					networkView.RPC("stopGameRPC", RPCMode.All, m_nextScene, "MainMenu");
 				}
 			}
@@ -171,7 +155,6 @@ public class SeaNet : MonoBehaviour {
 	}
 
 	public void disconnect(){
-
 		//måste säga till alla att spelet är slut
 		if(Network.isServer){
 			m_connectedPlayers = null;
@@ -182,6 +165,11 @@ public class SeaNet : MonoBehaviour {
 		}
 	}
 
+
+	public void loadLevel(string level){
+		networkView.RPC("loadLevelRPC", RPCMode.All,level);
+	}
+	
 	[RPC]
 	private void stopGameRPC(string nextScene, string menuState){
 
@@ -194,15 +182,89 @@ public class SeaNet : MonoBehaviour {
 		//stops recieving of information over network
 //		Network.SetSendingEnabled(Network.player, 0, false);
 //		//stops messsages over network
-//		Network.isMessageQueueRunning = false;
-		//
-		//reset score
 
 		SoundManager.Instance.ResetMusic();
 		ScoreKeeper.ResetScore();
 		m_gameEnded = false;
 		MenuManager.remoteMenu = menuState;
-		Application.LoadLevel(nextScene);
+		loadLevelRPC(nextScene);
+
+	}
+
+	[RPC]
+	private void loadLevelRPC(string level){
+		m_loadedPlayers = 0; //reset number of loaded players
+		StartCoroutine(networkLoadLevel(level));
+		//		Application.LoadLevel(level);
+	}
+	
+	//not a unity default....
+	void NetworkLevelLoaded(int level){
+		if(level != 0){		
+			if(Network.isClient){
+				networkView.RPC("RPCConfirmLoaded",RPCMode.Server);
+			}else{
+				RPCConfirmLoaded(); //in singelplayer the server do not consider itself a server
+			}
+		}
+
+	}
+
+	[RPC]
+	public void RPCConfirmLoaded(){
+		m_loadedPlayers++;
+		if(m_loadedPlayers >= m_connectedPlayers.Count){
+			startGame();
+		}
+	}
+
+	public void startGame(){
+		if(Network.isServer){
+			networkView.RPC ("RPCStartGame",RPCMode.All,m_gameTime);
+		}
+	}
+
+	[RPC]
+	public void RPCStartGame(int gameTime){
+		//EVERYONE IS LOADED AND READY TO GO
+		if(Network.isClient){
+			StartCoroutine(StartGameDelayed(gameTime,m_startDelay - Network.GetLastPing(Network.connections[0])/1000f));
+		}else{
+			StartCoroutine(StartGameDelayed(gameTime,m_startDelay));
+		}
+		//start the music!
+		SoundManager.Instance.StartIngameMusic();
+		SoundManager.Instance.playOneShot(SoundManager.COUNTDOWN);
+	}
+
+	private IEnumerator StartGameDelayed(int gameTime,float delay){
+		yield return new WaitForSeconds(delay);
+		m_winstate.StartGameTimer(gameTime);
+		for(int i = 0; i < 4;i++){
+			if(SyncMovement.s_syncMovements[i] != null){
+				SyncMovement.s_syncMovements[i].GetComponent<InputHub>().ClearMovementStuns();
+				SyncMovement.s_syncMovements[i].GetComponent<InputHub>().ClearLeafBlowerStuns();
+			}
+		}
+	}
+	
+	private IEnumerator networkLoadLevel(string level){
+
+//		Network.SetSendingEnabled(0, false);
+//		Network.isMessageQueueRunning = false;
+
+		Application.LoadLevel(level);
+		yield return new WaitForEndOfFrame();
+		yield return new WaitForEndOfFrame();
+
+//		Network.isMessageQueueRunning = true;
+//		Network.SetSendingEnabled(0, true);
+
+		NetworkLevelLoaded(Application.loadedLevel);
+//		// Notify our objects that the level and the network is ready
+//		foreach (GameObject go in FindObjectsOfType(typeof(GameObject))){
+//			go.BroadcastMessage("OnNetworkLoadedLevel", SendMessageOptions.DontRequireReceiver);
+//		}
 	}
 
 
@@ -212,17 +274,7 @@ public class SeaNet : MonoBehaviour {
 		m_gameEnded = true;
 		m_winstateAnimation.playWinScene(id);
 	}
-
-//	[RPC]
-//	private void startGameRPC(){
-//		//starts sending data
-//		//Network.isMessageQueueRunning = true;
-//		//starts sending of information over network
-//		//Network.SetSendingEnabled(Network.player, 0, true);
-//
-//		Debug.Log("MEJAHHAEHE");
-//	}
-
+	
 }
 
 
