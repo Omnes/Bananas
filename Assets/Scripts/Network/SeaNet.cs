@@ -46,6 +46,8 @@ public class SeaNet : MonoBehaviour {
 	private int m_endButtonCounter = 0;
 
 
+	private int m_gameTime; 
+
 	public static bool isNull(){
 		return instance == null;
 	}
@@ -102,11 +104,21 @@ public class SeaNet : MonoBehaviour {
 	}
 
 	public void startGame(){
-		m_winstate.gameStart();
+		if(Network.isServer){
+			networkView.RPC ("RPCStartGame",RPCMode.All,m_gameTime);
+		}
+	}
+
+
+	[RPC]
+	public void RPCStartGame(int gameTime){
+//		m_winstate.gameStart();
+		m_winstate.StartGameTimer(gameTime);
 	}
 
 	public void setMaxTime(int maxTime){
-		m_winstate.m_MAXTIME = maxTime;
+//		m_winstate.m_MAXTIME = maxTime;
+		m_gameTime = maxTime;
 	}
 
 	//save and shut down the game. this happens when time is up

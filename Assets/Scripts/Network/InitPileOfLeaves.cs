@@ -21,10 +21,10 @@ public class InitPileOfLeaves : MonoBehaviour {
 			}
 
 			//start Gametimer
-			SeaNet.Instance.startGame();
+
 
 		}
-	
+		SeaNet.Instance.startGame();
 	}
 
 }

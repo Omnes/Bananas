@@ -28,4 +28,14 @@ public class StunBuff : Buff {
 		inputHub.UnStunMovement();
 		inputHub.UnStunLeafBlower ();
 	}
+
+	public override string ToString ()
+	{
+		return string.Format ("[StunBuff], alive={0}]", alive);
+	}
+
+	public override int GetType ()
+	{
+		return (int)Buff.Type.STUN;
+	}
 }
