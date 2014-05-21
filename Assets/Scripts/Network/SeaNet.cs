@@ -26,16 +26,14 @@ public class SeaNet : MonoBehaviour {
 
 	public string m_sceneAfterWin = "MainMenuScene";
 	public string m_sceneStateAfterWin = "MainMenu";
-
-
-	//dessa två ska tas bort. ### ANVÄND EJ I SERIÖS SYFTE ###
+	
 	public List<int> m_IDs;
 	public List<bool> m_isLocal;
 	public List<string> m_names;
 
 	private int m_gameTime; 
-
 	private int m_loadedPlayers = 0;
+	public float m_startDelay = 3f;
 
 	public static bool isNull(){
 		return instance == null;
@@ -152,6 +150,7 @@ public class SeaNet : MonoBehaviour {
 				RPCConfirmLoaded(); //in singelplayer the server do not consider itself a server
 			}
 		}
+
 	}
 
 	[RPC]
@@ -170,8 +169,26 @@ public class SeaNet : MonoBehaviour {
 
 	[RPC]
 	public void RPCStartGame(int gameTime){
-		m_winstate.StartGameTimer(gameTime);
 		//EVERYONE IS LOADED AND READY TO GO
+		if(Network.isClient){
+			StartCoroutine(StartGameDelayed(gameTime,m_startDelay - Network.GetLastPing(Network.connections[0])/1000f));
+		}else{
+			StartCoroutine(StartGameDelayed(gameTime,m_startDelay));
+		}
+		//start the music!
+		SoundManager.Instance.StartIngameMusic();
+		SoundManager.Instance.playOneShot(SoundManager.COUNTDOWN);
+	}
+
+	private IEnumerator StartGameDelayed(int gameTime,float delay){
+		yield return new WaitForSeconds(delay);
+		m_winstate.StartGameTimer(gameTime);
+		for(int i = 0; i < 4;i++){
+			if(SyncMovement.s_syncMovements[i] != null){
+				SyncMovement.s_syncMovements[i].GetComponent<InputHub>().ClearMovementStuns();
+				SyncMovement.s_syncMovements[i].GetComponent<InputHub>().ClearLeafBlowerStuns();
+			}
+		}
 	}
 	
 	private IEnumerator networkLoadLevel(string level){

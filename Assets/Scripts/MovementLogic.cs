@@ -53,7 +53,7 @@ public class MovementLogic : MonoBehaviour
 	private playerAnimation m_animation;
 
 	//seans crazy countdown
-	public BuffManager m_buffManager;
+//	public BuffManager m_buffManager;
 
 	private LeafBlower m_leafBlower;
 	
@@ -73,12 +73,12 @@ public class MovementLogic : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate () 
 	{
-		//buffamanager. add buff new Buff(STUNTUN);
-		if(m_buffManager == null){
-			m_buffManager = gameObject.GetComponent<BuffManager>();
-			//stun tre sec, countdown before match
-			m_buffManager.AddBuff(new StunBuff(gameObject, 3));
-		}
+//		//buffamanager. add buff new Buff(STUNTUN);
+//		if(m_buffManager == null){
+//			m_buffManager = gameObject.GetComponent<BuffManager>();
+//			//stun tre sec, countdown before match
+//			m_buffManager.AddBuff(new StunBuff(gameObject, 3));
+//		}
 
 		if(m_hasCollided)
 		{
