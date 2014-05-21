@@ -33,6 +33,8 @@ public class SeaNet : MonoBehaviour {
 	public List<bool> m_isLocal;
 	public List<string> m_names;
 
+	private int m_gameTime; 
+
 	public static bool isNull(){
 		return instance == null;
 	}
@@ -90,12 +92,21 @@ public class SeaNet : MonoBehaviour {
 	}
 
 	public void startGame(){
+		if(Network.isServer){
+			networkView.RPC ("RPCStartGame",RPCMode.All,m_gameTime);
+		}
+	}
+
+
+	[RPC]
+	public void RPCStartGame(int gameTime){
 //		m_winstate.gameStart();
-		m_winstate.StartGameTimer();
+		m_winstate.StartGameTimer(gameTime);
 	}
 
 	public void setMaxTime(int maxTime){
-		m_winstate.m_MAXTIME = maxTime;
+//		m_winstate.m_MAXTIME = maxTime;
+		m_gameTime = maxTime;
 	}
 
 	//save and shut down the game. this happens when time is up

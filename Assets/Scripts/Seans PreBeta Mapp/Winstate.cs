@@ -9,6 +9,8 @@ public class Winstate : MonoBehaviour {
 	public float m_endTime;
 
 	private bool m_gameRunning = false;
+
+	private GUITimer m_guiTimer;
 	
 	public void StartGameTimer(){
 		StartGameTimer(m_MAXTIME);
@@ -22,8 +24,14 @@ public class Winstate : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if(m_guiTimer == null){
+			m_guiTimer = GUITimer.s_lazyInstance;
+		}
+
 		if(m_gameRunning){
-			GUITimer.s_lazyInstance.updateTimer(m_endTime - Time.time);
+			if(m_guiTimer!=null){
+				m_guiTimer.updateTimer(m_endTime - Time.time);
+			}
 			if(Time.time > m_endTime){
 				//we can do a check for tie here
 				m_gameRunning = false;
