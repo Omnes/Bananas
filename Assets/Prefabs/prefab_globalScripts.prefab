@@ -100,6 +100,9 @@ MonoBehaviour:
   m_powerupPickup: {fileID: 100000, guid: 926a86c1ce11e59488f1b2761e28b58f, type: 2}
   m_muteButton: {fileID: 2800000, guid: ea971936f22bb2e43be7400cb97852f4, type: 3}
   m_muteButton2: {fileID: 2800000, guid: 137fadd94e0f6a24ea3836d19091bd2d, type: 3}
+  m_winnerOtherTexture: {fileID: 2800000, guid: 4737c572094947d45ad80fd6a10bfffc,
+    type: 3}
+  m_winnerTexture: {fileID: 2800000, guid: 10959fc225fa3aa44a85a39c3bad7cd9, type: 3}
   m_meshList:
   - {fileID: 100154, guid: 12be1562d5ffe06448f6625c1f0b3f8f, type: 2}
   - {fileID: 100202, guid: e818abe9127baa341a941a2b26eda229, type: 2}

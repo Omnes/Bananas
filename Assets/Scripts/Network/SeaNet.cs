@@ -30,6 +30,22 @@ public class SeaNet : MonoBehaviour {
 	public LobbyButton m_leaveButton;
 	public LobbyButton m_rematchButton;
 
+
+
+	private Vector2 m_size;
+	
+	private Vector2 m_leaveButtonPos;
+	private Vector2 m_rematchButtonPos;
+	private Vector2 m_winNamePos;
+
+	private string m_winnerName = "";
+	private Texture2D m_winTexture;
+	private GUIStyle m_gui;
+
+	public int m_endButtonTime = 200;
+	private int m_endButtonCounter = 0;
+
+
 	public static bool isNull(){
 		return instance == null;
 	}
@@ -44,15 +60,16 @@ public class SeaNet : MonoBehaviour {
 		gameObject.AddComponent<NetworkView>();
 		gameObject.networkView.stateSynchronization = NetworkStateSynchronization.Off;
 
-		//knappar
-		Vector2 size = GUIMath.InchToPixels(new Vector2(1.5f, 0.8f));
+		
+		
+		m_size = GUIMath.InchToPixels(new Vector2(1.5f, 0.8f));
 
-		Vector2 leaveButtonPos = new Vector2(Screen.width - size.x, Screen.height - size.y);
-		Vector2 rematchButtonPos = new Vector2(0, Screen.height - size.y);
+		m_winNamePos = new Vector2((Screen.width / 2) - (m_size.x / 2), Screen.height - (m_size.y + 30));
+		m_leaveButtonPos = new Vector2(Screen.width - m_size.x, Screen.height - m_size.y);
+		m_rematchButtonPos = new Vector2(0, Screen.height - m_size.y);
 
-		m_leaveButton = new LobbyButton(leaveButtonPos.x, leaveButtonPos.y + 100, size.x, size.y,		"Leave Game", leaveButtonPos, 3.0f, LeanTweenType.easeOutElastic);
-		m_rematchButton = new LobbyButton(rematchButtonPos.x, rematchButtonPos.y + 100, size.x, size.y,	"Rematch", rematchButtonPos, 3.0f, LeanTweenType.easeOutElastic);
-
+		m_leaveButton = new LobbyButton(m_leaveButtonPos.x, m_leaveButtonPos.y + 100, m_size.x, m_size.y,		"Leave Game", m_leaveButtonPos, 3.0f, LeanTweenType.easeOutElastic);
+		m_rematchButton = new LobbyButton(m_rematchButtonPos.x, m_rematchButtonPos.y + 100, m_size.x, m_size.y,	"Rematch", m_rematchButtonPos, 3.0f, LeanTweenType.easeOutElastic);
 	}
 
 
@@ -99,26 +116,43 @@ public class SeaNet : MonoBehaviour {
 
 	void OnGUI(){
 		if(m_gameEnded){
-			Vector2 size = GUIMath.InchToPixels(new Vector2(1.5f, 0.8f));
 
-			Vector2 leaveButtonPos = new Vector2(Screen.width - size.x, Screen.height - size.y);
-			Vector2 rematchButtonPos = new Vector2(0, Screen.height - size.y);
+			m_endButtonCounter++;
 
-			m_leaveButton.move();
-			if(m_leaveButton.isClicked()){
+			if(m_endButtonCounter > m_endButtonTime){
+				m_leaveButton.move();
+				if(m_leaveButton.isClicked()){
+					//load level
+					networkView.RPC("stopGameRPC", RPCMode.All, "MainMenuScene", "MainMenu");
+					//disconnect form game
+					disconnect();
+				}
 
-			//if(GUI.Button(new Rect(leaveButtonPos.x, leaveButtonPos.y, size.x, size.y), "Leave game")){
-				//load level
-				networkView.RPC("stopGameRPC", RPCMode.All, "MainMenuScene", "MainMenu");
-				//disconnect form game
-				disconnect();
-			}
-			m_rematchButton.move();
-			if(m_rematchButton.isClicked()){
-			
-			//if(GUI.Button(new Rect(rematchButtonPos.x, rematchButtonPos.y, size.x, size.y), "Rematch")){
-				//load level, menustate doesnt matter here
-				networkView.RPC("stopGameRPC", RPCMode.All, m_nextScene, "MainMenu");
+				if(m_winnerName == ""){
+
+					m_gui = new GUIStyle();
+					m_gui.fontSize = 22;
+
+					for(int i = 0; i < m_connectedPlayers.Count; i++){
+						if(m_connectedPlayers[i].m_id == ScoreKeeper.GetFirstPlaceID()){
+							if(getLocalPlayer() != i){
+								m_winnerName = m_connectedPlayers[i].m_name;
+								m_winTexture = Prefactory.texture_winner;
+							}
+						}else{
+							m_winTexture = Prefactory.texture_winnerOther;
+						}
+					}
+				}
+
+				GUI.DrawTexture(new Rect(m_winNamePos.x, m_winNamePos.y, m_size.x, m_size.y), m_winTexture);
+				GUI.Label(new Rect(m_winNamePos.x + 20, m_winNamePos.y + (m_size.y / 2),  m_size.x, m_size.y), m_winnerName, m_gui);
+
+				m_rematchButton.move();
+				if(m_rematchButton.isClicked()){
+					//load level, menustate doesnt matter here
+					networkView.RPC("stopGameRPC", RPCMode.All, m_nextScene, "MainMenu");
+				}
 			}
 		}
 	}
@@ -137,8 +171,13 @@ public class SeaNet : MonoBehaviour {
 
 	[RPC]
 	private void stopGameRPC(string nextScene, string menuState){
+
+		//clean
+		m_winnerName = "";
+		m_endButtonCounter = 0;
 		m_leaveButton.resetButton();
 		m_rematchButton.resetButton();
+
 		//stops recieving of information over network
 //		Network.SetSendingEnabled(Network.player, 0, false);
 //		//stops messsages over network
