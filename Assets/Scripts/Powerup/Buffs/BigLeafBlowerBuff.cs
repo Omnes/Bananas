@@ -9,6 +9,10 @@ public class BigLeafBlowerBuff : Buff {
 	//Variables
 	private Transform airTrigger;
 	private InputHub inputHub;
+	private LeafBlower leafBlower;
+	private float preSpeedModifier;
+
+	private Color m_preColor;
 
 	/**
 	 * Initialize variables
@@ -21,6 +25,7 @@ public class BigLeafBlowerBuff : Buff {
 		if (airTrigger == null) {
 			Debug.LogError("air_trigger was not found on the player");
 		}
+		leafBlower = airTrigger.GetComponent<LeafBlower> ();
 	}
 
 	/**
@@ -29,10 +34,19 @@ public class BigLeafBlowerBuff : Buff {
 	override public void InitEvent()
 	{
 		airTrigger.localScale = new Vector3 (2, 1, 1);
-		airTrigger.particleSystem.emissionRate *= 2;
-		airTrigger.particleSystem.startLifetime *= 1.5f;
+//		airTrigger.particleSystem.emissionRate *= 2;
+//		airTrigger.particleSystem.startLifetime *= 1.5f;
+		m_preColor = airTrigger.particleSystem.startColor;
 		inputHub.ClearLeafBlowerStuns ();
-		//SoundManager.playOnceShot("raoarworro");
+		preSpeedModifier = leafBlower.m_lowestSpeedModifier;
+		leafBlower.m_lowestSpeedModifier = 1.0f;
+		SoundManager.Instance.playOneShot(SoundManager.LEAFBLOWER_WARCRY);
+	}
+
+	public override void UpdateEvent ()
+	{
+		//FAAAAABOLOOUUUUUS'ify
+		airTrigger.particleSystem.startColor = new Color (Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f));
 	}
 
 	/**
@@ -41,8 +55,10 @@ public class BigLeafBlowerBuff : Buff {
 	override public void ExpireEvent()
 	{
 		airTrigger.localScale = Vector3.one;
-		airTrigger.particleSystem.emissionRate /= 2;
-		airTrigger.particleSystem.startLifetime /= 1.5f;
+//		airTrigger.particleSystem.emissionRate /= 2;
+//		airTrigger.particleSystem.startLifetime /= 1.5f;
+		airTrigger.particleSystem.startColor = m_preColor;
+		leafBlower.m_lowestSpeedModifier = preSpeedModifier;
 	}
 
 	public override string ToString ()

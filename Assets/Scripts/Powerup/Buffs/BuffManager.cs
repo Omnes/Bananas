@@ -72,9 +72,7 @@ public class BuffManager : MonoBehaviour {
 //			}
 //		}
 //		if (Input.GetKeyDown(KeyCode.E)) {
-//			for (int i = 0; i < 2; i++) {
-//				AddBuff( new TimeBombBuff(gameObject, 12.0f) );
-//			}
+//			AddBuff( new TimeBombBuff(gameObject, 12.0f) );
 //		}
 //		if (Input.GetKeyDown(KeyCode.R)) {
 //			for (int i = 0; i < 2; i++) {
