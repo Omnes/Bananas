@@ -4,7 +4,7 @@ using System.Collections;
 public class ExplosionUVAnimator : MonoBehaviour {
 	public float scale = 5;
 
-	public const float DURATION = 0.6f;
+	public const float DURATION = 0.48f;
 	private const int NR_FRAMES = 6;
 	private const int FRAMES_IN_WIDTH = 2;
 

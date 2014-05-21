@@ -41,6 +41,7 @@ public class InitPlayer : MonoBehaviour {
 			m_player = Instantiate(m_playerPrefab,spawnpoint.position,spawnpoint.rotation) as GameObject;
 			m_player.GetComponent<InitPlayerChildren>().Init();
 			m_player.GetComponent<SyncMovement>().setID(m_playerInfo.id,m_isLocal);
+			m_player.GetComponent<otherTestCol>().collisionTransmitter = GetComponent<CollisionTransmitter>();
 
 			//set correct mesh
 			setMesh(m_player);
@@ -66,6 +67,7 @@ public class InitPlayer : MonoBehaviour {
 			m_player = Instantiate(m_ghostPrefab,spawnpoint.position,spawnpoint.rotation) as GameObject;
 			m_player.GetComponent<InitPlayerChildren>().Init();
 			m_player.GetComponent<SyncMovement>().setID(m_playerInfo.id,m_isLocal);
+			m_player.GetComponent<otherTestCol>().collisionTransmitter = GetComponent<CollisionTransmitter>();;
 
 			//set correct mesh
 			setMesh(m_player);

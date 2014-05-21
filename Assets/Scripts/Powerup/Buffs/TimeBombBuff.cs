@@ -47,9 +47,8 @@ public class TimeBombBuff : Buff {
 //			for (int i = 0; i < SyncMovement.s_syncMovements.Length; i++) {
 //				if (SyncMovement.s_syncMovements[i] != null)
 //				{
-//					Debug.Log("SyncMovement: " + SyncMovement.s_syncMovements[i]);
 //					if (SyncMovement.s_syncMovements[i].isLocal == false) {
-//						Buff b = BuffManager.m_buffManagers[i].AddBuff(new TimeBombTargetBuff(BuffManager.m_buffManagers[i].gameObject));
+//						BuffManager.m_buffManagers[i].AddBuff(new TimeBombTargetBuff(BuffManager.m_buffManagers[i].gameObject));
 //					}
 //				}
 //			}
@@ -97,11 +96,12 @@ public class TimeBombBuff : Buff {
 			Debug.Log("SOMETHING WENT TERRIBLY WRONG 2");
 		}
 
-		//Ta inte bort saker i expire!
 //		for (int i = 0; i < SyncMovement.s_syncMovements.Length; i++) {
-//			if (BuffManager.m_buffManagers[i] != null) {
-//				if (BuffManager.m_buffManagers[i].HasBuff((int)Buff.Type.TIME_BOMB_TARGET)) {
-//					BuffManager.m_buffManagers[i].RemoveBuff((int)Buff.Type.TIME_BOMB_TARGET);
+//			if (SyncMovement.s_syncMovements[i].isLocal == false) {
+//				if (BuffManager.m_buffManagers[i] != null) {
+//					if (BuffManager.m_buffManagers[i].HasBuff((int)Buff.Type.TIME_BOMB_TARGET)) {
+//						BuffManager.m_buffManagers[i].RemoveBuff((int)Buff.Type.TIME_BOMB_TARGET);
+//					}
 //				}
 //			}
 //		}
