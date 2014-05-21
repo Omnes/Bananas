@@ -20,6 +20,18 @@ public class otherTestCol : MonoBehaviour
 	private float m_cooldownTimer = 0.0f;
 	private const float COOLDOWN = 0.5f;
 
+//	public InitPlayer m_initPlayer;
+	private CollisionTransmitter m_collisionTransmitter;
+	public CollisionTransmitter collisionTransmitter {
+		set {
+			m_collisionTransmitter = value;
+			m_collisionTransmitter.m_playerRef = gameObject;
+		}
+		get {
+			return m_collisionTransmitter;
+		}
+	}
+
 	/**
 	 * Initialize components
 	 */
@@ -90,16 +102,17 @@ public class otherTestCol : MonoBehaviour
 
 						m_myMovLogic.setTackled(myResultVel);
 						m_otherMovLogic.setTackled(opponentsResultVel);
-						StartCoroutine("startTackle", dizzyTime);
+						StartCoroutine("startTackle", 0.75f);
 						//m_tackled = true;
 
 						//Add buffs
 						m_buffManager.AddBuff(new StunBuff(gameObject, stunTime));
 						m_buffManager.AddBuff(new DizzyBuff(gameObject, dizzyTime));
 		//				other.gameObject.GetComponent<BuffManager>().AddBuff(new StunBuff(gameObject, stunTime));
+
+//						m_collisionTransmitter.PlayerCollision();
 					}
 				}
-
 
 				//Handle TimeBomb powerup
 				if (m_buffManager.HasBuff((int)Buff.Type.TIME_BOMB)){

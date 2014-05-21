@@ -13,6 +13,7 @@ GameObject:
   - 114: {fileID: 11400002}
   - 114: {fileID: 11400000}
   - 148: {fileID: 14800000}
+  - 114: {fileID: 11400008}
   m_Layer: 0
   m_Name: PlayerController
   m_TagString: Untagged
@@ -46,11 +47,6 @@ MonoBehaviour:
   m_ghostPrefab: {fileID: 100302, guid: e2e48279b1265ec448c830e1e03d0eb3, type: 2}
   m_stateTransmitterPrefab: {fileID: 100000, guid: 4872f6937f8738546b0f584f04676e9b,
     type: 2}
-  m_spawnpoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   m_isLocal: 0
   m_localInput: {fileID: 0}
 --- !u!114 &11400002
@@ -88,6 +84,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_inputTarget: {fileID: 11400004}
+--- !u!114 &11400008
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71c8c0de22b44454ca83b27e45a79c69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_playerRef: {fileID: 0}
 --- !u!148 &14800000
 NetworkView:
   m_ObjectHideFlags: 1

@@ -43,6 +43,7 @@ public class InitPlayer : MonoBehaviour {
 			m_player.GetComponent<SyncMovement>().setID(m_playerInfo.id,m_isLocal);
 			m_player.GetComponent<InputHub>().StunMovement();
 			m_player.GetComponent<InputHub>().StunLeafBlower();
+			m_player.GetComponent<otherTestCol>().collisionTransmitter = GetComponent<CollisionTransmitter>();
 
 			//set correct mesh
 			setMesh(m_player);
@@ -70,6 +71,7 @@ public class InitPlayer : MonoBehaviour {
 			m_player.GetComponent<SyncMovement>().setID(m_playerInfo.id,m_isLocal);
 			m_player.GetComponent<InputHub>().StunMovement();
 			m_player.GetComponent<InputHub>().StunLeafBlower();
+			m_player.GetComponent<otherTestCol>().collisionTransmitter = GetComponent<CollisionTransmitter>();
 
 			//set correct mesh
 			setMesh(m_player);

@@ -134,7 +134,6 @@ public class PowerupManager : MonoBehaviour {
 				}
 			}
 		}
-		SoundManager.Instance.playOneShot(SoundManager.LEAFBLOWER_WARCRY);
 	}
 
 	/**
