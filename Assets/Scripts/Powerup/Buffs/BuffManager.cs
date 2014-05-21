@@ -19,15 +19,6 @@ public class BuffManager : MonoBehaviour {
 		buff.InitEvent ();
 		return buff;
 	}
-	
-//	public Buff AddBuff(Buff buff) {
-//		if (HasBuff(buff.GetType()) == false) {
-//			m_buffs.Add (buff);
-//			buff.InitEvent ();
-//			return buff;
-//		}
-//		return null;
-//	}
 
 	/**
 	 * Removes a buff (without executing its ExpireEvent)
@@ -35,38 +26,12 @@ public class BuffManager : MonoBehaviour {
 	public bool RemoveBuff(int buffType) {
 		for (int i = 0; i < m_buffs.Count; i++) {
 			if (m_buffs[i].GetType() == buffType && m_buffs[i].alive) {
-				m_buffs[i].RemoveEvent();
-				m_buffs.RemoveAt (i);
-				Destroy(m_buffs[i]);
+				m_buffs[i].Remove();
 				return true;
 			}
 		}
 		return false;
 	}
-//	public bool RemoveBuff(Buff buff) {
-//		if (m_buffs.Contains(buff)) {
-//			buff.RemoveEvent ();
-//			m_buffs.Remove (buff);
-//			Destroy(buff);
-//			return true;
-//		}
-//		return false;
-//	}
-
-	/**
-	 * Removes the first buff of the specified type (without executing its ExpireEvent)
-	 */
-//	public bool RemoveBuff(Type buffType) {
-//		foreach (Buff buff in m_buffs) {
-//			if (buff.GetType() == buffType && buff.alive) {
-//				buff.RemoveEvent ();
-//				m_buffs.Remove(buff);
-//				Destroy(buff);
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
 
 	/**
 	 * Find a buff of a specific type (if it exists) and return it
@@ -80,28 +45,6 @@ public class BuffManager : MonoBehaviour {
 		return null;
 	}
 
-//	public Buff GetBuff(Type buffType) {
-//		foreach (Buff buff in m_buffs) {
-//			if (buff.GetType() == buffType && buff.alive) {
-//				return buff;
-//			}
-//		}
-//		return null;
-//	}
-
-	/**
-	 * Find a buff of a specific type (if it exists) and return it
-	 */
-//	public Buff GetBuff(Type buffType) {
-//		for (int i = 0; i < m_buffs.Count; i++) {
-//			Buff buff = m_buffs[i];
-//			if (buff.GetType() == buffType) {
-//				return buff;
-//			}
-//		}
-//		return null;
-//	}
-
 	/**
 	 * Returns true if the manager contains a buff of the specified type
 	 */
@@ -113,39 +56,31 @@ public class BuffManager : MonoBehaviour {
 		}
 		return false;
 	}
-//	public bool HasBuff(Type buffType) {
-//		foreach (Buff buff in m_buffs) {
-//			if (buff.GetType() == buffType && buff.alive) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
 
 	/**
 	 * Updates and removes buffs
 	 */
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.Q)) {
-			for (int i = 0; i < 2; i++) {
-				AddBuff( new StunBuff(gameObject, 1.0f) );
-			}
-		}
-		if (Input.GetKeyDown(KeyCode.W)) {
-			for (int i = 0; i < 5; i++) {
-				AddBuff( new DizzyBuff(gameObject, 1.0f) );
-			}
-		}
-		if (Input.GetKeyDown(KeyCode.E)) {
-			for (int i = 0; i < 2; i++) {
-				AddBuff( new TimeBombBuff(gameObject, 1.0f) );
-			}
-		}
-		if (Input.GetKeyDown(KeyCode.R)) {
-			for (int i = 0; i < 2; i++) {
-				AddBuff( new EMPBuff(gameObject) );
-			}
-		}
+//		if (Input.GetKeyDown(KeyCode.Q)) {
+//			for (int i = 0; i < 2; i++) {
+//				AddBuff( new StunBuff(gameObject, 1.0f) );
+//			}
+//		}
+//		if (Input.GetKeyDown(KeyCode.W)) {
+//			for (int i = 0; i < 5; i++) {
+//				AddBuff( new DizzyBuff(gameObject, 1.0f) );
+//			}
+//		}
+//		if (Input.GetKeyDown(KeyCode.E)) {
+//			for (int i = 0; i < 2; i++) {
+//				AddBuff( new TimeBombBuff(gameObject, 12.0f) );
+//			}
+//		}
+//		if (Input.GetKeyDown(KeyCode.R)) {
+//			for (int i = 0; i < 2; i++) {
+//				AddBuff( new EMPBuff(gameObject) );
+//			}
+//		}
 
 		//########################################
 		List<Buff> m_deadBuff = new List<Buff>();
@@ -157,7 +92,9 @@ public class BuffManager : MonoBehaviour {
 		int buffLength = m_buffs.Count;
 		for (int i = 0; i < buffLength; i++) {
 			if (m_buffs[i].alive == false) {
-				m_buffs[i].ExpireEvent();
+				if (m_buffs[i].remove == false) {
+					m_buffs[i].ExpireEvent();
+				}
 				m_deadBuff.Add(m_buffs[i]);
 			}
 		}

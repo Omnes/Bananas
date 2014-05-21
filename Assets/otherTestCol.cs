@@ -92,10 +92,9 @@ public class otherTestCol : MonoBehaviour
 						m_otherMovLogic.setTackled(opponentsResultVel);
 						StartCoroutine("startTackle", dizzyTime);
 						//m_tackled = true;
-						
 
 						//Add buffs
-						//m_buffManager.AddBuff(new StunBuff(gameObject, stunTime));
+						m_buffManager.AddBuff(new StunBuff(gameObject, stunTime));
 						m_buffManager.AddBuff(new DizzyBuff(gameObject, dizzyTime));
 		//				other.gameObject.GetComponent<BuffManager>().AddBuff(new StunBuff(gameObject, stunTime));
 					}

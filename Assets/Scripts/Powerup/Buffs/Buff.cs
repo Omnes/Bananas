@@ -25,9 +25,13 @@ public class Buff : UnityEngine.Object {
 	public float m_period;
 	private float m_periodTimer;
 
+	private bool m_remove;
+	public bool remove{ get { return m_remove; } }
+	public void Remove() { m_remove = true; }
+
 	private bool m_alive;
 	public bool alive{get { return m_alive; }}
-	public void kill() { m_alive = false; }
+	public void Kill() { m_alive = false; }
 
 	public int uid = -1;
 	private static int ID = 0;
@@ -37,6 +41,7 @@ public class Buff : UnityEngine.Object {
 	{
 		m_playerRef = playerRef;
 		m_alive = true;
+		m_remove = false;
 		m_duration = 0.0f;
 		m_durationTimer = 0.0f;
 		m_period = 0.0f;
@@ -100,7 +105,10 @@ public class Buff : UnityEngine.Object {
 		}
 
 		m_durationTimer += Time.deltaTime;
-		if (m_duration > 0.0f && m_durationTimer > m_duration) {
+		if ((m_duration > 0.0f && m_durationTimer > m_duration) || m_remove) {
+			if (m_remove && m_alive) {
+				RemoveEvent();
+			}
 			m_alive = false;
 		}
 			
