@@ -132,7 +132,7 @@ public class Lobby : MenuBase
 				Network.maxConnections = -1;
 				//denna fungerar inte
 				MasterServer.UnregisterHost();
-				loadLevel();
+				SeaNet.Instance.loadLevel(m_levels[0]);
 			}
 			if(GUI.Button(new Rect(centerX, centerY + size.y, size.x, size.y), "Stop Server")){
 				m_tempServerName = "";
@@ -244,9 +244,7 @@ public class Lobby : MenuBase
 		//
 	}
 
-	public void loadLevel(){
-		networkView.RPC("loadLevelRPC", RPCMode.All);
-	}
+
 
 	//lägger till spelare så den kan följa med till nästa scen
 	public void addPlayerToClientList(PlayerData p){
@@ -336,10 +334,7 @@ public class Lobby : MenuBase
 
 	// ###			SERVER			###
 
-	[RPC]
-	private void loadLevelRPC(){
-		Application.LoadLevel(m_levels[0]);
-	}
+
 
 	//set name and if it's local
 	//THIS IS ONLY DONE ON SERVERSIDE

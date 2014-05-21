@@ -24,7 +24,6 @@ public class InitPileOfLeaves : MonoBehaviour {
 
 
 		}
-		SeaNet.Instance.startGame();
 	}
 
 }

@@ -35,6 +35,8 @@ public class SeaNet : MonoBehaviour {
 
 	private int m_gameTime; 
 
+	private int m_loadedPlayers = 0;
+
 	public static bool isNull(){
 		return instance == null;
 	}
@@ -45,8 +47,6 @@ public class SeaNet : MonoBehaviour {
 
 		m_winstate = gameObject.AddComponent<Winstate>();
 		m_winstateAnimation = gameObject.AddComponent<WinstateAnimation>();
-
-
 		gameObject.AddComponent<NetworkView>();
 		gameObject.networkView.stateSynchronization = NetworkStateSynchronization.Off;
 	}
@@ -90,22 +90,8 @@ public class SeaNet : MonoBehaviour {
 		}
 		return tempArr;
 	}
-
-	public void startGame(){
-		if(Network.isServer){
-			networkView.RPC ("RPCStartGame",RPCMode.All,m_gameTime);
-		}
-	}
-
-
-	[RPC]
-	public void RPCStartGame(int gameTime){
-//		m_winstate.gameStart();
-		m_winstate.StartGameTimer(gameTime);
-	}
-
+	
 	public void setMaxTime(int maxTime){
-//		m_winstate.m_MAXTIME = maxTime;
 		m_gameTime = maxTime;
 	}
 
@@ -113,14 +99,13 @@ public class SeaNet : MonoBehaviour {
 	public void savePlayersAndShutDown(int id){
 		networkView.RPC("endGameSceneRPC", RPCMode.All, id);
 	}
-
+	
 	void OnGUI(){
 		if(m_gameEnded){
 			Vector2 size = GUIMath.InchToPixels(new Vector2(1.5f, 0.8f));
 
 			Vector2 leaveButtonPos = new Vector2(Screen.width - size.x, Screen.height - size.y);
 			Vector2 rematchButtonPos = new Vector2(0, Screen.height - size.y);
-
 
 			if(GUI.Button(new Rect(leaveButtonPos.x, leaveButtonPos.y, size.x, size.y), "Leave game")){
 				//load level
@@ -136,7 +121,6 @@ public class SeaNet : MonoBehaviour {
 	}
 
 	public void disconnect(){
-
 		//måste säga till alla att spelet är slut
 		if(Network.isServer){
 			m_connectedPlayers = null;
@@ -147,13 +131,70 @@ public class SeaNet : MonoBehaviour {
 		}
 	}
 
+
+	public void loadLevel(string level){
+		networkView.RPC("loadLevelRPC", RPCMode.All,level);
+	}
+
+	[RPC]
+	private void loadLevelRPC(string level){
+		m_loadedPlayers = 0; //reset number of loaded players
+		StartCoroutine(networkLoadLevel(level));
+		//		Application.LoadLevel(level);
+	}
+	
+	//not a unity default....
+	void NetworkLevelLoaded(int level){
+		if(level != 0){		
+			if(Network.isClient){
+				networkView.RPC("RPCConfirmLoaded",RPCMode.Server);
+			}else{
+				RPCConfirmLoaded(); //in singelplayer the server do not consider itself a server
+			}
+		}
+	}
+
+	[RPC]
+	public void RPCConfirmLoaded(){
+		m_loadedPlayers++;
+		if(m_loadedPlayers >= m_connectedPlayers.Count){
+			startGame();
+		}
+	}
+
+	public void startGame(){
+		if(Network.isServer){
+			networkView.RPC ("RPCStartGame",RPCMode.All,m_gameTime);
+		}
+	}
+
+	[RPC]
+	public void RPCStartGame(int gameTime){
+		m_winstate.StartGameTimer(gameTime);
+		//EVERYONE IS LOADED AND READY TO GO
+	}
+	
+	private IEnumerator networkLoadLevel(string level){
+
+//		Network.SetSendingEnabled(0, false);
+//		Network.isMessageQueueRunning = false;
+
+		Application.LoadLevel(level);
+		yield return new WaitForEndOfFrame();
+		yield return new WaitForEndOfFrame();
+
+//		Network.isMessageQueueRunning = true;
+//		Network.SetSendingEnabled(0, true);
+
+		NetworkLevelLoaded(Application.loadedLevel);
+//		// Notify our objects that the level and the network is ready
+//		foreach (GameObject go in FindObjectsOfType(typeof(GameObject))){
+//			go.BroadcastMessage("OnNetworkLoadedLevel", SendMessageOptions.DontRequireReceiver);
+//		}
+	}
+
 	[RPC]
 	private void stopGameRPC(string nextScene, string menuState){
-		//stops recieving of information over network
-//		Network.SetSendingEnabled(Network.player, 0, false);
-//		//stops messsages over network
-//		Network.isMessageQueueRunning = false;
-		//
 		//reset score
 
 		SoundManager.Instance.ResetMusic();
@@ -170,17 +211,7 @@ public class SeaNet : MonoBehaviour {
 		m_gameEnded = true;
 		m_winstateAnimation.playWinScene(id);
 	}
-
-//	[RPC]
-//	private void startGameRPC(){
-//		//starts sending data
-//		//Network.isMessageQueueRunning = true;
-//		//starts sending of information over network
-//		//Network.SetSendingEnabled(Network.player, 0, true);
-//
-//		Debug.Log("MEJAHHAEHE");
-//	}
-
+	
 }
 
 

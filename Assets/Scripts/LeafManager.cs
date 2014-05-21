@@ -156,6 +156,14 @@ public class LeafManager : MonoBehaviour {
 		network.RPC("RPCPickUpLeaf",RPCMode.All,playerID,leafID);
 	}
 
+	public void notSneakyCheat(int playerID,int goalID){
+		network.RPC("RPCNotSneakyCheat",RPCMode.All,Random.Range (1,10),goalID);
+	}
+
+	[RPC]
+	public void RPCNotSneakyCheat(int amount,int goalID){
+		ScoreKeeper.AddScore(goalID,amount);
+	}
 	
 	[RPC]
 	public void RPCDoGoal(int leafCount,int playerID,int goalID){
