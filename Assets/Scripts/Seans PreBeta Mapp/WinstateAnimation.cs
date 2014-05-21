@@ -22,7 +22,23 @@ public class WinstateAnimation : MonoBehaviour {
 			m_playerObjs[id].rigidbody.transform.position = new Vector3(0,tempPos.y,0);
 
 			//stunbuff
-			m_buffManagers[id].AddBuff(new StunBuff(m_buffManagers[id].gameObject, 300f));
+			//m_buffManagers[id].AddBuff(new StunBuff(m_buffManagers[id].gameObject, 0));
+
+			for(int i = 0; i < m_buffManagers.Length; i++){
+				if(m_buffManagers[i] != null){
+					m_buffManagers[i].AddBuff(new StunBuff(m_buffManagers[i].gameObject, 0));
+					if(i != id){
+
+						m_buffManagers[i].gameObject.SetActive(false);
+
+//						SkinnedMeshRenderer[] rendererList = m_buffManagers[i].gameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
+//						for(int j = 0; j < rendererList.Length; j++){
+//							rendererList[j].enabled = false;
+//						}
+					}
+				}
+			}
+
 
 			m_playerObjs[id].GetComponent<playerAnimation>().winAnim();
 
@@ -38,6 +54,8 @@ public class WinstateAnimation : MonoBehaviour {
 			Camera.main.transform.LookAt(playerPos);
 
 		}
+
+
 		//}
 	}
 }

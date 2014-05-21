@@ -147,12 +147,13 @@ public class SeaNet : MonoBehaviour {
 
 					for(int i = 0; i < m_connectedPlayers.Count; i++){
 						if(m_connectedPlayers[i].m_id == ScoreKeeper.GetFirstPlaceID()){
-							if(getLocalPlayer() != i){
-								m_winnerName = m_connectedPlayers[i].m_name;
+
+							m_winnerName = m_connectedPlayers[i].m_name;
+							m_winTexture = Prefactory.texture_winnerOther;
+							if(getLocalPlayer() == i){
+								m_winnerName = "";
 								m_winTexture = Prefactory.texture_winner;
 							}
-						}else{
-							m_winTexture = Prefactory.texture_winnerOther;
 						}
 					}
 				}
