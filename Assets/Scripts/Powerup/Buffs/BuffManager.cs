@@ -25,7 +25,7 @@ public class BuffManager : MonoBehaviour {
 	 */
 	public bool RemoveBuff(int buffType) {
 		for (int i = 0; i < m_buffs.Count; i++) {
-			if (m_buffs[i].GetType() == buffType && m_buffs[i].alive) {
+			if (m_buffs[i].GetBuffType() == buffType && m_buffs[i].alive) {
 				m_buffs[i].Remove();
 				return true;
 			}
@@ -38,7 +38,7 @@ public class BuffManager : MonoBehaviour {
 	 */
 	public Buff GetBuff(int buffType) {
 		for (int i = 0; i < m_buffs.Count; i++) {
-			if (m_buffs[i].GetType() == buffType && m_buffs[i].alive) {
+			if (m_buffs[i].GetBuffType() == buffType && m_buffs[i].alive) {
 				return m_buffs[i];
 			}
 		}
@@ -50,7 +50,7 @@ public class BuffManager : MonoBehaviour {
 	 */
 	public bool HasBuff(int buffType) {
 		for (int i = 0; i < m_buffs.Count; i++) {
-			if (m_buffs[i].GetType() == buffType && m_buffs[i].alive) {
+			if (m_buffs[i].GetBuffType() == buffType && m_buffs[i].alive) {
 				return true;
 			}
 		}

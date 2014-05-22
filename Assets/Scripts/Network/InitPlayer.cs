@@ -23,7 +23,7 @@ public class InitPlayer : MonoBehaviour {
 
 	public InputMetod m_localInput;
 
-	private List<PlayerData> m_playerDataList = new List<PlayerData>();
+//	private List<PlayerData> m_playerDataList = new List<PlayerData>();
 
 	// Use this for initialization
 	void Start () {
