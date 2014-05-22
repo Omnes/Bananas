@@ -141,7 +141,7 @@ public class TimeBombBuff : Buff {
 		return string.Format ("[TimeBombBuff], alive={0}]", alive);
 	}
 
-	public override int GetType ()
+	public override int GetBuffType()
 	{
 		return (int)Buff.Type.TIME_BOMB;
 	}

@@ -13,7 +13,7 @@ public class lowerBodyAnimation : MonoBehaviour {
 
 	private state m_myState;
 	private state m_currentState;
-	private state m_previousState;
+//	private state m_previousState;
 
 	private Animator m_playerAnimator;
 
@@ -71,27 +71,27 @@ public class lowerBodyAnimation : MonoBehaviour {
 	}
 
 	public void runningAnimation(){
-		m_previousState = m_currentState;
+//		m_previousState = m_currentState;
 
 		m_playerAnimator.SetFloat("playerSpeed", 1);
 		m_running = true;
 	}
 
 	public void idleAnimation(){
-		m_previousState = m_currentState;
+//		m_previousState = m_currentState;
 		
 		m_playerAnimator.SetFloat("playerSpeed", 0);
 		m_running = false;
 	}
 
 	public void blowAnimation(){
-		m_previousState = m_currentState;
+//		m_previousState = m_currentState;
 
 		m_playerAnimator.SetBool("isBlowing", true);
 	}
 
 	public void stopBlowAnimation(){
-		m_previousState = m_currentState;
+//		m_previousState = m_currentState;
 
 		m_playerAnimator.SetBool("isBlowing", false);
 	}
