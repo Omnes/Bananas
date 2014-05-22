@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class TimeBombBuff : Buff {
+
 	//Design parameters
 	public const int BOMB_DURATION_MIN = 12;
 	public const int BOMB_DURATION_MAX = 12;
@@ -10,14 +11,14 @@ public class TimeBombBuff : Buff {
 	public const float STUN_DURATION = 1.5f;
 	public const float TRANSFER_COOLDOWN = 1f;
 
+	GameObject m_bomb;
+	GameObject m_playerCircle;
+	GameObject m_explosion;
+
+
 	private static Color START_COLOR = new Color(1, 1, 0);
 	private static Color END_COLOR = new Color(1, 0, 0);
-
-	//Variables
-	private GameObject m_bomb = null;
-	private GameObject m_playerCircle = null;
-	private GameObject m_explosion = null;
-
+	
 	SyncMovement m_syncMovement;
 	private bool m_isLocal;
 	
@@ -141,7 +142,7 @@ public class TimeBombBuff : Buff {
 		return string.Format ("[TimeBombBuff], alive={0}]", alive);
 	}
 
-	public override int GetType ()
+	public override int GetBuffType()
 	{
 		return (int)Buff.Type.TIME_BOMB;
 	}

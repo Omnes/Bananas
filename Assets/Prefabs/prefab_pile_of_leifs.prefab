@@ -47,6 +47,14 @@ MonoBehaviour:
   m_totalHeight: .5
   m_minLeafCount: 10
   m_spawnInOffline: 0
+  m_leafMeshes:
+  - {fileID: 4300028, guid: c674ffc85e0b60744bfde267421a2732, type: 3}
+  - {fileID: 4300030, guid: c674ffc85e0b60744bfde267421a2732, type: 3}
+  - {fileID: 4300032, guid: c674ffc85e0b60744bfde267421a2732, type: 3}
+  - {fileID: 4300034, guid: c674ffc85e0b60744bfde267421a2732, type: 3}
+  - {fileID: 4300036, guid: c674ffc85e0b60744bfde267421a2732, type: 3}
+  - {fileID: 4300038, guid: c674ffc85e0b60744bfde267421a2732, type: 3}
+  - {fileID: 4300040, guid: c674ffc85e0b60744bfde267421a2732, type: 3}
 --- !u!148 &14800000
 NetworkView:
   m_ObjectHideFlags: 1

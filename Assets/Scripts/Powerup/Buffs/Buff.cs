@@ -120,7 +120,7 @@ public class Buff : UnityEngine.Object {
 		return string.Format ("[Buff: durationTimer={0}, alive={1}]", m_durationTimer, alive);
 	}
 
-	virtual public int GetType() {
+	virtual public int GetBuffType() {
 		Debug.LogError ("OVERRIDE THIS FUNCTION!");
 		return -1;
 	}

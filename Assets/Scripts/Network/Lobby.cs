@@ -32,7 +32,7 @@ public class Lobby : MenuBase
 	private string m_tempServerName = "";
 
 	//maxtime field
-	private int m_maxTimeField = 600;
+	private int m_maxTimeField = 90;
 
 	//scroll startpos
 	private Vector2 m_scrollRectPos = new Vector2(100,100);

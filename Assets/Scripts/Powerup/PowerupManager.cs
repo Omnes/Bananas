@@ -91,6 +91,10 @@ public class PowerupManager : MonoBehaviour {
 		}
 	}
 
+	public static void SynchronizePowerupGet(int playerID,string powerupRPC){
+		network.RPC (powerupRPC, RPCMode.All, playerID);
+	}
+
 	/**
 	 * Add the TimeBomb buff to the colliding player
 	 */
