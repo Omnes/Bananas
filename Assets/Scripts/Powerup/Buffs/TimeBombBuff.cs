@@ -41,7 +41,7 @@ public class TimeBombBuff : Buff {
 		if (m_isLocal) {
 			m_playerCircle = Instantiate (Prefactory.prefab_playerCircle) as GameObject;
 			m_playerCircle.transform.parent = m_playerRef.transform;
-			m_playerCircle.transform.localPosition = new Vector3(0.0f, -1.0f, 0.0f);
+			m_playerCircle.transform.localPosition = new Vector3(0.0f, -0.9f, 0.0f);
 			UpdateColor ();
 
 //			for (int i = 0; i < SyncMovement.s_syncMovements.Length; i++) {

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class BigLeafBlowerBuff : Buff {
@@ -40,7 +40,7 @@ public class BigLeafBlowerBuff : Buff {
 		inputHub.ClearLeafBlowerStuns ();
 		preSpeedModifier = leafBlower.m_lowestSpeedModifier;
 		leafBlower.m_lowestSpeedModifier = 1.0f;
-		SoundManager.Instance.playOneShot(SoundManager.LEAFBLOWER_WARCRY);
+		SoundManager.Instance.playOneShot(SoundManager.LEAFBLOWER_WARCRY_DOUGLAS);
 	}
 
 	public override void UpdateEvent ()

@@ -16,7 +16,7 @@ public class SoundManager : MonoBehaviour {
 	public const string TIMEBOMB_TICK = "event:/SFX/SFX_Timebomb_tick";
 
 	public const string COUNTDOWN = "event:/VO/VO_Countdown";
-	public const string LEAFBLOWER_WARCRY = "event:/VO/SvenskVO/VO_Warcry";
+	public const string LEAFBLOWER_WARCRY_DOUGLAS = "event:/VO/Douglas/Yehaa";
 
 	private string m_currentMusic = "";
 	private FMOD.Studio.EventInstance m_music;	//TODO: Byt ut till ett track per musik så att man inte kör destroy på ljuden (blir hack då)
