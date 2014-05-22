@@ -30,6 +30,8 @@ public class LeafManager : MonoBehaviour {
 	private NetworkView network;
 	public bool m_spawnInOffline = false;
 
+	public Mesh[] m_leafMeshes;
+
 //	public float m_sqrResyncDistance = Mathf.Sqrt(0.4f);
 
 	/**
@@ -52,6 +54,7 @@ public class LeafManager : MonoBehaviour {
 			m_leafs[i].SetActive(false);
 			m_leafLogics[i] = m_leafs[i].GetComponent<LeafLogic>();
 			m_leafLogics[i].m_id = i;
+			m_leafs[i].GetComponent<MeshFilter>().mesh = m_leafMeshes[i%m_leafMeshes.Length];
 
 		}
 
@@ -128,7 +131,7 @@ public class LeafManager : MonoBehaviour {
 		for (int i = 0; i < m_leafStartCount; i++) {
 			GameObject leaf = SpawnLeaf();
 			leaf.transform.position = new Vector3(Random.Range(-m_range, m_range), leaf.transform.position.y, Random.Range(-m_range, m_range));
-			leaf.transform.Rotate(new Vector3(0,0,Random.Range(0f,359f)));
+			leaf.transform.Rotate(new Vector3(0,Random.Range(0f,359f),0));
 
 		}
 	}

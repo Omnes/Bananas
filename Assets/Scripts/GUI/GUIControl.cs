@@ -40,18 +40,20 @@ public class GUIControl : MonoBehaviour {
 	}
 
 	//Mute button
-	private const float WIDTH = 50;
-	private const float HEIGHT = 50;
-	private const float PADDING = 10;
+
+
 	void OnGUI() {
+		Vector2 size = GUIMath.SmallestOfInchAndPercent(new Vector2(0.5f,0.5f),new Vector2(0.09f,0.09f));
+//		Vector2 size = new Vector2(50,50);
+		float PADDING = 0;
 		if (SoundManager.Instance.m_paused == false) {
-			if(GUI.Button(new Rect(Screen.width - (WIDTH + PADDING), PADDING, WIDTH, HEIGHT), Prefactory.texture_muteButton,m_muteButtonStyle))
+			if(GUI.Button(new Rect(Screen.width - (size.x + PADDING), PADDING, size.x, size.y), Prefactory.texture_muteButton,m_muteButtonStyle))
 			{
 				SoundManager.Instance.ToggleMute();
 			}
 		}
 		else {
-			if(GUI.Button(new Rect(Screen.width - (WIDTH + PADDING), PADDING, WIDTH, HEIGHT), Prefactory.texture_muteButton2,m_muteButtonStyle))
+			if(GUI.Button(new Rect(Screen.width - (size.x + PADDING), PADDING, size.x, size.y), Prefactory.texture_muteButton2,m_muteButtonStyle))
 			{
 				SoundManager.Instance.ToggleMute();
 			}

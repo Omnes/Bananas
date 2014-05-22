@@ -125,7 +125,7 @@ public class LeafLogic : MonoBehaviour {
 			Profiler.BeginSample("Rotate Leifs");
 //			Quaternion newAngle = Quaternion.Euler(m_transform.rotation + Vector3.forward * Time.deltaTime * m_rotationSpeed);
 //			m_rigidbody.MoveRotation(newAngle);
-			m_transform.Rotate(Vector3.forward * Time.deltaTime * m_rotationSpeed * m_rotationModifier);
+			m_transform.Rotate(Vector3.up * Time.deltaTime * m_rotationSpeed * m_rotationModifier);
 			Profiler.EndSample();
 		}
 	}
