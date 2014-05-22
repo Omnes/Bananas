@@ -8,6 +8,7 @@ public class BigLeafBlowerBuff : Buff {
 
 	//Variables
 	private Transform airTrigger;
+	private Transform blowParticles;
 	private InputHub inputHub;
 	private LeafBlower leafBlower;
 	private float preSpeedModifier;
@@ -21,7 +22,9 @@ public class BigLeafBlowerBuff : Buff {
 	{
 		m_duration = DURATION;
 		inputHub = m_playerRef.GetComponent<InputHub> ();
-		airTrigger = m_playerRef.transform.FindChild ("air_trigger");
+		blowParticles = m_playerRef.transform.FindChild ("air_trigger/blowParticles");
+		airTrigger = blowParticles.parent;
+//		blowParticles = airTrigger.FindChild("blowParticles")
 		if (airTrigger == null) {
 			Debug.LogError("air_trigger was not found on the player");
 		}
@@ -34,9 +37,10 @@ public class BigLeafBlowerBuff : Buff {
 	override public void InitEvent()
 	{
 		airTrigger.localScale = new Vector3 (2, 1, 1);
+		blowParticles.localScale = new Vector3 (0.5f, 1, 1);
 //		airTrigger.particleSystem.emissionRate *= 2;
 //		airTrigger.particleSystem.startLifetime *= 1.5f;
-		m_preColor = airTrigger.particleSystem.startColor;
+		m_preColor = blowParticles.particleSystem.startColor;
 		inputHub.ClearLeafBlowerStuns ();
 		preSpeedModifier = leafBlower.m_lowestSpeedModifier;
 		leafBlower.m_lowestSpeedModifier = 1.0f;
@@ -46,7 +50,7 @@ public class BigLeafBlowerBuff : Buff {
 	public override void UpdateEvent ()
 	{
 		//FAAAAABOLOOUUUUUS'ify
-		airTrigger.particleSystem.startColor = new Color (Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f));
+		blowParticles.particleSystem.startColor = new Color (Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f), Random.Range(0.0f, 1.0f));
 	}
 
 	/**
@@ -55,9 +59,10 @@ public class BigLeafBlowerBuff : Buff {
 	override public void ExpireEvent()
 	{
 		airTrigger.localScale = Vector3.one;
+		blowParticles.localScale = Vector3.one;
 //		airTrigger.particleSystem.emissionRate /= 2;
 //		airTrigger.particleSystem.startLifetime /= 1.5f;
-		airTrigger.particleSystem.startColor = m_preColor;
+		blowParticles.particleSystem.startColor = m_preColor;
 		leafBlower.m_lowestSpeedModifier = preSpeedModifier;
 	}
 

@@ -14,7 +14,7 @@ public class PowerupManager : MonoBehaviour {
 	private const float SPAWN_INTERVALL_MAX = 18.0f;
 
 	private const int MAX_POWERUPS = 3;
-	private const float SPAWN_RADIUS = 12f;
+	private const float SPAWN_RADIUS = 6f;
 	private const float MIN_SPAWN_DISTANCE_BETWEEN_POWERUPS = 2.5f;
 	private const int MAX_REPOSITION_RETRIES = 5;
 
