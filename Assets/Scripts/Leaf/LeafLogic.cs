@@ -140,6 +140,7 @@ public class LeafLogic : MonoBehaviour {
 	public void dropFromWhirlwind(Vector3 pos){
 		m_state = State.Drop;
 		m_endPosition = getConstrainedPosition(pos);
+		m_endPosition.y = m_transform.position.y;
 		m_toBeParent = null;
 		m_transform.parent = m_originalParent;
 	} 
