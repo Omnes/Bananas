@@ -36,7 +36,7 @@ public class LeafBlower : MonoBehaviour {
 	
 	void Start()
 	{
-		m_particleSystem = particleSystem;
+		m_particleSystem = GetComponentInChildren<ParticleSystem>();
 		m_animation = transform.parent.GetComponent<playerAnimation>();
 		
 		m_inputhub = transform.parent.GetComponent<InputHub>();
@@ -103,7 +103,7 @@ public class LeafBlower : MonoBehaviour {
 	}
 	
 	private Vector3 getRandomFallSpot(Vector3 origin){
-		float randomAngle = Random.Range(0f,360f);
+		float randomAngle = Random.Range(0f, 360f);
 		float randomDistance = Random.Range(-m_randomLeafFallRange,m_randomLeafFallRange);
 		return origin + new Vector3(Mathf.Cos(randomAngle),0,Mathf.Sin(randomAngle)) * randomDistance;
 	}
@@ -134,7 +134,6 @@ public class LeafBlower : MonoBehaviour {
 					Transform leaf = other.transform;
 					
 					LeafManager.s_lazyInstance.pickUpLeaf(m_id,leaf);
-					
 				}
 			}
 		}
