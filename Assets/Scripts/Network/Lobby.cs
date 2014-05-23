@@ -219,7 +219,8 @@ public class Lobby : MenuBase
 				startGame();
 			}
 
-			//stop server
+		// STOP GAME BUTTON
+
 			if(m_buttonsPart2[1].isClicked()){
 				stopServer();
 

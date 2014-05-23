@@ -24,9 +24,9 @@ public class EMPAnimator : MonoBehaviour {
 	 * Increase the scale from START_SCALE to TARGET_SCALE over DURATION seconds
 	 * Automatically destroys the object after reaching its TARGET_SCALE
 	 */
-	void FixedUpdate () {
+	void Update () {
 		transform.localScale = Vector3.Lerp(Vector3.one * START_SCALE, targetScale, delta);
-		delta += Time.fixedDeltaTime / DURATION;
+		delta += Time.deltaTime / DURATION;
 
 		if (delta > 1.0f) {
 			Destroy(gameObject);
