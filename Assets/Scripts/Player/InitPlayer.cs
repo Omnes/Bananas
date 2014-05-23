@@ -127,6 +127,7 @@ public class InitPlayer : MonoBehaviour {
 		GameObject tempMesh = (GameObject)Instantiate(Prefactory.prefab_meshList[m_playerInfo.id], player.transform.position, player.transform.rotation);
 		player.GetComponent<upperBodyAnimation>().setAnimator(tempMesh.GetComponent<Animator>());
 		tempMesh.transform.parent = player.transform;
+		player.transform.Find("air_trigger/blowParticles").GetComponent<FollowTransform>().setTarget(tempMesh.transform); //wohooo
 	}
 
 }

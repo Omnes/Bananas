@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400006}
   m_Layer: 0
-  m_Name: character_sarah_skinning_2:spine_4_joint
+  m_Name: spine_4_joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24,7 +24,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400008}
   m_Layer: 0
-  m_Name: character_sarah_skinning_2:spine_3_joint
+  m_Name: spine_3_joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39,7 +39,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400010}
   m_Layer: 0
-  m_Name: character_sarah_skinning_2:spine_2_joint
+  m_Name: spine_2_joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54,7 +54,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400012}
   m_Layer: 0
-  m_Name: character_sarah_skinning_2:spine_1_joint
+  m_Name: spine_1_joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -114,7 +114,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400020}
   m_Layer: 0
-  m_Name: character_sarah_skinning_2:R_wrist_ctrl_group
+  m_Name: R_wrist_ctrl_group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,7 +129,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400022}
   m_Layer: 0
-  m_Name: character_sarah_skinning_2:R_wrist_ctrl
+  m_Name: R_wrist_ctrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -264,7 +264,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400040}
   m_Layer: 0
-  m_Name: character_sarah_skinning_2:R_shoulder_joint
+  m_Name: R_shoulder_joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -279,7 +279,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400042}
   m_Layer: 0
-  m_Name: character_sarah_skinning_2:R_shoulder_ctrl_group
+  m_Name: R_shoulder_ctrl_group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -504,7 +504,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400072}
   m_Layer: 0
-  m_Name: character_sarah_skinning_2:R_elbow_joint
+  m_Name: R_elbow_joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -549,7 +549,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400078}
   m_Layer: 0
-  m_Name: character_sarah_skinning_2:R_collar_joint
+  m_Name: R_collar_joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -639,7 +639,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400090}
   m_Layer: 0
-  m_Name: character_sarah_skinning_2:pelvis_joint
+  m_Name: pelvis_joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1239,7 +1239,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400170}
   m_Layer: 0
-  m_Name: character_sarah_skinning_2:hip_ctrl_group
+  m_Name: hip_ctrl_group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1254,7 +1254,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400172}
   m_Layer: 0
-  m_Name: character_sarah_skinning_2:Hip_ctrl
+  m_Name: Hip_ctrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1464,7 +1464,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400002}
   m_Layer: 0
-  m_Name: character_sarah_skinning_2:spine_ikHandle
+  m_Name: spine_ikHandle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1479,7 +1479,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400004}
   m_Layer: 0
-  m_Name: character_sarah_skinning_2:spine_curve
+  m_Name: spine_curve
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1494,7 +1494,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400180}
   m_Layer: 0
-  m_Name: character_sarah_skinning_2:Full_body_ctrl
+  m_Name: Full_body_ctrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1510,7 +1510,7 @@ GameObject:
   - 4: {fileID: 400202}
   - 137: {fileID: 13700000}
   m_Layer: 0
-  m_Name: character_sarah_skinning_2:character_sarah_2:polySurface9
+  m_Name: character_sarah_2:polySurface9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1543,7 +1543,7 @@ GameObject:
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300000}
   m_Layer: 0
-  m_Name: PurpleBlow
+  m_Name: LeafBlower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1573,7 +1573,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100202}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.57468319, y: 17.3846607, z: -17.7102432}
+  m_LocalPosition: {x: 18.8549557, y: 3.01142836, z: -14.9679766}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400202}
