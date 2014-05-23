@@ -12,9 +12,11 @@ public class otherTestCol : MonoBehaviour
 	public float m_oppAngleMinusValue = 10.0f;
 	public float m_stunTime = 0.3f;
 	public float m_dizzyTime = 2.0f;
-	public float m_tackledTime = 0.75f;
+	public float m_tackledTime = 0.5f;
 	private float m_cooldownTimer = 0.0f;
 	private const float COOLDOWN = 0.5f;
+
+	public float m_speedThreshold = 3.0f;
 
 	/**
 	 * Initialize components
@@ -54,38 +56,39 @@ public class otherTestCol : MonoBehaviour
 					float myAngleToCenter = Mathf.Abs (Vector3.Angle (cLine, transform.forward));
 					float oppAngleToCenter = Mathf.Abs (Vector3.Angle (cLine, opponent.transform.forward));
 
-					if(m_otherMovLogic.getRigidVelocity() > m_myMovLogic.getRigidVelocity() || 
-					   myAngleToCenter > 45.0f || 
-					   myAngleToCenter > (oppAngleToCenter - m_oppAngleMinusValue))
+					//############################################
+					//Play tackle animation
+					m_playerAnim.tackleAnim(m_dizzyTime);
+					
+					//						cLine.Normalize();
+					
+					//Calculate other players velocity
+					Vector3 othersVel = m_otherMovLogic.getRigidVelVect();
+					float x1 = Vector3.Dot(cLine, othersVel);
+					
+					Vector3 othersXvel = cLine * x1;
+					Vector3 othersYvel = othersVel 	- othersXvel;
+					
+					cLine = -cLine;
+					
+					//Calculate local players velocity
+					Vector3 myVel = m_myMovLogic.getRigidVelVect();
+					float x2 = Vector3.Dot(cLine, myVel);
+					
+					Vector3 myXvel = cLine * x2;
+					Vector3 myYVel = myVel - myXvel;
+					
+					Vector3 myResultVel = myYVel + othersXvel;
+					Vector3 oppResultVel = myXvel + othersYvel;
+
+					//###
+					m_myMovLogic.setTackled(myResultVel);
+					StartCoroutine("startTackle", m_tackledTime);
+					//############################################
+
+					if (m_otherMovLogic.getRigidVelocity() > (m_myMovLogic.getRigidVelocity()) &&
+					    Mathf.Abs(m_otherMovLogic.getRigidVelocity() - m_myMovLogic.getRigidVelocity()) > m_speedThreshold)
 					{
-						//Play tackle animation
-						m_playerAnim.tackleAnim(m_dizzyTime);
-
-//						cLine.Normalize();
-
-						//Calculate other players velocity
-						Vector3 othersVel = m_otherMovLogic.getRigidVelVect();
-						float x1 = Vector3.Dot(cLine, othersVel);
-
-						Vector3 othersXvel = cLine * x1;
-						Vector3 othersYvel = othersVel 	- othersXvel;
-
-						cLine = -cLine;
-
-						//Calculate local players velocity
-						Vector3 myVel = m_myMovLogic.getRigidVelVect();
-						float x2 = Vector3.Dot(cLine, myVel);
-
-						Vector3 myXvel = cLine * x2;
-						Vector3 myYVel = myVel - myXvel;
-
-						Vector3 myResultVel = myYVel + othersXvel;
-						Vector3 oppResultVel = myXvel + othersYvel;
-
-						m_myMovLogic.setTackled(myResultVel);
-						m_otherMovLogic.setTackled(oppResultVel);
-						StartCoroutine("startTackle", m_tackledTime);
-
 						//Add buffs
 						m_buffManager.AddBuff(new StunBuff(gameObject, m_stunTime));
 						m_buffManager.AddBuff(new DizzyBuff(gameObject, m_dizzyTime));
@@ -110,12 +113,7 @@ public class otherTestCol : MonoBehaviour
 
 	IEnumerator startTackle(float tackledTime) {
 		yield return new WaitForSeconds(tackledTime);
-
-//		Debug.Log("me " + m_myMovLogic);
-//		Debug.Log("other " + m_otherMovLogic);
-
 		m_myMovLogic.restoreMovement();
-		m_otherMovLogic.restoreMovement();
 	}
 
 	public CollisionTransmitter collisionTransmitter {
