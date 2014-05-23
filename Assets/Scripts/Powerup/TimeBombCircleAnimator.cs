@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//TODO:Fixa så att den alltid börjar roterad rakt ner
 public class TimeBombCircleAnimator : MonoBehaviour {
-	public float rotationSpeed = -360;
+	private float rotationSpeed = -360 / TimeBombBuff.BOMB_DURATION_MAX;
 	private float angle = 0;
 
 	void LateUpdate () {
