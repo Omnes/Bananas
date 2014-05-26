@@ -50,11 +50,11 @@ public class MenuBase : MonoBehaviour
 			{
 				LeanTween.move(item.LtRect, item.ToPos, 3.0f).setEase(item.LeanTweenType);
 			}
-//			if(CustomButton(item.LtRect.rect, item.ButtonImg, new Rect(0.1f, 0.1f, 0.9f, 0.9f)))
 			if(CustomButton(item.LtRect.rect, m_btnImg, item.UVRect))
 			{
 				if(item.OnClick != null)
 				{
+					Debug.Log("click!");
 					item.OnClick(item);
 				}
 			}
@@ -82,7 +82,7 @@ public class MenuBase : MonoBehaviour
 	{
 		//Rita ut "i vilket fall" ..
 		GUI.DrawTextureWithTexCoords (aPosition, aButtonTexture, aUvRect);
-		if(Input.touchCount > 0 || Input.GetMouseButtonDown(0))
+		if(Input.touchCount > 0 || (Input.GetMouseButtonDown(0)))
 		{
 			if(aPosition.Contains(Event.current.mousePosition))
 			{

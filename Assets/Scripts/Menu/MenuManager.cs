@@ -10,12 +10,11 @@ public class MenuManager : MonoBehaviour
 	private MenuBase m_currentMenu;
 	private MenuBase m_previousMenu;
 
-	public const int START_GAME = 0;
-	public const int TO_LOBBY = 1;
-	public const int TO_MAIN_MENU = 2;
-	public const int BACK_TO_PREV = 3;
-	public const int MUTE_SOUND = 4;
-	public const int UNMUTE_SOUND = 5;
+	public const int TO_LOBBY = 0;
+	public const int TO_MAIN_MENU = 1;
+	public const int BACK_TO_PREV = 2;
+	public const int MUTE_SOUND = 3;
+	public const int UNMUTE_SOUND = 4;
 
 	public static MenuManager Instance
 	{
@@ -37,11 +36,10 @@ public class MenuManager : MonoBehaviour
 		m_allMenus = new List<BaseMenuItem>();
 
 		//Add MenuItems to the list containing all different kind of items that can be added to every menu..
-		addParentMenuItem ("StartGame", StartGame, "LemonPark");
 		addParentMenuItem ("Lobby", LoadSubMenu, "Lobby");
 		addParentMenuItem ("Main Menu", LoadSubMenu, "MainMenu");
 		addParentMenuItem ("Back", BackToPrev, "");
-		addActionMenuItem ("Mute", MuteSound);
+		addParentMenuItem ("Mute", MuteSound, "");
 	}
 	// Use this for initialization
 	void Start () 
@@ -81,16 +79,6 @@ public class MenuManager : MonoBehaviour
 		m_allMenus.Add (new ParentMenuItem (aName, aOnClickFunc, aSceneName));
 	}
 
-
-	//Starts the game..
-	private void StartGame(BaseMenuItem aSender)
-	{
-		m_currentMenu = (MenuBase)Camera.main.GetComponent ("LoadingScreenMenu");
-
-		//Load the gamescene asynchronous..
-		AsyncOperation async = Application.LoadLevelAsync (aSender.SubMenuName);
-	}
-
 	//Loads a submenu, this func is called by almost all parentMenuItems..
 	private void LoadSubMenu(BaseMenuItem aSender)
 	{
@@ -113,7 +101,7 @@ public class MenuManager : MonoBehaviour
 		m_currentMenu.InitMenuItems ();
 	}
 	private void MuteSound(BaseMenuItem aSender)
-	{
+	{	
 		m_currentMenu.SoundBtn = 1;
 		SoundManager.Instance.ToggleMute ();
 	}

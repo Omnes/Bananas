@@ -6,16 +6,8 @@ public class StartingScreen : MenuBase
 {
 	MenuManager instance;
 
-	public Texture2D PlayGame;
 	private List<Rect> m_soundBtnRects;
 
-
-	public float playButtonSizeX = 1.0f;
-	public float playButtonSizeY = 1.0f;
-//
-	public float soundButtonSizeX = 1.0f;
-	public float soundButtonSizeY = 1.0f;
-	
 	// Use this for initialization
 	void Start () 
 	{
@@ -26,7 +18,6 @@ public class StartingScreen : MenuBase
 		m_menuItems = new List<BaseMenuItem> ();
 		addMenuItem(instance.getMenuItem (MenuManager.TO_LOBBY));
 		addMenuItem (instance.getMenuItem (MenuManager.MUTE_SOUND));
-//		addMenuItem (instance.getMenuItem (MenuManager.UNMUTE_SOUND));
 
 		m_soundBtnRects = new List<Rect> ();
 		m_soundBtnRects.Add (new Rect (0.267f, 0.8455f, 0.154f, 0.155f));
@@ -46,8 +37,7 @@ public class StartingScreen : MenuBase
 		size = GUIMath.SmallestOfInchAndPercent (new Vector2(0.5f, 0.5f), new Vector2(0.05f, 0.05f * screenRatio));
 		centerX = screenWidth/2 - (size.x / 2);
 		centerY = screenHeight/5;
-		AdjustMenuItem (m_menuItems [1], new LTRect (screenWidth-size.x, 0.0f, size.x, size.y), new Vector2 (screenWidth-size.x, 0.0f), m_soundBtnRects[m_currentSoundBtn], LeanTweenType.easeOutElastic);
-//		AdjustMenuItem (m_menuItems [2], new LTRect (-200.0f, 100.0f, size.x * 0.6f, size.y ), new Vector2 (centerX + 600.0f, centerY - 250.0f), new Rect(0.422f, 0.8455f, 0.154f, 0.155f) , LeanTweenType.easeOutElastic);
+		AdjustMenuItem (m_menuItems [1], new LTRect (screenWidth-size.x, 0.0f, size.x, size.y), new Vector2 (screenWidth-size.x, 0.0f), new Rect (0.267f, 0.8455f, 0.154f, 0.155f), LeanTweenType.easeOutElastic);
 
 	}
 }
