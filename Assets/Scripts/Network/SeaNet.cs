@@ -200,7 +200,8 @@ public class SeaNet : MonoBehaviour {
 	
 	//not a unity default....
 	void NetworkLevelLoaded(int level){
-		if(level != 0){		
+		if(level != 0){	
+			LoadingScreen.SetLoadingText("Waiting for other players...");
 			if(Network.isClient){
 				networkView.RPC("RPCConfirmLoaded",RPCMode.Server);
 			}else{
@@ -227,6 +228,7 @@ public class SeaNet : MonoBehaviour {
 	[RPC]
 	public void RPCStartGame(int gameTime){
 		//EVERYONE IS LOADED AND READY TO GO
+		LoadingScreen.CloseLoadingScreen();
 		if(Network.isClient){
 			StartCoroutine(StartGameDelayed(gameTime,m_startDelay - Network.GetLastPing(Network.connections[0])/1000f));
 		}else{
@@ -252,7 +254,8 @@ public class SeaNet : MonoBehaviour {
 
 //		Network.SetSendingEnabled(0, false);
 //		Network.isMessageQueueRunning = false;
-
+		LoadingScreen.OpenLoadingScreen("Loading...");
+		yield return new WaitForEndOfFrame();
 		Application.LoadLevel(level);
 		yield return new WaitForEndOfFrame();
 		yield return new WaitForEndOfFrame();
