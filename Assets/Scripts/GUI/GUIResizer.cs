@@ -7,7 +7,7 @@ public class GUIResizer : MonoBehaviour {
 	public Vector2 m_maxPercentOfScreen = Vector2.one;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		resize();
 	}
 

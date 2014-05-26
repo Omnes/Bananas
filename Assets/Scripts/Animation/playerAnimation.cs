@@ -13,7 +13,7 @@ public class playerAnimation : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetKey(KeyCode.T)){
-			tackleAnim();
+			tackleAnim(1.0f);
 		}
 
 		if(Input.GetKey(KeyCode.B)){
@@ -32,8 +32,8 @@ public class playerAnimation : MonoBehaviour {
 		m_upperBodyScript.changeAnimation(upperBodyAnimation.state.IDLE);
 }
 	//tackle
-	public void tackleAnim(){
-		m_upperBodyScript.tackleAnimation();
+	public void tackleAnim(float dizzyTime){
+		m_upperBodyScript.tackleAnimation(dizzyTime);
 	}
 
 	//tackle
@@ -41,6 +41,10 @@ public class playerAnimation : MonoBehaviour {
 //		//Debug.Log("TACKLE");
 //		m_upperBodyScript.stopTackleAnimation();
 //	}
+
+	public void winAnim(){
+		m_upperBodyScript.winAnimation();
+	}
 
 	//blow
 	public void blowAnim(){

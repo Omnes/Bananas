@@ -1,0 +1,53 @@
+using UnityEngine;
+using System.Collections;
+
+public class EMPBuff : Buff {
+	//Design parameters
+	public const float DURATION = 4.0f;
+
+	//Variables
+	InputHub inputHub;
+
+	private LeafBlower m_leafBlower;
+
+	public EMPBuff(GameObject playerRef):base(playerRef)
+	{
+		m_duration = DURATION;
+		inputHub = m_playerRef.GetComponent<InputHub> ();
+		m_leafBlower = m_playerRef.GetComponentInChildren<LeafBlower>();
+//		m_period = 0.25;
+	}
+
+	override public void InitEvent()
+	{
+		m_playerRef.rigidbody.velocity = Vector3.zero;
+		inputHub.StunLeafBlower ();
+		m_leafBlower.requestDropAll();
+		GameObject empHit = Instantiate(Prefactory.prefab_EMPHit,m_playerRef.transform.position,Quaternion.identity) as GameObject;
+		empHit.transform.parent = m_playerRef.transform;
+		Destroy (empHit,4f);
+
+	}
+
+//	public override void PeriodicEvent ()
+//	{
+//		m_period = 0.0;
+//		inputHub.StunLeafBlower ();
+//		m_playerRef.rigidbody.velocity = Vector3.zero;
+//	}
+
+	override public void ExpireEvent()
+	{
+		inputHub.UnStunLeafBlower ();
+	}
+
+	public override string ToString ()
+	{
+		return string.Format ("[EMPBuff], alive={0}]", alive);
+	}
+
+	public override int GetBuffType()
+	{
+		return (int)Buff.Type.EMP;
+	}
+}

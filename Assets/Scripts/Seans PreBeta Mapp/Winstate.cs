@@ -3,39 +3,55 @@ using System.Collections;
 
 public class Winstate : MonoBehaviour {
 
-	private int m_startTime;
-	private int m_currentTime;
-	public int m_MAXTIME = 600;
+	public int m_MAXTIME;
+
+	public float m_startTime;
+	public float m_endTime;
+
+	private bool m_gameRunning = false;
+
+	private GUITimer m_guiTimer;
 	
-	public string m_nextScene = "Sean_FakeWinScene";
+	public void StartGameTimer(){
+		StartGameTimer(m_MAXTIME);
+	}
 
-	// Use this for initialization
-	void Start () {
-
+	public void StartGameTimer(int gameLength){
+		m_startTime = Time.time;
+		m_endTime = m_startTime + gameLength;
+		m_gameRunning = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if(m_guiTimer == null){
+			m_guiTimer = GUITimer.s_lazyInstance;
+		}
 
+		if(m_gameRunning){
+			if(m_guiTimer!=null){
+				m_guiTimer.updateTimer(m_endTime - Time.time);
+			}
+			if(Time.time > m_endTime){
+				//we can do a check for tie here
+				m_gameRunning = false;
+				if(Network.isServer){
+					SeaNet.Instance.savePlayersAndShutDown(ScoreKeeper.GetFirstPlaceID());
+				}
+			}
+		}
 	}
 
-	public void gameStart(){
-		if(Network.peerType == NetworkPeerType.Server){
-			StartCoroutine("UpdateTime");
-			Debug.Log("StartTime "+System.DateTime.Now.TimeOfDay);
-			m_startTime = System.DateTime.Now.Second + (System.DateTime.Now.Minute * 60);
-		}	
-	}
+//	public void gameStart(){
+//		if(Network.peerType == NetworkPeerType.Server){
+//			StartCoroutine("UpdateTime");
+//		}	
+//	}
 
-	IEnumerator UpdateTime(){
-		do{
-			m_currentTime = System.DateTime.Now.Second + (System.DateTime.Now.Minute * 60);
-			yield return new WaitForSeconds(0.2f);
-		}while(m_startTime + m_MAXTIME > m_currentTime);
-		Debug.Log("EndTime "+System.DateTime.Now.TimeOfDay);
-		//shuts down game
-		SeaNet.Instance.savePlayersAndShutDown();
-	}
-
-
+//	IEnumerator UpdateTime(){
+//		yield return new WaitForSeconds(m_MAXTIME);
+//
+//		//shuts down game
+//		SeaNet.Instance.savePlayersAndShutDown(ScoreKeeper.GetFirstPlaceID());
+//	}
 }

@@ -15,13 +15,13 @@ public class upperBodyAnimation : MonoBehaviour {
 
 	private state m_myState;
 	private state m_currentState;
-	private state m_previousState;
+//	private state m_previousState;
 	public bool m_isTackling;
 
 	public state[] m_priorityList = new state[3];
 	//public state[] m_priorityList = {state.NONE, state.NONE, state.IDLE};
 
-	private Animator m_playerAnimator;
+	public Animator m_playerAnimator;
 
 	// Use this for initialization
 	void Start () {
@@ -41,7 +41,7 @@ public class upperBodyAnimation : MonoBehaviour {
 		m_priorityList[2] = state.IDLE;
 
 		//hämta animationer osv
-		m_playerAnimator = gameObject.GetComponent<Animator>();
+		//m_playerAnimator = gameObject.GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -77,30 +77,27 @@ public class upperBodyAnimation : MonoBehaviour {
 
 	//IDLE
 	public void idleAnimation(){
-		m_previousState = m_currentState;
+//		m_previousState = m_currentState;
 		//Debug.Log("IDLE");
 		m_playerAnimator.SetFloat("playerSpeed", 0);			//ta bort sen.
 	}
 
 	//running
 	public void runningAnimation(){
-		m_previousState = m_currentState;
+//		m_previousState = m_currentState;
 		//Debug.Log("RUNNING");
 		m_playerAnimator.SetFloat("playerSpeed", 1);			//ta bort sen.
 	}
 
 	//tackle animation
-	public void tackleAnimation(){
+	public void tackleAnimation(float dizzyTime){
 		if(m_currentState != state.TACKLE){
 			//Debug.Log("TACKLE");
 			m_priorityList[0] = state.TACKLE;
 			m_playerAnimator.SetBool("tackle", true);
 			m_currentState = state.TACKLE;
 
-
-			float dizzytime = 1.0f;
-
-			StartCoroutine("tackleCoroutine", dizzytime);
+			StartCoroutine("tackleCoroutine", dizzyTime);
 
 		}
 	}
@@ -115,7 +112,7 @@ public class upperBodyAnimation : MonoBehaviour {
 
 	//blowing while running animation
 	public void blowAnimation(){
-		int statePriority = 0;
+//		int statePriority = 0;
 
 //		if(!checkHighPriority(statePriority)){
 //			//Debug.Log("BLOW");
@@ -129,6 +126,10 @@ public class upperBodyAnimation : MonoBehaviour {
 		//Debug.Log("STOPBLOW");
 		m_priorityList[1] = state.NONE;
 		m_playerAnimator.SetBool("isBlowing", false);
+	}
+
+	public void winAnimation(){
+		m_playerAnimator.SetBool("win", true);
 	}
 
 	//check if higher priority states exist
@@ -146,5 +147,8 @@ public class upperBodyAnimation : MonoBehaviour {
 		m_myState = UBAnim;
 	}
 
+	public void setAnimator(Animator anim){
+		m_playerAnimator = anim;
+	}
 
 }

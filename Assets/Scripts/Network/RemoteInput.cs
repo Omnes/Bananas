@@ -4,7 +4,7 @@ using System.Collections;
 public class RemoteInput : InputMetod {
 
 	private Vector2 m_currentInput;
-	private float m_blowingPower;
+//	private float m_blowingPower;
 
 	// Use this for initialization
 	void Start () {
@@ -16,7 +16,7 @@ public class RemoteInput : InputMetod {
 	}
 	
 	public override void setCurrentBlowingPower(float f){
-		m_blowingPower = f;
+//		m_blowingPower = f;
 	}
 	
 	public override Vector2 getCurrentInputVector(){
@@ -24,6 +24,8 @@ public class RemoteInput : InputMetod {
 	}
 	
 	public override float getCurrentBlowingPower(){
-		return m_blowingPower;
+		//temp since we are always going to blow
+		return 1f;
+//		return m_blowingPower;
 	}
 }
