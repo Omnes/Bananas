@@ -6,18 +6,13 @@ public class Lobby : MenuBase
 {
 
 
-	//Daniel
-	MenuManager instance;
-
-
-
 	//private string m_remoteIP = "127.0.0.1";
 	//private int m_remotePort = 7777;
 	private int m_listenPort = 7777;
 	private bool m_useNAT = false;
 
 
-	private int m_maxPlayers = 4; // server doesnt count, maybe?
+	private int m_maxPlayers = 3; // server doesnt count, maybe?
 	public string[] m_levels = {"LemonPark"};
 
 	//might not be use3d
@@ -37,18 +32,35 @@ public class Lobby : MenuBase
 	private string m_tempServerName = "";
 
 	//maxtime field
-	private int m_maxTimeField = 600;
+	private int m_maxTimeField = 90;
 
 	//scroll startpos
 	private Vector2 m_scrollRectPos = new Vector2(100,100);
 	public int m_maxGames = 10;
 
+	//
+	private Vector2 m_textFieldSize;
+
+
+	//eh seans nya knapp
+	//lobby part 1 knappar
+	public List<LobbyButton> m_buttonsPart1 = new List<LobbyButton>();
+	//Lobby part 2 knapar
+	public List<LobbyButton> m_buttonsPart2 = new List<LobbyButton>();
+	//gamelist
+	public List<LobbyButton> m_games = new List<LobbyButton>();
+
+	//hoistlist
+	public HostData[] m_hostlist;
+
 	// Use this for initialization
 	void Start () {
-		//Daniel
-		instance = MenuManager.Instance;
+		//menuitems
 		m_menuItems = new List<BaseMenuItem> ();
-		addMenuItem(instance.getMenuItem(MenuManager.BACK_TO_PREV));
+		//add menuitem
+		addMenuItem(MenuManager.Instance.getMenuItem(MenuManager.BACK_TO_PREV));
+		//lägg till mer knappar'
+
 		screenWidth = Screen.width;
 		screenHeight = Screen.height;
 		size = GUIMath.InchToPixels(new Vector2(1.5f, 0.8f));
@@ -59,6 +71,15 @@ public class Lobby : MenuBase
 		leftX = centerX - size.x;
 		rightX = centerX + size.x;
 
+		//knappar
+		//first lobbyapart
+		m_buttonsPart1.Add(new LobbyButton(-100,centerY, size.x, size.y,			"Host Game", new Vector2(centerX,centerY), 3.0f, LeanTweenType.easeOutElastic));
+		m_buttonsPart1.Add(new LobbyButton(-100,centerY + size.y, size.x, size.y,	"Refresh", new Vector2(centerX,centerY + size.y), 4.0f, LeanTweenType.easeOutElastic));
+		//second lobbyPart
+		m_buttonsPart2.Add(new LobbyButton(-100,centerY, size.x, size.y,			"Start Game", new Vector2(centerX,centerY), 3.0f, LeanTweenType.easeOutElastic));
+		m_buttonsPart2.Add(new LobbyButton(-100,centerY + size.y, size.x, size.y,	"Stop Server", new Vector2(centerX,centerY + size.y), 4.0f, LeanTweenType.easeOutElastic));
+
+		m_textFieldSize = GUIMath.InchToPixels(new Vector2(2f, 0.6f));
 
 
 		MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
@@ -76,37 +97,36 @@ public class Lobby : MenuBase
 	
 	}
 
+	//From Daniel
+	public override void InitMenuItems()
+	{
+	}
 
 
 	public override void DoGUI(){
 
-		//back
-		foreach(BaseMenuItem item in m_menuItems){
-			if(LeanTween.isTweening(item.LtRect) == false){
-				LeanTween.move(item.LtRect, item.ToPos, 3.0f).setEase(item.LeanTweenType);
-			}
-
-			if(GUI.Button(item.LtRect.rect, item.Name))		//Hårdkodat för det "enda" elementet från Daniel
-			{
-				if(item.OnClick != null)
-				{
-					item.OnClick(item);
-				}
-			}
-		}
-
-		Vector2 textFieldSize = GUIMath.InchToPixels(new Vector2(2f, 0.6f));
-
-
-
 			//### server not started ###
 		if(Network.peerType == NetworkPeerType.Disconnected){
 
-			//start server (server)
-			m_tempServerName = GUI.TextField(new Rect(rightX, centerY, textFieldSize.x, textFieldSize.y), m_tempServerName, 25);
-			m_tempPlayerName = GUI.TextField(new Rect(rightX, centerY + size.y, textFieldSize.x, textFieldSize.y), m_tempPlayerName, 25);
+			//animation
+			for(int i = 0; i < m_buttonsPart1.Count; i++){
+				m_buttonsPart1[i].move();
+			}
 
-			if(GUI.Button(new Rect(centerX, centerY, size.x, size.y), "Start Server")){
+			//start server (server)
+			m_tempServerName = GUI.TextField(new Rect(rightX, centerY, m_textFieldSize.x, m_textFieldSize.y), m_tempServerName, 25);
+			m_tempPlayerName = GUI.TextField(new Rect(rightX, centerY + size.y, m_textFieldSize.x, m_textFieldSize.y), m_tempPlayerName, 25);
+
+			//  START SERVER BUTTON
+
+			//if(GUI.Button(new Rect(centerX, centerY, size.x, size.y), "Start Server")){
+			//start server
+			if(m_buttonsPart1[0].isClicked()){
+
+				for(int i = 0; i < m_buttonsPart2.Count; i++){
+					m_buttonsPart2[i].resetButton();
+				}
+
 				if(m_tempPlayerName.Length == 0){
 					m_tempPlayerName = "NOOB";
 				}
@@ -119,89 +139,110 @@ public class Lobby : MenuBase
 				m_myPlayerData.local = true;
 				addPlayerToClientList(m_myPlayerData);
 			}
+
+			// REFRESH BUTTON
+
+			//client in lobby
+			if(m_buttonsPart1[1].isClicked()){
+				MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
+
+				m_hostlist = MasterServer.PollHostList();
+				m_games.Clear();
+
+				int j = 0;
+				for(int i = 0; i < m_hostlist.Length; i++){
+					if(m_hostlist[i].connectedPlayers < m_hostlist[i].playerLimit){
+						j++;
+						string text = m_hostlist[i].gameName + "\n" + (m_hostlist[i].connectedPlayers)+"/"+m_hostlist[i].playerLimit;
+						m_games.Add(new LobbyButton(-100,centerY + size.y * j, size.x, size.y, text, new Vector2(centerX - size.x,centerY + size.y * j), 3.0f + j, LeanTweenType.easeOutElastic));
+					}
+				}
+			}
+
+			//MasterServer.PollHostList("hej");
+			
+//			GUILayout.BeginArea(new Rect(leftX, centerY, size.x, size.y * m_maxGames));
+//			//GUILayout.FlexibleSpace();
+//			GUILayout.BeginVertical();
+//			//leftX, centerY + i * size.y, size.x, size.y
+//			GUILayout.MinHeight(size.y);
+			
+			//m_scrollRectPos = GUILayout.BeginScrollView(m_scrollRectPos, GUILayout.Width(size.x), GUILayout.Height(screenHeight));
+
+			if(m_hostlist != null){
+				for( int i = 0; i < m_games.Count; i++){
+					m_games[i].move();
+
+					if(m_games[i].isClicked()){
+						
+						if(m_tempPlayerName.Length == 0){
+							m_tempPlayerName = "NOOB";
+						}
+						//connecting to server
+						//send networkplayer as patramaeter for cleanup ?
+						connectToServer(m_hostlist[i]);
+						Debug.Log("NETWORKID: "+ Network.player.guid);
+						
+					}
+				}
+			}
+//			
+//			GUILayout.EndScrollView();
+//			
+//			GUILayout.EndVertical();
+//			GUILayout.EndArea();
+
 		}
+
+		// START GAME BUTTON
+
 			//started server
 		if(Network.peerType == NetworkPeerType.Server){
-			if(GUI.Button(new Rect(centerX, centerY, size.x, size.y), "Start Game")){
-				//set maxtime
-				SeaNet.Instance.setMaxTime(m_maxTimeField);
 
-				//create ID for allplayers
-				createId();
-				//loads next level
-				Network.maxConnections = -1;
-				//denna fungerar inte
-				MasterServer.UnregisterHost();
-				loadLevel();
+			//animation
+			for(int i = 0; i < m_buttonsPart2.Count; i++){
+				m_buttonsPart2[i].move();
 			}
-			if(GUI.Button(new Rect(centerX, centerY + size.y, size.x, size.y), "Stop Server")){
-				m_tempServerName = "";
+
+			//start game
+			if(m_buttonsPart2[0].isClicked()){
+				startGame();
+			}
+
+			//stop server
+			if(m_buttonsPart2[1].isClicked()){
 				stopServer();
-			}
-			if(GUI.Button(new Rect(centerX, centerY + (size.y * 2), size.x, size.y), "SEE STUFF")){
-				networkView.RPC("showStuff", RPCMode.All);
+
+				for(int i = 0; i < m_buttonsPart1.Count; i++){
+					m_buttonsPart1[i].resetButton();
+				}
 			}
 
 			string tempMax = GUI.TextField(new Rect(centerX, centerY + (size.y * 3), size.x, size.y), m_maxTimeField.ToString(), 25);
 			m_maxTimeField = int.Parse(tempMax);
 
-		}/*else if(Network.peerType == NetworkPeerType.Client){
-			//client in serverlobby
-		}*/else{
-			//client in lobby
-			if(GUI.Button(new Rect(centerX, centerY + size.y, size.x, size.y), "Refresh")){
-				MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
-			}
-			
-			//
-			HostData[] data = MasterServer.PollHostList();
-			//MasterServer.PollHostList("hej");
-
-			GUILayout.BeginArea(new Rect(leftX, centerY, size.x, size.y * m_maxGames));
-			//GUILayout.FlexibleSpace();
-			GUILayout.BeginVertical();
-			//leftX, centerY + i * size.y, size.x, size.y
-			GUILayout.MinHeight(size.y);
-
-			m_scrollRectPos = GUILayout.BeginScrollView(m_scrollRectPos, GUILayout.Width(size.x), GUILayout.Height(screenHeight));
-
-				for( int i = 0; i < data.Length; i++){
-					if(GUILayout.Button(data[i].gameName, GUILayout.MinHeight(size.y))){
-
-							if(m_tempPlayerName.Length == 0){
-								m_tempPlayerName = "NOOB";
-							}
-							//connecting to server
-							//send networkplayer as patramaeter for cleanup ?
-							connectToServer(data[i]);
-							Debug.Log("NETWORKID: "+ Network.player.guid);
-
-					}
-				}
-
-
-			GUILayout.EndScrollView();
-
-			GUILayout.EndVertical();
-			GUILayout.EndArea();
 		}
 
 		for(int i = 0; i < m_connectedPlayers.Count; i++){
 			GUILayout.Label("Client Name: "+ m_connectedPlayers[i].m_name+" Client GUID"+m_connectedPlayers[i].m_guid);
 		}
-		GUILayout.Label("ListSize (players): "+m_connectedPlayers.Count);
+//		GUILayout.Label("ListSize (players): "+m_connectedPlayers.Count);
 
 	}
 
-	//From Daniel
-	public override void InitMenuItems()
-	{
-//		AdjustMenuItem (m_menuItems [0], new LTRect (-200.0f, 100.0f, size.x, size.y), new Vector2 (centerX, centerY + size.y * 2), LeanTweenType.easeOutElastic);
+	public void startGame(){
+		//set maxtime
+		SeaNet.Instance.setMaxTime(m_maxTimeField);
+		
+		//create ID for allplayers
+		createId();
+		//loads next level
+		Network.maxConnections = -1;
+		//denna fungerar inte
+		MasterServer.UnregisterHost();
+		SeaNet.Instance.loadLevel(m_levels[0]);
+
 	}
-
-
-
-
 
 	//		For starting server on mobile device use 
 	//		Network.TestConnnection to check if device can use NAT punchthrough
@@ -244,9 +285,7 @@ public class Lobby : MenuBase
 		//
 	}
 
-	public void loadLevel(){
-		networkView.RPC("loadLevelRPC", RPCMode.All);
-	}
+
 
 	//lägger till spelare så den kan följa med till nästa scen
 	public void addPlayerToClientList(PlayerData p){
@@ -336,10 +375,7 @@ public class Lobby : MenuBase
 
 	// ###			SERVER			###
 
-	[RPC]
-	private void loadLevelRPC(){
-		Application.LoadLevel(m_levels[0]);
-	}
+
 
 	//set name and if it's local
 	//THIS IS ONLY DONE ON SERVERSIDE
@@ -383,10 +419,5 @@ public class Lobby : MenuBase
 		}
 	}
 
-	//###		REMOVE THIS LATER ONLY TEST (fråga sean obv)		####
-	[RPC]
-	private void showStuff(){
-		SeaNet.Instance.testLookAtStuff();
-	}
 
 }

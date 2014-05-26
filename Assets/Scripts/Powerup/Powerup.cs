@@ -2,8 +2,8 @@
 using System.Collections;
 
 public class Powerup : MonoBehaviour {
-	public const float ROTATION_SPEED = 45;
-	public const float DEATH_TIME = 0.5f;
+	public float m_rotationSpeed = 45;	//Angle per second
+	public float m_growSpeed = 0.5f;	//scale 0 to 1 in seconds
 
 	public static int TIME_BOMB 		= GetUniqueID();
 	public static int BIG_LEAF_BLOWER 	= GetUniqueID();
@@ -13,48 +13,40 @@ public class Powerup : MonoBehaviour {
 	private static int GetUniqueID() {return ID++;}
 
 	private Rigidbody m_rigidbody;
-	private Transform m_transform;
-
 	private bool m_hasBeenPickedUp = false;
-	private GameObject m_pickingObject;
-	private float m_killTimer = 0;
 
 	void Start() {
-//		m_rigidbody = transform.FindChild ("powerup_questionmark").rigidbody;
 		m_rigidbody = GetComponent<Rigidbody> ();
-//		Debug.Log ("Test: " + m_rigidbody);
-//		m_rigidbody = rigidbody;
-		m_transform = transform;
+		transform.localScale = Vector3.zero;
 	}
 
 	void OnTriggerEnter(Collider col)
 	{
-		if ( Network.isServer ) {
+		if ( Network.isServer && !m_hasBeenPickedUp) {
 			if (col.gameObject.CompareTag ("Player")) {
 				m_hasBeenPickedUp = true;
-				m_pickingObject = col.gameObject;
-				//Play animation
+
+				PowerupManager.SynchronizePowerupGet (col.gameObject);
+
+				Network.Instantiate(Prefactory.prefab_powerupPickup, transform.position, transform.rotation, 0);
+//				GameObject particles = Instantiate(Prefactory.prefab_powerupPickup, transform.position, Prefactory.prefab_powerupPickup.transform.localRotation) as GameObject;
+//				Destroy(particles, particles.particleSystem.duration + particles.particleSystem.startLifetime);
+
 				SoundManager.Instance.playOneShot (SoundManager.POWERUP_PICKUP);
+				PowerupManager.Remove(gameObject);
 			}
 	    }
 	}
 
-	void Update()
-	{
-		if (m_hasBeenPickedUp) {
-			m_killTimer += Time.deltaTime;
-			if (m_killTimer > DEATH_TIME) {
-				PowerupManager.SynchronizePowerupGet (m_pickingObject);
-				PowerupManager.Remove(gameObject);
-			}
-		}
-	}
-
-	public void FixedUpdate()
+	public void Update()
 	{
 		Quaternion prevAngle = m_rigidbody.rotation;
-		Quaternion newAngle = Quaternion.Euler(prevAngle.eulerAngles + Vector3.up * ROTATION_SPEED * Time.deltaTime);
+		Quaternion newAngle = Quaternion.Euler(prevAngle.eulerAngles + Vector3.up * m_rotationSpeed * Time.deltaTime);
 		m_rigidbody.MoveRotation(newAngle);
+
+		if (transform.localScale.x < 1.0f) {
+			transform.localScale += Vector3.one * Time.deltaTime / m_growSpeed;
+		}
 	}
 
 }

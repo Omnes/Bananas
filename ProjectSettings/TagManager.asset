@@ -19,9 +19,9 @@ TagManager:
   User Layer 8: Leaf_layer
   User Layer 9: Wind_layer
   User Layer 10: GUI_layer
-  User Layer 11: Background Image
-  User Layer 12: 
-  User Layer 13: 
+  User Layer 11: AirTrigger_layer
+  User Layer 12: LeafCollector_layer
+  User Layer 13: Background Image
   User Layer 14: 
   User Layer 15: 
   User Layer 16: 

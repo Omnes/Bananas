@@ -17,8 +17,18 @@ public class TimeBombTargetBuff : Buff {
 		m_playerCircle.renderer.material.SetColor ("_Color", Color.gray);
 	}
 
-	public override void RemoveEvent ()
+	public override void ExpireEvent ()
 	{
 		Destroy (m_playerCircle);
+	}
+
+	public override string ToString ()
+	{
+		return string.Format ("[TimeBombTargetBuff], alive={0}]", alive);
+	}
+
+	public override int GetBuffType()
+	{
+		return (int)Buff.Type.TIME_BOMB_TARGET;
 	}
 }
