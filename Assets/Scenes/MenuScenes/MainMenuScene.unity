@@ -78,7 +78,7 @@ NavMeshSettings:
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 100000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
-  m_PrefabInternal: {fileID: 1516065670}
+  m_PrefabInternal: {fileID: 1540837215}
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 621595748}
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 11400000, guid: da05caf9f7029394fb9a6933de03792f,
     type: 2}
-  m_PrefabInternal: {fileID: 1516065670}
+  m_PrefabInternal: {fileID: 1540837215}
   m_GameObject: {fileID: 621595746}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -108,8 +108,8 @@ MonoBehaviour:
   m_EMP: {fileID: 100000, guid: a79a773766ff80145ac0b2fa9c007fde, type: 2}
   m_EMPHit: {fileID: 100000, guid: 74eb5785c6333ea4b86bdf0012a4607a, type: 2}
   m_powerupPickup: {fileID: 100000, guid: 926a86c1ce11e59488f1b2761e28b58f, type: 2}
-  m_muteButton: {fileID: 2800000, guid: ea971936f22bb2e43be7400cb97852f4, type: 3}
-  m_muteButton2: {fileID: 2800000, guid: 137fadd94e0f6a24ea3836d19091bd2d, type: 3}
+  m_muteButton: {fileID: 2800000, guid: c9e38e9abdb61d248a01633face4fca5, type: 3}
+  m_muteButton2: {fileID: 2800000, guid: 89264eee26d1ada46b1636aa50e6ec23, type: 3}
   m_winnerOtherTexture: {fileID: 2800000, guid: 4737c572094947d45ad80fd6a10bfffc,
     type: 3}
   m_winnerTexture: {fileID: 2800000, guid: 10959fc225fa3aa44a85a39c3bad7cd9, type: 3}
@@ -182,7 +182,7 @@ MonoBehaviour:
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 400000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
-  m_PrefabInternal: {fileID: 1516065670}
+  m_PrefabInternal: {fileID: 1540837215}
   m_GameObject: {fileID: 621595746}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -371,7 +371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pluginPaths: []
---- !u!1001 &1516065670
+--- !u!1001 &1540837215
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -407,21 +407,13 @@ Prefab:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
-      propertyPath: m_loadingscreenTextStyle.m_Normal.m_TextColor.r
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: m_muteButton
+      value: 
+      objectReference: {fileID: 2800000, guid: c9e38e9abdb61d248a01633face4fca5, type: 3}
     - target: {fileID: 11400000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
-      propertyPath: m_loadingscreenTextStyle.m_Normal.m_TextColor.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
-      propertyPath: m_loadingscreenTextStyle.m_Normal.m_TextColor.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11400000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
-      propertyPath: m_loadingscreenTextStyle.m_FontSize
-      value: 24
-      objectReference: {fileID: 0}
+      propertyPath: m_muteButton2
+      value: 
+      objectReference: {fileID: 2800000, guid: 89264eee26d1ada46b1636aa50e6ec23, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
   m_RootGameObject: {fileID: 621595746}
