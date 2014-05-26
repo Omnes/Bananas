@@ -24,8 +24,8 @@ public class SeaNet : MonoBehaviour {
 
 //	public bool m_gameEnded = false;
 
-	public string m_sceneAfterWin = "MainMenuScene";
-	public string m_sceneStateAfterWin = "MainMenu";
+	private string m_sceneAfterWin = "MainMenuScene";
+	private string m_sceneStateAfterWin = "StartingScreen";
 
 	private Vector2 m_size;
 
@@ -99,7 +99,7 @@ public class SeaNet : MonoBehaviour {
 		//if server leaves, remove everyone from game
 		if(Network.isServer){
 			networkView.RPC("disconnectServer", RPCMode.Others);
-			stopGameRPC("MainMenuScene", "MainMenu");
+			stopGameRPC("MainMenuScene", "StartingScreen");
 			m_connectedPlayers.Clear();
 			Network.Disconnect();
 															//RPC KICK ALL PLAYERS
@@ -108,7 +108,7 @@ public class SeaNet : MonoBehaviour {
 		//if client leaves, remove him from everyone
 		}else if(Network.isClient){
 			networkView.RPC ("disconnectRPC", RPCMode.Others, getLocalPlayer());
-			stopGameRPC("MainMenuScene", "MainMenu");
+			stopGameRPC("MainMenuScene", "StartingScreen");
 			m_connectedPlayers.Clear();
 			Network.Disconnect();
 		}
@@ -125,7 +125,7 @@ public class SeaNet : MonoBehaviour {
 
 	[RPC]
 	private void disconnectServer(){
-		stopGameRPC("MainMenuScene", "MainMenu");
+		stopGameRPC("MainMenuScene", "StartingScreen");
 		m_connectedPlayers.Clear();
 		Network.Disconnect();
 	}

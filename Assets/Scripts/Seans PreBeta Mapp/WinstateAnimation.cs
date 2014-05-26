@@ -76,7 +76,7 @@ public class WinstateAnimation : MonoBehaviour {
 					SeaNet.Instance.stopGame ("MainMenuScene", "Lobby");
 				}else{
 					SeaNet.Instance.disconnect();
-					SeaNet.Instance.stopGame ("MainMenuScene", "MainMenu");
+					SeaNet.Instance.stopGame ("MainMenuScene", "StartingScreen");
 				}
 			}
 		}

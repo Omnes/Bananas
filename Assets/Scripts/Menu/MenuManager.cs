@@ -105,4 +105,10 @@ public class MenuManager : MonoBehaviour
 		m_currentMenu.SoundBtn = 1;
 		SoundManager.Instance.ToggleMute ();
 	}
+	public void initCurrentMenu(string aMenu)
+	{
+		Debug.Log (aMenu);
+		m_currentMenu = (MenuBase)Camera.main.GetComponent (aMenu);
+		m_currentMenu.InitMenuItems ();
+	}
 }
