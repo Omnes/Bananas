@@ -45,7 +45,7 @@ MonoBehaviour:
   m_range: 9.5
   m_startHeight: .00100000005
   m_totalHeight: .5
-  m_minLeafCount: 10
+  m_minLeafCount: 20
   m_spawnInOffline: 0
   m_leafMeshes:
   - {fileID: 4300028, guid: c674ffc85e0b60744bfde267421a2732, type: 3}
