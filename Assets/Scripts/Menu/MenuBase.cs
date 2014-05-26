@@ -10,6 +10,13 @@ public class MenuBase : MonoBehaviour
 	private bool m_firstTime = true;
 	public bool FirstTime{set{m_firstTime = value;}}
 
+	public Texture m_backGround;
+	public Texture m_btnImg;
+
+	//Sound btns .. 
+	protected int m_currentSoundBtn;
+	public int SoundBtn{ get { return m_currentSoundBtn; } set { m_currentSoundBtn = value; } }
+
 	//button proportions..
 	protected int screenWidth;
 	protected int screenHeight;
@@ -29,29 +36,28 @@ public class MenuBase : MonoBehaviour
 		screenHeight = Screen.height;
 		size = GUIMath.InchToPixels(new Vector2(1.5f, 0.8f));
 		float centerX = screenWidth/2 - (size.x / 2);
-		float centerY = screenWidth/6;
-
-
+		float centerY = screenHeight/6;
+		
 		m_instance = MenuManager.Instance;
 	}
 
 	public virtual void DoGUI()
 	{
-		int i = 0;
+		GUI.DrawTexture (new Rect (0.0f, 0.0f, screenWidth, screenHeight), m_backGround);
 		foreach(BaseMenuItem item in m_menuItems)
 		{
 			if(LeanTween.isTweening(item.LtRect) == false && m_firstTime == true)
 			{
 				LeanTween.move(item.LtRect, item.ToPos, 3.0f).setEase(item.LeanTweenType);
 			}
-			if(GUI.Button(item.LtRect.rect, item.Name))
+			if(CustomButton(item.LtRect.rect, m_btnImg, item.UVRect))
 			{
 				if(item.OnClick != null)
 				{
+					Debug.Log("click!");
 					item.OnClick(item);
 				}
 			}
-			i++;
 		}
 		m_firstTime = false;
 	}
@@ -63,12 +69,28 @@ public class MenuBase : MonoBehaviour
 	public virtual void InitMenuItems()
 	{
 	}
-	public void AdjustMenuItem(BaseMenuItem aItem, LTRect aLtRect, Vector2 aToPosition, LeanTweenType aLeanTweenType = LeanTweenType.easeOutBounce)
+	public void AdjustMenuItem(BaseMenuItem aItem, LTRect aLtRect, Vector2 aToPosition, Rect aUvRect, LeanTweenType aLeanTweenType = LeanTweenType.punch)
 	{
 		aItem.LtRect = aLtRect;
 		aItem.ToPos = aToPosition;
+		aItem.UVRect = aUvRect;
 		aItem.LeanTweenType = aLeanTweenType;
+
 	}
 
+	public bool CustomButton(Rect aPosition, Texture aButtonTexture, Rect aUvRect)
+	{
+		//Rita ut "i vilket fall" ..
+		GUI.DrawTextureWithTexCoords (aPosition, aButtonTexture, aUvRect);
+		if(Input.touchCount > 0 || (Input.GetMouseButtonDown(0)))
+		{
+			if(aPosition.Contains(Event.current.mousePosition))
+			{
+				Debug.Log("Pressed btn");
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

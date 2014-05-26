@@ -73,11 +73,11 @@ public class Lobby : MenuBase
 
 		//knappar
 		//first lobbyapart
-		m_buttonsPart1.Add(new LobbyButton(-100,centerY, size.x, size.y,			"Host Game", new Vector2(centerX,centerY), 3.0f, LeanTweenType.easeOutElastic));
-		m_buttonsPart1.Add(new LobbyButton(-100,centerY + size.y, size.x, size.y,	"Refresh", new Vector2(centerX,centerY + size.y), 4.0f, LeanTweenType.easeOutElastic));
+		m_buttonsPart1.Add(new LobbyButton(-100,centerY, size.x, size.y,			"Host Game", new Vector2(centerX,centerY), 0.5f, LeanTweenType.easeOutSine));
+		m_buttonsPart1.Add(new LobbyButton(-100,centerY + size.y, size.x, size.y,	"Refresh", new Vector2(centerX,centerY + size.y), 0.5f, LeanTweenType.easeOutSine));
 		//second lobbyPart
-		m_buttonsPart2.Add(new LobbyButton(-100,centerY, size.x, size.y,			"Start Game", new Vector2(centerX,centerY), 3.0f, LeanTweenType.easeOutElastic));
-		m_buttonsPart2.Add(new LobbyButton(-100,centerY + size.y, size.x, size.y,	"Stop Server", new Vector2(centerX,centerY + size.y), 4.0f, LeanTweenType.easeOutElastic));
+		m_buttonsPart2.Add(new LobbyButton(-100,centerY, size.x, size.y,			"Start Game", new Vector2(centerX,centerY), 0.5f, LeanTweenType.easeOutSine));
+		m_buttonsPart2.Add(new LobbyButton(-100,centerY + size.y, size.x, size.y,	"Stop Server", new Vector2(centerX,centerY + size.y), 0.5f, LeanTweenType.easeOutSine));
 
 		m_textFieldSize = GUIMath.InchToPixels(new Vector2(2f, 0.6f));
 
@@ -100,7 +100,6 @@ public class Lobby : MenuBase
 	//From Daniel
 	public override void InitMenuItems()
 	{
-		AdjustMenuItem (m_menuItems[0], new LTRect (-100.0f, centerY + size.y * 2, size.x, size.y), new Vector2 (centerX, centerY + size.y * 2), LeanTweenType.easeOutElastic);
 	}
 
 
@@ -193,20 +192,6 @@ public class Lobby : MenuBase
 //			GUILayout.EndVertical();
 //			GUILayout.EndArea();
 
-			//back
-			if(LeanTween.isTweening(m_menuItems[0].LtRect) == false){
-				LeanTween.move(m_menuItems[0].LtRect, m_menuItems[0].ToPos, 5.0f).setEase(m_menuItems[0].LeanTweenType);
-			}
-			
-			if(GUI.Button(m_menuItems[0].LtRect.rect, m_menuItems[0].Name))		//Hårdkodat för det "enda" elementet från Daniel
-			{
-				if(m_menuItems[0].OnClick != null)
-				{
-					m_menuItems[0].OnClick(m_menuItems[0]);
-				}
-			}
-
-
 		}
 
 		// START GAME BUTTON
@@ -224,7 +209,8 @@ public class Lobby : MenuBase
 				startGame();
 			}
 
-			//stop server
+		// STOP GAME BUTTON
+
 			if(m_buttonsPart2[1].isClicked()){
 				stopServer();
 
@@ -241,7 +227,7 @@ public class Lobby : MenuBase
 		for(int i = 0; i < m_connectedPlayers.Count; i++){
 			GUILayout.Label("Client Name: "+ m_connectedPlayers[i].m_name+" Client GUID"+m_connectedPlayers[i].m_guid);
 		}
-		GUILayout.Label("ListSize (players): "+m_connectedPlayers.Count);
+//		GUILayout.Label("ListSize (players): "+m_connectedPlayers.Count);
 
 	}
 
@@ -256,6 +242,7 @@ public class Lobby : MenuBase
 		//denna fungerar inte
 		MasterServer.UnregisterHost();
 		SeaNet.Instance.loadLevel(m_levels[0]);
+
 	}
 
 	//		For starting server on mobile device use 
