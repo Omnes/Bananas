@@ -11,8 +11,6 @@ public class WinstateAnimation : MonoBehaviour {
 		NONE
 	};
 
-	private SyncMovement[] m_playerObjs = new SyncMovement[4];
-	private BuffManager[] m_buffManagers = new BuffManager[4];
 	private List<PlayerData> m_connectedPlayers = new List<PlayerData>();
 	private state[] m_rematchChecks = new state[4];
 
@@ -47,8 +45,6 @@ public class WinstateAnimation : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		m_connectedPlayers = SeaNet.Instance.getPlayerArr ();
-		m_playerObjs = SyncMovement.s_syncMovements;
-		m_buffManagers = BuffManager.m_buffManagers;
 
 		m_size = GUIMath.InchToPixels(new Vector2(1.5f, 0.8f));
 
@@ -104,6 +100,9 @@ public class WinstateAnimation : MonoBehaviour {
 	}
 
 	public void playWinScene(int id){
+		SyncMovement[] m_playerObjs = SyncMovement.s_syncMovements;
+		BuffManager[] m_buffManagers = BuffManager.m_buffManagers;
+
 		if(m_playerObjs[id] != null && m_buffManagers[id] != null){
 			//pos
 			Vector3 tempPos = m_playerObjs[id].transform.position;
