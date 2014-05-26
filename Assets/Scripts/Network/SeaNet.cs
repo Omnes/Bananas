@@ -207,6 +207,8 @@ public class SeaNet : MonoBehaviour {
 			}else{
 				RPCConfirmLoaded(); //in singelplayer the server do not consider itself a server
 			}
+		}else{
+			LoadingScreen.CloseLoadingScreen();
 		}
 
 	}

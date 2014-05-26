@@ -51,7 +51,7 @@ public class WinstateAnimation : MonoBehaviour {
 //			m_playerObjs[id].transform.LookAt(new Vector3(-7,0,0));
 			Vector3 lookAtPos = Camera.main.transform.position - new Vector3(0,Camera.main.transform.position.y,0);
 			m_playerObjs[id].transform.LookAt(lookAtPos);
-			m_playerObjs[id].transform.Rotate(Vector3.up*25f);
+			m_playerObjs[id].transform.Rotate(Vector3.up*12f);
 			
 
 			//

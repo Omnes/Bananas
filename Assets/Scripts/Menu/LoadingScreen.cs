@@ -10,11 +10,16 @@ public class LoadingScreen : MonoBehaviour {
 
 	public static void OpenLoadingScreen(string text){
 		if(m_loadingScreen == null){
-			//we need to disable the GUI that are beeing drawn to prevent it from drawing over the loadingscreen
-			GameObject menumanager = GameObject.Find("MenuManager"); //ush /robin
+			//we need to disable the GUI that are beeing drawn to prevent it from drawing over the loadingscreen (a hacky fix)
+			GameObject menumanager = GameObject.Find("MenuManager"); 
 			if(menumanager != null){
 				menumanager.SetActive(false); 
 			}
+			GameObject winstate = GameObject.Find("SeaNet"); 
+			if(winstate != null){
+				winstate.GetComponent<WinstateAnimation>().enabled = false; 
+			}
+
 			//
 			m_loadingScreen = new GameObject();
 			m_loadingScreen.name = "Loadingscreen";
