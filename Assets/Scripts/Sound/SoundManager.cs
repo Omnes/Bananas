@@ -9,14 +9,35 @@ public class SoundManager : MonoBehaviour {
 
 	public const string EMP = "event:/SFX/SFX_EMP";
 	public const string TIMEBOMB_EXPLOSION = "event:/SFX/SFX_Explosion";
-	public const string FOOTSTEP = "event:/SFX/SFX_Footstep";
+//	public const string FOOTSTEP = "event:/SFX/SFX_Footstep";
 	public const string LEAFBLOWER = "event:/SFX/SFX_leafblower";
 	public const string POWERUP_PICKUP = "event:/SFX/SFX_PickUp";
 	public const string KNOCKOUT = "event:/SFX/SFX_Tackle";
 	public const string TIMEBOMB_TICK = "event:/SFX/SFX_Timebomb_tick";
 
 	public const string COUNTDOWN = "event:/VO/VO_Countdown";
-	public const string LEAFBLOWER_WARCRY_DOUGLAS = "event:/VO/Douglas/Yehaa";
+	public const string LEAFBLOWER_WARCRY = "event:/VO/Douglas/Yehaa";
+
+	//Voices
+	public static string[] VOICE_TACKLED = new string[4]{
+		"event:/VO/Douglas/Thats not good enough",
+		"event:/VO/Ella/Objection!",
+		"event:/VO/Leif/Ameh, VA1",
+		"event:/VO/Sarah/Ill Get You"
+	};
+	public static string[] VOICE_TACKLING = new string[4]{
+		"event:/VO/Douglas/All's fair",
+		"event:/VO/Ella/Sue me",
+		"event:/VO/Leif/Get Moosed, VA1",
+		"event:/VO/Sarah/Power Slam"
+	};
+	public static string[] VOICE_VICTORY = new string[4]{
+		"event:/VO/Douglas/Im winning kids",
+		"event:/VO/Ella/Case closed",
+		"event:/VO/Leif/That was that that",
+		"event:/VO/Sarah/Boom"
+	};
+	
 
 	private string m_currentMusic = "";
 	private FMOD.Studio.EventInstance m_music;	//TODO: Byt ut till ett track per musik så att man inte kör destroy på ljuden (blir hack då)
