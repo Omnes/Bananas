@@ -277,6 +277,7 @@ public class SeaNet : MonoBehaviour {
 	private void endGameSceneRPC(int id){
 		SoundManager.Instance.StartWinMusic();
 		m_gameEnded = true;
+		PowerupManager.Disable ();
 		m_winstateAnimation.playWinScene(id);
 	}
 	

@@ -8,12 +8,12 @@ using System.Collections.Generic;
  */
 public class PowerupManager : MonoBehaviour {
 	//Design parameters
-	private const float INIT_SPAWN_DELAY_MIN = 15.0f;
-	private const float INIT_SPAWN_DELAY_MAX = 15.0f;
-	private const float SPAWN_INTERVALL_MIN = 15.0f;
-	private const float SPAWN_INTERVALL_MAX = 18.0f;
+	private const float INIT_SPAWN_DELAY_MIN = 1.0f;
+	private const float INIT_SPAWN_DELAY_MAX = 1.0f;
+	private const float SPAWN_INTERVALL_MIN = 1.0f;
+	private const float SPAWN_INTERVALL_MAX = 1.0f;
 
-	private const int MAX_POWERUPS = 3;
+	private const int MAX_POWERUPS = 1;
 	private const float SPAWN_RADIUS = 6f;
 	private const float MIN_SPAWN_DISTANCE_BETWEEN_POWERUPS = 2.5f;
 	private const int MAX_REPOSITION_RETRIES = 5;
@@ -35,6 +35,8 @@ public class PowerupManager : MonoBehaviour {
 	private static bool CanSpawnBigLeafBlower() { return bigLeafBlowerTimer > BigLeafBlowerBuff.DURATION; }
 	private static bool CanSpawnEMP() { return EMPTimer > EMPBuff.DURATION; }
 
+	private static bool m_canSpawn;
+
 	/**
 	 * Initialize variables
 	 */
@@ -45,14 +47,16 @@ public class PowerupManager : MonoBehaviour {
 
 		//Add all powerups that should be spawned here
 		m_spawnablePowerups.Add(Powerup.TIME_BOMB);
-		m_spawnablePowerups.Add(Powerup.BIG_LEAF_BLOWER);
-		m_spawnablePowerups.Add(Powerup.EMP);
+//		m_spawnablePowerups.Add(Powerup.BIG_LEAF_BLOWER);
+//		m_spawnablePowerups.Add(Powerup.EMP);
 		timeBombTimer = TimeBombBuff.BOMB_DURATION_MAX;
 		bigLeafBlowerTimer = BigLeafBlowerBuff.DURATION;
 		EMPTimer = EMPBuff.DURATION;
 
 		spawnTimer = 0.0f;
 		Clear ();
+
+		m_canSpawn = true;
 	}
 
 	/**
@@ -177,7 +181,7 @@ public class PowerupManager : MonoBehaviour {
 	 * Spawn powerups at a fixed intervall
 	 */
 	void Update () {
-		if (Network.isServer) {
+		if (Network.isServer && m_canSpawn) {
 			//Increase timers
 			spawnTimer += Time.deltaTime;
 			timeBombTimer += Time.deltaTime;
@@ -224,7 +228,15 @@ public class PowerupManager : MonoBehaviour {
 
 	public static void Clear()
 	{
+		for (int i = 0; i < m_powerups.Count; i++) {
+			Destroy(m_powerups[i]);
+		}
 		m_powerups.Clear ();
+	}
+	
+	public static void Disable() {
+		m_canSpawn = false;
+		Clear ();
 	}
 }
 
