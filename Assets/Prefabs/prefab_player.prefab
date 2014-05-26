@@ -69,13 +69,12 @@ MonoBehaviour:
   m_minimumSpeed: .00999999978
   m_dizzySeconds: 2
   m_maxSpeed: 10
-  m_acceleration: 25
+  m_acceleration: 50
   m_powSpeed: 1
   tmpSPeed: .100000001
   m_BlowPowerSlowFraction: 1
   m_currentRotationSpeed: {x: 0, y: 0, z: 0}
   m_BlowPowerSlowWhileTurning: 1
-  m_buffManager: {fileID: 0}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -186,9 +185,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d09a0ab16fc4954ba488fe7b39f79eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stunTime: .300000012
-  dizzyTime: 1
-  oppAngleMinusValue: 10
+  m_oppAngleMinusValue: 10
+  m_stunTime: .300000012
+  m_dizzyTime: 2
+  m_tackledTime: .75
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1

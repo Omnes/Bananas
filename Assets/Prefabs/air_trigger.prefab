@@ -236,9 +236,9 @@ MonoBehaviour:
   m_id: -1
   m_particleSystem: {fileID: 0}
   m_randomLeafInBlowerRange: 1
-  m_randomLeafFallRange: 4
+  m_randomLeafFallRange: 6
   m_whirlwind: {fileID: 0}
-  m_leafThreshold: 10
+  m_leafThreshold: 5
   m_maxLeaf: 30
   m_lowestSpeedModifier: .5
   m_canScoreInOtherGoal: 0
