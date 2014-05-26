@@ -12,7 +12,7 @@ public class Lobby : MenuBase
 	private bool m_useNAT = false;
 
 
-	private int m_maxPlayers = 4; // server doesnt count, maybe?
+	private int m_maxPlayers = 3; // server doesnt count, maybe?
 	public string[] m_levels = {"LemonPark"};
 
 	//might not be use3d
@@ -150,8 +150,13 @@ public class Lobby : MenuBase
 				m_hostlist = MasterServer.PollHostList();
 				m_games.Clear();
 
+				int j = 0;
 				for(int i = 0; i < m_hostlist.Length; i++){
-					m_games.Add(new LobbyButton(-100,centerY + size.y * i, size.x, size.y, m_hostlist[i].gameName, new Vector2(centerX - size.x,centerY + size.y * i), 3.0f + i, LeanTweenType.easeOutElastic));
+					if(m_hostlist[i].connectedPlayers < m_hostlist[i].playerLimit){
+						j++;
+						string text = m_hostlist[i].gameName + "\n" + (m_hostlist[i].connectedPlayers)+"/"+m_hostlist[i].playerLimit;
+						m_games.Add(new LobbyButton(-100,centerY + size.y * j, size.x, size.y, text, new Vector2(centerX - size.x,centerY + size.y * j), 3.0f + j, LeanTweenType.easeOutElastic));
+					}
 				}
 			}
 

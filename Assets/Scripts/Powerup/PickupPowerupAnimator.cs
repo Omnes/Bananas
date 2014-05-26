@@ -11,7 +11,7 @@ public class PickupPowerupAnimator : MonoBehaviour {
 
 	private Material m_material;
 
-	void Awake () {
+	void Start () {
 		delta = 0;
 		transform.Rotate (new Vector3 (-90, 0, 0));
 		m_material = transform.GetChild (0).renderer.material;
