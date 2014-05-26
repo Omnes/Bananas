@@ -196,7 +196,7 @@ public class Lobby : MenuBase
 	//From Daniel
 	public override void InitMenuItems()
 	{
-		AdjustMenuItem (m_menuItems [0], new LTRect (-200.0f, 100.0f, size.x, size.y), new Vector2 (centerX, centerY + size.y * 2), LeanTweenType.easeOutElastic);
+//		AdjustMenuItem (m_menuItems [0], new LTRect (-200.0f, 100.0f, size.x, size.y), new Vector2 (centerX, centerY + size.y * 2), LeanTweenType.easeOutElastic);
 	}
 
 
