@@ -549,7 +549,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400152}
   m_Layer: 0
-  m_Name: R_wrist_joint
+  m_Name: R_wrist_ctrl
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -564,7 +564,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400154}
   m_Layer: 0
-  m_Name: R_forearm_joint
+  m_Name: R_wrist_ctrl_group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2783,7 +2783,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100202}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.9354954, y: 3.27320528, z: -14.7589779}
+  m_LocalPosition: {x: -8.1059761, y: -1.39369822, z: -14.0134277}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400200}
@@ -2877,7 +2877,7 @@ Animator:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100202}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: c0a102cedacca1e499e68ba15ab448e0, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 2a40cb5e454622944abbc4199053fb66, type: 3}
   m_Controller: {fileID: 9100000, guid: cb0f7f5d3e7e1c541aea0a45543a1989, type: 2}
   m_CullingMode: 1
   m_ApplyRootMotion: 0
@@ -2907,7 +2907,7 @@ SkinnedMeshRenderer:
   serializedVersion: 2
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
-  m_Mesh: {fileID: 4300000, guid: c0a102cedacca1e499e68ba15ab448e0, type: 3}
+  m_Mesh: {fileID: 4300000, guid: 2a40cb5e454622944abbc4199053fb66, type: 3}
   m_Bones:
   - {fileID: 400192}
   - {fileID: 400190}

@@ -1573,7 +1573,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100202}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.8549557, y: 3.01142836, z: -14.9679766}
+  m_LocalPosition: {x: -8.54591751, y: -1.51064157, z: -12.9727783}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400202}
@@ -2877,7 +2877,7 @@ Animator:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100202}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: a7399844c7d2c784f826f5fc54d41cc2, type: 3}
+  m_Avatar: {fileID: 9000000, guid: d79e1f2ad661011438b3c1becf63a121, type: 3}
   m_Controller: {fileID: 9100000, guid: 5d91f20d6a2e75f4d9adeaa6c9b3b313, type: 2}
   m_CullingMode: 1
   m_ApplyRootMotion: 0
@@ -2907,7 +2907,7 @@ SkinnedMeshRenderer:
   serializedVersion: 2
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
-  m_Mesh: {fileID: 4300000, guid: a7399844c7d2c784f826f5fc54d41cc2, type: 3}
+  m_Mesh: {fileID: 4300000, guid: d79e1f2ad661011438b3c1becf63a121, type: 3}
   m_Bones:
   - {fileID: 400090}
   - {fileID: 400012}

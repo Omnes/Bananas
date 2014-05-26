@@ -73,11 +73,11 @@ public class Lobby : MenuBase
 
 		//knappar
 		//first lobbyapart
-		m_buttonsPart1.Add(new LobbyButton(-100,centerY, size.x, size.y,			"Host Game", new Vector2(centerX,centerY), 3.0f, LeanTweenType.easeOutElastic));
-		m_buttonsPart1.Add(new LobbyButton(-100,centerY + size.y, size.x, size.y,	"Refresh", new Vector2(centerX,centerY + size.y), 4.0f, LeanTweenType.easeOutElastic));
+		m_buttonsPart1.Add(new LobbyButton(-100,centerY, size.x, size.y,			"Host Game", new Vector2(centerX,centerY), 0.5f, LeanTweenType.easeOutSine));
+		m_buttonsPart1.Add(new LobbyButton(-100,centerY + size.y, size.x, size.y,	"Refresh", new Vector2(centerX,centerY + size.y), 0.5f, LeanTweenType.easeOutSine));
 		//second lobbyPart
-		m_buttonsPart2.Add(new LobbyButton(-100,centerY, size.x, size.y,			"Start Game", new Vector2(centerX,centerY), 3.0f, LeanTweenType.easeOutElastic));
-		m_buttonsPart2.Add(new LobbyButton(-100,centerY + size.y, size.x, size.y,	"Stop Server", new Vector2(centerX,centerY + size.y), 4.0f, LeanTweenType.easeOutElastic));
+		m_buttonsPart2.Add(new LobbyButton(-100,centerY, size.x, size.y,			"Start Game", new Vector2(centerX,centerY), 0.5f, LeanTweenType.easeOutSine));
+		m_buttonsPart2.Add(new LobbyButton(-100,centerY + size.y, size.x, size.y,	"Stop Server", new Vector2(centerX,centerY + size.y), 0.5f, LeanTweenType.easeOutSine));
 
 		m_textFieldSize = GUIMath.InchToPixels(new Vector2(2f, 0.6f));
 
