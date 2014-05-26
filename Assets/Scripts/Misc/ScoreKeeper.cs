@@ -14,11 +14,13 @@ public class ScoreKeeper : MonoBehaviour {
 	public static void AddScore(int player,int score){
 		m_scores[player] += score;
 		updateScoreBoard(player,m_scores[player]);
+
 	}
 
 	private static void updateScoreBoard(int playerID,int score){
 		if(m_scoreBoard != null){
 			m_scoreBoard.updateScore(playerID,score);
+			m_scoreBoard.setLeader(GetFirstPlaceID());
 		}
 	}
 
@@ -27,7 +29,6 @@ public class ScoreKeeper : MonoBehaviour {
 			m_scores[i] = 0;
 			updateScoreBoard(i,0);
 		}
-
 	}
 
 	public static void RegistrerGUIScore(GUIScore guiscore){

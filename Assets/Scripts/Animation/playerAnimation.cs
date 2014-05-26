@@ -46,6 +46,14 @@ public class playerAnimation : MonoBehaviour {
 		m_upperBodyScript.winAnimation();
 	}
 
+	public void stunAnim(){
+		m_upperBodyScript.stunAnimation ();
+	}
+
+	public void stopStunAnim(){
+		m_upperBodyScript.stopStunAnimation ();
+	}
+
 	//blow
 	public void blowAnim(){
 		m_upperBodyScript.blowAnimation();
