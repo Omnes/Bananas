@@ -90,6 +90,7 @@ public class LeafManager : MonoBehaviour {
 		for (int i = 0; i < m_leafs.Length; i++) {
 			if ( m_leafs[i].activeSelf == false ) {
 				m_leafs[i].SetActive(true);
+				m_leafs[i].GetComponent<LeafLogic>().spawn();
 				return m_leafs[i];
 			}
 		}

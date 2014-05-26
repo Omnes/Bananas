@@ -74,6 +74,121 @@ NavMeshSettings:
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
   m_NavMesh: {fileID: 0}
+--- !u!1 &621595746
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
+  m_PrefabInternal: {fileID: 1540837215}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 621595748}
+  - 114: {fileID: 621595747}
+  m_Layer: 0
+  m_Name: Prefactory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &621595747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400000, guid: da05caf9f7029394fb9a6933de03792f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1540837215}
+  m_GameObject: {fileID: 621595746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd95b62713a4f0041a8d126f518739fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_bomb: {fileID: 100000, guid: 5ce45fa07473c9e4394e5849e23476f9, type: 2}
+  m_playerCircle: {fileID: 100000, guid: 0db5cf6edea4fa9479f74de0926c5bec, type: 2}
+  m_bombExplosion: {fileID: 100000, guid: b66d9a7777100b14fbd7cc181c7b9972, type: 2}
+  m_EMP: {fileID: 100000, guid: a79a773766ff80145ac0b2fa9c007fde, type: 2}
+  m_EMPHit: {fileID: 100000, guid: 74eb5785c6333ea4b86bdf0012a4607a, type: 2}
+  m_powerupPickup: {fileID: 100000, guid: 926a86c1ce11e59488f1b2761e28b58f, type: 2}
+  m_muteButton: {fileID: 2800000, guid: c9e38e9abdb61d248a01633face4fca5, type: 3}
+  m_muteButton2: {fileID: 2800000, guid: 89264eee26d1ada46b1636aa50e6ec23, type: 3}
+  m_winnerOtherTexture: {fileID: 2800000, guid: 4737c572094947d45ad80fd6a10bfffc,
+    type: 3}
+  m_winnerTexture: {fileID: 2800000, guid: 10959fc225fa3aa44a85a39c3bad7cd9, type: 3}
+  m_loadingscreen: {fileID: 2800000, guid: 4ea30322121fef143a3ffefdfc2e72e6, type: 3}
+  m_loadingscreenTextStyle:
+    m_Name: 
+    m_Normal:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 1, g: 1, b: 1, a: 1}
+    m_Hover:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_Active:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_Focused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_OnNormal:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_OnHover:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_OnActive:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_OnFocused:
+      m_Background: {fileID: 0}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
+    m_Border:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Margin:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Padding:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Overflow:
+      m_Left: 0
+      m_Right: 0
+      m_Top: 0
+      m_Bottom: 0
+    m_Font: {fileID: 0}
+    m_FontSize: 24
+    m_FontStyle: 0
+    m_Alignment: 1
+    m_WordWrap: 0
+    m_RichText: 1
+    m_TextClipping: 0
+    m_ImagePosition: 0
+    m_ContentOffset: {x: 0, y: 0}
+    m_FixedWidth: 0
+    m_FixedHeight: 0
+    m_StretchWidth: 0
+    m_StretchHeight: 0
+  m_meshList:
+  - {fileID: 100154, guid: 12be1562d5ffe06448f6625c1f0b3f8f, type: 2}
+  - {fileID: 100202, guid: e818abe9127baa341a941a2b26eda229, type: 2}
+  - {fileID: 100202, guid: c4e010cd051f1ca4b862080166f0247b, type: 2}
+  - {fileID: 100202, guid: 5fb39dfc13da6d84fb93dd095a6050da, type: 2}
+--- !u!4 &621595748
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
+  m_PrefabInternal: {fileID: 1540837215}
+  m_GameObject: {fileID: 621595746}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
 --- !u!1 &755868652
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,3 +371,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pluginPaths: []
+--- !u!1001 &1540837215
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 400000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
+      propertyPath: m_muteButton
+      value: 
+      objectReference: {fileID: 2800000, guid: c9e38e9abdb61d248a01633face4fca5, type: 3}
+    - target: {fileID: 11400000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
+      propertyPath: m_muteButton2
+      value: 
+      objectReference: {fileID: 2800000, guid: 89264eee26d1ada46b1636aa50e6ec23, type: 3}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
+  m_RootGameObject: {fileID: 621595746}
+  m_IsPrefabParent: 0
+  m_IsExploded: 1

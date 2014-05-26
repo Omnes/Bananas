@@ -17,6 +17,9 @@ public class Prefactory : MonoBehaviour {
 	public Texture2D m_winnerOtherTexture;
 	public Texture2D m_winnerTexture;
 
+	public Texture2D m_loadingscreen;
+	public GUIStyle m_loadingscreenTextStyle;
+
 	//meshes
 	public List<GameObject> m_meshList = new List<GameObject>();
 
@@ -33,6 +36,9 @@ public class Prefactory : MonoBehaviour {
 	//winners
 	public static Texture2D texture_winnerOther;
 	public static Texture2D texture_winner;
+
+	public static Texture2D texture_loadingscreen;
+	public static GUIStyle style_loadingscreenText;
 	
 
 	//meshes
@@ -52,6 +58,8 @@ public class Prefactory : MonoBehaviour {
 		//winners
 		texture_winner = m_winnerTexture;
 		texture_winnerOther = m_winnerOtherTexture;
+		texture_loadingscreen = m_loadingscreen;
+		style_loadingscreenText = m_loadingscreenTextStyle ;
 
 		//meshes
 		prefab_meshList = m_meshList;
