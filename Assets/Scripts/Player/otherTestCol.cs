@@ -17,7 +17,7 @@ public class otherTestCol : MonoBehaviour
 	private float m_cooldownTimer = 0.0f;
 	public float m_cooldown = 0.5f;
 
-	private float m_speedThreshold = 1.0f;
+	public float m_speedThreshold = 1.0f;
 
 //	private int m_localPlayerID;
 
