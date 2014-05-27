@@ -8,12 +8,12 @@ using System.Collections.Generic;
  */
 public class PowerupManager : MonoBehaviour {
 	//Design parameters
-	private const float INIT_SPAWN_DELAY_MIN = 1.0f;
-	private const float INIT_SPAWN_DELAY_MAX = 1.0f;
-	private const float SPAWN_INTERVALL_MIN = 1.0f;
-	private const float SPAWN_INTERVALL_MAX = 1.0f;
+	private const float INIT_SPAWN_DELAY_MIN = 15.0f;
+	private const float INIT_SPAWN_DELAY_MAX = 18.0f;
+	private const float SPAWN_INTERVALL_MIN = 15.0f;
+	private const float SPAWN_INTERVALL_MAX = 15.0f;
 
-	private const int MAX_POWERUPS = 1;
+	private const int MAX_POWERUPS = 3;
 	private const float SPAWN_RADIUS = 6f;
 	private const float MIN_SPAWN_DISTANCE_BETWEEN_POWERUPS = 2.5f;
 	private const int MAX_REPOSITION_RETRIES = 5;
