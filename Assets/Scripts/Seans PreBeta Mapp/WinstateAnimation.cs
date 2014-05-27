@@ -40,6 +40,9 @@ public class WinstateAnimation : MonoBehaviour {
 	//kanske ta bort
 	private bool m_allPlayersRemain = true;
 
+	//my rematch state
+	private bool m_myRematchCheck = false;
+
 
 	private bool m_startTimer = false;
 	private float m_endScreenDelay = 20;
@@ -195,6 +198,8 @@ public class WinstateAnimation : MonoBehaviour {
 					m_rematchChecks[SeaNet.Instance.getLocalPlayer()] = state.REMATCH;
 					SeaNet.Instance.setRematchCheck((int)state.REMATCH);
 
+					m_myRematchCheck = true;
+
 					//reset buttons
 					reset();
 				}
@@ -217,9 +222,36 @@ public class WinstateAnimation : MonoBehaviour {
 
 	public void SetRematchCheck(int playerId, int newState){
 		m_rematchChecks[playerId] = (state)newState;
-//		if(newState == state.LEAVE){
-//			
-//		}
+		if (newState == (int)state.LEAVE) {
+			//do gui check
+
+			int rematchAndLeaveAmount = 0;
+			//if alone => menulobby
+			//if !alone => lobby
+			for (int i = 0; i < m_rematchChecks.Length; i++) {
+				if(m_rematchChecks[i] != state.NONE){
+					rematchAndLeaveAmount++;
+				}
+			}
+			if(rematchAndLeaveAmount >= m_playerAmount){
+				//																		LEAVE TO LOBBY <----------------------------------
+			}
+			
+		} else {
+			//do GUI check
+
+			int rematchAmount = 0;
+			//if all => rematch
+			for (int i = 0; i < m_rematchChecks.Length; i++) {
+				if(m_rematchChecks[i].Equals(state.REMATCH)){
+					rematchAmount++;
+				}
+			}
+			//if rematchplayers are same as amount of players, play rematch
+			if(rematchAmount >= m_playerAmount){
+				//																		REMATAACHACHAHCHACH <----------------------------
+			}
+		}
 	}
 
 }
