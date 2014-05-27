@@ -15,6 +15,9 @@ public class playerAnimation : MonoBehaviour {
 		if(Input.GetKey(KeyCode.T)){
 			tackleAnim(1.0f);
 		}
+		if(Input.GetKey(KeyCode.Y)){
+			tackleLoseAnim(2.0f);
+		}
 
 		if(Input.GetKey(KeyCode.B)){
 			blowAnim();
@@ -34,6 +37,10 @@ public class playerAnimation : MonoBehaviour {
 	//tackle
 	public void tackleAnim(float dizzyTime){
 		m_upperBodyScript.tackleAnimation(dizzyTime);
+	}
+
+	public void tackleLoseAnim(float dizzyTime){
+		m_upperBodyScript.tackleLoseAnimation(dizzyTime);
 	}
 
 	//tackle
