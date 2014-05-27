@@ -35,6 +35,10 @@ public class LoadingScreen : MonoBehaviour {
 	}
 
 	public static void CloseLoadingScreen(){
+		GameObject winstate = GameObject.Find("SeaNet"); 
+		if(winstate != null){
+			winstate.GetComponent<WinstateAnimation>().enabled = true; 
+		}
 		Destroy(m_loadingScreen);
 	}
 

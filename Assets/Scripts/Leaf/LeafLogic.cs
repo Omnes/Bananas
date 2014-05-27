@@ -35,6 +35,8 @@ public class LeafLogic : MonoBehaviour {
 	private float m_randomStartOffset = 0;
 
 	public float m_maxConstraintRange = 10f;
+
+	public float m_scaleUpDuration = 0.4f;
 	
 	void Start () {
 		m_rotationModifier = Random.Range (-m_rotationModifierRange,m_rotationModifierRange);
@@ -135,6 +137,23 @@ public class LeafLogic : MonoBehaviour {
 		m_state = State.OnGround;
 		collider.enabled = true;
 		m_toBeParent = null;
+	}
+
+	public void spawn(){
+		StartCoroutine(scaleUpLeaf());
+	}
+
+	private IEnumerator scaleUpLeaf(){
+		Vector3 endSize = transform.localScale;
+		float startTime = Time.time;
+		transform.localScale = Vector3.zero;
+
+		while(startTime + m_scaleUpDuration > Time.time){
+			transform.localScale = endSize*((Time.time - startTime)/m_scaleUpDuration);
+			yield return null;
+		}
+		transform.localScale = endSize;
+
 	}
 
 	public void dropFromWhirlwind(Vector3 pos){

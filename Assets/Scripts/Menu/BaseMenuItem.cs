@@ -21,14 +21,13 @@ public class BaseMenuItem //: MonoBehaviour
 	private LeanTweenType m_leanTweenType;
 	public LeanTweenType LeanTweenType{ get { return m_leanTweenType; } set { m_leanTweenType = value; } }
 
-
+	private Rect m_uvRect;
+	public Rect UVRect{ get { return m_uvRect; } set { m_uvRect = value; } }
 
 	public delegate void OnClickFunc(BaseMenuItem aSender);
 
 	private OnClickFunc m_onClickFunc;
 	public OnClickFunc OnClick{ get { return m_onClickFunc; } }
-
-//	private bool m_hasSubMenu;
 
 	public BaseMenuItem(string aName, OnClickFunc aClickFunc)
 	{

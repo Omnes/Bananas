@@ -10,6 +10,7 @@ public class upperBodyAnimation : MonoBehaviour {
 		RUNNING,
 		IDLE,
 		TACKLE,
+		STUN,
 		NONE
 	};
 
@@ -70,22 +71,15 @@ public class upperBodyAnimation : MonoBehaviour {
 		}
 
 	}
-
-
-
 	//states
 
 	//IDLE
 	public void idleAnimation(){
-//		m_previousState = m_currentState;
-		//Debug.Log("IDLE");
 		m_playerAnimator.SetFloat("playerSpeed", 0);			//ta bort sen.
 	}
 
 	//running
 	public void runningAnimation(){
-//		m_previousState = m_currentState;
-		//Debug.Log("RUNNING");
 		m_playerAnimator.SetFloat("playerSpeed", 1);			//ta bort sen.
 	}
 
@@ -110,16 +104,22 @@ public class upperBodyAnimation : MonoBehaviour {
 		m_currentState = state.NONE;
 	}
 
+	public void stunAnimation(){
+		if(m_currentState != state.STUN){
+			//Debug.Log("TACKLE");
+			m_priorityList[0] = state.STUN;
+			m_playerAnimator.SetBool("stun", true);
+			m_currentState = state.STUN;
+		}
+	}
+
+	public void stopStunAnimation(){
+		m_priorityList[0] = state.NONE;
+		m_playerAnimator.SetBool("stun", false);
+	}
+
 	//blowing while running animation
 	public void blowAnimation(){
-//		int statePriority = 0;
-
-//		if(!checkHighPriority(statePriority)){
-//			//Debug.Log("BLOW");
-//			m_priorityList[1] = state.BLOW;
-//			m_playerAnimator.SetBool("isBlowing", true);
-//			m_currentState = state.BLOW;
-//		}
 	}
 
 	public void stopBlowAnimation(){

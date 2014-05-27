@@ -134,7 +134,7 @@ public class TimeBombBuff : Buff {
 	 * Returns true if the buff is allowed to be transfered to another player
 	 */
 	public bool CanTransfer() {
-		return (Time.time - m_timeCreated) > TRANSFER_COOLDOWN;
+		return ((Time.time - m_timeCreated) > TRANSFER_COOLDOWN) || m_durationTimer <= TRANSFER_COOLDOWN;
 	}
 
 	public override string ToString ()

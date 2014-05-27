@@ -19,7 +19,6 @@ GameObject:
   - 114: {fileID: 11400028}
   - 114: {fileID: 11400030}
   - 114: {fileID: 11400002}
-  - 114: {fileID: 11400004}
   m_Layer: 0
   m_Name: prefab_player
   m_TagString: Player
@@ -69,7 +68,7 @@ MonoBehaviour:
   m_minimumSpeed: .00999999978
   m_dizzySeconds: 2
   m_maxSpeed: 10
-  m_acceleration: 50
+  m_acceleration: 25
   m_powSpeed: 1
   tmpSPeed: .100000001
   m_BlowPowerSlowFraction: 1
@@ -88,17 +87,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_whirlwindPrefab: {fileID: 400000, guid: 8a30ab1bbeac4034fa68aa0cbc5a03d1, type: 2}
   m_airTriggerPrefab: {fileID: 400004, guid: d98e450d02f59cb4582ae3847cd3bd71, type: 2}
---- !u!114 &11400004
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1feda0ff94752fd4c9ea05312c473ed3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11400018
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -186,9 +174,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_oppAngleMinusValue: 10
-  m_stunTime: .300000012
-  m_dizzyTime: 2
-  m_tackledTime: .75
+  m_tackledTime: .330000013
+  m_equalTackledTime: .150000006
+  m_cooldown: .5
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1

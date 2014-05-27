@@ -44,7 +44,7 @@ public class BigLeafBlowerBuff : Buff {
 		inputHub.ClearLeafBlowerStuns ();
 		preSpeedModifier = leafBlower.m_lowestSpeedModifier;
 		leafBlower.m_lowestSpeedModifier = 1.0f;
-		SoundManager.Instance.playOneShot(SoundManager.LEAFBLOWER_WARCRY_DOUGLAS);
+		SoundManager.Instance.playOneShot(SoundManager.LEAFBLOWER_WARCRY);
 	}
 
 	public override void UpdateEvent ()

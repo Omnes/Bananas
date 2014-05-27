@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Winstate : MonoBehaviour {
 
-	public int m_MAXTIME;
+	//public int m_MAXTIME;
 
 	public float m_startTime;
 	public float m_endTime;
@@ -12,9 +12,9 @@ public class Winstate : MonoBehaviour {
 
 	private GUITimer m_guiTimer;
 	
-	public void StartGameTimer(){
-		StartGameTimer(m_MAXTIME);
-	}
+//	public void StartGameTimer(){
+//		StartGameTimer(m_MAXTIME);
+//	}
 
 	public void StartGameTimer(int gameLength){
 		m_startTime = Time.time;

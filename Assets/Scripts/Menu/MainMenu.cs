@@ -6,6 +6,10 @@ using System.Collections.Generic;
 public class MainMenu : MenuBase
 {
 	MenuManager instance;
+
+	public Texture2D toLobby;
+
+
 	// Use this for initialization
 	void Start()
 	{
@@ -20,12 +24,10 @@ public class MainMenu : MenuBase
 
 		//Adding item to "MY"(this) menu .. 
 		addMenuItem(instance.getMenuItem(MenuManager.TO_LOBBY));
-//		addMenuItem(instance.getMenuItem (MenuManager.START_GAME));
 	}
 	public override void InitMenuItems()
 	{
-		AdjustMenuItem (m_menuItems [0], new LTRect (-200.0f, 100.0f, size.x, size.y), new Vector2 (centerX, centerY), LeanTweenType.easeOutElastic);
-//		AdjustMenuItem (m_menuItems [1], new LTRect (-200.0f, 150.0f, size.x, size.y), new Vector2 (centerX, centerY + size.y));
+//		AdjustMenuItem (m_menuItems [0], new LTRect (-200.0f, 100.0f, size.x, size.y), new Vector2 (centerX, centerY), LeanTweenType.easeOutElastic);
 		SoundManager.Instance.StartMenuMusic ();
 
 	}
