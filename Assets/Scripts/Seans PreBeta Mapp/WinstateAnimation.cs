@@ -68,9 +68,8 @@ public class WinstateAnimation : MonoBehaviour {
 			Debug.Log("NU STARTAR TIDEN " + m_endScreenCounter);
 
 			int firstPlaceID = ScoreKeeper.GetFirstPlaceID();
-			SoundManager.Instance.playOneShot(SoundManager.VOICE_VICTORY[firstPlaceID]);
-			BuffManager.m_buffManagers[firstPlaceID].RemoveAll();
-			BuffManager.m_buffManagers[firstPlaceID].AddBuff(new StunBuff(BuffManager.m_buffManagers[firstPlaceID].gameObject, 0));
+
+
 		}
 		//start 
 		if (m_startTimer) {
@@ -108,45 +107,67 @@ public class WinstateAnimation : MonoBehaviour {
 	}
 
 	private IEnumerator playWinSceneCorutine(int id){
-		SyncMovement[] m_playerObjs = SyncMovement.s_syncMovements;
-		BuffManager[] m_buffManagers = BuffManager.m_buffManagers;
+		SyncMovement[] syncMovements = SyncMovement.s_syncMovements;
+		BuffManager[] buffManagers = BuffManager.m_buffManagers;
 
-		float moveDelay = 0.5f;
-		TimesUpAnimation.instance.Play(new Vector2(0,0),new Vector2(1,1),moveDelay,0.5f);
+		//clear all buffs from all players and restun them
+		for(int i = 0; i < buffManagers.Length; i++){
+			if(buffManagers[i] != null){
+				buffManagers[i].RemoveAll();
+				buffManagers[i].GetComponent<InputHub>().StunLeafBlower();
+				buffManagers[i].GetComponent<InputHub>().StunMovement();
+			}
+		}
+
+		//play the animations 
+		float moveDuration = 1f;
+		float fadeDuration = 0.5f;
+		TimesUpAnimation.instance.Play(new Vector2(0,0),new Vector2(1,1),moveDuration,0.5f);
 		GUITimer.s_lazyInstance.Play(new Vector2(0,1f),4f);
+		//move player to center
+//		StartCoroutine(LerpPlayerToPosition(syncMovements[id].transform,new Vector3(0,syncMovements[id].transform.position.y,0),moveDuration+fadeDuration));
 
-		yield return new WaitForSeconds(moveDelay);
 		
-		if(m_playerObjs[id] != null && m_buffManagers[id] != null){
-			//pos
-			Vector3 tempPos = m_playerObjs[id].transform.position;
-			m_playerObjs[id].transform.position = new Vector3(0,tempPos.y,0);
-			
-			for(int i = 0; i < m_buffManagers.Length; i++){
-				if(m_buffManagers[i] != null){
-//					m_buffManagers[i].AddBuff(new StunBuff(m_buffManagers[i].gameObject, 0));
-					if(i != id){
-						m_buffManagers[i].gameObject.SetActive(false);
-					}
+
+		//wait for the timesup to appear
+		yield return new WaitForSeconds(moveDuration+fadeDuration);
+		//disable this or the LerpPlayer thingy
+		syncMovements[id].transform.position = Vector3.zero + new Vector3(0,syncMovements[id].transform.position.y,0);
+
+		//disable all non-winning players
+		for(int i = 0; i < buffManagers.Length; i++){
+			if(buffManagers[i] != null){
+				if(i != id){
+					buffManagers[i].gameObject.SetActive(false);
 				}
 			}
-			
-			
-			m_playerObjs[id].GetComponent<playerAnimation>().winAnim();
-			
+		}
 
-			
-			//set position
-			Vector3 camPos = new Vector3(-4,3,0);
-			Quaternion rot = Quaternion.LookRotation(Vector3.zero-camPos); //playerposition - cameraposition
-			Camera.main.GetComponent<CameraFollow>().MoveToPosition(camPos,rot,2f);
-			
-			//make mplayer look at camera
-			//			m_playerObjs[id].transform.LookAt(new Vector3(-7,0,0));
-			Vector3 lookAtPos = camPos - Vector3.up * camPos.y;
-			m_playerObjs[id].transform.LookAt(lookAtPos);
-			m_playerObjs[id].transform.Rotate(Vector3.up*12f);
-			
+		//begin lerp the camera to the player 
+		float cameraLerpDuration = 2f;
+		Vector3 camPos = new Vector3(-4,3,0);
+		Quaternion rot = Quaternion.LookRotation(Vector3.zero-camPos); //playerposition - cameraposition
+		Camera.main.GetComponent<CameraFollow>().MoveToPosition(camPos,rot,cameraLerpDuration);
+		
+		//make mplayer look at camera
+		Vector3 lookAtPos = camPos - Vector3.up * camPos.y;
+		syncMovements[id].transform.LookAt(lookAtPos);
+		syncMovements[id].transform.Rotate(Vector3.up*12f);
+
+		yield return new WaitForSeconds(cameraLerpDuration-0.3f);
+		
+		SoundManager.Instance.playOneShot(SoundManager.VOICE_VICTORY[id]);
+		syncMovements[id].GetComponent<playerAnimation>().winAnim();
+
+	}
+
+	IEnumerator LerpPlayerToPosition(Transform player,Vector3 endPos,float duration){
+		float startTime = Time.time;
+		Vector3 startPosition = player.position;
+		while(startTime + duration > Time.time){
+			float t = (Time.time - startTime)/duration;
+			player.position = Vector3.Lerp(startPosition,endPos,t);
+			yield return null;
 		}
 	}
 

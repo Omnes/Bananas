@@ -9,7 +9,7 @@ public class StartMusic : MonoBehaviour {
 	void Start () {
 //		SoundManager.initMusic ();
 //
-		Debug.Log ("Play music: " + mode);
+//		Debug.Log ("Play music: " + mode);
 		if (mode == Mode.MainMenu) {
 			SoundManager.Instance.StartMenuMusic();
 		}
