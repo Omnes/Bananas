@@ -16,6 +16,9 @@ public class MovementLogic : MonoBehaviour
 	public float m_maxSpeed = 8f;
 	public float m_acceleration = 8f;
 
+	[HideInInspector]
+	public float m_origMaxSpeed;
+
 	public float m_powSpeed = 1f;
 	public float tmpSPeed = 0.1f;
 //	public string name = "";
@@ -68,6 +71,8 @@ public class MovementLogic : MonoBehaviour
 		if(m_dizzySeconds  < 0.01f){
 			Debug.LogError("m_dizzySeconds can't be 0, this will crash the game on collisions!");
 		}
+
+		m_origMaxSpeed = m_maxSpeed;
 	}
 
 	// Update is called once per frame
