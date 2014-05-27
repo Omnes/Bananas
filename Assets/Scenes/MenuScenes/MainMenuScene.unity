@@ -438,8 +438,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_backGround: {fileID: 2800000, guid: cd0861a022b7c7e4183bb458d08381d5, type: 3}
   m_btnImg: {fileID: 2800000, guid: b502e8ca6d22df248827cbe9e82e2a85, type: 3}
-  PlayGame: {fileID: 2800000, guid: 2375da6ecddf69d4e9158bfe5b427586, type: 3}
-  playButtonSizeX: .800000012
-  playButtonSizeY: .800000012
-  soundButtonSizeX: .400000006
-  soundButtonSizeY: .600000024
