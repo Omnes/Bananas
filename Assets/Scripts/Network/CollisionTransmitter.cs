@@ -55,7 +55,7 @@ public class CollisionTransmitter : MonoBehaviour {
 			}
 			
 			if (collisionType == (int)CollisionType.TACKLED) {
-				Debug.Log ("Tackled");
+				//Debug.Log ("Tackled");
 				if (m_isLocal) {
 					SoundManager.Instance.playOneShot(SoundManager.VOICE_TACKLED[m_localPlayerID]);
 
@@ -63,10 +63,10 @@ public class CollisionTransmitter : MonoBehaviour {
 					m_buffManager.AddBuff(new DizzyBuff(_playerRef, m_dizzyTime));
 //					m_buffManager.AddBuff(new StunBuff(gameObject, m_stunTime));
 				}
-//				m_playerAnim.tackleAnim(m_dizzyTime);
+				m_playerAnim.tackleLoseAnim(m_dizzyTime);
 			}
 			else if (collisionType == (int)CollisionType.TACKLING) {
-				Debug.Log ("Tackling");
+				//Debug.Log ("Tackling");
 				if (m_isLocal) {
 					SoundManager.Instance.playOneShot(SoundManager.VOICE_TACKLING[m_localPlayerID]);
 				}
@@ -74,7 +74,7 @@ public class CollisionTransmitter : MonoBehaviour {
 				
 			}
 			else if (collisionType == (int)CollisionType.EQUAL) {
-				Debug.Log ("Equal");
+				//Debug.Log ("Equal");
 				m_playerAnim.tackleAnim(m_dizzyTime);
 			}
 

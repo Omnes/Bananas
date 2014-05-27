@@ -91,16 +91,29 @@ public class upperBodyAnimation : MonoBehaviour {
 			m_playerAnimator.SetBool("tackle", true);
 			m_currentState = state.TACKLE;
 
-			StartCoroutine("tackleCoroutine", dizzyTime);
+			StartCoroutine(tackleCoroutine("tackle", dizzyTime));
 
 		}
 	}
 
-	IEnumerator tackleCoroutine(float dizzytime){
+	//tackle animation
+	public void tackleLoseAnimation(float dizzyTime){
+		if(m_currentState != state.TACKLE){
+			//Debug.Log("TACKLE");
+			m_priorityList[0] = state.TACKLE;
+			m_playerAnimator.SetBool("tackleLose", true);
+			m_currentState = state.TACKLE;
+
+			StartCoroutine(tackleCoroutine("tackleLose", dizzyTime));
+			
+		}
+	}
+
+	IEnumerator tackleCoroutine(string varibleName, float dizzytime){
 		yield return new WaitForSeconds(dizzytime);
 		
 		m_priorityList[0] = state.NONE;
-		m_playerAnimator.SetBool("tackle", false);
+		m_playerAnimator.SetBool(varibleName, false);
 		m_currentState = state.NONE;
 	}
 
