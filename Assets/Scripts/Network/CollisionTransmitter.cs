@@ -58,12 +58,9 @@ public class CollisionTransmitter : MonoBehaviour {
 				Debug.Log ("Tackled");
 				if (m_isLocal) {
 					SoundManager.Instance.playOneShot(SoundManager.VOICE_TACKLED[m_localPlayerID]);
-
-					m_leafBlower.requestDropAll();
-					m_buffManager.AddBuff(new DizzyBuff(_playerRef, m_dizzyTime));
-//					m_buffManager.AddBuff(new StunBuff(gameObject, m_stunTime));
 				}
-//				m_playerAnim.tackleAnim(m_dizzyTime);
+				m_leafBlower.requestDropAll();
+				m_buffManager.AddBuff(new DizzyBuff(_playerRef, m_dizzyTime));
 			}
 			else if (collisionType == (int)CollisionType.TACKLING) {
 				Debug.Log ("Tackling");
