@@ -24,12 +24,7 @@ public class CollisionTransmitter : MonoBehaviour {
 	public float m_dizzyTime = 2.0f;
 	
 	public void Start() {
-//		m_buffManager = GetComponent<BuffManager> ();
-//		m_leafBlower = m_playerRef.GetComponentInChildren<LeafBlower>();
-//		m_playerAnim = GetComponent<playerAnimation>();
-
 		m_localPlayerID = SeaNet.Instance.getLocalPlayer ();
-		m_isLocal = SyncMovement.s_syncMovements [m_localPlayerID].isLocal;
 	}
 
 	public enum CollisionType {
@@ -49,6 +44,8 @@ public class CollisionTransmitter : MonoBehaviour {
 	{
 		if (otherPlayerID >= 0 && otherPlayerID < 4) {
 			GameObject otherPlayer = SyncMovement.s_syncMovements[otherPlayerID].gameObject;
+
+			m_isLocal = SyncMovement.s_syncMovements [m_localPlayerID].gameObject == _playerRef;
 
 			if (m_isLocal) {
 				SoundManager.Instance.play(SoundManager.KNOCKOUT);
