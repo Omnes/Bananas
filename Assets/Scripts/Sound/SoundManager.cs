@@ -9,33 +9,36 @@ public class SoundManager : MonoBehaviour {
 
 	public const string EMP = "event:/SFX/SFX_EMP";
 	public const string TIMEBOMB_EXPLOSION = "event:/SFX/SFX_Explosion";
-//	public const string FOOTSTEP = "event:/SFX/SFX_Footstep";
+	public const string SCORE = "event:/SFX/SFX_Goal";
 	public const string LEAFBLOWER = "event:/SFX/SFX_leafblower";
+	public const string BUTTON_ERROR = "event:/SFX/SFX_Nobutton";
 	public const string POWERUP_PICKUP = "event:/SFX/SFX_PickUp";
 	public const string KNOCKOUT = "event:/SFX/SFX_Tackle";
-	public const string TIMEBOMB_TICK = "event:/SFX/SFX_Timebomb_tick";
+//	public const string TIMEBOMB_TICK = "event:/SFX/SFX_Timebomb_tick";
+	public const string TIMES_UP = "event:/SFX/SFX_timesup";
+	public const string BUTTON_CLICK = "event:/SFX/SFX_Yesbutton";
 
 	public const string COUNTDOWN = "event:/VO/VO_Countdown";
-	public const string LEAFBLOWER_WARCRY = "event:/VO/Douglas/Yehaa";
+	public const string LEAFBLOWER_WARCRY = "event:/VO/VO_GlobalWarCry";
 
 	//Voices
 	public static string[] VOICE_TACKLED = new string[4]{
-		"event:/VO/Douglas/Thats not good enough",
-		"event:/VO/Ella/Objection!",
-		"event:/VO/Leif/Ameh, VA1",
-		"event:/VO/Sarah/Ill Get You"
+		"event:/VO/Douglas/DouglasGetTackled",
+		"event:/VO/Jessica/JessicaGetTackled",
+		"event:/VO/Leif/LeifGetTackled",
+		"event:/VO/Sarah/SarahGetTackled"
 	};
 	public static string[] VOICE_TACKLING = new string[4]{
-		"event:/VO/Douglas/All's fair",
-		"event:/VO/Ella/Sue me",
-		"event:/VO/Leif/Get Moosed, VA1",
-		"event:/VO/Sarah/Power Slam"
+		"event:/VO/Douglas/DouglasDoTackle",
+		"event:/VO/Jessica/JessicaDoTackle",
+		"event:/VO/Leif/LeifDoTackle",
+		"event:/VO/Sarah/SarahDoTackle"
 	};
 	public static string[] VOICE_VICTORY = new string[4]{
-		"event:/VO/Douglas/Im winning kids",
-		"event:/VO/Ella/Case closed",
-		"event:/VO/Leif/That was that that",
-		"event:/VO/Sarah/Boom"
+		"event:/VO/Douglas/DouglasVictory",
+		"event:/VO/Jessica/JessicaVictory",
+		"event:/VO/Leif/LeifVictory",
+		"event:/VO/Sarah/SarahVictory"
 	};
 	
 
@@ -71,6 +74,18 @@ public class SoundManager : MonoBehaviour {
 			return instance;
 		}
 	}
+
+//	void Update() {
+//		if (Input.GetKeyDown (KeyCode.F1)) {
+//			playOneShot(VOICE_TACKLED[0]);
+//		}
+//		else if (Input.GetKeyDown (KeyCode.F2)) {
+//			playOneShot(VOICE_TACKLING[0]);
+//		}
+//		if (Input.GetKeyDown (KeyCode.F3)) {
+//			playOneShot(VOICE_VICTORY[0]);
+//		}
+//	}
 
 	private void InitChannels () {
 		m_system = FMOD_StudioSystem.instance.System;

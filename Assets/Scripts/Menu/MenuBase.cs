@@ -87,6 +87,7 @@ public class MenuBase : MonoBehaviour
 			if(aPosition.Contains(Event.current.mousePosition))
 			{
 				Debug.Log("Pressed btn");
+				SoundManager.Instance.playOneShot(SoundManager.BUTTON_CLICK);
 				return true;
 			}
 		}

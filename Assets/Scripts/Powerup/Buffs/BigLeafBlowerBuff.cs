@@ -24,10 +24,6 @@ public class BigLeafBlowerBuff : Buff {
 		inputHub = m_playerRef.GetComponent<InputHub> ();
 		blowParticles = m_playerRef.transform.FindChild ("air_trigger/blowParticles");
 		airTrigger = blowParticles.parent;
-//		blowParticles = airTrigger.FindChild("blowParticles")
-		if (airTrigger == null) {
-			Debug.LogError("air_trigger was not found on the player");
-		}
 		leafBlower = airTrigger.GetComponent<LeafBlower> ();
 	}
 
@@ -38,8 +34,6 @@ public class BigLeafBlowerBuff : Buff {
 	{
 		airTrigger.localScale = new Vector3 (2, 1, 1);
 		blowParticles.localScale = new Vector3 (0.5f, 1, 1);
-//		airTrigger.particleSystem.emissionRate *= 2;
-//		airTrigger.particleSystem.startLifetime *= 1.5f;
 		m_preColor = blowParticles.particleSystem.startColor;
 		inputHub.ClearLeafBlowerStuns ();
 		preSpeedModifier = leafBlower.m_lowestSpeedModifier;
@@ -60,10 +54,13 @@ public class BigLeafBlowerBuff : Buff {
 	{
 		airTrigger.localScale = Vector3.one;
 		blowParticles.localScale = Vector3.one;
-//		airTrigger.particleSystem.emissionRate /= 2;
-//		airTrigger.particleSystem.startLifetime /= 1.5f;
 		blowParticles.particleSystem.startColor = m_preColor;
 		leafBlower.m_lowestSpeedModifier = preSpeedModifier;
+	}
+
+	public override void RemoveEvent ()
+	{
+		ExpireEvent ();
 	}
 
 	public override string ToString ()

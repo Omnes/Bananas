@@ -33,6 +33,16 @@ public class BuffManager : MonoBehaviour {
 		return false;
 	}
 
+	public void RemoveAll() {
+		for (int i = 0; i < m_buffs.Count; i++) {
+			m_buffs[i].RemoveEvent();
+		}
+		for (int i = 0; i < m_buffs.Count; i++) {
+			Destroy(m_buffs[i]);
+		}
+		m_buffs.Clear ();
+	}
+
 	/**
 	 * Find a buff of a specific type (if it exists) and return it
 	 */
