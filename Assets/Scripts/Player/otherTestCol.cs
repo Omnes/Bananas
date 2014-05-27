@@ -10,14 +10,12 @@ public class otherTestCol : MonoBehaviour
 	private MovementLogic m_otherMovLogic;
 
 	public float m_oppAngleMinusValue = 10.0f;
-//	public float m_stunTime = 0.3f;
-//	public float m_dizzyTime = 2.0f;
 	public float m_tackledTime = 0.33f;
 	public float m_equalTackledTime = 0.15f;
 	private float m_cooldownTimer = 0.0f;
 	public float m_cooldown = 0.5f;
 
-	private float m_speedThreshold = 1.0f;
+	public float m_speedThreshold = 1.0f;
 
 //	private int m_localPlayerID;
 
@@ -27,7 +25,7 @@ public class otherTestCol : MonoBehaviour
 	void Start()
 	{
 //		m_playerAnim = GetComponent<playerAnimation>();
-//		m_buffManager = GetComponent<BuffManager> ();
+		m_buffManager = GetComponent<BuffManager> ();
 //		m_localPlayerID = SeaNet.Instance.getLocalPlayer ();
 	}
 
@@ -89,15 +87,19 @@ public class otherTestCol : MonoBehaviour
 						}
 					}
 
+					bool hasRaibowPower = m_buffManager.HasBuff((int)Buff.Type.BIG_LEAF_BLOWER);
+					bool otherHasRaibowPower = BuffManager.m_buffManagers[playerID].HasBuff((int)Buff.Type.BIG_LEAF_BLOWER);
+
 					//Call RPC
-					if (m_myMovLogic.getRigidVelocity() + m_speedThreshold < m_otherMovLogic.getRigidVelocity()) {
+					if (m_myMovLogic.getRigidVelocity() + m_speedThreshold < m_otherMovLogic.getRigidVelocity() || otherHasRaibowPower) {
 						//Tackled
 						m_collisionTransmitter.PlayerCollision(CollisionTransmitter.CollisionType.TACKLED, playerID);
 
 						m_myMovLogic.setTackled(myResultVel);
 						StartCoroutine("startTackle", m_tackledTime);
 					}
-					else if (Mathf.Abs(m_otherMovLogic.getRigidVelocity() - m_myMovLogic.getRigidVelocity()) < m_speedThreshold) {
+					else if (Mathf.Abs(m_otherMovLogic.getRigidVelocity() - m_myMovLogic.getRigidVelocity()) < m_speedThreshold &&
+					         otherHasRaibowPower == false && hasRaibowPower == false) {
 						//Equal
 						m_collisionTransmitter.PlayerCollision(CollisionTransmitter.CollisionType.EQUAL, playerID);
 

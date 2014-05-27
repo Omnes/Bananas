@@ -66,13 +66,13 @@ public class WinstateAnimation : MonoBehaviour {
 		if(m_gameEnded && !m_startTimer){
 			m_startTimer = true;
 			m_endScreenCounter = Time.time;
-			Debug.Log("NU STARTAR TIDEN "+m_endScreenCounter);
+			Debug.Log("NU STARTAR TIDEN " + m_endScreenCounter);
 			SoundManager.Instance.playOneShot(SoundManager.VOICE_TACKLING[ScoreKeeper.GetFirstPlaceID()]);
 		}
 		//start 
 		if (m_startTimer) {
 			if(Time.time > m_endScreenCounter + m_endScreenDelay){
-				Debug.Log("TIDEN SLUTAR NU "+m_endScreenCounter);
+				Debug.Log("TIDEN SLUTAR NU " + m_endScreenCounter);
 				if(!m_allPlayersRemain && m_rematch){
 					SeaNet.Instance.stopGame ("MainMenuScene", "Lobby");
 				}else{

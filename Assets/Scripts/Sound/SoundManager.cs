@@ -9,7 +9,6 @@ public class SoundManager : MonoBehaviour {
 
 	public const string EMP = "event:/SFX/SFX_EMP";
 	public const string TIMEBOMB_EXPLOSION = "event:/SFX/SFX_Explosion";
-//	public const string FOOTSTEP = "event:/SFX/SFX_Footstep";
 	public const string LEAFBLOWER = "event:/SFX/SFX_leafblower";
 	public const string POWERUP_PICKUP = "event:/SFX/SFX_PickUp";
 	public const string KNOCKOUT = "event:/SFX/SFX_Tackle";
