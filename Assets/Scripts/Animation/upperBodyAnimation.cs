@@ -24,6 +24,8 @@ public class upperBodyAnimation : MonoBehaviour {
 
 	public Animator m_playerAnimator;
 
+	private Rigidbody m_player;
+
 	// Use this for initialization
 	void Start () {
 		//enum
@@ -32,6 +34,8 @@ public class upperBodyAnimation : MonoBehaviour {
 		m_currentState = m_myState;
 		m_isTackling = false;
 
+		//player
+		m_player = rigidbody;
 
 		//currentstates
 		//NONE / TACKLE / TACKLED
@@ -48,6 +52,11 @@ public class upperBodyAnimation : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		if (m_currentState == state.RUNNING) {
+			//Debug.Log(m_player.rigidbody.velocity.magnitude);
+			m_playerAnimator.SetFloat("playerSpeed", m_player.velocity.magnitude);
+		}
+
 		//fixa så if state != currentstate kör func
 		if(m_myState != m_currentState){
 			if(m_myState == state.RUNNING){
@@ -55,7 +64,7 @@ public class upperBodyAnimation : MonoBehaviour {
 
 					if(!checkHighPriority(statePriority)){
 						m_priorityList[2] = state.RUNNING;
-						m_playerAnimator.SetFloat("playerSpeed", 1);
+						m_playerAnimator.SetBool("running", true);
 						m_currentState = state.RUNNING;
 					}
 			
@@ -64,7 +73,7 @@ public class upperBodyAnimation : MonoBehaviour {
 
 					if(!checkHighPriority(statePriority)){
 						m_priorityList[2] = state.IDLE;
-						m_playerAnimator.SetFloat("playerSpeed", 0);
+						m_playerAnimator.SetBool("running", false);
 						m_currentState = state.IDLE;
 					}
 				}
@@ -73,15 +82,6 @@ public class upperBodyAnimation : MonoBehaviour {
 	}
 	//states
 
-	//IDLE
-	public void idleAnimation(){
-		m_playerAnimator.SetFloat("playerSpeed", 0);			//ta bort sen.
-	}
-
-	//running
-	public void runningAnimation(){
-		m_playerAnimator.SetFloat("playerSpeed", 1);			//ta bort sen.
-	}
 
 	//tackle animation
 	public void tackleAnimation(float dizzyTime){
@@ -90,6 +90,7 @@ public class upperBodyAnimation : MonoBehaviour {
 			m_priorityList[0] = state.TACKLE;
 			m_playerAnimator.SetBool("tackle", true);
 			m_currentState = state.TACKLE;
+			m_playerAnimator.SetFloat("playerSpeed", 5);
 
 			StartCoroutine(tackleCoroutine("tackle", dizzyTime));
 
@@ -103,6 +104,7 @@ public class upperBodyAnimation : MonoBehaviour {
 			m_priorityList[0] = state.TACKLE;
 			m_playerAnimator.SetBool("tackleLose", true);
 			m_currentState = state.TACKLE;
+			m_playerAnimator.SetFloat("playerSpeed", 5);
 
 			StartCoroutine(tackleCoroutine("tackleLose", dizzyTime));
 			
@@ -123,6 +125,7 @@ public class upperBodyAnimation : MonoBehaviour {
 			m_priorityList[0] = state.STUN;
 			m_playerAnimator.SetBool("stun", true);
 			m_currentState = state.STUN;
+			m_playerAnimator.SetFloat("playerSpeed", 5);
 		}
 	}
 
