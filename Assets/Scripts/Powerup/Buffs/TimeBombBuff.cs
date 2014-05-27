@@ -58,7 +58,7 @@ public class TimeBombBuff : Buff {
 
 	override public void PeriodicEvent()
 	{
-		SoundManager.Instance.playOneShot (SoundManager.TIMEBOMB_TICK);
+//		SoundManager.Instance.playOneShot (SoundManager.TIMEBOMB_TICK);
 		if (m_playerCircle != null) {
 			UpdateColor ();
 		}
