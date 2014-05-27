@@ -100,14 +100,24 @@ public class WinstateAnimation : MonoBehaviour {
 	}
 
 	public void playWinScene(int id){
+		StartCoroutine(playWinSceneCorutine(id));
+	}
+
+	private IEnumerator playWinSceneCorutine(int id){
 		SyncMovement[] m_playerObjs = SyncMovement.s_syncMovements;
 		BuffManager[] m_buffManagers = BuffManager.m_buffManagers;
 
+		float moveDelay = 0.5f;
+		TimesUpAnimation.instance.Play(new Vector2(0,0),new Vector2(1,1),moveDelay,0.5f);
+		GUITimer.s_lazyInstance.Play(new Vector2(0,1f),4f);
+
+		yield return new WaitForSeconds(moveDelay);
+		
 		if(m_playerObjs[id] != null && m_buffManagers[id] != null){
 			//pos
 			Vector3 tempPos = m_playerObjs[id].transform.position;
 			m_playerObjs[id].transform.position = new Vector3(0,tempPos.y,0);
-
+			
 			for(int i = 0; i < m_buffManagers.Length; i++){
 				if(m_buffManagers[i] != null){
 					m_buffManagers[i].AddBuff(new StunBuff(m_buffManagers[i].gameObject, 0));
@@ -116,26 +126,23 @@ public class WinstateAnimation : MonoBehaviour {
 					}
 				}
 			}
-
-
+			
+			
 			m_playerObjs[id].GetComponent<playerAnimation>().winAnim();
+			
 
+			
 			//set position
-			Camera.main.transform.position = new Vector3(-4,3,0);
-			//disable smoothfollow
-			Camera.main.GetComponent<CameraFollow>().enabled = false;
-
+			Vector3 camPos = new Vector3(-4,3,0);
+			Quaternion rot = Quaternion.LookRotation(Vector3.zero-camPos); //playerposition - cameraposition
+			Camera.main.GetComponent<CameraFollow>().MoveToPosition(camPos,rot,2f);
+			
 			//make mplayer look at camera
-//			m_playerObjs[id].transform.LookAt(new Vector3(-7,0,0));
-			Vector3 lookAtPos = Camera.main.transform.position - new Vector3(0,Camera.main.transform.position.y,0);
+			//			m_playerObjs[id].transform.LookAt(new Vector3(-7,0,0));
+			Vector3 lookAtPos = camPos - Vector3.up * camPos.y;
 			m_playerObjs[id].transform.LookAt(lookAtPos);
 			m_playerObjs[id].transform.Rotate(Vector3.up*12f);
 			
-
-			//
-			Vector3 playerPos = m_playerObjs[id].transform.position - new Vector3(0,1,0);
-			Camera.main.transform.LookAt(playerPos);
-
 		}
 	}
 

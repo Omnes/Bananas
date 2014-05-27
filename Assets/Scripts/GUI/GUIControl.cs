@@ -45,15 +45,17 @@ public class GUIControl : MonoBehaviour {
 	void OnGUI() {
 		Vector2 size = GUIMath.SmallestOfInchAndPercent(new Vector2(0.5f,0.5f),new Vector2(0.09f,0.09f));
 //		Vector2 size = new Vector2(50,50);
+		Rect texCordsMute = new Rect(0,0,0.5f,0.5f);
+		Rect texCordsUnmute = new Rect(0.5f,0,0.5f,0.5f);
 		float PADDING = 0;
 		if (SoundManager.Instance.m_paused == false) {
-			if(GUI.Button(new Rect(Screen.width - (size.x + PADDING), PADDING, size.x, size.y), Prefactory.texture_muteButton,m_muteButtonStyle))
+			if(MenuBase.CustomButton(new Rect(Screen.width - (size.x + PADDING), PADDING, size.x, size.y), Prefactory.texture_muteButton,texCordsMute))
 			{
 				SoundManager.Instance.ToggleMute();
 			}
 		}
 		else {
-			if(GUI.Button(new Rect(Screen.width - (size.x + PADDING), PADDING, size.x, size.y), Prefactory.texture_muteButton2,m_muteButtonStyle))
+			if(MenuBase.CustomButton(new Rect(Screen.width - (size.x + PADDING), PADDING, size.x, size.y), Prefactory.texture_muteButton2,texCordsUnmute))
 			{
 				SoundManager.Instance.ToggleMute();
 			}

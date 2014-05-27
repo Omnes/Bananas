@@ -78,7 +78,7 @@ public class MenuBase : MonoBehaviour
 
 	}
 
-	public bool CustomButton(Rect aPosition, Texture aButtonTexture, Rect aUvRect)
+	public static bool CustomButton(Rect aPosition, Texture aButtonTexture, Rect aUvRect)
 	{
 		//Rita ut "i vilket fall" ..
 		GUI.DrawTextureWithTexCoords (aPosition, aButtonTexture, aUvRect);
