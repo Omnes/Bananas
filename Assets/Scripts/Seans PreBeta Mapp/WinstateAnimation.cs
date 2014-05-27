@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class WinstateAnimation : MonoBehaviour {
 
-
 	public enum state { 
 		REMATCH,
 		LEAVE,
@@ -67,7 +66,11 @@ public class WinstateAnimation : MonoBehaviour {
 			m_startTimer = true;
 			m_endScreenCounter = Time.time;
 			Debug.Log("NU STARTAR TIDEN " + m_endScreenCounter);
-			SoundManager.Instance.playOneShot(SoundManager.VOICE_TACKLING[ScoreKeeper.GetFirstPlaceID()]);
+
+			int firstPlaceID = ScoreKeeper.GetFirstPlaceID();
+			SoundManager.Instance.playOneShot(SoundManager.VOICE_VICTORY[firstPlaceID]);
+			BuffManager.m_buffManagers[firstPlaceID].RemoveAll();
+			BuffManager.m_buffManagers[firstPlaceID].AddBuff(new StunBuff(BuffManager.m_buffManagers[firstPlaceID].gameObject, 0));
 		}
 		//start 
 		if (m_startTimer) {
@@ -111,7 +114,7 @@ public class WinstateAnimation : MonoBehaviour {
 
 			for(int i = 0; i < m_buffManagers.Length; i++){
 				if(m_buffManagers[i] != null){
-					m_buffManagers[i].AddBuff(new StunBuff(m_buffManagers[i].gameObject, 0));
+//					m_buffManagers[i].AddBuff(new StunBuff(m_buffManagers[i].gameObject, 0));
 					if(i != id){
 						m_buffManagers[i].gameObject.SetActive(false);
 					}
