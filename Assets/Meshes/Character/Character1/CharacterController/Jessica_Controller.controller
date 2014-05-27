@@ -44,6 +44,12 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
+  - m_Name: running
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 3
     m_Name: Jessica_layer
@@ -67,8 +73,8 @@ Transition:
   m_TransitionDuration: .0631578937
   m_TransitionOffset: 0
   m_Conditions:
-  - m_ConditionMode: 3
-    m_ConditionEvent: playerSpeed
+  - m_ConditionMode: 1
+    m_ConditionEvent: running
     m_EventTreshold: .100000001
     m_ExitTime: .936842084
   m_Atomic: 1
@@ -448,17 +454,26 @@ StateMachine:
       first: {fileID: 0}
       second: []
     data:
+      first: {fileID: 110200000}
+      second: []
+    data:
+      first: {fileID: 110213356}
+      second:
+      - {fileID: 110153001}
+      - {fileID: 110190252}
+    data:
+      first: {fileID: 110228751}
+      second: []
+    data:
       first: {fileID: 110230226}
       second:
       - {fileID: 110100000}
     data:
-      first: {fileID: 110200000}
-      second: []
+      first: {fileID: 110236503}
+      second:
+      - {fileID: 110195578}
     data:
       first: {fileID: 110236854}
-      second: []
-    data:
-      first: {fileID: 110228751}
       second: []
     data:
       first: {fileID: 110237139}
@@ -480,15 +495,6 @@ StateMachine:
       second:
       - {fileID: 110195336}
       - {fileID: 110103134}
-    data:
-      first: {fileID: 110213356}
-      second:
-      - {fileID: 110153001}
-      - {fileID: 110190252}
-    data:
-      first: {fileID: 110236503}
-      second:
-      - {fileID: 110195578}
   m_MotionSetCount: 1
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
