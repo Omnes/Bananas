@@ -44,6 +44,12 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
+  - m_Name: running
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 3
     m_Name: Leif_layer
@@ -67,8 +73,8 @@ Transition:
   m_TransitionDuration: .0631578937
   m_TransitionOffset: 0
   m_Conditions:
-  - m_ConditionMode: 3
-    m_ConditionEvent: playerSpeed
+  - m_ConditionMode: 1
+    m_ConditionEvent: running
     m_EventTreshold: .100000001
     m_ExitTime: .936842084
   m_Atomic: 1
@@ -448,18 +454,33 @@ StateMachine:
       first: {fileID: 0}
       second: []
     data:
-      first: {fileID: 110284069}
-      second:
-      - {fileID: 110100000}
-    data:
       first: {fileID: 110200000}
       second: []
+    data:
+      first: {fileID: 110206479}
+      second: []
+    data:
+      first: {fileID: 110217584}
+      second:
+      - {fileID: 110188098}
+    data:
+      first: {fileID: 110237662}
+      second:
+      - {fileID: 110164446}
+      - {fileID: 110111269}
     data:
       first: {fileID: 110253882}
       second: []
     data:
-      first: {fileID: 110299300}
-      second: []
+      first: {fileID: 110264798}
+      second:
+      - {fileID: 110163049}
+      - {fileID: 110142938}
+    data:
+      first: {fileID: 110273072}
+      second:
+      - {fileID: 110152541}
+      - {fileID: 110180649}
     data:
       first: {fileID: 110277159}
       second:
@@ -468,27 +489,12 @@ StateMachine:
       - {fileID: 110135368}
       - {fileID: 110188467}
     data:
-      first: {fileID: 110206479}
+      first: {fileID: 110284069}
+      second:
+      - {fileID: 110100000}
+    data:
+      first: {fileID: 110299300}
       second: []
-    data:
-      first: {fileID: 110264798}
-      second:
-      - {fileID: 110163049}
-      - {fileID: 110142938}
-    data:
-      first: {fileID: 110237662}
-      second:
-      - {fileID: 110164446}
-      - {fileID: 110111269}
-    data:
-      first: {fileID: 110273072}
-      second:
-      - {fileID: 110152541}
-      - {fileID: 110180649}
-    data:
-      first: {fileID: 110217584}
-      second:
-      - {fileID: 110188098}
   m_MotionSetCount: 1
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}

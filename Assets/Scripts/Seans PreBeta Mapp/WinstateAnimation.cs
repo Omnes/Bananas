@@ -36,7 +36,10 @@ public class WinstateAnimation : MonoBehaviour {
 	private bool m_rematch = false;
 
 	public int m_playerAmount = 0;
+
+	//kanske ta bort
 	private bool m_allPlayersRemain = true;
+
 
 	private bool m_startTimer = false;
 	private float m_endScreenDelay = 20;
@@ -193,8 +196,6 @@ public class WinstateAnimation : MonoBehaviour {
 					m_rematchChecks[SeaNet.Instance.getLocalPlayer()] = state.REMATCH;
 					SeaNet.Instance.setRematchCheck((int)state.REMATCH);
 
-					//continue to check for rematchchecks in update
-					m_rematch = true;
 					//reset buttons
 					reset();
 				}
@@ -217,6 +218,9 @@ public class WinstateAnimation : MonoBehaviour {
 
 	public void SetRematchCheck(int playerId, int newState){
 		m_rematchChecks[playerId] = (state)newState;
+//		if(newState == state.LEAVE){
+//			
+//		}
 	}
 
 }
