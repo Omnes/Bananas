@@ -61,7 +61,10 @@ public class CollisionTransmitter : MonoBehaviour {
 				}
 				m_playerAnim.tackleLoseAnim(m_dizzyTime);
 				m_leafBlower.requestDropAll();
-				m_buffManager.AddBuff(new DizzyBuff(_playerRef, m_dizzyTime));
+
+				if (Network.isServer) {
+					m_buffManager.AddBuff(new DizzyBuff(_playerRef, m_dizzyTime));
+				}
 			}
 			else if (collisionType == (int)CollisionType.TACKLING) {
 				//Debug.Log ("Tackling");

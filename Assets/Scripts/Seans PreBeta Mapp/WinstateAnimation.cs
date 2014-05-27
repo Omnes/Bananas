@@ -67,6 +67,7 @@ public class WinstateAnimation : MonoBehaviour {
 			m_startTimer = true;
 			m_endScreenCounter = Time.time;
 			Debug.Log("NU STARTAR TIDEN "+m_endScreenCounter);
+			SoundManager.Instance.playOneShot(SoundManager.VOICE_TACKLING[ScoreKeeper.GetFirstPlaceID()]);
 		}
 		//start 
 		if (m_startTimer) {
