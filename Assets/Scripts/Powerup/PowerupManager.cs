@@ -13,7 +13,7 @@ public class PowerupManager : MonoBehaviour {
 	private const float SPAWN_INTERVALL_MIN = 15.0f;
 	private const float SPAWN_INTERVALL_MAX = 15.0f;
 
-	private const int MAX_POWERUPS = 3;
+	private const int MAX_POWERUPS = 2;
 	private const float SPAWN_RADIUS = 6f;
 	private const float MIN_SPAWN_DISTANCE_BETWEEN_POWERUPS = 2.5f;
 	private const int MAX_REPOSITION_RETRIES = 5;
@@ -31,7 +31,7 @@ public class PowerupManager : MonoBehaviour {
 	private static float timeBombTimer;
 	private static float bigLeafBlowerTimer;
 	private static float EMPTimer;
-
+	private static int timeBombSpawnCount;
 	private static bool m_canSpawn;
 
 	/**
@@ -50,6 +50,7 @@ public class PowerupManager : MonoBehaviour {
 		bigLeafBlowerTimer = BigLeafBlowerBuff.DURATION;
 		EMPTimer = EMPBuff.DURATION;
 
+		timeBombSpawnCount = 0;
 		spawnTimer = 0.0f;
 		Clear ();
 
@@ -80,6 +81,7 @@ public class PowerupManager : MonoBehaviour {
 			if (powerupType == Powerup.TIME_BOMB) {
 				network.RPC ("TimeBombGet", RPCMode.All, playerID, TimeBombBuff.GetDuration());
 				timeBombTimer = 0;
+				timeBombSpawnCount++;
 			}
 			else if (powerupType == Powerup.BIG_LEAF_BLOWER) {
 				network.RPC ("BigLeafBlowerGet", RPCMode.All, playerID);
@@ -186,13 +188,16 @@ public class PowerupManager : MonoBehaviour {
 			EMPTimer += Time.deltaTime;
 
 			if (spawnTimer > spawnIntervall) {
-				//Räkna antalet powerups som är aktiva
-				int powerupCount = m_powerups.Count;
-				powerupCount += CanSpawnTimeBomb() ? 0 : 1;
-				powerupCount += CanSpawnBigLeafBlower() ? 0 : 1;
-				powerupCount += CanSpawnEMP() ? 0 : 1;
 
-				if (powerupCount < MAX_POWERUPS) {
+				//Räkna antalet powerups som är aktiva
+				int nrAvailablePowerups = 0;
+				nrAvailablePowerups += CanSpawnTimeBomb() ? 1 : 0;
+				nrAvailablePowerups += CanSpawnBigLeafBlower() ? 1 : 0;
+				nrAvailablePowerups += CanSpawnEMP() ? 1 : 0;
+
+//				Debug.Log(CanSpawnTimeBomb() + "\t" + CanSpawnBigLeafBlower() + "\t" + CanSpawnEMP() + "\t" + nrAvailablePowerups + "\t" + m_powerups.Count);
+
+				if (m_powerups.Count < MAX_POWERUPS && nrAvailablePowerups > m_powerups.Count) {
 					//Randomize spawn position in a circle and with a min distance to nearby powerups
 					Vector2 position = Vector2.zero;
 					bool isToClose = false;
@@ -237,7 +242,9 @@ public class PowerupManager : MonoBehaviour {
 	}
 
 	private static bool CanSpawnTimeBomb() { 
-		return timeBombTimer > Mathf.Max(TimeBombBuff.BOMB_DURATION_MAX, INIT_SPAWN_DELAY_MIN);
+		return timeBombTimer > Mathf.Max(TimeBombBuff.BOMB_DURATION_MAX, INIT_SPAWN_DELAY_MIN) &&
+				timeBombSpawnCount == 0 &&
+				Winstate.m_timeLeft <= 45;
 	}
 
 	private static bool CanSpawnBigLeafBlower() { 
