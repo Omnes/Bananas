@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class WinstateAnimation : MonoBehaviour {
 
-
 	public enum state { 
 		REMATCH,
 		LEAVE,
@@ -40,6 +39,9 @@ public class WinstateAnimation : MonoBehaviour {
 	//kanske ta bort
 	private bool m_allPlayersRemain = true;
 
+	//my rematch state
+	private bool m_leaveGame = false;
+
 
 	private bool m_startTimer = false;
 	private float m_endScreenDelay = 20;
@@ -58,88 +60,80 @@ public class WinstateAnimation : MonoBehaviour {
 		m_leaveButton = new LobbyButton(m_leaveButtonPos.x, m_leaveButtonPos.y + 100, m_size.x, m_size.y,		"Leave Game", m_leaveButtonPos, 3.0f, LeanTweenType.easeOutElastic);
 		m_rematchButton = new LobbyButton(m_rematchButtonPos.x, m_rematchButtonPos.y + 100, m_size.x, m_size.y,	"Rematch", m_rematchButtonPos, 3.0f, LeanTweenType.easeOutElastic);
 
-
+		
 		for (int i = 0; i < m_rematchChecks.Length; i++) {
-			m_rematchChecks[i] = state.NONE;	
+			m_rematchChecks[i] = state.NONE;
 		}
+
 	}
 
-	void Update(){
-		//kass
-		if(m_gameEnded && !m_startTimer){
-			m_startTimer = true;
-			m_endScreenCounter = Time.time;
-			Debug.Log("NU STARTAR TIDEN "+m_endScreenCounter);
-			SoundManager.Instance.playOneShot(SoundManager.VOICE_TACKLING[ScoreKeeper.GetFirstPlaceID()]);
-		}
-		//start 
-		if (m_startTimer) {
-			if(Time.time > m_endScreenCounter + m_endScreenDelay){
-				Debug.Log("TIDEN SLUTAR NU "+m_endScreenCounter);
-				if(!m_allPlayersRemain && m_rematch){
-					SeaNet.Instance.stopGame ("MainMenuScene", "Lobby");
-				}else{
-					SeaNet.Instance.disconnect();
-					SeaNet.Instance.stopGame ("MainMenuScene", "StartingScreen");
-				}
-			}
-		}
-
-		//if rematch is true, check if you are allowed to start the match
-		if(m_rematch){
-			int temp = 0;
-			for (int i = 0; i < m_rematchChecks.Length; i++) {
-				if(m_rematchChecks[i].Equals(state.REMATCH)){
-					temp++;
-				}else if(m_rematchChecks[i].Equals(state.LEAVE)){
-					m_allPlayersRemain = false;
-				}
-			}
-
-			if (temp == m_playerAmount) {
-				//load level, MenuState ("MainMenu") doesnt matter here
-				SeaNet.Instance.stopGame ("LemonPark", "MainMenu");
-			}
-		}
-	}
 
 	public void playWinScene(int id){
-		SyncMovement[] m_playerObjs = SyncMovement.s_syncMovements;
-		BuffManager[] m_buffManagers = BuffManager.m_buffManagers;
+		StartCoroutine(playWinSceneCorutine(id));
+	}
 
-		if(m_playerObjs[id] != null && m_buffManagers[id] != null){
-			//pos
-			Vector3 tempPos = m_playerObjs[id].transform.position;
-			m_playerObjs[id].transform.position = new Vector3(0,tempPos.y,0);
+	private IEnumerator playWinSceneCorutine(int id){
+		SyncMovement[] syncMovements = SyncMovement.s_syncMovements;
+		BuffManager[] buffManagers = BuffManager.m_buffManagers;
 
-			for(int i = 0; i < m_buffManagers.Length; i++){
-				if(m_buffManagers[i] != null){
-					m_buffManagers[i].AddBuff(new StunBuff(m_buffManagers[i].gameObject, 0));
-					if(i != id){
-						m_buffManagers[i].gameObject.SetActive(false);
-					}
+		//clear all buffs from all players and restun them
+		for(int i = 0; i < buffManagers.Length; i++){
+			if(buffManagers[i] != null){
+				buffManagers[i].RemoveAll();
+				buffManagers[i].GetComponent<InputHub>().StunLeafBlower();
+				buffManagers[i].GetComponent<InputHub>().StunMovement();
+			}
+		}
+
+		//play the animations 
+		float moveDuration = 1f;
+		float fadeDuration = 0.5f;
+		TimesUpAnimation.instance.Play(new Vector2(0,0),new Vector2(1,1),moveDuration,0.5f);
+		GUITimer.s_lazyInstance.Play(new Vector2(0,1f),4f);
+		//move player to center
+//		StartCoroutine(LerpPlayerToPosition(syncMovements[id].transform,new Vector3(0,syncMovements[id].transform.position.y,0),moveDuration+fadeDuration));
+
+		
+
+		//wait for the timesup to appear
+		yield return new WaitForSeconds(moveDuration+fadeDuration);
+		//disable this or the LerpPlayer thingy
+		syncMovements[id].transform.position = Vector3.zero + new Vector3(0,syncMovements[id].transform.position.y,0);
+
+		//disable all non-winning players
+		for(int i = 0; i < buffManagers.Length; i++){
+			if(buffManagers[i] != null){
+				if(i != id){
+					buffManagers[i].gameObject.SetActive(false);
 				}
 			}
+		}
 
+		//begin lerp the camera to the player 
+		float cameraLerpDuration = 2f;
+		Vector3 camPos = new Vector3(-4,3,0);
+		Quaternion rot = Quaternion.LookRotation(Vector3.zero-camPos); //playerposition - cameraposition
+		Camera.main.GetComponent<CameraFollow>().MoveToPosition(camPos,rot,cameraLerpDuration);
+		
+		//make mplayer look at camera
+		Vector3 lookAtPos = camPos - Vector3.up * camPos.y;
+		syncMovements[id].transform.LookAt(lookAtPos);
+		syncMovements[id].transform.Rotate(Vector3.up*12f);
 
-			m_playerObjs[id].GetComponent<playerAnimation>().winAnim();
+		yield return new WaitForSeconds(cameraLerpDuration-0.3f);
+		
+		SoundManager.Instance.playOneShot(SoundManager.VOICE_VICTORY[id]);
+		syncMovements[id].GetComponent<playerAnimation>().winAnim();
 
-			//set position
-			Camera.main.transform.position = new Vector3(-4,3,0);
-			//disable smoothfollow
-			Camera.main.GetComponent<CameraFollow>().enabled = false;
+	}
 
-			//make mplayer look at camera
-//			m_playerObjs[id].transform.LookAt(new Vector3(-7,0,0));
-			Vector3 lookAtPos = Camera.main.transform.position - new Vector3(0,Camera.main.transform.position.y,0);
-			m_playerObjs[id].transform.LookAt(lookAtPos);
-			m_playerObjs[id].transform.Rotate(Vector3.up*12f);
-			
-
-			//
-			Vector3 playerPos = m_playerObjs[id].transform.position - new Vector3(0,1,0);
-			Camera.main.transform.LookAt(playerPos);
-
+	IEnumerator LerpPlayerToPosition(Transform player,Vector3 endPos,float duration){
+		float startTime = Time.time;
+		Vector3 startPosition = player.position;
+		while(startTime + duration > Time.time){
+			float t = (Time.time - startTime)/duration;
+			player.position = Vector3.Lerp(startPosition,endPos,t);
+			yield return null;
 		}
 	}
 
@@ -176,8 +170,9 @@ public class WinstateAnimation : MonoBehaviour {
 				if(m_leaveButton.isClicked()){
 					m_gameEnded = false;
 
-					m_rematchChecks[SeaNet.Instance.getLocalPlayer()] = state.LEAVE;
 					SeaNet.Instance.setRematchCheck((int)state.LEAVE);
+
+					m_leaveGame = true;
 
 					//load level
 					//SeaNet.Instance.stopGame("MainMenuScene", "MainMenu");
@@ -193,7 +188,6 @@ public class WinstateAnimation : MonoBehaviour {
 					m_gameEnded = false;
 
 					//check rematchstate
-					m_rematchChecks[SeaNet.Instance.getLocalPlayer()] = state.REMATCH;
 					SeaNet.Instance.setRematchCheck((int)state.REMATCH);
 
 					//reset buttons
@@ -217,10 +211,59 @@ public class WinstateAnimation : MonoBehaviour {
 	}
 
 	public void SetRematchCheck(int playerId, int newState){
-		m_rematchChecks[playerId] = (state)newState;
-//		if(newState == state.LEAVE){
-//			
-//		}
-	}
 
+		m_rematchChecks[playerId] = (state)newState;
+
+		if (!m_leaveGame) {
+			if (newState == (int)state.LEAVE) {
+				//do gui check
+
+
+	
+			} else {
+				//do GUI check
+
+				//### REMATCH ###
+				if(Network.isServer){
+					int rematchAmount = 0;
+					//if all => rematch
+					for (int i = 0; i < m_rematchChecks.Length; i++) {
+						if (m_rematchChecks[i] == state.REMATCH) {
+							rematchAmount++;
+						}
+					}
+					//if rematchplayers are same as amount of players, play rematch
+					if (rematchAmount >= m_playerAmount) {
+						//																		REMATAACHACHAHCHACH <----------------------------
+						//load level, MenuState ("MainMenu") doesnt matter here
+						SeaNet.Instance.stopGame ("LemonPark", "");
+					}
+				}
+			}
+
+			//### REMATCH FROM LOBBY ###
+			if(Network.isServer){
+				//players who press leave
+				int leaveAmount = 0;
+				//players who clicked something
+				int clickedAmount = 0;
+
+				//if alone => menulobby
+				//if !alone => lobby
+				for (int i = 0; i < m_rematchChecks.Length; i++) {
+					if (m_rematchChecks [i] != state.NONE) {
+						clickedAmount++;
+					}
+					if (m_rematchChecks [i] == state.LEAVE) {
+						leaveAmount++;
+					}
+				}
+				if (leaveAmount > 0 && clickedAmount >= m_playerAmount) {
+					//																		LEAVE TO LOBBY <----------------------------------
+					SeaNet.Instance.stopGame ("MainMenuScene", "Lobby");
+				}
+			}
+
+		}
+	}
 }

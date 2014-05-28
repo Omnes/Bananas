@@ -601,6 +601,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 348808303}
   - 65: {fileID: 348808306}
+  - 114: {fileID: 348808304}
   m_Layer: 0
   m_Name: Windfield
   m_TagString: Untagged
@@ -619,13 +620,24 @@ Transform:
   m_LocalScale: {x: 14, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &348808304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 348808302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde14f7db4605f7428500bc63b36efbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &348808306
 BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 348808302}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 40966b9b79c571c4e9f8b8e85a405a72, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -1141,6 +1153,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 623989745}
   - 65: {fileID: 623989748}
+  - 114: {fileID: 623989746}
   m_Layer: 0
   m_Name: Windfield
   m_TagString: Untagged
@@ -1159,13 +1172,24 @@ Transform:
   m_LocalScale: {x: 14, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &623989746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 623989744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde14f7db4605f7428500bc63b36efbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &623989748
 BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 623989744}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 40966b9b79c571c4e9f8b8e85a405a72, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -1180,6 +1204,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 648257729}
   - 65: {fileID: 648257732}
+  - 114: {fileID: 648257730}
   m_Layer: 0
   m_Name: Windfield
   m_TagString: Untagged
@@ -1198,13 +1223,24 @@ Transform:
   m_LocalScale: {x: 14, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &648257730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 648257728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde14f7db4605f7428500bc63b36efbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &648257732
 BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 648257728}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 40966b9b79c571c4e9f8b8e85a405a72, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -4880,6 +4916,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 2012694722}
   - 65: {fileID: 2012694725}
+  - 114: {fileID: 2012694723}
   m_Layer: 0
   m_Name: Windfield
   m_TagString: Untagged
@@ -4898,13 +4935,24 @@ Transform:
   m_LocalScale: {x: 14, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &2012694723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2012694721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde14f7db4605f7428500bc63b36efbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &2012694725
 BoxCollider:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2012694721}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 40966b9b79c571c4e9f8b8e85a405a72, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2

@@ -31,9 +31,6 @@ public class PowerupManager : MonoBehaviour {
 	private static float timeBombTimer;
 	private static float bigLeafBlowerTimer;
 	private static float EMPTimer;
-	private static bool CanSpawnTimeBomb() { return timeBombTimer > TimeBombBuff.BOMB_DURATION_MAX; }
-	private static bool CanSpawnBigLeafBlower() { return bigLeafBlowerTimer > BigLeafBlowerBuff.DURATION; }
-	private static bool CanSpawnEMP() { return EMPTimer > EMPBuff.DURATION; }
 
 	private static bool m_canSpawn;
 
@@ -237,5 +234,17 @@ public class PowerupManager : MonoBehaviour {
 	public static void Disable() {
 		m_canSpawn = false;
 		Clear ();
+	}
+
+	private static bool CanSpawnTimeBomb() { 
+		return timeBombTimer > Mathf.Max(TimeBombBuff.BOMB_DURATION_MAX, INIT_SPAWN_DELAY_MIN);
+	}
+
+	private static bool CanSpawnBigLeafBlower() { 
+		return bigLeafBlowerTimer > Mathf.Max(BigLeafBlowerBuff.DURATION, INIT_SPAWN_DELAY_MIN);
+	}
+
+	private static bool CanSpawnEMP() { 
+		return EMPTimer > Mathf.Max(EMPBuff.DURATION, INIT_SPAWN_DELAY_MIN);
 	}
 }

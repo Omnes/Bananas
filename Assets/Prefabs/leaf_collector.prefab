@@ -14,7 +14,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 54: {fileID: 5400000}
   - 114: {fileID: 11400002}
-  - 114: {fileID: 11400004}
+  - 114: {fileID: 11400006}
   m_Layer: 0
   m_Name: leaf_collector
   m_TagString: Leaf_collector
@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ID: 1
---- !u!114 &11400004
+--- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -120,12 +120,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c44703ebf72d094eba0a7dba131daf4, type: 3}
+  m_Script: {fileID: 11500000, guid: fde14f7db4605f7428500bc63b36efbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_bounceForce: 1
-  m_bounceMode: 0
-  m_forceMode: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

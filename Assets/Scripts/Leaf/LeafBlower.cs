@@ -153,7 +153,9 @@ public class LeafBlower : MonoBehaviour {
 				if(m_canScoreInOtherGoal || m_id == goalID){
 					
 					int nrOfLeafs = m_collectedLeafs.Count;
-					LeafManager.s_lazyInstance.requestDoGoal(nrOfLeafs,m_id,goalID);
+					if (nrOfLeafs > 0) {
+						LeafManager.s_lazyInstance.requestDoGoal(nrOfLeafs,m_id,goalID);
+					}
 				}
 			}
 		}

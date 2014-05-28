@@ -10,7 +10,18 @@ public class Winstate : MonoBehaviour {
 
 	private bool m_gameRunning = false;
 
-	private GUITimer m_guiTimer;
+	private GUITimer m_guiTimer{
+		get{
+			if(guiTimer == null){
+				guiTimer = GUITimer.s_lazyInstance;
+			}
+			return guiTimer;
+		}
+	}
+
+	private GUITimer guiTimer;
+
+	private bool m_playTimesUpSound = true;
 	
 //	public void StartGameTimer(){
 //		StartGameTimer(m_MAXTIME);
@@ -18,19 +29,19 @@ public class Winstate : MonoBehaviour {
 
 	public void StartGameTimer(int gameLength){
 		m_startTime = Time.time;
-		m_endTime = m_startTime + gameLength;
+		m_endTime = m_startTime + gameLength - 1f;
+		m_guiTimer.updateTimer((float)gameLength);
 		m_gameRunning = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(m_guiTimer == null){
-			m_guiTimer = GUITimer.s_lazyInstance;
-		}
 
 		if(m_gameRunning){
+			float timeLeft = m_endTime - Time.time;
+
 			if(m_guiTimer!=null){
-				m_guiTimer.updateTimer(m_endTime - Time.time);
+				m_guiTimer.updateTimer(timeLeft);
 			}
 			if(Time.time > m_endTime){
 				//we can do a check for tie here
@@ -38,6 +49,10 @@ public class Winstate : MonoBehaviour {
 				if(Network.isServer){
 					SeaNet.Instance.savePlayersAndShutDown(ScoreKeeper.GetFirstPlaceID());
 				}
+			}
+			if (timeLeft < 5f && m_playTimesUpSound) {
+				m_playTimesUpSound = false;
+				SoundManager.Instance.playOneShot(SoundManager.TIMES_UP);
 			}
 		}
 	}

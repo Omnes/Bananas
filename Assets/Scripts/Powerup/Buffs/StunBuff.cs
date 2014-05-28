@@ -37,6 +37,11 @@ public class StunBuff : Buff {
 		inputHub.UnStunLeafBlower ();
 	}
 
+	public override void RemoveEvent ()
+	{
+		ExpireEvent ();
+	}
+
 	public override string ToString ()
 	{
 		return string.Format ("[StunBuff], alive={0}]", alive);
