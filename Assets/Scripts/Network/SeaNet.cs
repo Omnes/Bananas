@@ -180,11 +180,8 @@ public class SeaNet : MonoBehaviour {
 	public void RPCStartGame(int gameTime){
 		//EVERYONE IS LOADED AND READY TO GO
 		LoadingScreen.CloseLoadingScreen();
-		if(Network.isClient){
-			StartCoroutine(StartGameDelayed(gameTime,m_startDelay - Network.GetLastPing(Network.connections[0])/1000f));
-		}else{
-			StartCoroutine(StartGameDelayed(gameTime,m_startDelay));
-		}
+		StartCoroutine(StartGameDelayed(gameTime,m_startDelay));
+		CountdownAnimation.instance.Play();
 		//start the music!
 		SoundManager.Instance.StartIngameMusic();
 		SoundManager.Instance.playOneShot(SoundManager.COUNTDOWN);
@@ -227,8 +224,6 @@ public class SeaNet : MonoBehaviour {
 	[RPC]
 	private void endGameSceneRPC(int id){
 		m_winstateAnimation.m_gameEnded = true;
-		SoundManager.Instance.StartWinMusic();
-		PowerupManager.Disable ();
 		m_winstateAnimation.playWinScene(id);
 	}
 

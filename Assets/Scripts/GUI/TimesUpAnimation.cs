@@ -12,13 +12,14 @@ public class TimesUpAnimation : MonoBehaviour {
 		transform.localPosition = new Vector3(0,-0.5f,transform.localPosition.z);
 	}
 	
-	public void Play(Vector2 endPosition,Vector2 endScale,float moveDuration,float fadeDuration){
-		StartCoroutine(playAnimation(endPosition,endScale,moveDuration,fadeDuration));
+	public void Play(Vector2 endPosition,float moveDuration,float fadeDuration){
+		StartCoroutine(playAnimation(endPosition,moveDuration,fadeDuration));
 	}
 
-	private IEnumerator playAnimation(Vector2 endPosition,Vector2 endScale,float moveDuration,float fadeDuration){
+	private IEnumerator playAnimation(Vector2 endPosition,float moveDuration,float fadeDuration){
 		Vector3 startPosition = new Vector3(0,0.5f,transform.localPosition.z);
 		Vector3 startScale = new Vector3(0,0,0);
+		Vector3 endScale = transform.localScale;
 		float startTime = Time.time;
 		renderer.enabled = true;
 
@@ -36,6 +37,7 @@ public class TimesUpAnimation : MonoBehaviour {
 			yield return null;
 		}
 		renderer.enabled = false;
+		transform.localScale = endScale;
 	}
 	   
 }

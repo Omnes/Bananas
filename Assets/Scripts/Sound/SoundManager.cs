@@ -17,21 +17,22 @@ public class SoundManager : MonoBehaviour {
 //	public const string TIMEBOMB_TICK = "event:/SFX/SFX_Timebomb_tick";
 	public const string TIMES_UP = "event:/SFX/SFX_timesup";
 	public const string BUTTON_CLICK = "event:/SFX/SFX_Yesbutton";
+	public const string TEN_SECONDS_LEFT = "event:/VO/10SecondMark";
 
 	public const string COUNTDOWN = "event:/VO/VO_Countdown";
 	public const string LEAFBLOWER_WARCRY = "event:/VO/VO_GlobalWarCry";
 
 	//Voices
 	public static string[] VOICE_TACKLED = new string[4]{
-		"event:/VO/Douglas/DouglasGetTackled",
+		"event:/VO/Douglas/DouglasDoTackle", 
 		"event:/VO/Jessica/JessicaGetTackled",
-		"event:/VO/Leif/LeifGetTackled",
+		"event:/VO/Leif/LeifDoTackle",
 		"event:/VO/Sarah/SarahGetTackled"
 	};
 	public static string[] VOICE_TACKLING = new string[4]{
-		"event:/VO/Douglas/DouglasDoTackle",
+		"event:/VO/Douglas/DouglasGetTackled",
 		"event:/VO/Jessica/JessicaDoTackle",
-		"event:/VO/Leif/LeifDoTackle",
+		"event:/VO/Leif/LeifGetTackled",
 		"event:/VO/Sarah/SarahDoTackle"
 	};
 	public static string[] VOICE_VICTORY = new string[4]{
@@ -49,6 +50,7 @@ public class SoundManager : MonoBehaviour {
 //	private FMOD.Studio.EventInstance m_musicLevel2;
 	private FMOD.Studio.ParameterInstance m_musicParam1;
 	private FMOD.Studio.ParameterInstance m_musicParam2;
+	private FMOD.Studio.ParameterInstance m_musicParam3;
 
 	//TEST
 	private FMOD.Studio.MixerStrip m_masterBus;
@@ -202,20 +204,30 @@ public class SoundManager : MonoBehaviour {
 			}
 			m_music.getParameter("Win", out m_musicParam1);
 			m_music.getParameter("Bomb", out m_musicParam2);
+			m_music.getParameter("End", out m_musicParam3);
 		}
 		m_musicParam1.setValue (0);
 		m_musicParam2.setValue (0);
+		m_musicParam3.setValue (0);
 	}
 
 	public void StartBombMusic() {
 		StartIngameMusic ();
 		m_musicParam1.setValue (0);
 		m_musicParam2.setValue (1);
+		m_musicParam3.setValue (0);
+	}
+
+	public void StartTenSecondsLeftMusic() {
+		m_musicParam1.setValue (0);
+		m_musicParam2.setValue (0);
+		m_musicParam3.setValue (1);
 	}
 
 	public void StartWinMusic() {
 		m_musicParam1.setValue (1);
 		m_musicParam2.setValue (0);
+		m_musicParam3.setValue (0);
 	}
 
 	public void ResetMusic() {
