@@ -92,7 +92,7 @@ GameObject:
   - 114: {fileID: 48720702}
   - 54: {fileID: 48720701}
   - 114: {fileID: 48720707}
-  - 114: {fileID: 48720708}
+  - 114: {fileID: 48720703}
   m_Layer: 12
   m_Name: leaf_collector_2
   m_TagString: Leaf_collector
@@ -129,6 +129,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ID: 0
+--- !u!114 &48720703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400006, guid: 5bbc325d85f7e2e42b777cc485d910c4,
+    type: 2}
+  m_PrefabInternal: {fileID: 1230540141}
+  m_GameObject: {fileID: 48720700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde14f7db4605f7428500bc63b36efbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &48720704
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -166,21 +178,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ID: 1
---- !u!114 &48720708
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400004, guid: 5bbc325d85f7e2e42b777cc485d910c4,
-    type: 2}
-  m_PrefabInternal: {fileID: 1230540141}
-  m_GameObject: {fileID: 48720700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c44703ebf72d094eba0a7dba131daf4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_bounceForce: 1
-  m_bounceMode: 0
-  m_forceMode: 1
 --- !u!1 &93892581
 GameObject:
   m_ObjectHideFlags: 0
@@ -251,7 +248,7 @@ GameObject:
   - 114: {fileID: 129887457}
   - 54: {fileID: 129887456}
   - 114: {fileID: 129887462}
-  - 114: {fileID: 129887463}
+  - 114: {fileID: 129887458}
   m_Layer: 12
   m_Name: leaf_collector_3
   m_TagString: Leaf_collector
@@ -288,6 +285,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ID: 0
+--- !u!114 &129887458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400006, guid: 5bbc325d85f7e2e42b777cc485d910c4,
+    type: 2}
+  m_PrefabInternal: {fileID: 944248270}
+  m_GameObject: {fileID: 129887455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde14f7db4605f7428500bc63b36efbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &129887459
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -325,21 +334,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ID: 2
---- !u!114 &129887463
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400004, guid: 5bbc325d85f7e2e42b777cc485d910c4,
-    type: 2}
-  m_PrefabInternal: {fileID: 944248270}
-  m_GameObject: {fileID: 129887455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c44703ebf72d094eba0a7dba131daf4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_bounceForce: 1
-  m_bounceMode: 0
-  m_forceMode: 1
 --- !u!1 &173323351
 GameObject:
   m_ObjectHideFlags: 0
@@ -713,7 +707,7 @@ GameObject:
   - 114: {fileID: 378785568}
   - 54: {fileID: 378785567}
   - 114: {fileID: 378785573}
-  - 114: {fileID: 378785574}
+  - 114: {fileID: 378785569}
   m_Layer: 12
   m_Name: leaf_collector_1
   m_TagString: Leaf_collector
@@ -750,6 +744,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ID: 0
+--- !u!114 &378785569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400006, guid: 5bbc325d85f7e2e42b777cc485d910c4,
+    type: 2}
+  m_PrefabInternal: {fileID: 1419913067}
+  m_GameObject: {fileID: 378785566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde14f7db4605f7428500bc63b36efbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &378785570
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -787,21 +793,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ID: 0
---- !u!114 &378785574
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400004, guid: 5bbc325d85f7e2e42b777cc485d910c4,
-    type: 2}
-  m_PrefabInternal: {fileID: 1419913067}
-  m_GameObject: {fileID: 378785566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c44703ebf72d094eba0a7dba131daf4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_bounceForce: 1
-  m_bounceMode: 0
-  m_forceMode: 1
 --- !u!1 &575992246
 GameObject:
   m_ObjectHideFlags: 0
@@ -2832,7 +2823,7 @@ GameObject:
   - 114: {fileID: 1111942327}
   - 54: {fileID: 1111942326}
   - 114: {fileID: 1111942332}
-  - 114: {fileID: 1111942333}
+  - 114: {fileID: 1111942328}
   m_Layer: 12
   m_Name: leaf_collector_4
   m_TagString: Leaf_collector
@@ -2869,6 +2860,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ID: 0
+--- !u!114 &1111942328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400006, guid: 5bbc325d85f7e2e42b777cc485d910c4,
+    type: 2}
+  m_PrefabInternal: {fileID: 1043858493}
+  m_GameObject: {fileID: 1111942325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fde14f7db4605f7428500bc63b36efbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &1111942329
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2906,21 +2909,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ID: 3
---- !u!114 &1111942333
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400004, guid: 5bbc325d85f7e2e42b777cc485d910c4,
-    type: 2}
-  m_PrefabInternal: {fileID: 1043858493}
-  m_GameObject: {fileID: 1111942325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c44703ebf72d094eba0a7dba131daf4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_bounceForce: 1
-  m_bounceMode: 0
-  m_forceMode: 1
 --- !u!1001 &1146023993
 Prefab:
   m_ObjectHideFlags: 0
@@ -3951,7 +3939,7 @@ Transform:
   m_PrefabParentObject: {fileID: 400006, guid: 150b6422c3ad45046a4e3372b0eea883, type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1512320382}
-  m_LocalRotation: {x: .620458424, y: -.14868176, z: -.259713292, w: .724895954}
+  m_LocalRotation: {x: .664463043, y: -.241844788, z: .664463043, w: .241844729}
   m_LocalPosition: {x: 9.63580036, y: 12.5539722, z: -5.10429764}
   m_LocalScale: {x: 1.50246704, y: 1.50842047, z: 1.50884879}
   m_Children: []
