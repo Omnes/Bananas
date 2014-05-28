@@ -10,8 +10,7 @@ public class Prefactory : MonoBehaviour {
 	public GameObject m_EMPHit;
 	public GameObject m_powerupPickup;
 
-	public Texture2D m_muteButton;
-	public Texture2D m_muteButton2;
+	public Texture2D m_buttonAtlas;
 
 	//winners
 	public Texture2D m_winnerOtherTexture;
@@ -30,8 +29,7 @@ public class Prefactory : MonoBehaviour {
 	public static GameObject prefab_EMPHit;
 	public static GameObject prefab_powerupPickup;
 
-	public static Texture2D texture_muteButton;
-	public static Texture2D texture_muteButton2;
+	public static Texture2D texture_buttonAtlas;
 
 	//winners
 	public static Texture2D texture_winnerOther;
@@ -52,8 +50,7 @@ public class Prefactory : MonoBehaviour {
 		prefab_EMPHit = m_EMPHit;
 		prefab_powerupPickup = m_powerupPickup;
 
-		texture_muteButton = m_muteButton;
-		texture_muteButton2 = m_muteButton2;
+		texture_buttonAtlas = m_buttonAtlas;
 
 		//winners
 		texture_winner = m_winnerTexture;

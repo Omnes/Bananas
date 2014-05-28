@@ -30,6 +30,8 @@ public class SeaNet : MonoBehaviour {
 	private int m_loadedPlayers = 0;
 	public float m_startDelay = 3f;
 
+	public float m_LoadingScreenPadTime = 3f;
+
 	public static bool isNull(){
 		return instance == null;
 	}
@@ -179,18 +181,23 @@ public class SeaNet : MonoBehaviour {
 	[RPC]
 	public void RPCStartGame(int gameTime){
 		//EVERYONE IS LOADED AND READY TO GO
+		StartCoroutine(StartGame(gameTime,m_LoadingScreenPadTime));
+	}
+
+	IEnumerator StartGame(int gameTime,float duration){
+		yield return new WaitForSeconds(duration);
 		LoadingScreen.CloseLoadingScreen();
 		StartCoroutine(StartGameDelayed(gameTime,m_startDelay));
 		CountdownAnimation.instance.Play();
 		//start the music!
 		SoundManager.Instance.StartIngameMusic();
 		SoundManager.Instance.playOneShot(SoundManager.COUNTDOWN);
-
+		
 		m_winstateAnimation.m_playerAmount = m_connectedPlayers.Count;
 	}
 
 	private IEnumerator StartGameDelayed(int gameTime,float delay){
-		yield return new WaitForSeconds(delay);
+		yield return new WaitForSeconds(delay);  
 		m_winstate.StartGameTimer(gameTime);
 		for(int i = 0; i < 4;i++){
 			if(SyncMovement.s_syncMovements[i] != null){
@@ -204,7 +211,8 @@ public class SeaNet : MonoBehaviour {
 
 //		Network.SetSendingEnabled(0, false);
 //		Network.isMessageQueueRunning = false;
-		LoadingScreen.OpenLoadingScreen("Loading...");
+		Texture2D loadingScreenBackground = level.Equals("LemonPark") ? Prefactory.texture_loadingscreen : Prefactory.texture_loadingscreen; // ÄNDRA BAKGRUNDEN HÄR
+		LoadingScreen.OpenLoadingScreen("Loading...",loadingScreenBackground);
 		yield return new WaitForEndOfFrame();
 		Application.LoadLevel(level);
 		yield return new WaitForEndOfFrame();

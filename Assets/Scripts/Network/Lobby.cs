@@ -52,6 +52,12 @@ public class Lobby : MenuBase
 
 	//hoistlist
 	public HostData[] m_hostlist;
+	
+	public GUIStyle m_guiStyle;
+	private ServerList m_serverList;
+
+	private Rect m_serverListArea = new Rect(400,0,400,400);
+
 
 	// Use this for initialization
 	void Start () {
@@ -91,6 +97,7 @@ public class Lobby : MenuBase
 
 			}
 		}
+		m_serverList = new ServerList(m_serverListArea);
 	}
 	
 	// Update is called once per frame
@@ -103,6 +110,12 @@ public class Lobby : MenuBase
 	{
 	}
 
+
+	private void RefreshHostList(){
+		MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
+		HostData[] hostlist = MasterServer.PollHostList();
+		m_serverList.SetHostList(hostlist);
+	}
 
 	public override void DoGUI(){
 
@@ -144,21 +157,22 @@ public class Lobby : MenuBase
 			// REFRESH BUTTON
 
 			//client in lobby
-			if(m_buttonsPart1[1].isClicked()){
-				MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
-
-				m_hostlist = MasterServer.PollHostList();
-				m_games.Clear();
-
-				int j = 0;
-				for(int i = 0; i < m_hostlist.Length; i++){
-					if(m_hostlist[i].connectedPlayers < m_hostlist[i].playerLimit){
-						j++;
-						string text = m_hostlist[i].gameName + "\n" + (m_hostlist[i].connectedPlayers)+"/"+m_hostlist[i].playerLimit;
-						m_games.Add(new LobbyButton(-100,centerY + size.y * j, size.x, size.y, text, new Vector2(centerX - size.x,centerY + size.y * j), 3.0f + j, LeanTweenType.easeOutElastic));
-					}
-				}
-			}
+//			if(m_buttonsPart1[1].isClicked()){
+//				MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
+//
+//				m_hostlist = MasterServer.PollHostList();
+//				m_games.Clear();
+//
+//				int j = 0;
+//				for(int i = 0; i < m_hostlist.Length; i++){
+//					if(m_hostlist[i].connectedPlayers < m_hostlist[i].playerLimit){
+//
+//						string text = m_hostlist[i].gameName + "\n" + (m_hostlist[i].connectedPlayers)+"/"+m_hostlist[i].playerLimit;
+//						m_games.Add(new LobbyButton(-100,centerY + size.y * j, size.x, size.y, text, new Vector2(centerX - size.x,centerY + size.y * j), 3.0f + j, LeanTweenType.easeOutElastic));
+//						j++;
+//					}
+//				}
+//			}
 
 			//MasterServer.PollHostList("hej");
 			
@@ -170,28 +184,31 @@ public class Lobby : MenuBase
 			
 			//m_scrollRectPos = GUILayout.BeginScrollView(m_scrollRectPos, GUILayout.Width(size.x), GUILayout.Height(screenHeight));
 
-			if(m_hostlist != null){
-				for( int i = 0; i < m_games.Count; i++){
-					m_games[i].move();
-
-					if(m_games[i].isClicked()){
-						
-						if(m_tempPlayerName.Length == 0){
-							m_tempPlayerName = "NOOB";
-						}
-						//connecting to server
-						//send networkplayer as patramaeter for cleanup ?
-						connectToServer(m_hostlist[i]);
-						Debug.Log("NETWORKID: "+ Network.player.guid);
-						
-					}
-				}
-			}
+//			if(m_hostlist != null){
+//				for( int i = 0; i < m_games.Count; i++){
+//					m_games[i].move();
+//
+//					if(m_games[i].isClicked()){
+//						
+//						if(m_tempPlayerName.Length == 0){
+//							m_tempPlayerName = "NOOB";
+//						}
+//						//connecting to server
+//						//send networkplayer as patramaeter for cleanup ?
+//						connectToServer(m_hostlist[i]);
+//						Debug.Log("NETWORKID: "+ Network.player.guid);
+//						
+//					}
+//				}
+//			}
 //			
 //			GUILayout.EndScrollView();
 //			
 //			GUILayout.EndVertical();
 //			GUILayout.EndArea();
+
+			RefreshHostList();
+			m_serverList.Draw();
 
 		}
 
@@ -266,7 +283,7 @@ public class Lobby : MenuBase
 		Debug.Log("lobby.cs : Shuting down Server");
 	}
 
-	public void connectToServer(HostData e){
+	public static void connectToServer(HostData e){
 		Network.Connect(e);
 		Debug.Log("lobby.cs : Connecting Server");
 	}
@@ -422,4 +439,81 @@ public class Lobby : MenuBase
 	}
 
 
+}
+
+class ServerWidget{
+	private Texture2D m_atlas;
+	private Rect m_texCordsBackground;
+	private Rect m_texCordsButton;
+	private Rect m_buttonPosition;
+	private Rect m_textPosition;
+	
+	private HostData m_host;
+	private Vector2 m_size;
+	
+	private GUIStyle m_guiStyle = GUIStyle.none;
+	
+	public ServerWidget(HostData host,Vector2 size){
+		m_size = size;
+		m_host = host;
+		m_atlas = Prefactory.texture_buttonAtlas;
+		
+		m_texCordsBackground = new Rect(0,0,1f,1f);
+		m_texCordsButton = new Rect(0,0,1f,1f);
+		
+		Vector2 buttonSize = new Vector2(m_size.x*0.2f,m_size.y * 0.2f);
+		m_buttonPosition = new Rect(m_size.x*0.75f - buttonSize.x*0.5f,m_size.y*0.5f - buttonSize.y*0.5f,buttonSize.x,buttonSize.y);
+		m_textPosition = new Rect(m_size.x*0.1f,m_size.y*0.1f,m_size.x*0.7f,m_size.y*0.8f);
+	}
+	
+	
+	
+	public void Draw(Vector2 offset){
+		GUI.DrawTextureWithTexCoords(new Rect(offset.x,offset.y,m_size.x,m_size.y),m_atlas,m_texCordsBackground); //draw background
+		string text = m_host.gameName + "\n" + (m_host.connectedPlayers)+"/"+m_host.playerLimit;
+		GUI.Label(RectAddVector2(m_textPosition,offset), text,m_guiStyle);
+		if(MenuBase.CustomButton(RectAddVector2(m_buttonPosition,offset),m_atlas,m_texCordsButton)){
+			//			if(m_tempPlayerName.Length == 0){
+			//				m_tempPlayerName = "Unknown";
+			//			}
+			Lobby.connectToServer(m_host);
+		}
+	}
+
+	public Vector2 getSize(){
+		return m_size;
+	}
+	
+	Rect RectAddVector2(Rect r, Vector2 v){
+		return new Rect(r.x+v.x, r.y+v.y,r.width,r.height);
+	}
+}
+
+class ServerList{
+	private List<ServerWidget> m_widgets = new List<ServerWidget>();
+	private float m_scrollOffset = 0;
+	private Texture2D m_atlas;
+	private Rect texCordsBackground;
+	private Rect m_area;
+	
+	public ServerList(Rect area){
+		m_area = area;
+		m_atlas = Prefactory.texture_buttonAtlas;
+		texCordsBackground = new Rect(0,0,1f,1f);
+	}
+	
+	public void SetHostList(HostData[] hostData){
+		m_widgets.Clear();
+		Vector2 buttonSize = new Vector2(m_area.x*0.9f,m_area.y*0.2f);
+		for (int i = 0; i < hostData.Length; i++) {
+			m_widgets.Add(new ServerWidget(hostData[i],buttonSize));
+		}
+	}
+	
+	public void Draw(){
+		GUI.DrawTextureWithTexCoords(m_area,m_atlas,texCordsBackground); //draw background
+		for (int i = 0; i < m_widgets.Count; i++) {
+			m_widgets[i].Draw(new Vector2(m_area.x, m_area.y + m_widgets[i].getSize().y * i + m_scrollOffset)); //add padding
+		}	
+	}
 }

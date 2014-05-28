@@ -4,12 +4,13 @@ using System.Collections;
 public class LoadingScreen : MonoBehaviour {
 	
 	private static GameObject m_loadingScreen;
-	private Texture2D m_background;
+	private static Texture2D m_background;
 	private string m_text = "Loading..."; 
 	private GUIStyle m_textStyle;
 
-	public static void OpenLoadingScreen(string text){
+	public static void OpenLoadingScreen(string text,Texture2D background){
 		if(m_loadingScreen == null){
+
 			//we need to disable the GUI that are beeing drawn to prevent it from drawing over the loadingscreen (a hacky fix)
 			GameObject menumanager = GameObject.Find("MenuManager"); 
 			if(menumanager != null){
@@ -25,6 +26,8 @@ public class LoadingScreen : MonoBehaviour {
 			m_loadingScreen.name = "Loadingscreen";
 			m_loadingScreen.AddComponent<LoadingScreen>();
 			DontDestroyOnLoad(m_loadingScreen);
+
+			m_background = background;
 
 		}
 	}
