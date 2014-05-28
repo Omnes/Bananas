@@ -72,14 +72,14 @@ BlendTree:
   - m_Motion: {fileID: 7400006, guid: a068e29f4f39fe947962b0ca2a6254d1, type: 3}
     m_Threshold: 5
     m_Position: {x: 0, y: 0}
-    m_TimeScale: 1.5
+    m_TimeScale: 1.39999998
     m_CycleOffset: 0
     m_IsAnim: 1
     m_Mirror: 0
   - m_Motion: {fileID: 7400006, guid: a068e29f4f39fe947962b0ca2a6254d1, type: 3}
     m_Threshold: 10
     m_Position: {x: 0, y: 0}
-    m_TimeScale: 3
+    m_TimeScale: 1.64999998
     m_CycleOffset: 0
     m_IsAnim: 1
     m_Mirror: 0
@@ -519,12 +519,24 @@ StateMachine:
       second:
       - {fileID: 110143606}
     data:
+      first: {fileID: 110270310}
+      second: []
+    data:
+      first: {fileID: 110258540}
+      second: []
+    data:
       first: {fileID: 110201949}
       second:
       - {fileID: 110121111}
       - {fileID: 110153216}
       - {fileID: 110107697}
       - {fileID: 110145380}
+    data:
+      first: {fileID: 110283116}
+      second: []
+    data:
+      first: {fileID: 110272228}
+      second: []
     data:
       first: {fileID: 110228448}
       second:
@@ -536,29 +548,17 @@ StateMachine:
       - {fileID: 110190953}
       - {fileID: 110100354}
     data:
-      first: {fileID: 110258540}
-      second: []
-    data:
-      first: {fileID: 110266186}
-      second: []
-    data:
-      first: {fileID: 110270310}
-      second: []
-    data:
-      first: {fileID: 110272228}
-      second: []
-    data:
-      first: {fileID: 110283116}
-      second: []
+      first: {fileID: 110294216}
+      second:
+      - {fileID: 110139749}
+      - {fileID: 110178098}
     data:
       first: {fileID: 110285750}
       second:
       - {fileID: 110100000}
     data:
-      first: {fileID: 110294216}
-      second:
-      - {fileID: 110139749}
-      - {fileID: 110178098}
+      first: {fileID: 110266186}
+      second: []
   m_MotionSetCount: 1
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
