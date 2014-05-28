@@ -88,6 +88,7 @@ public class Lobby : MenuBase
 		if(!SeaNet.isNull()){
 			if(SeaNet.Instance.m_connectedPlayers != null){
 				m_connectedPlayers = SeaNet.Instance.m_connectedPlayers;
+
 			}
 		}
 	}

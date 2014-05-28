@@ -6,14 +6,12 @@ public class DizzyBuff : Buff {
 	private MovementLogic m_movementLogic;
 
 	private float m_minSpeed = 2.5f;
-//	private float m_preMaxSpeed;
 
 	public DizzyBuff(GameObject playerRef, float duration = 1.0f):base(playerRef)
 	{
 		m_duration = duration;
 		interpolation = 0.0f;
 		m_movementLogic = m_playerRef.GetComponent<MovementLogic> ();
-
 	}
 
 	override public void InitEvent()
@@ -28,7 +26,6 @@ public class DizzyBuff : Buff {
 			interpolation = 1.0f;
 		}
 		m_movementLogic.m_maxSpeed = m_minSpeed + (m_movementLogic.m_origMaxSpeed - m_minSpeed) * interpolation;
-//		m_playerRef.rigidbody.velocity *= interpolation;
 	}
 
 	public override string ToString ()

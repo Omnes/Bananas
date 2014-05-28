@@ -35,7 +35,13 @@ public class WinstateAnimation : MonoBehaviour {
 	private bool m_rematch = false;
 
 	public int m_playerAmount = 0;
+
+	//kanske ta bort
 	private bool m_allPlayersRemain = true;
+
+	//my rematch state
+	private bool m_leaveGame = false;
+
 
 	private bool m_startTimer = false;
 	private float m_endScreenDelay = 20;
@@ -54,53 +60,13 @@ public class WinstateAnimation : MonoBehaviour {
 		m_leaveButton = new LobbyButton(m_leaveButtonPos.x, m_leaveButtonPos.y + 100, m_size.x, m_size.y,		"Leave Game", m_leaveButtonPos, 3.0f, LeanTweenType.easeOutElastic);
 		m_rematchButton = new LobbyButton(m_rematchButtonPos.x, m_rematchButtonPos.y + 100, m_size.x, m_size.y,	"Rematch", m_rematchButtonPos, 3.0f, LeanTweenType.easeOutElastic);
 
-
+		
 		for (int i = 0; i < m_rematchChecks.Length; i++) {
-			m_rematchChecks[i] = state.NONE;	
+			m_rematchChecks[i] = state.NONE;
 		}
+
 	}
 
-	void Update(){
-		//kass
-		if(m_gameEnded && !m_startTimer){
-			m_startTimer = true;
-			m_endScreenCounter = Time.time;
-			Debug.Log("NU STARTAR TIDEN " + m_endScreenCounter);
-
-			int firstPlaceID = ScoreKeeper.GetFirstPlaceID();
-
-
-		}
-		//start 
-		if (m_startTimer) {
-			if(Time.time > m_endScreenCounter + m_endScreenDelay){
-				Debug.Log("TIDEN SLUTAR NU " + m_endScreenCounter);
-				if(!m_allPlayersRemain && m_rematch){
-					SeaNet.Instance.stopGame ("MainMenuScene", "Lobby");
-				}else{
-					SeaNet.Instance.disconnect();
-					SeaNet.Instance.stopGame ("MainMenuScene", "StartingScreen");
-				}
-			}
-		}
-
-		//if rematch is true, check if you are allowed to start the match
-		if(m_rematch){
-			int temp = 0;
-			for (int i = 0; i < m_rematchChecks.Length; i++) {
-				if(m_rematchChecks[i].Equals(state.REMATCH)){
-					temp++;
-				}else if(m_rematchChecks[i].Equals(state.LEAVE)){
-					m_allPlayersRemain = false;
-				}
-			}
-
-			if (temp == m_playerAmount) {
-				//load level, MenuState ("MainMenu") doesnt matter here
-				SeaNet.Instance.stopGame ("LemonPark", "MainMenu");
-			}
-		}
-	}
 
 	public void playWinScene(int id){
 		StartCoroutine(playWinSceneCorutine(id));
@@ -205,8 +171,9 @@ public class WinstateAnimation : MonoBehaviour {
 				if(m_leaveButton.isClicked()){
 					m_gameEnded = false;
 
-					m_rematchChecks[SeaNet.Instance.getLocalPlayer()] = state.LEAVE;
 					SeaNet.Instance.setRematchCheck((int)state.LEAVE);
+
+					m_leaveGame = true;
 
 					//load level
 					//SeaNet.Instance.stopGame("MainMenuScene", "MainMenu");
@@ -222,11 +189,8 @@ public class WinstateAnimation : MonoBehaviour {
 					m_gameEnded = false;
 
 					//check rematchstate
-					m_rematchChecks[SeaNet.Instance.getLocalPlayer()] = state.REMATCH;
 					SeaNet.Instance.setRematchCheck((int)state.REMATCH);
 
-					//continue to check for rematchchecks in update
-					m_rematch = true;
 					//reset buttons
 					reset();
 				}
@@ -248,7 +212,59 @@ public class WinstateAnimation : MonoBehaviour {
 	}
 
 	public void SetRematchCheck(int playerId, int newState){
-		m_rematchChecks[playerId] = (state)newState;
-	}
 
+		m_rematchChecks[playerId] = (state)newState;
+
+		if (!m_leaveGame) {
+			if (newState == (int)state.LEAVE) {
+				//do gui check
+
+
+	
+			} else {
+				//do GUI check
+
+				//### REMATCH ###
+				if(Network.isServer){
+					int rematchAmount = 0;
+					//if all => rematch
+					for (int i = 0; i < m_rematchChecks.Length; i++) {
+						if (m_rematchChecks[i] == state.REMATCH) {
+							rematchAmount++;
+						}
+					}
+					//if rematchplayers are same as amount of players, play rematch
+					if (rematchAmount >= m_playerAmount) {
+						//																		REMATAACHACHAHCHACH <----------------------------
+						//load level, MenuState ("MainMenu") doesnt matter here
+						SeaNet.Instance.stopGame ("LemonPark", "");
+					}
+				}
+			}
+
+			//### REMATCH FROM LOBBY ###
+			if(Network.isServer){
+				//players who press leave
+				int leaveAmount = 0;
+				//players who clicked something
+				int clickedAmount = 0;
+
+				//if alone => menulobby
+				//if !alone => lobby
+				for (int i = 0; i < m_rematchChecks.Length; i++) {
+					if (m_rematchChecks [i] != state.NONE) {
+						clickedAmount++;
+					}
+					if (m_rematchChecks [i] == state.LEAVE) {
+						leaveAmount++;
+					}
+				}
+				if (leaveAmount > 0 && clickedAmount >= m_playerAmount) {
+					//																		LEAVE TO LOBBY <----------------------------------
+					SeaNet.Instance.stopGame ("MainMenuScene", "Lobby");
+				}
+			}
+
+		}
+	}
 }

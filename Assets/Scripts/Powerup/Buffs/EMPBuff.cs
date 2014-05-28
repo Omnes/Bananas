@@ -21,10 +21,12 @@ public class EMPBuff : Buff {
 
 	override public void InitEvent()
 	{
+//		m_playerRef.GetComponent<BuffManager> ().AddBuff (new DizzyBuff (m_playerRef, 2f));
 		m_playerRef.rigidbody.velocity = Vector3.zero;
+
 		inputHub.StunLeafBlower ();
 		m_leafBlower.requestDropAll();
-		m_empHit = Instantiate(Prefactory.prefab_EMPHit,m_playerRef.transform.position,Quaternion.identity) as GameObject;
+		m_empHit = Instantiate(Prefactory.prefab_EMPHit, m_playerRef.transform.position, Quaternion.identity) as GameObject;
 		m_empHit.transform.parent = m_playerRef.transform;
 		Destroy (m_empHit,4f);
 

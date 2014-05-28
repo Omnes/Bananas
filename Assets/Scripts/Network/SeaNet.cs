@@ -17,15 +17,12 @@ public class SeaNet : MonoBehaviour {
 	}
 
 	public List<PlayerData> m_connectedPlayers;
-	private string m_nextScene = "LemonPark";
 	public Winstate m_winstate;
 	public WinstateAnimation m_winstateAnimation;
 	//public NetworkView m_networkView;
 
 //	public bool m_gameEnded = false;
 
-	private string m_sceneAfterWin = "MainMenuScene";
-	private string m_sceneStateAfterWin = "StartingScreen";
 
 	private Vector2 m_size;
 
@@ -169,7 +166,7 @@ public class SeaNet : MonoBehaviour {
 		m_loadedPlayers++;
 		if(m_loadedPlayers >= m_connectedPlayers.Count){
 			startGame();
-			m_winstateAnimation.m_playerAmount = m_connectedPlayers.Count;
+
 		}
 	}
 
@@ -188,6 +185,8 @@ public class SeaNet : MonoBehaviour {
 		//start the music!
 		SoundManager.Instance.StartIngameMusic();
 		SoundManager.Instance.playOneShot(SoundManager.COUNTDOWN);
+
+		m_winstateAnimation.m_playerAmount = m_connectedPlayers.Count;
 	}
 
 	private IEnumerator StartGameDelayed(int gameTime,float delay){
@@ -240,7 +239,7 @@ public class SeaNet : MonoBehaviour {
 	}
 
 	public void setRematchCheck(int state){
-		networkView.RPC ("setCheckRPC", RPCMode.Others, getLocalPlayer(), state);
+		networkView.RPC ("setCheckRPC", RPCMode.All, getLocalPlayer(), state);
 	}
 
 	[RPC]

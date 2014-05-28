@@ -2,8 +2,9 @@
 using System.Collections;
 
 public class GlideAgainstWall : MonoBehaviour {
+	private float m_speed = 5f;
 
-	void OnCollisionEnter(Collision other)
+	void OnCollisionStay(Collision other)
 	{
 		if(other.gameObject.CompareTag("Player"))
 		{
@@ -11,13 +12,15 @@ public class GlideAgainstWall : MonoBehaviour {
 
 			Vector3 curDir = player.transform.forward;
 			Vector3 newDir = Vector3.Angle(curDir, transform.right) < Vector3.Angle(curDir, -transform.right) ? transform.right : -transform.right;
-			player.transform.rotation = Quaternion.FromToRotation(Vector3.forward, newDir);
 
-//			Vector3 curDir = player.transform.forward;
-//			Vector3 normal = transform.forward;
-//			Vector3 newDir = Vector3.Reflect(curDir, normal);
-//			Quaternion newAngle = Quaternion.FromToRotation(Vector3.forward, newDir);
-//			player.transform.rotation = Quaternion.Lerp(player.transform.rotation, newAngle, 0.1f);
+			float speedMultiplier = Mathf.Min(Vector3.Angle(curDir, transform.right), Vector3.Angle(curDir, -transform.right)) / 90;
+//			speedMultiplier = 1 - speedMultiplier; 
+//			Debug.Log("Angle: " + speedMultiplier);
+
+//			newDir += transform.forward;
+			Vector3 finalForce = newDir * m_speed * speedMultiplier;
+			finalForce += transform.forward + Vector3.one * (1f - speedMultiplier);
+			player.rigidbody.AddForce(finalForce, ForceMode.VelocityChange);
 		}
 	}
 }
