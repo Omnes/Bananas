@@ -29,7 +29,6 @@ public class EMPBuff : Buff {
 		m_empHit = Instantiate(Prefactory.prefab_EMPHit, m_playerRef.transform.position, Quaternion.identity) as GameObject;
 		m_empHit.transform.parent = m_playerRef.transform;
 		Destroy (m_empHit,4f);
-
 	}
 
 //	public override void PeriodicEvent ()

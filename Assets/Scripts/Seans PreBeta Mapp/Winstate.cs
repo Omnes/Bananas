@@ -52,7 +52,7 @@ public class Winstate : MonoBehaviour {
 					SeaNet.Instance.savePlayersAndShutDown(ScoreKeeper.GetFirstPlaceID());
 				}
 			}
-			if (m_timeLeft < 5f && m_playTimesUpSound) {
+			if (m_timeLeft < 6f && m_playTimesUpSound) {
 				m_playTimesUpSound = false;
 				SoundManager.Instance.playOneShot(SoundManager.TIMES_UP);
 			}
