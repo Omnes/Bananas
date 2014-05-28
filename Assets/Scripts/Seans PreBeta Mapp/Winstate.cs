@@ -8,7 +8,7 @@ public class Winstate : MonoBehaviour {
 	public float m_startTime;
 	public float m_endTime;
 
-	private bool m_gameRunning = false;
+	public static bool m_gameRunning = false;
 
 	private GUITimer m_guiTimer{
 		get{

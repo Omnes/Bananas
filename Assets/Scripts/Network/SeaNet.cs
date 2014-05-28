@@ -249,7 +249,21 @@ public class SeaNet : MonoBehaviour {
 	private void setCheckRPC(int playerId, int state){
 		m_winstateAnimation.SetRematchCheck(playerId, state);
 	}
-	
+
+	//remove player if crash
+	void OnPlayerDisconnected(NetworkPlayer player){
+		for(int i = 0; i < m_connectedPlayers.Count; i++){
+			string guid = m_connectedPlayers[i].m_guid;
+			
+			if(guid == player.guid){
+				m_connectedPlayers.RemoveAt(i);
+			}
+		}
+		Network.RemoveRPCs(player);
+		Network.DestroyPlayerObjects(player);
+
+	}
+
 }
 
 

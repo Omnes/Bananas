@@ -104,14 +104,17 @@ public class SyncMovement : MonoBehaviour {
 			Vector3 newVelocity = m_syncVelocity * share + predictedDir * m_resyncForce * (1-share);
 
 			//animation
-			if(newVelocity.magnitude > 1){
-				if(isRunningAnim == false){
-					isRunningAnim = true;
-					m_playerAnim.runningAnim();
+			if(Winstate.m_gameRunning){
+				Debug.Log("RUNING?");
+				if(newVelocity.magnitude > 1){
+					if(isRunningAnim == false){
+						isRunningAnim = true;
+						m_playerAnim.runningAnim();
+					}
+				}else if(isRunningAnim == true){
+					isRunningAnim = false;
+					m_playerAnim.idleAnim();
 				}
-			}else if(isRunningAnim == true){
-				isRunningAnim = false;
-				m_playerAnim.idleAnim();
 			}
 
 			m_rigidbody.velocity = newVelocity;

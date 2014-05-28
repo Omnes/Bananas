@@ -13,7 +13,7 @@ public class InitPlayer : MonoBehaviour {
 	
 
 	private PlayerInfo m_playerInfo;
-	private GameObject m_player;
+	//private GameObject player;
 
 	public bool m_isLocal = false;
 
@@ -38,50 +38,50 @@ public class InitPlayer : MonoBehaviour {
 		
 		if(Network.isServer){
 			//om vi är server skapa en faktisk spelare
-			m_player = Instantiate(m_playerPrefab,spawnpoint.position,spawnpoint.rotation) as GameObject;
-			m_player.GetComponent<InitPlayerChildren>().Init();
-			m_player.GetComponent<SyncMovement>().setID(m_playerInfo.id,m_isLocal);
-			m_player.GetComponent<InputHub>().StunMovement();
-			m_player.GetComponent<InputHub>().StunLeafBlower();
-			m_player.GetComponent<otherTestCol>().collisionTransmitter = GetComponent<CollisionTransmitter>();
+			GameObject player = Instantiate(m_playerPrefab,spawnpoint.position,spawnpoint.rotation) as GameObject;
+			player.GetComponent<InitPlayerChildren>().Init();
+			player.GetComponent<SyncMovement>().setID(m_playerInfo.id,m_isLocal);
+			player.GetComponent<InputHub>().StunMovement();
+			player.GetComponent<InputHub>().StunLeafBlower();
+			player.GetComponent<otherTestCol>().collisionTransmitter = GetComponent<CollisionTransmitter>();
 
 			//set correct mesh
-			setMesh(m_player);
+			setMesh(player);
 
 			//setup the StateTransmitter for this player
 			GameObject transmitter = Network.Instantiate(m_stateTransmitterPrefab,Vector3.zero,Quaternion.identity,0) as GameObject;
 			transmitter.networkView.RPC("linkToID",RPCMode.All,m_playerInfo.id);
 
-			InputHub hub = m_player.GetComponent<InputHub>();
+			InputHub hub = player.GetComponent<InputHub>();
 			//är det vår spelare? ta input från den lokala klienten och sätt kameran efter
 			if(m_isLocal){
 				hub.setInputMetod(m_localInput);
-				setCameraTarget(m_player.transform);
-				m_player.name = "Player " + m_playerInfo.name + " (Local)";
+				setCameraTarget(player.transform);
+				player.name = "Player " + m_playerInfo.name + " (Local)";
 			}else{
 				//ananrs ta remote inputen
 				hub.setInputMetod(GetComponent<RemoteInput>());
-				m_player.name = "Player " + m_playerInfo.name + " (Remote)";
+				player.name = "Player " + m_playerInfo.name + " (Remote)";
 			}
 		}
 		else if(Network.isClient){
 			//om vi är en klient skapa en fake spelare
-			m_player = Instantiate(m_ghostPrefab,spawnpoint.position,spawnpoint.rotation) as GameObject;
-			m_player.GetComponent<InitPlayerChildren>().Init();
-			m_player.GetComponent<SyncMovement>().setID(m_playerInfo.id,m_isLocal);
-			m_player.GetComponent<InputHub>().StunMovement();
-			m_player.GetComponent<InputHub>().StunLeafBlower();
-			m_player.GetComponent<otherTestCol>().collisionTransmitter = GetComponent<CollisionTransmitter>();
+			GameObject player = Instantiate(m_ghostPrefab,spawnpoint.position,spawnpoint.rotation) as GameObject;
+			player.GetComponent<InitPlayerChildren>().Init();
+			player.GetComponent<SyncMovement>().setID(m_playerInfo.id,m_isLocal);
+			player.GetComponent<InputHub>().StunMovement();
+			player.GetComponent<InputHub>().StunLeafBlower();
+			player.GetComponent<otherTestCol>().collisionTransmitter = GetComponent<CollisionTransmitter>();
 
 			//set correct mesh
-			setMesh(m_player);
+			setMesh(player);
 
 			if(m_isLocal){
-				m_player.name = "PlayerGhost " + m_playerInfo.name+ " (Local)";
+				player.name = "PlayerGhost " + m_playerInfo.name+ " (Local)";
 				//är det vår fake spalare? få kameran att följa
-				setCameraTarget(m_player.transform);
+				setCameraTarget(player.transform);
 			}else{
-				m_player.name = "PlayerGhost " + m_playerInfo.name+ " (Remote)";
+				player.name = "PlayerGhost " + m_playerInfo.name+ " (Remote)";
 			}
 		}
 	}
@@ -125,6 +125,7 @@ public class InitPlayer : MonoBehaviour {
 	public void setMesh(GameObject player){
 		//set correct mesh
 		GameObject tempMesh = (GameObject)Instantiate(Prefactory.prefab_meshList[m_playerInfo.id], player.transform.position, player.transform.rotation);
+
 		player.GetComponent<upperBodyAnimation>().setAnimator(tempMesh.GetComponent<Animator>());
 		tempMesh.transform.parent = player.transform;
 		player.transform.Find("air_trigger/blowParticles").GetComponent<FollowTransform>().setTarget(tempMesh.transform); //wohooo
