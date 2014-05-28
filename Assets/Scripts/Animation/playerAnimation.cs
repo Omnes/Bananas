@@ -43,12 +43,6 @@ public class playerAnimation : MonoBehaviour {
 		m_upperBodyScript.tackleLoseAnimation(dizzyTime);
 	}
 
-	//tackle
-//	public void stopTackleAnim(){
-//		//Debug.Log("TACKLE");
-//		m_upperBodyScript.stopTackleAnimation();
-//	}
-
 	public void winAnim(){
 		m_upperBodyScript.winAnimation();
 	}
