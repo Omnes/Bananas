@@ -374,7 +374,7 @@ State:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Stun
-  m_Speed: 1
+  m_Speed: .5
   m_CycleOffset: 0
   m_Motions:
   - {fileID: 7400016, guid: 2a40cb5e454622944abbc4199053fb66, type: 3}
@@ -454,33 +454,18 @@ StateMachine:
       first: {fileID: 0}
       second: []
     data:
+      first: {fileID: 110284069}
+      second:
+      - {fileID: 110100000}
+    data:
       first: {fileID: 110200000}
       second: []
-    data:
-      first: {fileID: 110206479}
-      second: []
-    data:
-      first: {fileID: 110217584}
-      second:
-      - {fileID: 110188098}
-    data:
-      first: {fileID: 110237662}
-      second:
-      - {fileID: 110164446}
-      - {fileID: 110111269}
     data:
       first: {fileID: 110253882}
       second: []
     data:
-      first: {fileID: 110264798}
-      second:
-      - {fileID: 110163049}
-      - {fileID: 110142938}
-    data:
-      first: {fileID: 110273072}
-      second:
-      - {fileID: 110152541}
-      - {fileID: 110180649}
+      first: {fileID: 110299300}
+      second: []
     data:
       first: {fileID: 110277159}
       second:
@@ -489,12 +474,27 @@ StateMachine:
       - {fileID: 110135368}
       - {fileID: 110188467}
     data:
-      first: {fileID: 110284069}
-      second:
-      - {fileID: 110100000}
-    data:
-      first: {fileID: 110299300}
+      first: {fileID: 110206479}
       second: []
+    data:
+      first: {fileID: 110264798}
+      second:
+      - {fileID: 110163049}
+      - {fileID: 110142938}
+    data:
+      first: {fileID: 110237662}
+      second:
+      - {fileID: 110164446}
+      - {fileID: 110111269}
+    data:
+      first: {fileID: 110273072}
+      second:
+      - {fileID: 110152541}
+      - {fileID: 110180649}
+    data:
+      first: {fileID: 110217584}
+      second:
+      - {fileID: 110188098}
   m_MotionSetCount: 1
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
