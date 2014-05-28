@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22fff9cb00852bd4eb010ccf61267612, type: 3}
-  m_Name: SFX_tackle
+  m_Name: SFX_Tackle
   m_EditorClassIdentifier: 
   path: event:/SFX/SFX_tackle
   id: '{87576da6-d7c7-49b9-8761-eebf55432e58}'
