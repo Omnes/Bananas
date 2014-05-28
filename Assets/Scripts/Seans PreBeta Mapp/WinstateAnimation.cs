@@ -214,10 +214,6 @@ public class WinstateAnimation : MonoBehaviour {
 
 		m_rematchChecks[playerId] = (state)newState;
 
-		for (int i = 0; i < m_rematchChecks.Length; i++) {
-			Debug.Log("before "+m_rematchChecks[i]);
-		}
-
 		if (!m_leaveGame) {
 			if (newState == (int)state.LEAVE) {
 				//do gui check
