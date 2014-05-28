@@ -326,7 +326,7 @@ State:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Stun
-  m_Speed: 1
+  m_Speed: .5
   m_CycleOffset: 0
   m_Motions:
   - {fileID: 7400016, guid: 14965cc633cca104fa6fb4c507564120, type: 3}
@@ -481,26 +481,17 @@ StateMachine:
       first: {fileID: 0}
       second: []
     data:
-      first: {fileID: 110200000}
-      second: []
-    data:
-      first: {fileID: 110213356}
-      second:
-      - {fileID: 110153001}
-      - {fileID: 110190252}
-    data:
-      first: {fileID: 110228751}
-      second: []
-    data:
       first: {fileID: 110230226}
       second:
       - {fileID: 110100000}
     data:
-      first: {fileID: 110236503}
-      second:
-      - {fileID: 110195578}
+      first: {fileID: 110200000}
+      second: []
     data:
       first: {fileID: 110236854}
+      second: []
+    data:
+      first: {fileID: 110228751}
       second: []
     data:
       first: {fileID: 110237139}
@@ -522,6 +513,15 @@ StateMachine:
       second:
       - {fileID: 110195336}
       - {fileID: 110103134}
+    data:
+      first: {fileID: 110213356}
+      second:
+      - {fileID: 110153001}
+      - {fileID: 110190252}
+    data:
+      first: {fileID: 110236503}
+      second:
+      - {fileID: 110195578}
   m_MotionSetCount: 1
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}

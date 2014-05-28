@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class GlideAgainstWall : MonoBehaviour {
-	private float m_speed = 5f;
+	private float m_speed = 2.5f;
 
 	void OnCollisionStay(Collision other)
 	{
