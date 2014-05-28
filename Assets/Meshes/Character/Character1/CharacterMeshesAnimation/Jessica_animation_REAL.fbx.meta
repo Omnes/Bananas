@@ -254,7 +254,7 @@ ModelImporter:
     7400002: Idle
     7400004: Reverse
     7400006: BlowIdle
-    7400008: WalkBlow
+    7400008: Run
     7400010: WalkIdle
     7400012: Tackle
     7400014: Tackled
@@ -1366,7 +1366,7 @@ ModelImporter:
       maskType: 0
       maskSource: {instanceID: 0}
     - serializedVersion: 16
-      name: WalkBlow
+      name: Run
       takeName: Take 4
       firstFrame: 1
       lastFrame: 50
