@@ -20,19 +20,19 @@ public class CountdownAnimation : MonoBehaviour {
 
 	private IEnumerator PlayAnimation(){
 
-		StartCoroutine(Animate(m_numbers,0.7f,0.3f));
-		yield return new WaitForSeconds(1f);
+		StartCoroutine(Animate(m_numbers,0.3f,0.3f));
+		yield return new WaitForSeconds(0.6f);
 		m_numbers.GetComponent<UvMapper>().changeUvs(1,0);
 
-		StartCoroutine(Animate(m_numbers,0.7f,0.3f));
-		yield return new WaitForSeconds(1f);
+		StartCoroutine(Animate(m_numbers,0.3f,0.3f));
+		yield return new WaitForSeconds(0.6f);
 		m_numbers.GetComponent<UvMapper>().changeUvs(2,0);
 
-		StartCoroutine(Animate(m_numbers,0.7f,0.3f));
-		yield return new WaitForSeconds(1f);
+		StartCoroutine(Animate(m_numbers,0.3f,0.3f));
+		yield return new WaitForSeconds(0.5f);
 
-		StartCoroutine(Animate(m_brawl,0.7f,0.3f));
-		yield return new WaitForSeconds(1f);
+		StartCoroutine(Animate(m_brawl,0.9f,0.6f));
+		yield return new WaitForSeconds(15f);
 	}
 
 	private IEnumerator Animate(Transform obj,float moveDuration,float fadeDuration){
