@@ -63,9 +63,15 @@ public class Winstate : MonoBehaviour {
 				m_10secLeft = false;
 				SoundManager.Instance.StartTenSecondsLeftMusic();
 				SoundManager.Instance.playOneShot(SoundManager.TEN_SECONDS_LEFT);
+//				StartCoroutine(PlayTenSecondsLeft());
 			}
 		}
 	}
+
+//	IEnumerator PlayTenSecondsLeft() {
+//		yield return new WaitForSeconds(1);
+//		SoundManager.Instance.StartTenSecondsLeftMusic();
+//	}
 
 //	public void gameStart(){
 //		if(Network.peerType == NetworkPeerType.Server){

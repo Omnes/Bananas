@@ -97,7 +97,9 @@ public class WinstateAnimation : MonoBehaviour {
 		
 
 		//wait for the timesup to appear
-		yield return new WaitForSeconds(moveDuration+fadeDuration);
+		yield return new WaitForSeconds(moveDuration);
+		SoundManager.Instance.StartWinMusic();
+		yield return new WaitForSeconds(fadeDuration);
 		//disable this or the LerpPlayer thingy
 		syncMovements[id].transform.position = Vector3.zero + new Vector3(0,syncMovements[id].transform.position.y,0);
 
