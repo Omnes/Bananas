@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Particle dizzy
+  m_Name: emp_hit
   m_Shader: {fileID: 203, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: []
   m_CustomRenderQueue: -1
@@ -19,7 +19,7 @@ Material:
         second:
           m_Texture: {fileID: 2800000, guid: 6d811bdb74a3e5e4591f5d4975a1846c, type: 3}
           m_Scale: {x: .5, y: .5}
-          m_Offset: {x: .5, y: .5}
+          m_Offset: {x: 0, y: .5}
     m_Floats:
       data:
         first:
