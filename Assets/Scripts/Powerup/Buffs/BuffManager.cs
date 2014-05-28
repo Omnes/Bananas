@@ -33,6 +33,16 @@ public class BuffManager : MonoBehaviour {
 		return false;
 	}
 
+	public void RemoveAll() {
+		for (int i = 0; i < m_buffs.Count; i++) {
+			m_buffs[i].RemoveEvent();
+		}
+		for (int i = 0; i < m_buffs.Count; i++) {
+			Destroy(m_buffs[i]);
+		}
+		m_buffs.Clear ();
+	}
+
 	/**
 	 * Find a buff of a specific type (if it exists) and return it
 	 */
@@ -61,27 +71,11 @@ public class BuffManager : MonoBehaviour {
 	 * Updates and removes buffs
 	 */
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.Q)) {
-			for (int i = 0; i < 1; i++) {
-				AddBuff( new StunBuff(gameObject, 1.0f) );
-			}
-		}
-		if (Input.GetKeyDown(KeyCode.W)) {
-			for (int i = 0; i < 5; i++) {
-				AddBuff( new DizzyBuff(gameObject, 1.0f) );
-			}
-		}
-		if (Input.GetKeyDown(KeyCode.E)) {
-			AddBuff( new TimeBombBuff(gameObject, 12.0f) );
-		}
-		if (Input.GetKeyDown(KeyCode.R)) {
-			for (int i = 0; i < 2; i++) {
-				AddBuff( new EMPBuff(gameObject) );
-			}
-		}
-
-		//########################################
 		List<Buff> m_deadBuff = new List<Buff>();
+
+//		if (Input.GetKey (KeyCode.W)) {
+//			AddBuff(new EMPBuff(gameObject));
+//		}
 
 		for (int i = 0; i < m_buffs.Count; i++) {
 			m_buffs[i].Update();

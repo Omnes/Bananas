@@ -15,6 +15,9 @@ public class ScoreKeeper : MonoBehaviour {
 		m_scores[player] += score;
 		updateScoreBoard(player,m_scores[player]);
 
+		if (SeaNet.Instance.getLocalPlayer() == player) {
+			SoundManager.Instance.playOneShot(SoundManager.SCORE);
+		}
 	}
 
 	private static void updateScoreBoard(int playerID,int score){
@@ -37,11 +40,13 @@ public class ScoreKeeper : MonoBehaviour {
 
 	public static int GetFirstPlaceID() {
 		int playerID = 0;
+		int totalScore = 0;
 		for(int i = 0; i < m_scores.Length; i++){
-			if(m_scores[i] > m_scores[playerID]){
+			totalScore += m_scores[i];
+			if(m_scores[i] >= m_scores[playerID]){
 				playerID = i;
 			}
 		}
-		return playerID;
+		return totalScore > 0 ? playerID : 0;
 	}
 }

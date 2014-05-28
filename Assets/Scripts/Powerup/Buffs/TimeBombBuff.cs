@@ -8,7 +8,7 @@ public class TimeBombBuff : Buff {
 	public const int BOMB_DURATION_MIN = 12;
 	public const int BOMB_DURATION_MAX = 12;
 	
-	public const float STUN_DURATION = 1.5f;
+	public const float STUN_DURATION = 3f;
 	public const float TRANSFER_COOLDOWN = 1f;
 
 	GameObject m_bomb;
@@ -58,7 +58,7 @@ public class TimeBombBuff : Buff {
 
 	override public void PeriodicEvent()
 	{
-		SoundManager.Instance.playOneShot (SoundManager.TIMEBOMB_TICK);
+//		SoundManager.Instance.playOneShot (SoundManager.TIMEBOMB_TICK);
 		if (m_playerCircle != null) {
 			UpdateColor ();
 		}
@@ -134,7 +134,7 @@ public class TimeBombBuff : Buff {
 	 * Returns true if the buff is allowed to be transfered to another player
 	 */
 	public bool CanTransfer() {
-		return (Time.time - m_timeCreated) > TRANSFER_COOLDOWN;
+		return ((Time.time - m_timeCreated) > TRANSFER_COOLDOWN) || m_durationTimer <= TRANSFER_COOLDOWN;
 	}
 
 	public override string ToString ()

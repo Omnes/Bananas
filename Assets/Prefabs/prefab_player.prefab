@@ -68,7 +68,8 @@ MonoBehaviour:
   m_minimumSpeed: .00999999978
   m_dizzySeconds: 2
   m_maxSpeed: 10
-  m_acceleration: 25
+  m_acceleration: 50
+  m_origMaxSpeed: 0
   m_powSpeed: 1
   tmpSPeed: .100000001
   m_BlowPowerSlowFraction: 1
@@ -177,6 +178,7 @@ MonoBehaviour:
   m_tackledTime: .330000013
   m_equalTackledTime: .150000006
   m_cooldown: .5
+  m_speedThreshold: 1
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1

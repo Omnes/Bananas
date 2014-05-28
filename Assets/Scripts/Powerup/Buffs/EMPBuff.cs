@@ -9,6 +9,7 @@ public class EMPBuff : Buff {
 	InputHub inputHub;
 
 	private LeafBlower m_leafBlower;
+	private GameObject m_empHit;
 
 	public EMPBuff(GameObject playerRef):base(playerRef)
 	{
@@ -20,13 +21,14 @@ public class EMPBuff : Buff {
 
 	override public void InitEvent()
 	{
+//		m_playerRef.GetComponent<BuffManager> ().AddBuff (new DizzyBuff (m_playerRef, 2f));
 		m_playerRef.rigidbody.velocity = Vector3.zero;
+
 		inputHub.StunLeafBlower ();
 		m_leafBlower.requestDropAll();
-		GameObject empHit = Instantiate(Prefactory.prefab_EMPHit,m_playerRef.transform.position,Quaternion.identity) as GameObject;
-		empHit.transform.parent = m_playerRef.transform;
-		Destroy (empHit,4f);
-
+		m_empHit = Instantiate(Prefactory.prefab_EMPHit, m_playerRef.transform.position, Quaternion.identity) as GameObject;
+		m_empHit.transform.parent = m_playerRef.transform;
+		Destroy (m_empHit,4f);
 	}
 
 //	public override void PeriodicEvent ()
@@ -39,6 +41,12 @@ public class EMPBuff : Buff {
 	override public void ExpireEvent()
 	{
 		inputHub.UnStunLeafBlower ();
+	}
+
+	public override void RemoveEvent ()
+	{
+		ExpireEvent ();
+		Destroy (m_empHit);
 	}
 
 	public override string ToString ()
