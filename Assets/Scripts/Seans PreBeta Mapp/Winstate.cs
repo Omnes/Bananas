@@ -23,6 +23,7 @@ public class Winstate : MonoBehaviour {
 	private GUITimer guiTimer;
 
 	private bool m_playTimesUpSound = true;
+	private bool m_10secLeft = true;
 	
 //	public void StartGameTimer(){
 //		StartGameTimer(m_MAXTIME);
@@ -52,9 +53,16 @@ public class Winstate : MonoBehaviour {
 					SeaNet.Instance.savePlayersAndShutDown(ScoreKeeper.GetFirstPlaceID());
 				}
 			}
+
 			if (m_timeLeft < 6f && m_playTimesUpSound) {
 				m_playTimesUpSound = false;
 				SoundManager.Instance.playOneShot(SoundManager.TIMES_UP);
+			}
+
+			if (m_timeLeft < 11f && m_10secLeft) {
+				m_10secLeft = false;
+				SoundManager.Instance.StartTenSecondsLeftMusic();
+				SoundManager.Instance.playOneShot(SoundManager.TEN_SECONDS_LEFT);
 			}
 		}
 	}
