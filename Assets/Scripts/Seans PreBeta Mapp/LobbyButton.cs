@@ -2,28 +2,36 @@
 using System.Collections;
 
 
-public class LobbyButton {
+public class LobbyButton{
 
 	//name
-	public string m_name;
+	private string m_name;
 	//rect
-	public LTRect m_ltRect;
+	private LTRect m_ltRect;
 	//pos
-	public Vector2 m_position;
+	private Vector2 m_position;
 	private Vector2 m_targetPosition;
 	//type
 	private LeanTweenType m_leanTweenType;
 	//rate
 	public float m_tweenRate = 3.0f;
 	//size
-	public Vector2 m_size;
+	private Vector2 m_size;
 
+	private Rect m_uvRect;
+	//btnImageMap
 
-	public LobbyButton(float top, float left, float x, float y, string name, Vector2 target, float tweenRate, LeanTweenType tweentype)
+	public Texture2D m_allBtns;
+	private Texture2D m_btnTexture;
+
+	public LobbyButton(float top, float left, float x, float y, Rect aUvRect, Vector2 target, float tweenRate, LeanTweenType tweentype)
 	{
 		m_position = new Vector2(top, left);
 		m_size = new Vector2(x,y);
-		m_name = name;
+
+		m_uvRect = aUvRect;
+		m_allBtns = Prefactory.texture_buttonAtlas;
+//		m_name = name;
 		//ltRect
 		m_ltRect = new LTRect(top, left, x, y);
 
@@ -39,7 +47,20 @@ public class LobbyButton {
 	}
 
 	public bool isClicked(){
-		return GUI.Button(m_ltRect.rect, m_name);
+		GUI.DrawTextureWithTexCoords (m_ltRect.rect, m_allBtns, m_uvRect);
+		if((Input.touchCount > 0 || Input.GetMouseButtonDown(0)) && MenuManager.m_lobbyCoolDown == 0)
+		{
+//			Touch theTouch = Input.touches[0];
+			if(m_ltRect.rect.Contains(Event.current.mousePosition))
+			{
+				Debug.Log("Pressed btn");
+				MenuManager.m_lobbyCoolDown = 100;
+				return true;
+			}
+		}
+		return false;
+
+//		return GUI.Button(m_ltRect.rect, m_name);
 	}
 
 	public void resetButton(){

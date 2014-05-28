@@ -52,8 +52,8 @@ public class WinstateAnimation : MonoBehaviour {
 		m_leaveButtonPos = new Vector2(Screen.width - m_size.x, Screen.height - m_size.y);
 		m_rematchButtonPos = new Vector2(0, Screen.height - m_size.y);
 
-		m_leaveButton = new LobbyButton(m_leaveButtonPos.x, m_leaveButtonPos.y + 100, m_size.x, m_size.y,		"Leave Game", m_leaveButtonPos, 3.0f, LeanTweenType.easeOutElastic);
-		m_rematchButton = new LobbyButton(m_rematchButtonPos.x, m_rematchButtonPos.y + 100, m_size.x, m_size.y,	"Rematch", m_rematchButtonPos, 3.0f, LeanTweenType.easeOutElastic);
+		m_leaveButton = new LobbyButton(m_leaveButtonPos.x, m_leaveButtonPos.y + 100, m_size.x, m_size.y,		new Rect(0.1f, 0.1f, 0.3f, 0.2f), m_leaveButtonPos, 3.0f, LeanTweenType.easeOutElastic);
+		m_rematchButton = new LobbyButton(m_rematchButtonPos.x, m_rematchButtonPos.y + 100, m_size.x, m_size.y,	new Rect(0.1f, 0.1f, 0.3f, 0.2f), m_rematchButtonPos, 3.0f, LeanTweenType.easeOutElastic);
 
 
 		for (int i = 0; i < m_rematchChecks.Length; i++) {

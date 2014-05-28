@@ -9,6 +9,8 @@ public class MenuManager : MonoBehaviour
 	public static string remoteMenu = "StartingScreen";
 	private MenuBase m_currentMenu;
 	private MenuBase m_previousMenu;
+	public static int m_standardCoolDown;
+	public static int m_lobbyCoolDown;
 
 	public const int TO_LOBBY = 0;
 	public const int TO_MAIN_MENU = 1;
@@ -44,6 +46,8 @@ public class MenuManager : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+		m_standardCoolDown = 0;
+		m_lobbyCoolDown = 0;
 		//If currentobject is not camera, change this line..
 		m_currentMenu = (MenuBase) Camera.main.GetComponent(remoteMenu);
 
@@ -51,13 +55,13 @@ public class MenuManager : MonoBehaviour
 		m_currentMenu.InitMenuItems ();
 	}
 
-	// Update is called once per frame
-	void Update () 
-	{
-	}
-
 	void OnGUI()
 	{
+		//Ugly cooldown for btns .. 
+		if(m_standardCoolDown > 0)
+			m_standardCoolDown -= 1;
+		if (m_lobbyCoolDown > 0)
+			m_lobbyCoolDown -= 1;
 		//Calls the current menus draw func(DoGUI)..
 		m_currentMenu.DoGUI ();
 	}
@@ -89,6 +93,7 @@ public class MenuManager : MonoBehaviour
 		string nextMenu = aSender.SubMenuName;
 		m_previousMenu = m_currentMenu;
 		m_currentMenu = (MenuBase)Camera.main.GetComponent (nextMenu);
+
 		//Needs to set this bool to true so the tweening starts over when chan
 		m_currentMenu.FirstTime = true;
 		m_currentMenu.InitMenuItems ();
@@ -102,7 +107,7 @@ public class MenuManager : MonoBehaviour
 	}
 	private void MuteSound(BaseMenuItem aSender)
 	{	
-		m_currentMenu.SoundBtn = 1;
+//		m_currentMenu.SoundBtn = 1;
 		SoundManager.Instance.ToggleMute ();
 	}
 	public void initCurrentMenu(string aMenu)
