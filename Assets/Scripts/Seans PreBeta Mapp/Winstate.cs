@@ -10,7 +10,16 @@ public class Winstate : MonoBehaviour {
 
 	private bool m_gameRunning = false;
 
-	private GUITimer m_guiTimer;
+	private GUITimer m_guiTimer{
+		get{
+			if(guiTimer == null){
+				guiTimer = GUITimer.s_lazyInstance;
+			}
+			return guiTimer;
+		}
+	}
+
+	private GUITimer guiTimer;
 
 	private bool m_playTimesUpSound = true;
 	
@@ -20,15 +29,13 @@ public class Winstate : MonoBehaviour {
 
 	public void StartGameTimer(int gameLength){
 		m_startTime = Time.time;
-		m_endTime = m_startTime + gameLength;
+		m_endTime = m_startTime + gameLength - 1f;
+		m_guiTimer.updateTimer((float)gameLength);
 		m_gameRunning = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(m_guiTimer == null){
-			m_guiTimer = GUITimer.s_lazyInstance;
-		}
 
 		if(m_gameRunning){
 			float timeLeft = m_endTime - Time.time;
