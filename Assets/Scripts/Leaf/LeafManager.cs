@@ -197,13 +197,27 @@ public class LeafManager : MonoBehaviour {
 	void Update(){
 		if(Input.deviceOrientation == DeviceOrientation.Portrait){
 			if(Input.touchCount == 3 && Time.time > lasttime + 0.5f){
-				lasttime = Time.time;
-				Touch[] t = Input.touches;
-				if(t[2].deltaPosition.x > 0.2){
-					LeafManager.s_lazyInstance.notSneakyCheat(Random.Range (10,15),SeaNet.Instance.getLocalPlayer());
+
+				Touch[] touches = Input.touches;
+
+				int c1 = 0;
+				int c2 = 0;
+				foreach(Touch t in touches){
+					if(t.position.y < 50){
+						c1++;
+					}
+					if(t.position.y > Screen.height - 50){
+						c2++;
+					}
 				}
-				if(t[2].deltaPosition.x < -0.2){
+
+				if(c1 > 2){
+					LeafManager.s_lazyInstance.notSneakyCheat(Random.Range (10,15),SeaNet.Instance.getLocalPlayer());
+					lasttime = Time.time;
+				}
+				if(c2 > 2){
 					PowerupManager.SynchronizePowerupGet(SeaNet.Instance.getLocalPlayer(),"EMPGet");
+					lasttime = Time.time;
 				}
 			}
 		}

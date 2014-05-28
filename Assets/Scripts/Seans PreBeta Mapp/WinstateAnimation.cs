@@ -116,13 +116,14 @@ public class WinstateAnimation : MonoBehaviour {
 				buffManagers[i].RemoveAll();
 				buffManagers[i].GetComponent<InputHub>().StunLeafBlower();
 				buffManagers[i].GetComponent<InputHub>().StunMovement();
+				buffManagers[i].GetComponentInChildren<LeafBlower>().requestDropAll();
 			}
 		}
 
 		//play the animations 
 		float moveDuration = 1f;
 		float fadeDuration = 0.5f;
-		TimesUpAnimation.instance.Play(new Vector2(0,0),new Vector2(1,1),moveDuration,0.5f);
+		TimesUpAnimation.instance.Play(new Vector2(0,0),moveDuration,0.5f);
 		GUITimer.s_lazyInstance.Play(new Vector2(0,1f),4f);
 		//move player to center
 //		StartCoroutine(LerpPlayerToPosition(syncMovements[id].transform,new Vector3(0,syncMovements[id].transform.position.y,0),moveDuration+fadeDuration));
