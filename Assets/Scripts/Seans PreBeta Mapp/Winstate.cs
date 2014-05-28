@@ -7,6 +7,7 @@ public class Winstate : MonoBehaviour {
 
 	public float m_startTime;
 	public float m_endTime;
+	public static float m_timeLeft;
 
 	public static bool m_gameRunning = false;
 
@@ -38,19 +39,20 @@ public class Winstate : MonoBehaviour {
 	void Update () {
 
 		if(m_gameRunning){
-			float timeLeft = m_endTime - Time.time;
+			m_timeLeft = m_endTime - Time.time;
 
 			if(m_guiTimer!=null){
-				m_guiTimer.updateTimer(timeLeft);
+				m_guiTimer.updateTimer(m_timeLeft);
 			}
 			if(Time.time > m_endTime){
 				//we can do a check for tie here
 				m_gameRunning = false;
+				PowerupManager.Disable ();
 				if(Network.isServer){
 					SeaNet.Instance.savePlayersAndShutDown(ScoreKeeper.GetFirstPlaceID());
 				}
 			}
-			if (timeLeft < 5f && m_playTimesUpSound) {
+			if (m_timeLeft < 5f && m_playTimesUpSound) {
 				m_playTimesUpSound = false;
 				SoundManager.Instance.playOneShot(SoundManager.TIMES_UP);
 			}

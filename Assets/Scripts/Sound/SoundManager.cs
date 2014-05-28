@@ -23,15 +23,15 @@ public class SoundManager : MonoBehaviour {
 
 	//Voices
 	public static string[] VOICE_TACKLED = new string[4]{
-		"event:/VO/Douglas/DouglasGetTackled",
+		"event:/VO/Douglas/DouglasDoTackle", 
 		"event:/VO/Jessica/JessicaGetTackled",
-		"event:/VO/Leif/LeifGetTackled",
+		"event:/VO/Leif/LeifDoTackle",
 		"event:/VO/Sarah/SarahGetTackled"
 	};
 	public static string[] VOICE_TACKLING = new string[4]{
-		"event:/VO/Douglas/DouglasDoTackle",
+		"event:/VO/Douglas/DouglasGetTackled",
 		"event:/VO/Jessica/JessicaDoTackle",
-		"event:/VO/Leif/LeifDoTackle",
+		"event:/VO/Leif/LeifGetTackled",
 		"event:/VO/Sarah/SarahDoTackle"
 	};
 	public static string[] VOICE_VICTORY = new string[4]{

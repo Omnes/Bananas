@@ -21,15 +21,15 @@ public class UvMapper : MonoBehaviour {
 	}
 	*/
 
-	void changeUvs(){
+	public void changeUvs(int colum = 0,int row = 0){
 		//hämta meshen
 		Mesh mesh = meshFilter.mesh;
 		Vector2[] uvs = new Vector2[4];
 		//förkortningar
-		float l = map.x;
-		float r = map.x + map.width;
-		float u = 1-(map.y + map.height);
-		float d = 1-map.y;
+		float l = map.x + map.width*colum;
+		float r = map.x + map.width + map.width*colum;
+		float u = 1-(map.y + map.height + map.height*row);
+		float d = 1-(map.y + map.height*row);
 
 		//skapar nya uv kordinater
 		 /*  0 - 2
