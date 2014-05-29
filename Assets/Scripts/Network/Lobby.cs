@@ -539,6 +539,8 @@ class ServerWidget{
 	private Vector2 m_size;
 	
 	private GUIStyle m_guiStyle = GUIStyle.none;
+
+	private LobbyButton m_joinButton;
 	
 	public ServerWidget(HostData host,Vector2 size){
 		m_size = size;
@@ -553,6 +555,8 @@ class ServerWidget{
 		Vector2 buttonSize = new Vector2(m_size.x*0.3f,m_size.y * 0.45f);
 		m_buttonPosition = new Rect(m_size.x*0.8f - buttonSize.x*0.5f,m_size.y*0.5f - buttonSize.y*0.5f,buttonSize.x,buttonSize.y);		
 		m_textPosition = new Rect(m_size.x*0.1f,m_size.y*0.1f,m_size.x*0.6f,m_size.y*0.8f);
+
+		m_joinButton = new LobbyButton(m_buttonPosition,m_texCordsButton);
 	}
 	
 	
@@ -562,10 +566,7 @@ class ServerWidget{
 		GUI.DrawTextureWithTexCoords(new Rect(offset.x,offset.y,m_size.x,m_size.y),m_backgroundAtlas,m_texCordsBackground); //draw background
 		string text = m_host.gameName + "\n" + (m_host.connectedPlayers)+"/"+m_host.playerLimit;
 		GUI.Label(RectAddVector2(m_textPosition,offset), text,m_guiStyle);
-		if(MenuBase.CustomButton(RectAddVector2(m_buttonPosition,offset),m_buttonAtlas,m_texCordsButton)){
-			//			if(m_tempPlayerName.Length == 0){
-			//				m_tempPlayerName = "Unknown";
-			//			}
+		if(m_joinButton.isClicked(RectAddVector2(m_buttonPosition,offset))){
 			Lobby.connectToServer(m_host);
 		}
 	}
