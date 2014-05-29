@@ -33,7 +33,7 @@ public class LoadingScreen : MonoBehaviour {
 	}
 
 	void Start(){
-		m_background = Prefactory.texture_loadingscreen;
+//		m_background = Prefactory.texture_loadingscreen;
 		m_textStyle = Prefactory.style_loadingscreenText;
 	}
 

@@ -97,7 +97,7 @@ PlayerSettings:
   uIStatusBarHidden: 1
   uIExitOnSuspend: 0
   uIStatusBarStyle: 0
-  iPhoneSplashScreen: {fileID: 2800000, guid: fdf36bf3624bb6142bfd0f248cbc5330, type: 3}
+  iPhoneSplashScreen: {fileID: 2800000, guid: 00254b2d1b372da41800256c640999d8, type: 3}
   iPhoneHighResSplashScreen: {fileID: 0}
   iPhoneTallHighResSplashScreen: {fileID: 0}
   iPadPortraitSplashScreen: {fileID: 0}
@@ -105,34 +105,21 @@ PlayerSettings:
   iPadLandscapeSplashScreen: {fileID: 0}
   iPadHighResLandscapeSplashScreen: {fileID: 0}
   AndroidTargetDevice: 0
-  AndroidSplashScreenScale: 1
+  AndroidSplashScreenScale: 0
   AndroidKeystoreName: 
   AndroidKeyaliasName: 
-  resolutionDialogBanner: {fileID: 2800000, guid: 00254b2d1b372da41800256c640999d8,
+  resolutionDialogBanner: {fileID: 2800000, guid: b472eeb19401fff4482a21528e7343b3,
     type: 3}
   m_BuildTargetIcons:
   - m_BuildTarget: 
     m_Icons:
-    - m_Icon: {fileID: 2800000, guid: 88ae2cd83acfd344f83aa67f61529e72, type: 3}
+    - m_Icon: {fileID: 2800000, guid: b472eeb19401fff4482a21528e7343b3, type: 3}
       m_Size: 128
-  - m_BuildTarget: Standalone
-    m_Icons:
-    - m_Icon: {fileID: 2800000, guid: bfb18bc03c729c74fbfd9d17dc1773ba, type: 3}
-      m_Size: 1024
-    - m_Icon: {fileID: 0}
-      m_Size: 512
-    - m_Icon: {fileID: 0}
-      m_Size: 256
-    - m_Icon: {fileID: 0}
-      m_Size: 128
-    - m_Icon: {fileID: 0}
-      m_Size: 48
-    - m_Icon: {fileID: 0}
-      m_Size: 32
-    - m_Icon: {fileID: 0}
-      m_Size: 16
   m_BuildTargetBatching:
   - m_BuildTarget: Android
+    m_StaticBatching: 1
+    m_DynamicBatching: 1
+  - m_BuildTarget: Standalone
     m_StaticBatching: 1
     m_DynamicBatching: 1
   webPlayerTemplate: APPLICATION:Default

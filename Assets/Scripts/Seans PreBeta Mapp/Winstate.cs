@@ -31,7 +31,7 @@ public class Winstate : MonoBehaviour {
 
 	public void StartGameTimer(int gameLength){
 		m_startTime = Time.time;
-		m_endTime = m_startTime + gameLength - 1f;
+		m_endTime = m_startTime + gameLength + 1f;
 		m_guiTimer.updateTimer((float)gameLength);
 		m_gameRunning = true;
 	}
