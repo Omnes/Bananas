@@ -192,19 +192,19 @@ public class SeaNet : MonoBehaviour {
 		//start the music!
 		SoundManager.Instance.StartIngameMusic();
 		SoundManager.Instance.playOneShot(SoundManager.COUNTDOWN);
-		
 		m_winstateAnimation.m_playerAmount = m_connectedPlayers.Count;
+		ScoreKeeper.m_hasFoundLeafCollectors = false;
 	}
 
 	private IEnumerator StartGameDelayed(int gameTime,float delay){
 		yield return new WaitForSeconds(delay);  
 		m_winstate.StartGameTimer(gameTime);
-		for(int i = 0; i < 4;i++){
-			if(SyncMovement.s_syncMovements[i] != null){
-				SyncMovement.s_syncMovements[i].GetComponent<InputHub>().ClearMovementStuns();
-				SyncMovement.s_syncMovements[i].GetComponent<InputHub>().ClearLeafBlowerStuns();
-			}
-		}
+//		for(int i = 0; i < 4;i++){
+//			if(SyncMovement.s_syncMovements[i] != null){
+//				SyncMovement.s_syncMovements[i].GetComponent<InputHub>().ClearMovementStuns();
+//				SyncMovement.s_syncMovements[i].GetComponent<InputHub>().ClearLeafBlowerStuns();
+//			}
+//		}
 	}
 	
 	private IEnumerator networkLoadLevel(string level){
