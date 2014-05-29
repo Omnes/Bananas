@@ -12,6 +12,7 @@ public class WinstateAnimation : MonoBehaviour {
 
 	private List<PlayerData> m_connectedPlayers = new List<PlayerData>();
 	private state[] m_rematchChecks = new state[4];
+	private EndCheck[] m_Checks = new EndCheck[4];
 
 	public bool m_gameEnded = false;
 
@@ -242,8 +243,16 @@ public class WinstateAnimation : MonoBehaviour {
 					reset();
 				}
 
+				
+				//myEndCheck.drawCheck();
+				for(int i = 0; i < m_Checks.Length; i++){
+					if(m_Checks[i] != null){
+						m_Checks[i].drawCheck();
+					}
+				}
+
 				//draw stuff
-//				GUI.DrawTexture(new Rect(m_winNamePos.x, m_winNamePos.y, m_size.x, m_size.y), m_winTexture);
+				//GUI.DrawTexture(new Rect(m_winNamePos.x, m_winNamePos.y, m_size.x, m_size.y), m_winTexture);
 				GUI.DrawTextureWithTexCoords(new Rect(WinnerFrameXpos, WinnerFrameYpos, WinnerFrameSize.x, WinnerFrameSize.y), Prefactory.texture_backgrounds, new Rect(0.705f, 0.6f, 0.29f, 0.16f)); 
 				GUI.Label(new Rect(m_winNamePos.x + 20, m_winNamePos.y + (m_size.y / 2),  m_size.x, m_size.y), m_winnerName, m_gui);
 
@@ -266,11 +275,13 @@ public class WinstateAnimation : MonoBehaviour {
 		if (!m_leaveGame) {
 			if (newState == (int)state.LEAVE) {
 				//do gui check
-
+				m_Checks[playerId] = new EndCheck(new Rect(100 * playerId, 100, 156,156), EndCheck.state.CROSS, Prefactory.texture_buttonAtlas);
 
 	
 			} else {
 				//do GUI check
+				m_Checks[playerId] = new EndCheck(new Rect(100 * playerId, 100, 156,156), EndCheck.state.CHECK, Prefactory.texture_buttonAtlas);
+
 
 				//### REMATCH ###
 				if(Network.isServer){
