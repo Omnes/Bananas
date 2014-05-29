@@ -73,9 +73,9 @@ public class BuffManager : MonoBehaviour {
 	void Update () {
 		List<Buff> m_deadBuff = new List<Buff>();
 
-//		if (Input.GetKey (KeyCode.W)) {
-//			AddBuff(new EMPBuff(gameObject));
-//		}
+		if (Input.GetKey (KeyCode.W)) {
+			AddBuff(new EMPBuff(gameObject));
+		}
 
 		for (int i = 0; i < m_buffs.Count; i++) {
 			m_buffs[i].Update();
