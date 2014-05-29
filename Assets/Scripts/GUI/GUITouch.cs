@@ -19,15 +19,16 @@ public class GUITouch : MonoBehaviour {
 
 		float width = m_quads[0].localScale.x;
 		float heigth = m_quads[0].localScale.y;
-		m_quads[0].localPosition = new Vector3(-0.5f + width/2,-0.5f + heigth/2,m_quads[0].localPosition.z);
-		m_quads[1].localPosition = new Vector3(0.5f - width/2,-0.5f + heigth/2,m_quads[1].localPosition.z);
-		m_quads[0].renderer.material.color = new Color(1,1,1,0);
-		m_quads[1].renderer.material.color = new Color(1,1,1,0);
-		
+		m_quads[0].localPosition = new Vector3(-0.5f + width/2,-0.5f + heigth/2, m_quads[0].localPosition.z);
+		m_quads[1].localPosition = new Vector3(0.5f - width/2,-0.5f + heigth/2, m_quads[1].localPosition.z);
+		m_quads[0].renderer.material.color = new Color(1, 1, 1, 0);
+		m_quads[1].renderer.material.color = new Color(1, 1, 1, 0);
 	}
 
 	public void Press(Side side){
-		m_timers[(int)side] = m_fadeTime;
+		if (Winstate.m_gameRunning) {
+			m_timers[(int)side] = m_fadeTime;
+		}
 	}
 	
 	// Update is called once per frame
@@ -39,7 +40,7 @@ public class GUITouch : MonoBehaviour {
 	void updateSide(int side){
 		m_timers[side] -= Time.deltaTime;
 		if(m_timers[side] > 0f){
-			m_quads[side].renderer.material.color = new Color(1,1,1,m_timers[side]/m_fadeTime);
+			m_quads[side].renderer.material.color = new Color(1, 1, 1, m_timers[side] / m_fadeTime);
 		}
 	}
 }
