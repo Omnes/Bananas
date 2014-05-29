@@ -9,9 +9,9 @@ using System.Collections.Generic;
 public class PowerupManager : MonoBehaviour {
 	//Design parameters
 	private const float INIT_SPAWN_DELAY_MIN = 15.0f;
-	private const float INIT_SPAWN_DELAY_MAX = 18.0f;
+	private const float INIT_SPAWN_DELAY_MAX = 15.0f;
 	private const float SPAWN_INTERVALL_MIN = 15.0f;
-	private const float SPAWN_INTERVALL_MAX = 15.0f;
+	private const float SPAWN_INTERVALL_MAX = 18.0f;
 
 	private const int MAX_POWERUPS = 2;
 	private const float SPAWN_RADIUS = 6f;
@@ -179,7 +179,8 @@ public class PowerupManager : MonoBehaviour {
 	/**
 	 * Spawn powerups at a fixed intervall
 	 */
-	void Update () {
+	void Update ()
+	{
 		if (Network.isServer && m_canSpawn) {
 			//Increase timers
 			spawnTimer += Time.deltaTime;
@@ -238,14 +239,12 @@ public class PowerupManager : MonoBehaviour {
 	
 	public static void Disable() {
 		m_canSpawn = false;
-//		Clear ();
 	}
 
 	private static bool CanSpawnTimeBomb() { 
 		return (timeBombTimer > Mathf.Max(TimeBombBuff.BOMB_DURATION_MAX, INIT_SPAWN_DELAY_MIN)) &&
-				(timeBombSpawnCount == 0) &&
-				(Winstate.m_timeLeft <= 60) &&
-				(Winstate.m_timeLeft >= 25);
+				(Winstate.m_timeLeft >= 25) && (Winstate.m_timeLeft <= 60) &&
+				(timeBombSpawnCount == 0);
 	}
 
 	private static bool CanSpawnBigLeafBlower() { 

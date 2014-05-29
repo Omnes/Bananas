@@ -13,6 +13,8 @@ public class Prefactory : MonoBehaviour {
 	public Texture2D m_muteButton;
 	public Texture2D m_muteButton2;
 
+	public Gradient m_rainbowColor;
+
 	//winners
 	public Texture2D m_winnerOtherTexture;
 	public Texture2D m_winnerTexture;
@@ -32,6 +34,8 @@ public class Prefactory : MonoBehaviour {
 
 	public static Texture2D texture_muteButton;
 	public static Texture2D texture_muteButton2;
+
+	public static Gradient gradient_rainbowColor;
 
 	//winners
 	public static Texture2D texture_winnerOther;
@@ -54,6 +58,8 @@ public class Prefactory : MonoBehaviour {
 
 		texture_muteButton = m_muteButton;
 		texture_muteButton2 = m_muteButton2;
+
+		gradient_rainbowColor = m_rainbowColor;
 
 		//winners
 		texture_winner = m_winnerTexture;
