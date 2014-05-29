@@ -8,11 +8,11 @@ public class Prefactory : MonoBehaviour {
 	public GameObject m_bombExplosion;
 	public GameObject m_EMP;
 	public GameObject m_EMPHit;
+	public GameObject m_Stun;
 	public GameObject m_powerupPickup;
 
 	public Gradient m_rainbowColor;
 	public Texture2D m_buttonAtlas;
-
 	public Texture2D m_backGroundsNWinnerFrame;
 
 	//winners
@@ -30,9 +30,11 @@ public class Prefactory : MonoBehaviour {
 	public static GameObject prefab_bombExplosion;
 	public static GameObject prefab_EMP;
 	public static GameObject prefab_EMPHit;
+	public static GameObject prefab_Stun;
 	public static GameObject prefab_powerupPickup;
 
 	public static Gradient gradient_rainbowColor;
+
 
 	//winners
 	public static Texture2D texture_winnerOther;
@@ -53,6 +55,7 @@ public class Prefactory : MonoBehaviour {
 		prefab_bombExplosion = m_bombExplosion;
 		prefab_EMP = m_EMP;
 		prefab_EMPHit = m_EMPHit;
+		prefab_Stun = m_Stun;
 		prefab_powerupPickup = m_powerupPickup;
 
 		gradient_rainbowColor = m_rainbowColor;

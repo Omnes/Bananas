@@ -59,6 +59,13 @@ public class MenuManager : MonoBehaviour
 		m_currentMenu.InitMenuItems ();
 	}
 
+
+	// Update is called once per frame
+	void Update () 
+	{
+		m_currentMenu.DoUpdate();
+	}
+
 	void OnGUI()
 	{
 		//Calls the current menus draw func(DoGUI)..

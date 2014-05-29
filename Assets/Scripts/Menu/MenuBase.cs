@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class MenuBase : MonoBehaviour 
 {
-
 	protected List<BaseMenuItem> m_menuItems;
 	protected MenuManager m_instance;
 	private bool m_firstTime = true;
@@ -44,6 +43,11 @@ public class MenuBase : MonoBehaviour
 
 		m_instance = MenuManager.Instance;
 	}
+
+	public virtual void DoUpdate(){
+
+	}
+
 
 	public virtual void DoGUI()
 	{
@@ -97,7 +101,10 @@ public class MenuBase : MonoBehaviour
 //				}
 //			}
 //			else 
-		if(Input.GetMouseButtonUp(0) /*|| Input.GetTouch(0).phase == TouchPhase.Ended) && buttonDown == true*/)
+
+		if(Input.touchCount > 0 || Input.GetMouseButtonDown(0) && (Time.time > s_lastClickTime + CLICKCOOLDOWN))
+		{
+			if(aPosition.Contains(Event.current.mousePosition))
 			{
 //				Debug.Log("up0  " + btnPos);
 				buttonDown = false;
