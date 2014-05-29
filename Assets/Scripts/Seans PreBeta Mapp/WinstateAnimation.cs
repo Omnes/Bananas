@@ -44,7 +44,7 @@ public class WinstateAnimation : MonoBehaviour {
 
 
 	private bool m_startTimer = false;
-	private float m_endScreenDelay = 20;
+	private float m_endScreenDelay = 50;
 	private float m_endScreenCounter = 0;
 
 	// Use this for initialization
