@@ -326,8 +326,8 @@ public class Lobby : MenuBase
 				}
 			}
 
-//			string tempMax = GUI.TextField(new Rect(centerX, centerY + (size.y * 3), size.x, size.y), m_maxTimeField.ToString(), 25);
-//			m_maxTimeField = int.Parse(tempMax);
+			string tempMax = GUI.TextField(new Rect(centerX, centerY + (size.y * 3), size.x, size.y), m_maxTimeField.ToString(), 25);
+			m_maxTimeField = int.Parse(tempMax);
 
 		}
 
