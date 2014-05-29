@@ -45,6 +45,11 @@ public class MenuBase : MonoBehaviour
 		m_instance = MenuManager.Instance;
 	}
 
+	public virtual void DoUpdate(){
+
+	}
+
+
 	public virtual void DoGUI()
 	{
 		GUI.DrawTexture (new Rect (0.0f, 0.0f, screenWidth, screenHeight), m_backGround);

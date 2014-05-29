@@ -212,7 +212,7 @@ MonoBehaviour:
       m_Top: 0
       m_Bottom: 0
     m_Font: {fileID: 0}
-    m_FontSize: 24
+    m_FontSize: 48
     m_FontStyle: 0
     m_Alignment: 1
     m_WordWrap: 0
@@ -404,6 +404,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
+  m_ServerRefreshRate: 5
 --- !u!114 &755868659
 MonoBehaviour:
   m_ObjectHideFlags: 0

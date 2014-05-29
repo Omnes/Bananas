@@ -54,6 +54,7 @@ public class MenuManager : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
+		m_currentMenu.DoUpdate();
 	}
 
 	void OnGUI()
