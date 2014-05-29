@@ -32,7 +32,14 @@ public class CountdownAnimation : MonoBehaviour {
 		yield return new WaitForSeconds(0.5f);
 
 		StartCoroutine(Animate(m_brawl,0.9f,0.6f));
-		yield return new WaitForSeconds(15f);
+		yield return new WaitForSeconds(0.65f);
+
+		for(int i = 0; i < 4;i++){
+			if(SyncMovement.s_syncMovements[i] != null){
+				SyncMovement.s_syncMovements[i].GetComponent<InputHub>().ClearMovementStuns();
+				SyncMovement.s_syncMovements[i].GetComponent<InputHub>().ClearLeafBlowerStuns();
+			}
+		}
 	}
 
 	private IEnumerator Animate(Transform obj,float moveDuration,float fadeDuration){
