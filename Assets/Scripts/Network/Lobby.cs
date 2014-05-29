@@ -528,7 +528,7 @@ class ServerWidget{
 //		m_texCordsButton = new Rect(0.5634f,1f,0.3447f,0.1875f);
 		m_texCordsButton = GUIMath.CalcTexCordsFromPixelRect(new Rect(577,835,350,190),1024);
 		
-		Vector2 buttonSize = new Vector2(m_size.x*0.2f,m_size.y * 0.2f);
+		Vector2 buttonSize = new Vector2(m_size.x*0.3f,m_size.y * 0.45f);
 		m_buttonPosition = new Rect(m_size.x*0.8f - buttonSize.x*0.5f,m_size.y*0.5f - buttonSize.y*0.5f,buttonSize.x,buttonSize.y);		
 		m_textPosition = new Rect(m_size.x*0.1f,m_size.y*0.1f,m_size.x*0.6f,m_size.y*0.8f);
 	}
@@ -610,7 +610,7 @@ class ServerList{
 		float paddingY = m_area.height * 0.01f;
 //		GUI.Box (m_area,"area");
 		for (int i = 0; i < m_widgets.Count; i++) {
-			float yPos = paddingY + (m_widgets[i].getSize().y + paddingY) * i + m_scrollOffset;
+			float yPos = paddingY*2f + (m_widgets[i].getSize().y + paddingY) * i + m_scrollOffset;
 			if((yPos < m_area.height ) && (yPos + m_widgetSize.y > 0f)){
 				m_widgets[i].Draw(new Vector2(paddingX, yPos)); //add padding
 			}
