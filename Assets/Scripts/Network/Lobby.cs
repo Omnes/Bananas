@@ -100,10 +100,20 @@ public class Lobby : MenuBase
 	public float  ServerListYSize = 0.6f;
 	private LobbyButton m_muteButton;
 
+
 	private LobbyButton m_refreshButton;
+
+	private GUIStyle myGuiStyle;
+
 
 	// Use this for initialization
 	void Start () {
+
+		//playernames
+		myGuiStyle = new GUIStyle();
+		myGuiStyle.alignment = TextAnchor.MiddleCenter;
+		myGuiStyle.fontSize = 30;
+
 		//menuitems
 		m_menuItems = new List<BaseMenuItem> ();
 		//add menuitem
@@ -288,6 +298,22 @@ public class Lobby : MenuBase
 
 			GUI.DrawTextureWithTexCoords(new Rect(Part2BackBoardXpos, Part2BackBoardYpos, Part2BackBoardSize.x, Part2BackBoardSize.y), 
 			                             Prefactory.texture_backgrounds, GUIMath.CalcTexCordsFromPixelRect(new Rect(0,0,719,457)));
+
+			float buttonX = Part2BackBoardXpos;
+			float buttonY = Part2BackBoardYpos;
+			float buttonWidth = (Part2BackBoardSize.x / 2);
+			float buttonHeight = Part2BackBoardSize.y / 5;
+			
+			for(int i = 0; i < 4; i++){
+				Rect uvRect = new Rect(0.7041f,1f - 0.2363f, 0.2929f,0.0859f);
+				Rect PosAndSize = new Rect(Part2BackBoardXpos + i%2 * buttonWidth , ((Part2BackBoardSize.y/2) - buttonHeight)  + ((int)i/2) * (buttonHeight + 10), buttonWidth, buttonHeight);
+				GUI.DrawTextureWithTexCoords(PosAndSize, Prefactory.texture_backgrounds, uvRect);
+			}
+			
+			for(int i = 0; i < m_connectedPlayers.Count; i++){
+				GUI.Label(new Rect(Part2BackBoardXpos + i%2 * buttonWidth, ((Part2BackBoardSize.y/2) - buttonHeight)  + ((int)i/2) * (buttonHeight + 10), buttonWidth, buttonHeight), m_connectedPlayers[i].m_name, myGuiStyle);
+			}
+
 			//animation
 			for(int i = 0; i < m_buttonsPart2.Count; i++){
 				m_buttonsPart2[i].move();
@@ -314,9 +340,31 @@ public class Lobby : MenuBase
 
 		}
 
-		for(int i = 0; i < m_connectedPlayers.Count; i++){
-			GUILayout.Label("Client Name: "+ m_connectedPlayers[i].m_name+" Client GUID"+m_connectedPlayers[i].m_guid);
+		if(Network.peerType == NetworkPeerType.Client){
+			GUI.DrawTextureWithTexCoords(new Rect(Part2BackBoardXpos, Part2BackBoardYpos, Part2BackBoardSize.x, Part2BackBoardSize.y), 
+			                             Prefactory.texture_backgrounds, GUIMath.CalcTexCordsFromPixelRect(new Rect(0,0,719,457)));
+
+			float buttonX = Part2BackBoardXpos;
+			float buttonY = Part2BackBoardYpos;
+			float buttonWidth = (Part2BackBoardSize.x / 2);
+			float buttonHeight = Part2BackBoardSize.y / 5;
+
+			for(int i = 0; i < 4; i++){
+				Rect uvRect = new Rect(0.7041f,1f - 0.2363f, 0.2929f,0.0859f);
+				Rect PosAndSize = new Rect(Part2BackBoardXpos + i%2 * buttonWidth , ((Part2BackBoardSize.y/2) - buttonHeight)  + ((int)i/2) * (buttonHeight + 10), buttonWidth, buttonHeight);
+				GUI.DrawTextureWithTexCoords(PosAndSize, Prefactory.texture_backgrounds, uvRect);
+			}
+
+			for(int i = 0; i < m_connectedPlayers.Count; i++){
+				GUI.Label(new Rect(Part2BackBoardXpos + i%2 * buttonWidth, ((Part2BackBoardSize.y/2) - buttonHeight)  + ((int)i/2) * (buttonHeight + 10), buttonWidth, buttonHeight), m_connectedPlayers[i].m_name, myGuiStyle);
+			}
+
 		}
+
+
+//		for(int i = 0; i < m_connectedPlayers.Count; i++){
+//			GUILayout.Label("Client Name: "+ m_connectedPlayers[i].m_name+" Client GUID"+m_connectedPlayers[i].m_guid);
+//		}
 //		GUILayout.Label("ListSize (players): "+m_connectedPlayers.Count);
 
 		Rect texCordsMute = GUIMath.CalcTexCordsFromPixelRect(new Rect(294,0,158,158));
