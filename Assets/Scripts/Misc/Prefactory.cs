@@ -16,6 +16,8 @@ public class Prefactory : MonoBehaviour {
 	public Gradient m_rainbowColor;
 	public Texture2D m_buttonAtlas;
 
+	public Texture2D m_backGroundsNWinnerFrame;
+
 	//winners
 	public Texture2D m_winnerOtherTexture;
 	public Texture2D m_winnerTexture;
@@ -45,7 +47,8 @@ public class Prefactory : MonoBehaviour {
 	public static Texture2D texture_loadingscreen;
 	public static Texture2D texture_buttonAtlas;
 	public static GUIStyle style_loadingscreenText;
-	
+
+	public static Texture2D texture_backgrounds;
 
 	//meshes
 	public static List<GameObject> prefab_meshList;
@@ -63,6 +66,7 @@ public class Prefactory : MonoBehaviour {
 
 		gradient_rainbowColor = m_rainbowColor;
 		texture_buttonAtlas = m_buttonAtlas;
+		texture_backgrounds = m_backGroundsNWinnerFrame;
 
 		//winners
 		texture_winner = m_winnerTexture;
