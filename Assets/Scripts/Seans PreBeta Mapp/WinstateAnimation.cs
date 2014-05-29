@@ -200,20 +200,19 @@ public class WinstateAnimation : MonoBehaviour {
 					
 					m_gui = new GUIStyle();
 					m_gui.alignment = TextAnchor.MiddleCenter;
-					m_gui.fontSize = (int) (WinnerFrameSize.y * 0.4f);
+					m_gui.fontSize = (int) (WinnerFrameSize.y * 0.3f);
 					
 					for(int i = 0; i < m_connectedPlayers.Count; i++){
 						if(m_connectedPlayers[i].m_id == ScoreKeeper.GetFirstPlaceID()){
-
-							if(m_connectedPlayers[i].m_name.Length > 8){
-								m_gui.fontSize = (int) (WinnerFrameSize.y * 0.3f);
+							if(m_connectedPlayers[i].m_name == ""){
+								m_winnerName = "Player "+i;
 							}
 
-							m_winnerName = m_connectedPlayers[i].m_name + " Won";
-							m_winTexture = Prefactory.texture_winnerOther;
+							m_winnerName = m_connectedPlayers[i].m_name + "\nwon";
+//							m_winTexture = Prefactory.texture_winnerOther;
 							if(SeaNet.Instance.getLocalPlayer() == i){
-								m_winnerName = "You Win!";
-								m_winTexture = Prefactory.texture_winner;
+								m_winnerName = "You win!";
+//								m_winTexture = Prefactory.texture_winner;
 							}
 						}
 					}
@@ -245,6 +244,7 @@ public class WinstateAnimation : MonoBehaviour {
 					//reset buttons
 					reset();
 				}
+
 
 				//draw stuff
 				//GUI.DrawTexture(new Rect(m_winNamePos.x, m_winNamePos.y, m_size.x, m_size.y), m_winTexture);
@@ -285,7 +285,8 @@ public class WinstateAnimation : MonoBehaviour {
 
 				if(newObj != null && myCamera != null){
 					Vector3 scorePos = myCamera.WorldToScreenPoint(newObj.transform.position);
-					m_Checks[playerId] = new EndCheck(new Rect(scorePos.x, 5, 30,30), EndCheck.state.CROSS, Prefactory.texture_buttonAtlas);
+					float sizeX = (newObj.transform.localScale.y * Screen.height);
+					m_Checks[playerId] = new EndCheck(new Rect(scorePos.x - 12, (Screen.height - scorePos.y) + sizeX, sizeX, sizeX), EndCheck.state.CROSS, Prefactory.texture_buttonAtlas);
 				}
 
 			} else {
@@ -294,9 +295,12 @@ public class WinstateAnimation : MonoBehaviour {
 				GameObject newObj = GameObject.Find("Background_"+scoreId);
 				Camera myCamera = GameObject.Find("GUICamera(Clone)").camera;
 
+
+
 				if(newObj != null && myCamera != null){
 					Vector3 scorePos = myCamera.WorldToScreenPoint(newObj.transform.position);
-					m_Checks[playerId] = new EndCheck(new Rect(scorePos.x, 5, 30,30), EndCheck.state.CHECK, Prefactory.texture_buttonAtlas);
+					float sizeX = (newObj.transform.localScale.y * Screen.height);
+					m_Checks[playerId] = new EndCheck(new Rect(scorePos.x - 12, (Screen.height - scorePos.y) + sizeX, sizeX, sizeX), EndCheck.state.CHECK, Prefactory.texture_buttonAtlas);
 				}
 				
 				//### REMATCH ###
