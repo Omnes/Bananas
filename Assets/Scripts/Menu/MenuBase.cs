@@ -12,9 +12,8 @@ public class MenuBase : MonoBehaviour
 
 	public Texture m_backGround;
 
-	//Sound btns .. 
-	protected int m_currentSoundBtn;
-	public int SoundBtn{ get { return m_currentSoundBtn; } set { m_currentSoundBtn = value; } }
+	private Rect texCordsMute = new Rect (0.267f, 0.8455f, 0.154f, 0.155f);
+	private Rect texCordsUnmute = new Rect (0.422f, 0.8455f, 0.154f, 0.155f);
 
 	//button proportions..
 	protected int screenWidth;
@@ -31,6 +30,10 @@ public class MenuBase : MonoBehaviour
 	private const float CLICKCOOLDOWN = 0.3f;
 
 
+	private static bool buttonDown = false;
+	private static Rect btnPos;
+
+	private LobbyButton m_muteButton;
 	// Use this for initialization
 	void Start () 
 	{
@@ -39,34 +42,37 @@ public class MenuBase : MonoBehaviour
 		size = GUIMath.InchToPixels(new Vector2(1.5f, 0.8f));
 		float centerX = screenWidth/2 - (size.x / 2);
 		float centerY = screenHeight/6;
-		
+
 		m_instance = MenuManager.Instance;
+
 	}
 
-	public virtual void DoUpdate(){
+	public virtual void DoUpdate()
+	{
 
 	}
 
 
 	public virtual void DoGUI()
 	{
-		GUI.DrawTexture (new Rect (0.0f, 0.0f, screenWidth, screenHeight), m_backGround);
-		foreach(BaseMenuItem item in m_menuItems)
-			{
-			if(LeanTween.isTweening(item.LtRect) == false && m_firstTime == true)
-			{
-				LeanTween.move(item.LtRect, item.ToPos, 1.5f).setEase(item.LeanTweenType);
-			}
-			if(CustomButton(item.LtRect.rect, Prefactory.texture_buttonAtlas, item.UVRect))
-			{
-				if(item.OnClick != null)
-				{
-					Debug.Log("click!");
-					item.OnClick(item);
-				}
-			}
-		}
-		m_firstTime = false;
+//		GUI.DrawTexture (new Rect (0.0f, 0.0f, screenWidth, screenHeight), m_backGround);
+//		foreach(BaseMenuItem item in m_menuItems)
+//		{
+//			if(LeanTween.isTweening(item.LtRect) == false && m_firstTime == true)
+//			{
+//				LeanTween.move(item.LtRect, item.ToPos, 1.5f).setEase(item.LeanTweenType);
+//			}
+////			if(CustomButton(item.LtRect.rect, Prefactory.texture_buttonAtlas, item.UVRect))
+////			{
+////				if(item.OnClick != null)
+////				{
+////					item.OnClick(item);
+////				}
+////			}
+//		}
+//		m_firstTime = false;
+
+
 	}
 	
 	protected void addMenuItem(BaseMenuItem aItem)
@@ -87,21 +93,36 @@ public class MenuBase : MonoBehaviour
 
 	public static bool CustomButton(Rect aPosition, Texture aButtonTexture, Rect aUvRect)
 	{
-		//Rita ut "i vilket fall" ..
 		GUI.DrawTextureWithTexCoords (aPosition, aButtonTexture, aUvRect);
+		//Rita ut "i vilket fall" ..
+//		if(Time.time > (s_lastClickTime + CLICKCOOLDOWN ))
+//		{
+//			if(Input.GetMouseButtonDown(0) /*|| Input.GetTouch(0).phase == TouchPhase.Began)*/ && buttonDown == false)
+//			{
+//				if(aPosition.Contains(Event.current.mousePosition)/* || aPosition.Contains(Input.GetTouch(0).position)*/)
+//				{
+//					btnPos = aPosition;
+//					Debug.Log("Down  " + aPosition);
+//					buttonDown = true;
+//				}
+//			}
+//			else 
 
 		if(Input.touchCount > 0 || Input.GetMouseButtonDown(0) && (Time.time > s_lastClickTime + CLICKCOOLDOWN))
 		{
 			if(aPosition.Contains(Event.current.mousePosition))
 			{
-				Debug.Log("Pressed btn");
-//				MenuManager.m_standardCoolDown = 1.0f;
-				s_lastClickTime = Time.time;
-				SoundManager.Instance.playOneShot(SoundManager.BUTTON_CLICK);
-				return true;
+//				Debug.Log("up0  " + btnPos);
+				buttonDown = false;
+				if(aPosition.Contains(Event.current.mousePosition)/* || aPosition.Contains(Input.GetTouch(0).position)*/)
+				{
+//					Debug.Log("Up  " + btnPos);
+//					s_lastClickTime = Time.time;
+					SoundManager.Instance.playOneShot(SoundManager.BUTTON_CLICK);
+					return true;
+				}
 			}
 		}
 		return false;
 	}
-
 }

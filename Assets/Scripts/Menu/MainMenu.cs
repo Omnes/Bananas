@@ -23,11 +23,10 @@ public class MainMenu : MenuBase
 		m_menuItems = new List<BaseMenuItem> ();
 
 		//Adding item to "MY"(this) menu .. 
-		addMenuItem(instance.getMenuItem(MenuManager.TO_LOBBY));
+//		addMenuItem(instance.getMenuItem(MenuManager.TO_LOBBY));
 	}
 	public override void InitMenuItems()
 	{
 //		AdjustMenuItem (m_menuItems [0], new LTRect (-200.0f, 100.0f, size.x, size.y), new Vector2 (centerX, centerY), LeanTweenType.easeOutElastic);
-
 	}
 }

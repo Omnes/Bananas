@@ -84,7 +84,6 @@ public class Lobby : MenuBase
 	private float UsernameFieldXpos;
 	private float UsernameFieldYpos;
 
-
 	//Part2
 	private float Part2BackBoardXpos;
 	private float Part2BackBoardYpos;
@@ -99,13 +98,14 @@ public class Lobby : MenuBase
 	private Vector2 CancelSize;
 
 	public float  ServerListYSize = 0.6f;
+	private LobbyButton m_muteButton;
 
 	// Use this for initialization
 	void Start () {
 		//menuitems
 		m_menuItems = new List<BaseMenuItem> ();
 		//add menuitem
-		addMenuItem(MenuManager.Instance.getMenuItem(MenuManager.BACK_TO_PREV));
+//		addMenuItem(MenuManager.Instance.getMenuItem(MenuManager.BACK_TO_PREV));
 		//lägg till mer knappar'
 
 		screenWidth = Screen.width;
@@ -149,13 +149,17 @@ public class Lobby : MenuBase
 		HostNewGameSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.33f, 0.15f));
 		HostNewGameXpos = screenWidth / 6f;
 		HostNewGameYpos = screenHeight/ 1.45f;
-		m_buttonsPart1.Add(new LobbyButton(-100,HostNewGameYpos, HostNewGameSize.x, HostNewGameSize.y, new Rect(0.0f, 0.566f, 0.60f, 0.139f), new Vector2(HostNewGameXpos,HostNewGameYpos), 0.5f, LeanTweenType.easeOutSine));
+		m_buttonsPart1.Add(new LobbyButton(-100,HostNewGameYpos, HostNewGameSize.x, HostNewGameSize.y, new Rect(0.0f, 0.566f, 0.60f, 0.139f),
+		                   new Vector2(HostNewGameXpos,HostNewGameYpos), 0.5f, LeanTweenType.easeOutSine));
+
+		//SoundBtn
+		float screenRatio = Camera.main.camera.aspect;
 
 		//Refreshbtn props
-		HostNewGameSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.33f, 0.15f));
-//		HostNewGameXpos = screenWidth / 1.5f;
-//		HostNewGameYpos = screenHeight/ 1.4f;
-		m_buttonsPart1.Add(new LobbyButton(-200,HostNewGameYpos, HostNewGameSize.x, HostNewGameSize.y,	new Rect(0.1f, 0.1f, 0.3f, 0.2f), new Vector2(-4000, HostNewGameYpos), 0.5f, LeanTweenType.easeOutSine));
+//		HostNewGameSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.33f, 0.15f));
+////		HostNewGameXpos = screenWidth / 1.5f;
+////		HostNewGameYpos = screenHeight/ 1.4f;
+//		m_buttonsPart1.Add(new LobbyButton(-200,HostNewGameYpos, HostNewGameSize.x, HostNewGameSize.y,	new Rect(0.1f, 0.1f, 0.3f, 0.2f), new Vector2(-4000, HostNewGameYpos), 0.5f, LeanTweenType.easeOutSine));
 
 
 
@@ -192,6 +196,10 @@ public class Lobby : MenuBase
 				Debug.Log("RESTART");
 			}
 		}
+
+		float PADDING = 5f;
+		Vector2 muteSize = GUIMath.SmallestOfInchAndPercent(new Vector2(0.5f,0.5f),new Vector2(0.09f,0.09f));
+		m_muteButton = new LobbyButton(new Rect(Screen.width - (muteSize.x + PADDING), PADDING, muteSize.x, muteSize.y),GUIMath.CalcTexCordsFromPixelRect(new Rect(294,0,158,158)));
 
 	}
 
@@ -230,8 +238,6 @@ public class Lobby : MenuBase
 			//start server (server)
 			m_tempPlayerName = GUI.TextField(new Rect(UsernameFieldXpos, UsernameFieldYpos, m_textFieldSize.x, m_textFieldSize.y), m_tempPlayerName, 25);
 
-//			m_tempPlayerName = GUI.TextField(new Rect(rightX + 30.0f, centerY + size.y, m_textFieldSize.x, m_textFieldSize.y), m_tempPlayerName, 25);
-
 			//  START SERVER BUTTON
 
 			//if(GUI.Button(new Rect(centerX, centerY, size.x, size.y), "Start Server")){
@@ -257,8 +263,9 @@ public class Lobby : MenuBase
 				addPlayerToClientList(m_myPlayerData);
 			}
 
-
+		
 			m_serverList.Draw();
+
 
 		}
 
@@ -289,8 +296,9 @@ public class Lobby : MenuBase
 				}
 			}
 
-			string tempMax = GUI.TextField(new Rect(centerX, centerY + (size.y * 3), size.x, size.y), m_maxTimeField.ToString(), 25);
-			m_maxTimeField = int.Parse(tempMax);
+
+//			string tempMax = GUI.TextField(new Rect(centerX, centerY + (size.y * 3), size.x, size.y), m_maxTimeField.ToString(), 25);
+//			m_maxTimeField = int.Parse(tempMax);
 
 		}
 
@@ -298,6 +306,16 @@ public class Lobby : MenuBase
 			GUILayout.Label("Client Name: "+ m_connectedPlayers[i].m_name+" Client GUID"+m_connectedPlayers[i].m_guid);
 		}
 //		GUILayout.Label("ListSize (players): "+m_connectedPlayers.Count);
+
+		Rect texCordsMute = GUIMath.CalcTexCordsFromPixelRect(new Rect(294,0,158,158));
+		Rect texCordsUnmute = GUIMath.CalcTexCordsFromPixelRect(new Rect(451,0,158,158));
+		
+		if(this.m_muteButton.isClicked()){
+			SoundManager.Instance.ToggleMute();
+			Rect texCord = SoundManager.Instance.m_paused ? texCordsUnmute : texCordsMute;
+			m_muteButton.changeUVrect(texCord);
+		}
+
 
 	}
 
@@ -517,6 +535,8 @@ class ServerWidget{
 	private Vector2 m_size;
 	
 	private GUIStyle m_guiStyle = GUIStyle.none;
+
+	private LobbyButton m_joinButton;
 	
 	public ServerWidget(HostData host,Vector2 size){
 		m_size = size;
@@ -531,6 +551,8 @@ class ServerWidget{
 		Vector2 buttonSize = new Vector2(m_size.x*0.3f,m_size.y * 0.45f);
 		m_buttonPosition = new Rect(m_size.x*0.8f - buttonSize.x*0.5f,m_size.y*0.5f - buttonSize.y*0.5f,buttonSize.x,buttonSize.y);		
 		m_textPosition = new Rect(m_size.x*0.1f,m_size.y*0.1f,m_size.x*0.6f,m_size.y*0.8f);
+
+		m_joinButton = new LobbyButton(m_buttonPosition,m_texCordsButton);
 	}
 	
 	
@@ -540,10 +562,7 @@ class ServerWidget{
 		GUI.DrawTextureWithTexCoords(new Rect(offset.x,offset.y,m_size.x,m_size.y),m_backgroundAtlas,m_texCordsBackground); //draw background
 		string text = m_host.gameName + "\n" + (m_host.connectedPlayers)+"/"+m_host.playerLimit;
 		GUI.Label(RectAddVector2(m_textPosition,offset), text,m_guiStyle);
-		if(MenuBase.CustomButton(RectAddVector2(m_buttonPosition,offset),m_buttonAtlas,m_texCordsButton)){
-			//			if(m_tempPlayerName.Length == 0){
-			//				m_tempPlayerName = "Unknown";
-			//			}
+		if(m_joinButton.isClicked(RectAddVector2(m_buttonPosition,offset))){
 			Lobby.connectToServer(m_host);
 		}
 	}

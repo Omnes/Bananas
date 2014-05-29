@@ -10,23 +10,18 @@ public class StartingScreen : MenuBase
 	private float PlayBtnYpos;
 	private Vector2 PlayBtnSize;
 
-
-	private List<Rect> m_soundBtnRects;
-
 	// Use this for initialization
 	void Start () 
 	{
 		screenWidth = Screen.width;
 		screenHeight = Screen.height;
 
+		
 		instance = MenuManager.Instance;
 		m_menuItems = new List<BaseMenuItem> ();
-		addMenuItem(instance.getMenuItem (MenuManager.TO_LOBBY));
-		addMenuItem (instance.getMenuItem (MenuManager.MUTE_SOUND));
+//		addMenuItem(instance.getMenuItem (MenuManager.TO_LOBBY));
+//		addMenuItem (instance.getMenuItem (MenuManager.MUTE_SOUND));
 		
-		m_soundBtnRects = new List<Rect> ();
-//		m_soundBtnRects.Add (new Rect (0.267f, 0.8455f, 0.154f, 0.155f));
-//		m_soundBtnRects.Add (new Rect (0.422f, 0.8455f, 0.154f, 0.155f));
 	}
 
 	public override void InitMenuItems()
@@ -38,10 +33,12 @@ public class StartingScreen : MenuBase
 		centerY = screenHeight - size.y;
 		AdjustMenuItem (m_menuItems [0], new LTRect (Screen.width*0.5f - size.x*0.5f, Screen.height + size.y , size.x, size.y), new Vector2 (centerX, screenHeight-(size.y * 2)), new Rect(0.565f, 0.19f, 0.43f, 0.165f) , LeanTweenType.easeOutSine);
 
+		//SoundBtn
 		size = GUIMath.SmallestOfInchAndPercent (new Vector2(0.5f, 0.5f), new Vector2(0.05f, 0.05f * screenRatio));
 		centerX = screenWidth/2 - (size.x / 2);
 		centerY = screenHeight/5;
-		AdjustMenuItem (m_menuItems [1], new LTRect (screenWidth-size.x, 0.0f, size.x, size.y), new Vector2 (screenWidth-size.x, 0.0f), new Rect (0.267f, 0.8455f, 0.154f, 0.155f), LeanTweenType.easeOutElastic);
+		AdjustMenuItem (m_menuItems [1], new LTRect (screenWidth-size.x, 0.0f, size.x, size.y), new Vector2 (screenWidth-size.x, 0.0f), 
+		                new Rect (0.267f, 0.8455f, 0.154f, 0.155f), LeanTweenType.easeOutElastic);
 
 	}
 }

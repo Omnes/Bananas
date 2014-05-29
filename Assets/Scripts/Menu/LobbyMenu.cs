@@ -20,7 +20,7 @@ public class LobbyMenu : MenuBase
 		instance = MenuManager.Instance;
 		m_menuItems = new List<BaseMenuItem> ();
 
-		addMenuItem (instance.getMenuItem (MenuManager.BACK_TO_PREV));
+//		addMenuItem (instance.getMenuItem (MenuManager.BACK_TO_PREV));
 	}
 	public override void InitMenuItems()
 	{

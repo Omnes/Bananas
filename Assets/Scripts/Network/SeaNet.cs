@@ -98,7 +98,7 @@ public class SeaNet : MonoBehaviour {
 		//if server leaves, remove everyone from game
 		if(Network.isServer){
 			networkView.RPC("disconnectServer", RPCMode.Others);
-			stopGameRPC("MainMenuScene", "StartingScreen");
+			stopGameRPC("MainMenuScene", "NewStartingScreen");
 			m_connectedPlayers.Clear();
 			Network.Disconnect();
 															//RPC KICK ALL PLAYERS
@@ -107,7 +107,7 @@ public class SeaNet : MonoBehaviour {
 		//if client leaves, remove him from everyone
 		}else if(Network.isClient){
 			networkView.RPC ("disconnectRPC", RPCMode.Others, getLocalPlayer());
-			stopGameRPC("MainMenuScene", "StartingScreen");
+			stopGameRPC("MainMenuScene", "NewStartingScreen");
 			m_connectedPlayers.Clear();
 			Network.Disconnect();
 		}
@@ -124,7 +124,7 @@ public class SeaNet : MonoBehaviour {
 
 	[RPC]
 	private void disconnectServer(){
-		stopGameRPC("MainMenuScene", "StartingScreen");
+		stopGameRPC("MainMenuScene", "NewStartingScreen");
 		m_connectedPlayers.Clear();
 		Network.Disconnect();
 	}
