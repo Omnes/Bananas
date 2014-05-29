@@ -211,7 +211,7 @@ public class SeaNet : MonoBehaviour {
 
 //		Network.SetSendingEnabled(0, false);
 //		Network.isMessageQueueRunning = false;
-		Texture2D loadingScreenBackground = level.Equals("LemonPark") ? Prefactory.texture_loadingscreen : Prefactory.texture_loadingscreen; // ÄNDRA BAKGRUNDEN HÄR
+		Texture2D loadingScreenBackground = level.Equals("LemonPark") ? Prefactory.texture_loadingscreen : Prefactory.texture_loadingscreenOut; // ÄNDRA BAKGRUNDEN HÄR
 		LoadingScreen.OpenLoadingScreen("Loading...",loadingScreenBackground);
 		yield return new WaitForEndOfFrame();
 		Application.LoadLevel(level);
