@@ -243,19 +243,20 @@ public class WinstateAnimation : MonoBehaviour {
 					reset();
 				}
 
-				
-				//myEndCheck.drawCheck();
-				for(int i = 0; i < m_Checks.Length; i++){
-					if(m_Checks[i] != null){
-						m_Checks[i].drawCheck();
-					}
-				}
-
 				//draw stuff
 				//GUI.DrawTexture(new Rect(m_winNamePos.x, m_winNamePos.y, m_size.x, m_size.y), m_winTexture);
 				GUI.DrawTextureWithTexCoords(new Rect(WinnerFrameXpos, WinnerFrameYpos, WinnerFrameSize.x, WinnerFrameSize.y), Prefactory.texture_backgrounds, new Rect(0.705f, 0.6f, 0.29f, 0.16f)); 
 				GUI.Label(new Rect(m_winNamePos.x + 20, m_winNamePos.y + (m_size.y / 2),  m_size.x, m_size.y), m_winnerName, m_gui);
 
+			}
+		}
+
+		if(m_startTimer){
+			//myEndCheck.drawCheck();
+			for(int i = 0; i < m_Checks.Length; i++){
+				if(m_Checks[i] != null){
+					m_Checks[i].drawCheck();
+				}
 			}
 		}
 	}
@@ -272,17 +273,35 @@ public class WinstateAnimation : MonoBehaviour {
 
 		m_rematchChecks[playerId] = (state)newState;
 
+		//for(int i = 0; i < 3; i++){
+			//Debug.Log("playerID "+playerId);
+			//GameObject newObj = GameObject.Find("Background_"+1);
+			//Debug.Log(newObj.transform.position.x);
+		//}
+
 		if (!m_leaveGame) {
 			if (newState == (int)state.LEAVE) {
-				//do gui check
-				m_Checks[playerId] = new EndCheck(new Rect(100 * playerId, 100, 156,156), EndCheck.state.CROSS, Prefactory.texture_buttonAtlas);
+				//do GUI check
+				int scoreId = playerId+1;
+				GameObject newObj = GameObject.Find("Background_"+scoreId);
+				Camera myCamera = GameObject.Find("GUICamera(Clone)").camera;
 
-	
+				if(newObj != null && myCamera != null){
+					Vector3 scorePos = myCamera.WorldToScreenPoint(newObj.transform.position);
+					m_Checks[playerId] = new EndCheck(new Rect(scorePos.x, 5, 30,30), EndCheck.state.CROSS, Prefactory.texture_buttonAtlas);
+				}
+
 			} else {
 				//do GUI check
-				m_Checks[playerId] = new EndCheck(new Rect(100 * playerId, 100, 156,156), EndCheck.state.CHECK, Prefactory.texture_buttonAtlas);
+				int scoreId = playerId+1;
+				GameObject newObj = GameObject.Find("Background_"+scoreId);
+				Camera myCamera = GameObject.Find("GUICamera(Clone)").camera;
 
-
+				if(newObj != null && myCamera != null){
+					Vector3 scorePos = myCamera.WorldToScreenPoint(newObj.transform.position);
+					m_Checks[playerId] = new EndCheck(new Rect(scorePos.x, 5, 30,30), EndCheck.state.CHECK, Prefactory.texture_buttonAtlas);
+				}
+				
 				//### REMATCH ###
 				if(Network.isServer){
 					int rematchAmount = 0;
