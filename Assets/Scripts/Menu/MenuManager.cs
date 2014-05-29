@@ -58,16 +58,16 @@ public class MenuManager : MonoBehaviour
 	void OnGUI()
 	{
 		//Ugly cooldown for btns .. 
-		if(m_standardCoolDown > 0)
-		{
-			m_standardCoolDown -= Time.deltaTime;
-			m_standardCoolDown = Mathf.Max(0.0f, m_standardCoolDown);
-		}
-		if (m_lobbyCoolDown > 0)
-		{
-			m_lobbyCoolDown -= Time.deltaTime;
-			m_lobbyCoolDown = Mathf.Max(0.0f, m_lobbyCoolDown);
-		}
+//		if(m_standardCoolDown > 0)
+//		{
+//			m_standardCoolDown -= Time.deltaTime;
+//			m_standardCoolDown = Mathf.Max(0.0f, m_standardCoolDown);
+//		}
+//		if (m_lobbyCoolDown > 0)
+//		{
+//			m_lobbyCoolDown -= Time.deltaTime;
+//			m_lobbyCoolDown = Mathf.Max(0.0f, m_lobbyCoolDown);
+//		}
 		//Calls the current menus draw func(DoGUI)..
 		m_currentMenu.DoGUI ();
 	}

@@ -113,6 +113,10 @@ Prefab:
       propertyPath: m_buttonAtlas
       value: 
       objectReference: {fileID: 2800000, guid: b502e8ca6d22df248827cbe9e82e2a85, type: 3}
+    - target: {fileID: 11400000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
+      propertyPath: m_backGroundsNWinnerFrame
+      value: 
+      objectReference: {fileID: 2800000, guid: f1b4709fd15e4384dae8ed265a988ba5, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
   m_RootGameObject: {fileID: 739097174}
@@ -155,6 +159,8 @@ MonoBehaviour:
   m_muteButton: {fileID: 2800000, guid: b502e8ca6d22df248827cbe9e82e2a85, type: 3}
   m_muteButton2: {fileID: 2800000, guid: 137fadd94e0f6a24ea3836d19091bd2d, type: 3}
   m_buttonAtlas: {fileID: 2800000, guid: b502e8ca6d22df248827cbe9e82e2a85, type: 3}
+  m_backGroundsNWinnerFrame: {fileID: 2800000, guid: f1b4709fd15e4384dae8ed265a988ba5,
+    type: 3}
   m_winnerOtherTexture: {fileID: 2800000, guid: 4737c572094947d45ad80fd6a10bfffc,
     type: 3}
   m_winnerTexture: {fileID: 2800000, guid: 10959fc225fa3aa44a85a39c3bad7cd9, type: 3}
@@ -338,7 +344,7 @@ MonoBehaviour:
   m_levels:
   - LemonPark
   m_maxGames: 10
-  m_lobbyBackgrounds: {fileID: 2800000, guid: 19be1a777b369b145ab02a171da0e675, type: 3}
+  m_lobbyBackgrounds: {fileID: 2800000, guid: f1b4709fd15e4384dae8ed265a988ba5, type: 3}
 --- !u!114 &755868659
 MonoBehaviour:
   m_ObjectHideFlags: 0
