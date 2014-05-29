@@ -58,7 +58,6 @@ public class MenuBase : MonoBehaviour
 			{
 				if(item.OnClick != null)
 				{
-					Debug.Log("click!");
 					item.OnClick(item);
 				}
 			}
@@ -90,8 +89,6 @@ public class MenuBase : MonoBehaviour
 		{
 			if(aPosition.Contains(Event.current.mousePosition))
 			{
-				Debug.Log("Pressed btn");
-//				MenuManager.m_standardCoolDown = 1.0f;
 				s_lastClickTime = Time.time;
 				SoundManager.Instance.playOneShot(SoundManager.BUTTON_CLICK);
 				return true;
