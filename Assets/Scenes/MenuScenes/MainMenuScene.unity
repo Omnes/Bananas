@@ -518,6 +518,7 @@ MonoBehaviour:
     m_StretchWidth: 1
     m_StretchHeight: 0
   m_ServerRefreshRate: 5
+  ServerListYSize: .600000024
 --- !u!114 &755868659
 MonoBehaviour:
   m_ObjectHideFlags: 0
