@@ -50,9 +50,9 @@ public class GUIControl : MonoBehaviour {
 		Rect texCordsUnmute = new Rect(0.267578f+width,1f-width,width,width);
 		float PADDING = 0;
 		Rect texCord = SoundManager.Instance.m_paused ? texCordsUnmute : texCordsMute;
-		if(MenuBase.CustomButton(new Rect(Screen.width - (size.x + PADDING), PADDING, size.x, size.y), Prefactory.texture_buttonAtlas,texCord)){
-			SoundManager.Instance.ToggleMute();
-			texCord = SoundManager.Instance.m_paused ? texCordsUnmute : texCordsMute;
-		}
+//		if(MenuBase.CustomButton(new Rect(Screen.width - (size.x + PADDING), PADDING, size.x, size.y), Prefactory.texture_buttonAtlas,texCord)){
+//			SoundManager.Instance.ToggleMute();
+//			texCord = SoundManager.Instance.m_paused ? texCordsUnmute : texCordsMute;
+//		}
 	}
 }

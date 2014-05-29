@@ -38,9 +38,9 @@ public class NewStartingScreen : MenuBase
 	}
 	
 	// Update is called once per frame
-	void Update () 
+	public virtual void DoUpdate()
 	{
-	
+		
 	}
 
 	public override void DoGUI ()
@@ -64,5 +64,10 @@ public class NewStartingScreen : MenuBase
 		}
 
 
+	}
+	public override void InitMenuItems ()
+	{
+		PlayBtn.resetButton();
+		SoundBtn.resetButton();
 	}
 }

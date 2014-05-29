@@ -44,7 +44,8 @@ public class MenuBase : MonoBehaviour
 		m_instance = MenuManager.Instance;
 	}
 
-	public virtual void DoUpdate(){
+	public virtual void DoUpdate()
+	{
 
 	}
 
@@ -58,13 +59,13 @@ public class MenuBase : MonoBehaviour
 			{
 				LeanTween.move(item.LtRect, item.ToPos, 1.5f).setEase(item.LeanTweenType);
 			}
-			if(CustomButton(item.LtRect.rect, Prefactory.texture_buttonAtlas, item.UVRect))
-			{
-				if(item.OnClick != null)
-				{
-					item.OnClick(item);
-				}
-			}
+//			if(CustomButton(item.LtRect.rect, Prefactory.texture_buttonAtlas, item.UVRect))
+//			{
+//				if(item.OnClick != null)
+//				{
+//					item.OnClick(item);
+//				}
+//			}
 		}
 		m_firstTime = false;
 	}
@@ -116,7 +117,7 @@ public class MenuBase : MonoBehaviour
 					return true;
 				}
 			}
-//		}
+		}
 		return false;
 	}
 }

@@ -54,9 +54,8 @@ public class MenuManager : MonoBehaviour
 	{
 		//If currentobject is not camera, change this line..
 		m_currentMenu = (MenuBase) Camera.main.GetComponent(remoteMenu);
-
 		//This line initializes the items on the current menu, such as postion, tweening etc.. 
-		m_currentMenu.InitMenuItems ();
+//		m_currentMenu.InitMenuItems ();
 	}
 
 
@@ -69,6 +68,7 @@ public class MenuManager : MonoBehaviour
 	void OnGUI()
 	{
 		//Calls the current menus draw func(DoGUI)..
+		Debug.Log (m_currentMenu);
 		m_currentMenu.DoGUI ();
 	}
 

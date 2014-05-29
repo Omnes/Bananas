@@ -19,8 +19,8 @@ public class StartingScreen : MenuBase
 		
 		instance = MenuManager.Instance;
 		m_menuItems = new List<BaseMenuItem> ();
-		addMenuItem(instance.getMenuItem (MenuManager.TO_LOBBY));
-		addMenuItem (instance.getMenuItem (MenuManager.MUTE_SOUND));
+//		addMenuItem(instance.getMenuItem (MenuManager.TO_LOBBY));
+//		addMenuItem (instance.getMenuItem (MenuManager.MUTE_SOUND));
 		
 	}
 
