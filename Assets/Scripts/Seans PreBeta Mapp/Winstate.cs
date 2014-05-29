@@ -9,7 +9,7 @@ public class Winstate : MonoBehaviour {
 	public float m_endTime;
 	public static float m_timeLeft;
 
-	private bool m_gameRunning = false;
+	public static bool m_gameRunning = false;
 
 	private GUITimer m_guiTimer{
 		get{
@@ -23,6 +23,7 @@ public class Winstate : MonoBehaviour {
 	private GUITimer guiTimer;
 
 	private bool m_playTimesUpSound = true;
+	private bool m_10secLeft = true;
 	
 //	public void StartGameTimer(){
 //		StartGameTimer(m_MAXTIME);
@@ -47,17 +48,31 @@ public class Winstate : MonoBehaviour {
 			if(Time.time > m_endTime){
 				//we can do a check for tie here
 				m_gameRunning = false;
-				PowerupManager.Disable ();
+				PowerupManager.Clear ();
 				if(Network.isServer){
 					SeaNet.Instance.savePlayersAndShutDown(ScoreKeeper.GetFirstPlaceID());
 				}
 			}
-			if (m_timeLeft < 5f && m_playTimesUpSound) {
+
+			if (m_timeLeft < 6f && m_playTimesUpSound) {
 				m_playTimesUpSound = false;
+				PowerupManager.Disable();
 				SoundManager.Instance.playOneShot(SoundManager.TIMES_UP);
+			}
+
+			if (m_timeLeft < 11f && m_10secLeft) {
+				m_10secLeft = false;
+				SoundManager.Instance.StartTenSecondsLeftMusic();
+				SoundManager.Instance.playOneShot(SoundManager.TEN_SECONDS_LEFT);
+//				StartCoroutine(PlayTenSecondsLeft());
 			}
 		}
 	}
+
+//	IEnumerator PlayTenSecondsLeft() {
+//		yield return new WaitForSeconds(1);
+//		SoundManager.Instance.StartTenSecondsLeftMusic();
+//	}
 
 //	public void gameStart(){
 //		if(Network.peerType == NetworkPeerType.Server){

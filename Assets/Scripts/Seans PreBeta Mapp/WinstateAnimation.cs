@@ -32,12 +32,12 @@ public class WinstateAnimation : MonoBehaviour {
 	private GUIStyle m_gui;
 
 	//private int m_rematchCounter = 0;
-	private bool m_rematch = false;
+//	private bool m_rematch = false;
 
 	public int m_playerAmount = 0;
 
 	//kanske ta bort
-	private bool m_allPlayersRemain = true;
+//	private bool m_allPlayersRemain = true;
 
 	//my rematch state
 	private bool m_leaveGame = false;
@@ -67,6 +67,15 @@ public class WinstateAnimation : MonoBehaviour {
 
 	}
 
+	void Update(){
+		if (m_gameEnded && !m_startTimer) {
+			m_startTimer = true;
+			m_endScreenCounter = Time.time;
+		}
+		if (Time.time > (m_endScreenCounter + m_endScreenDelay) && m_startTimer) {
+			sendToLobby();
+		}
+	}
 
 	public void playWinScene(int id){
 		StartCoroutine(playWinSceneCorutine(id));
@@ -97,7 +106,9 @@ public class WinstateAnimation : MonoBehaviour {
 		
 
 		//wait for the timesup to appear
-		yield return new WaitForSeconds(moveDuration+fadeDuration);
+		yield return new WaitForSeconds(moveDuration);
+		SoundManager.Instance.StartWinMusic();
+		yield return new WaitForSeconds(fadeDuration);
 		//disable this or the LerpPlayer thingy
 		syncMovements[id].transform.position = Vector3.zero + new Vector3(0,syncMovements[id].transform.position.y,0);
 
@@ -267,4 +278,11 @@ public class WinstateAnimation : MonoBehaviour {
 
 		}
 	}
+
+	public void sendToLobby(){
+		if (Network.isServer) {
+			SeaNet.Instance.stopGame ("MainMenuScene", "Lobby");
+		}
+	}
+
 }

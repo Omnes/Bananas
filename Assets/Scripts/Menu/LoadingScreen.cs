@@ -59,9 +59,6 @@ public class LoadingScreen : MonoBehaviour {
 
 	void OnGUI(){
 		GUI.DrawTexture(new Rect(0,0,Screen.width,Screen.height),m_background);
-		GUI.Label(new Rect(0,Screen.height/2,Screen.width,Screen.height/2),m_text,m_textStyle);
-
+		GUI.Label(new Rect(0, Screen.height * 0.66f, Screen.width, Screen.height / 2),m_text,m_textStyle);
 	}
-
-
 }

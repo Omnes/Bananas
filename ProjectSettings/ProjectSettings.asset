@@ -113,7 +113,7 @@ PlayerSettings:
   m_BuildTargetIcons:
   - m_BuildTarget: 
     m_Icons:
-    - m_Icon: {fileID: 2800000, guid: b472eeb19401fff4482a21528e7343b3, type: 3}
+    - m_Icon: {fileID: 2800000, guid: ae140e14cb809d347a23615a2b3e24cd, type: 3}
       m_Size: 128
   m_BuildTargetBatching:
   - m_BuildTarget: Android
@@ -159,6 +159,7 @@ PlayerSettings:
   scriptingDefineSymbols:
     1: 
     4: 7
+    14: 
   metroPackageName: WayOfTheLeaf
   metroPackageLogo: 
   metroPackageVersion: 
