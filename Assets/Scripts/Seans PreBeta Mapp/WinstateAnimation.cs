@@ -44,7 +44,7 @@ public class WinstateAnimation : MonoBehaviour {
 
 
 	private bool m_startTimer = false;
-	private float m_endScreenDelay = 50;
+	private float m_endScreenDelay = 60;
 	private float m_endScreenCounter = 0;
 
 
@@ -97,9 +97,11 @@ public class WinstateAnimation : MonoBehaviour {
 		if (m_gameEnded && !m_startTimer) {
 			m_startTimer = true;
 			m_endScreenCounter = Time.time;
+			Debug.Log("START TIME"+Time.time);
 		}
 		if (Time.time > (m_endScreenCounter + m_endScreenDelay) && m_startTimer) {
 			sendToLobby();
+			Debug.Log("END TIME"+Time.time);
 		}
 	}
 
