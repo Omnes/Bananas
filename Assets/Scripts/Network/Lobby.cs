@@ -103,6 +103,7 @@ public class Lobby : MenuBase
 	private Vector2 CancelSize;
 
 	public float  ServerListYSize = 0.6f;
+	private LobbyButton m_muteButton;
 
 	// Use this for initialization
 	void Start () {
@@ -205,6 +206,10 @@ public class Lobby : MenuBase
 				Debug.Log("RESTART");
 			}
 		}
+
+		float PADDING = 5f;
+		Vector2 muteSize = GUIMath.SmallestOfInchAndPercent(new Vector2(0.5f,0.5f),new Vector2(0.09f,0.09f));
+		m_muteButton = new LobbyButton(new Rect(Screen.width - (muteSize.x + PADDING), PADDING, muteSize.x, muteSize.y),GUIMath.CalcTexCordsFromPixelRect(new Rect(294,0,158,158)));
 
 	}
 
@@ -320,6 +325,16 @@ public class Lobby : MenuBase
 			GUILayout.Label("Client Name: "+ m_connectedPlayers[i].m_name+" Client GUID"+m_connectedPlayers[i].m_guid);
 		}
 //		GUILayout.Label("ListSize (players): "+m_connectedPlayers.Count);
+
+		Rect texCordsMute = GUIMath.CalcTexCordsFromPixelRect(new Rect(294,0,158,158));
+		Rect texCordsUnmute = GUIMath.CalcTexCordsFromPixelRect(new Rect(451,0,158,158));
+		
+		if(this.m_muteButton.isClicked()){
+			SoundManager.Instance.ToggleMute();
+			Rect texCord = SoundManager.Instance.m_paused ? texCordsUnmute : texCordsMute;
+			m_muteButton.changeUVrect(texCord);
+		}
+
 
 	}
 

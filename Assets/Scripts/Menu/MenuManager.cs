@@ -68,7 +68,7 @@ public class MenuManager : MonoBehaviour
 	void OnGUI()
 	{
 		//Calls the current menus draw func(DoGUI)..
-		Debug.Log (m_currentMenu);
+//		Debug.Log (m_currentMenu);
 		m_currentMenu.DoGUI ();
 	}
 
