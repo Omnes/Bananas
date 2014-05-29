@@ -84,11 +84,6 @@ public class Lobby : MenuBase
 	private float UsernameFieldXpos;
 	private float UsernameFieldYpos;
 
-	private float SoundBtnXpos;
-	private float SoundBtnYpos;
-	private Vector2 SoundBtnSize;
-
-
 	//Part2
 	private float Part2BackBoardXpos;
 	private float Part2BackBoardYpos;
@@ -159,11 +154,6 @@ public class Lobby : MenuBase
 
 		//SoundBtn
 		float screenRatio = Camera.main.camera.aspect;
-		SoundBtnSize = GUIMath.SmallestOfInchAndPercent (new Vector2(0.5f, 0.5f), new Vector2(0.05f, 0.05f * screenRatio));
-		SoundBtnXpos = screenWidth/2 - (size.x / 2);
-		SoundBtnYpos = screenHeight/5;
-		m_buttonsPart1.Add (new LobbyButton (screenWidth - SoundBtnSize.x, 0.0f, SoundBtnSize.x, SoundBtnSize.y, new Rect (0.267f, 0.8455f, 0.154f, 0.155f),
-		                                   new Vector2 (screenWidth - SoundBtnSize.x, 0.0f), 0.0f, LeanTweenType.easeOutSine));
 
 		//Refreshbtn props
 //		HostNewGameSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.33f, 0.15f));
@@ -271,15 +261,6 @@ public class Lobby : MenuBase
 				m_myPlayerData = new PlayerData(m_tempPlayerName, Network.player.guid);
 				m_myPlayerData.local = true;
 				addPlayerToClientList(m_myPlayerData);
-			}
-
-
-			if(m_buttonsPart1[1].isClicked())
-			{
-				Rect unMuted = new Rect (0.267f, 0.8455f, 0.154f, 0.155f);
-				Rect muted = new Rect (0.44f, 0.8455f, 0.1545f, 0.155f);
-				m_buttonsPart1[1].changeUVrect(SoundManager.Instance.m_paused ? unMuted : muted);
-				SoundManager.Instance.ToggleMute ();
 			}
 
 		
