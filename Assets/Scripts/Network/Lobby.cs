@@ -98,6 +98,8 @@ public class Lobby : MenuBase
 	private float CancelYpos;
 	private Vector2 CancelSize;
 
+	public float  ServerListYSize = 0.6f;
+
 	// Use this for initialization
 	void Start () {
 		//menuitems
@@ -123,9 +125,9 @@ public class Lobby : MenuBase
 		BackBoardYpos = screenHeight / 6.2f;
 
 		//Server backboard props..
-		ServersBackBoardSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.35f, 0.9f));
+		ServersBackBoardSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.35f, ServerListYSize));
 		ServersBackBoardXpos = screenWidth / 1.9f;
-		ServersBackBoardYpos = screenHeight / 6.2f;
+		ServersBackBoardYpos = screenHeight /6.2f;
 
 		m_serverList = new ServerList(new Rect(ServersBackBoardXpos,ServersBackBoardYpos,ServersBackBoardSize.x,ServersBackBoardSize.y));
 
@@ -197,7 +199,7 @@ public class Lobby : MenuBase
 	public override void InitMenuItems()
 	{
 		RefreshHostList();
-		m_lastServerRefresh = Time.time;
+		m_lastServerRefresh = 0f;
 	}
 
 	private void RefreshHostList(){
@@ -226,7 +228,7 @@ public class Lobby : MenuBase
 			}
 
 			//start server (server)
-			m_tempServerName = GUI.TextField(new Rect(UsernameFieldXpos, UsernameFieldYpos, m_textFieldSize.x, m_textFieldSize.y), m_tempServerName, 25);
+			m_tempPlayerName = GUI.TextField(new Rect(UsernameFieldXpos, UsernameFieldYpos, m_textFieldSize.x, m_textFieldSize.y), m_tempPlayerName, 25);
 
 //			m_tempPlayerName = GUI.TextField(new Rect(rightX + 30.0f, centerY + size.y, m_textFieldSize.x, m_textFieldSize.y), m_tempPlayerName, 25);
 
@@ -242,12 +244,13 @@ public class Lobby : MenuBase
 				}
 
 				if(m_tempPlayerName.Length == 0){
-					m_tempPlayerName = "NOOB";
+					m_tempPlayerName = "Anonymous";
 				}
-				if(m_tempServerName.Length == 0){
-					m_tempServerName = "NOOBS ONLY";
-				}
-				startServer(m_tempServerName);
+//				if(m_tempServerName.Length == 0){
+//					m_tempServerName = "NOOBS ONLY";
+//				}
+//				startServer(m_tempServerName);
+				startServer(m_tempPlayerName + "'s game");
 				//add ip for player who started server
 				m_myPlayerData = new PlayerData(m_tempPlayerName, Network.player.guid);
 				m_myPlayerData.local = true;
@@ -525,7 +528,7 @@ class ServerWidget{
 //		m_texCordsButton = new Rect(0.5634f,1f,0.3447f,0.1875f);
 		m_texCordsButton = GUIMath.CalcTexCordsFromPixelRect(new Rect(577,835,350,190),1024);
 		
-		Vector2 buttonSize = new Vector2(m_size.x*0.2f,m_size.y * 0.2f);
+		Vector2 buttonSize = new Vector2(m_size.x*0.3f,m_size.y * 0.45f);
 		m_buttonPosition = new Rect(m_size.x*0.8f - buttonSize.x*0.5f,m_size.y*0.5f - buttonSize.y*0.5f,buttonSize.x,buttonSize.y);		
 		m_textPosition = new Rect(m_size.x*0.1f,m_size.y*0.1f,m_size.x*0.6f,m_size.y*0.8f);
 	}
@@ -533,10 +536,8 @@ class ServerWidget{
 	
 	
 	public void Draw(Vector2 offset){
+
 		GUI.DrawTextureWithTexCoords(new Rect(offset.x,offset.y,m_size.x,m_size.y),m_backgroundAtlas,m_texCordsBackground); //draw background
-//		GUI.Box(new Rect(offset.x,offset.y,m_size.x,m_size.y),"background");
-//		GUI.Box(RectAddVector2(m_buttonPosition,offset),"button");
-//		GUI.Box(RectAddVector2(m_textPosition,offset),"text");
 		string text = m_host.gameName + "\n" + (m_host.connectedPlayers)+"/"+m_host.playerLimit;
 		GUI.Label(RectAddVector2(m_textPosition,offset), text,m_guiStyle);
 		if(MenuBase.CustomButton(RectAddVector2(m_buttonPosition,offset),m_buttonAtlas,m_texCordsButton)){
@@ -568,7 +569,7 @@ class ServerList{
 	public ServerList(Rect area){
 		m_area = area;
 		m_atlas = Prefactory.texture_backgrounds;
-		texCordsBackground = new Rect(0.33f, 0.0f, 0.35f, 0.553f);
+		texCordsBackground = GUIMath.CalcTexCordsFromPixelRect(new Rect(338,456,360,457),1024);
 		m_widgetSize = new Vector2(m_area.width*0.85f,m_area.height*0.2f);
 	}
 	
@@ -576,10 +577,13 @@ class ServerList{
 		m_widgets.Clear();
 
 		for (int i = 0; i < hostData.Length; i++) {
-			m_widgets.Add(new ServerWidget(hostData[i],m_widgetSize));
+			if( hostData[i].connectedPlayers < hostData[i].playerLimit){
+				m_widgets.Add(new ServerWidget(hostData[i],m_widgetSize));
+			}
 		}
+
 		m_maxScrollOffset = Mathf.Clamp(m_widgetSize.y * m_widgets.Count - m_area.height,0,float.MaxValue);
-		m_scrollOffset = Mathf.Clamp(m_scrollOffset,0,m_maxScrollOffset);
+		m_scrollOffset = Mathf.Clamp(m_scrollOffset,-m_maxScrollOffset,m_maxScrollOffset);
 	}
 
 	public void update(){
@@ -587,27 +591,30 @@ class ServerList{
 			Touch[] touches = Input.touches;
 			if(touches.Length > 0){
 				if(m_area.Contains(touches[0].position)){
-					scroll(-touches[0].deltaPosition.y);
+					scroll(touches[0].deltaPosition.y*2f);
 				}
 			}
-			scroll(Input.GetAxis("Mouse ScrollWheel"));
+			scroll(Input.GetAxis("Mouse ScrollWheel")*200f);
 		}
 	}
 	private void scroll(float delta){
 		m_scrollOffset += delta;
-		m_scrollOffset = Mathf.Clamp(m_scrollOffset,0,m_maxScrollOffset);
+		m_scrollOffset = Mathf.Clamp(m_scrollOffset,-m_maxScrollOffset,m_maxScrollOffset);
 	}
 	
 	public void Draw(){
 		GUI.DrawTextureWithTexCoords(m_area,m_atlas,texCordsBackground); //draw background
+//		GUI.Box(m_area,"Area");
+		GUI.BeginGroup(m_area);
 		float paddingX = m_area.width * 0.03f;
 		float paddingY = m_area.height * 0.01f;
 //		GUI.Box (m_area,"area");
 		for (int i = 0; i < m_widgets.Count; i++) {
-			float yPos = paddingY + m_area.y + (m_widgets[i].getSize().y + paddingY) * i + m_scrollOffset;
-			if((yPos < m_area.height + m_area.y) && (yPos + m_widgetSize.y > m_area.y)){
-				m_widgets[i].Draw(new Vector2(m_area.x + paddingX, yPos)); //add padding
+			float yPos = paddingY*2f + (m_widgets[i].getSize().y + paddingY) * i + m_scrollOffset;
+			if((yPos < m_area.height ) && (yPos + m_widgetSize.y > 0f)){
+				m_widgets[i].Draw(new Vector2(paddingX, yPos)); //add padding
 			}
-		}	
+		}
+		GUI.EndGroup();
 	}
 }

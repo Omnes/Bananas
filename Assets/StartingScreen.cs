@@ -36,7 +36,7 @@ public class StartingScreen : MenuBase
 		size = GUIMath.SmallestOfInchAndPercent(new Vector2(300.0f, 150.0f), new Vector2(0.3f, 0.17f));
 		centerX = (screenWidth * 0.5f) - (size.x * 0.5f);
 		centerY = screenHeight - size.y;
-		AdjustMenuItem (m_menuItems [0], new LTRect (-200, 100.0f, size.x, size.y), new Vector2 (centerX, screenHeight-(size.y * 2)), new Rect(0.565f, 0.19f, 0.43f, 0.165f) , LeanTweenType.easeOutElastic);
+		AdjustMenuItem (m_menuItems [0], new LTRect (Screen.width*0.5f - size.x*0.5f, Screen.height + size.y , size.x, size.y), new Vector2 (centerX, screenHeight-(size.y * 2)), new Rect(0.565f, 0.19f, 0.43f, 0.165f) , LeanTweenType.easeOutSine);
 
 		size = GUIMath.SmallestOfInchAndPercent (new Vector2(0.5f, 0.5f), new Vector2(0.05f, 0.05f * screenRatio));
 		centerX = screenWidth/2 - (size.x / 2);

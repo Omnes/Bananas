@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EMPHit: {fileID: 100000, guid: 74eb5785c6333ea4b86bdf0012a4607a, type: 2}
   m_powerupPickup: {fileID: 100000, guid: 926a86c1ce11e59488f1b2761e28b58f, type: 2}
   m_muteButton: {fileID: 2800000, guid: b502e8ca6d22df248827cbe9e82e2a85, type: 3}
-  m_muteButton2: {fileID: 2800000, guid: 137fadd94e0f6a24ea3836d19091bd2d, type: 3}
+  m_muteButton2: {fileID: 0}
   m_winnerOtherTexture: {fileID: 2800000, guid: 4737c572094947d45ad80fd6a10bfffc,
     type: 3}
   m_winnerTexture: {fileID: 2800000, guid: 10959fc225fa3aa44a85a39c3bad7cd9, type: 3}
@@ -54,7 +54,7 @@ MonoBehaviour:
     m_Name: 
     m_Normal:
       m_Background: {fileID: 0}
-      m_TextColor: {r: 1, g: 1, b: 1, a: 1}
+      m_TextColor: {r: 0, g: 0, b: 0, a: 1}
     m_Hover:
       m_Background: {fileID: 0}
       m_TextColor: {r: 0, g: 0, b: 0, a: 1}
@@ -96,15 +96,15 @@ MonoBehaviour:
       m_Right: 0
       m_Top: 0
       m_Bottom: 0
-    m_Font: {fileID: 0}
+    m_Font: {fileID: 12800000, guid: a04121627cee1ac449aebb40d691cc63, type: 3}
     m_FontSize: 48
     m_FontStyle: 0
     m_Alignment: 1
     m_WordWrap: 0
     m_RichText: 1
     m_TextClipping: 0
-    m_ImagePosition: 0
-    m_ContentOffset: {x: 0, y: 0}
+    m_ImagePosition: 1
+    m_ContentOffset: {x: 0, y: 80}
     m_FixedWidth: 0
     m_FixedHeight: 0
     m_StretchWidth: 0
