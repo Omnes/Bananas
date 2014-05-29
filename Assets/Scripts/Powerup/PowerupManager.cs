@@ -8,10 +8,10 @@ using System.Collections.Generic;
  */
 public class PowerupManager : MonoBehaviour {
 	//Design parameters
-	private const float INIT_SPAWN_DELAY_MIN = 15.0f;
-	private const float INIT_SPAWN_DELAY_MAX = 15.0f;
-	private const float SPAWN_INTERVALL_MIN = 15.0f;
-	private const float SPAWN_INTERVALL_MAX = 18.0f;
+	private const float INIT_SPAWN_DELAY_MIN = 1.0f;
+	private const float INIT_SPAWN_DELAY_MAX = 1.0f;
+	private const float SPAWN_INTERVALL_MIN = 1.0f;
+	private const float SPAWN_INTERVALL_MAX = 1.0f;
 
 	private const int MAX_POWERUPS = 2;
 	private const float SPAWN_RADIUS = 6f;
@@ -43,6 +43,7 @@ public class PowerupManager : MonoBehaviour {
 		spawnIntervall = Random.Range (INIT_SPAWN_DELAY_MIN, INIT_SPAWN_DELAY_MAX);
 
 		//Add all powerups that should be spawned here
+		m_spawnablePowerups.Clear ();
 		m_spawnablePowerups.Add(Powerup.TIME_BOMB);
 		m_spawnablePowerups.Add(Powerup.BIG_LEAF_BLOWER);
 		m_spawnablePowerups.Add(Powerup.EMP);
@@ -65,17 +66,20 @@ public class PowerupManager : MonoBehaviour {
 		if (Network.isServer) {
 			//Find available powerups
 			List<int> m_availablePowerups = new List<int>(m_spawnablePowerups);
-			if (CanSpawnTimeBomb() == false)
+			if (CanSpawnTimeBomb() == false) {
 				m_availablePowerups.Remove(Powerup.TIME_BOMB);
-			if (CanSpawnBigLeafBlower() == false)
+			}
+			if (CanSpawnBigLeafBlower() == false) {
 				m_availablePowerups.Remove(Powerup.BIG_LEAF_BLOWER);
-			if (CanSpawnEMP() == false)
+			}
+			if (CanSpawnEMP() == false) {
 				m_availablePowerups.Remove(Powerup.EMP);
+			}
 
 			//Pick a random powerup from available powerups
 			int playerID = player.GetComponent<SyncMovement>().getID();
 			int rand = Random.Range(0, m_availablePowerups.Count);
-			int powerupType = m_availablePowerups[rand];	
+			int powerupType = m_availablePowerups[rand];
 
 			//Send RPC to all players depending on powerup
 			if (powerupType == Powerup.TIME_BOMB) {
