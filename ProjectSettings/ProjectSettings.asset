@@ -105,7 +105,7 @@ PlayerSettings:
   iPadLandscapeSplashScreen: {fileID: 0}
   iPadHighResLandscapeSplashScreen: {fileID: 0}
   AndroidTargetDevice: 0
-  AndroidSplashScreenScale: 2
+  AndroidSplashScreenScale: 1
   AndroidKeystoreName: 
   AndroidKeyaliasName: 
   resolutionDialogBanner: {fileID: 2800000, guid: b472eeb19401fff4482a21528e7343b3,
@@ -113,7 +113,7 @@ PlayerSettings:
   m_BuildTargetIcons:
   - m_BuildTarget: 
     m_Icons:
-    - m_Icon: {fileID: 2800000, guid: b472eeb19401fff4482a21528e7343b3, type: 3}
+    - m_Icon: {fileID: 2800000, guid: 88ae2cd83acfd344f83aa67f61529e72, type: 3}
       m_Size: 128
   m_BuildTargetBatching:
   - m_BuildTarget: Android
