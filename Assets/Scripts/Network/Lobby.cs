@@ -289,7 +289,7 @@ public class Lobby : MenuBase
 		if(Network.peerType == NetworkPeerType.Server){
 
 			GUI.DrawTextureWithTexCoords(new Rect(Part2BackBoardXpos, Part2BackBoardYpos, Part2BackBoardSize.x, Part2BackBoardSize.y), 
-			                             Prefactory.texture_backgrounds, new Rect(0.0f, 0.555f, 0.7f, 0.5f));
+			                             Prefactory.texture_backgrounds, GUIMath.CalcTexCordsFromPixelRect(new Rect(0,0,719,457)));
 			//animation
 			for(int i = 0; i < m_buttonsPart2.Count; i++){
 				m_buttonsPart2[i].move();
