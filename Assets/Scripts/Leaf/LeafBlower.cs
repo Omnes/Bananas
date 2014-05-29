@@ -149,12 +149,13 @@ public class LeafBlower : MonoBehaviour {
 	public void OnTriggerEnter(Collider other){
 		if (Network.isServer) {
 			if (other.CompareTag("Leaf_collector")) {
-				int goalID = other.gameObject.GetComponent<CollectorCollider>().m_ID;
+				int goalID = other.gameObject.GetComponent<ID>().m_ID;
 				if(m_canScoreInOtherGoal || m_id == goalID){
 					
 					int nrOfLeafs = m_collectedLeafs.Count;
 					if (nrOfLeafs > 0) {
 						LeafManager.s_lazyInstance.requestDoGoal(nrOfLeafs,m_id,goalID);
+						other.gameObject.particleSystem.Play();
 					}
 				}
 			}

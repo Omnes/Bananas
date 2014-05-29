@@ -53,6 +53,45 @@ public class Lobby : MenuBase
 	//hoistlist
 	public HostData[] m_hostlist;
 
+	//Graphical Properties..
+	//Part 1
+	private float HostNewGameXpos;
+	private float HostNewGameYpos;
+	private Vector2 HostNewGameSize;
+
+	private float RefreshXpos;
+	private float RefreshYpos;
+	private Vector2 RefreshSize;
+
+	private float BackBoardXpos;
+	private float BackBoardYpos;
+	private Vector2 BackBoardSize;
+
+	private float ServersBackBoardXpos;
+	private float ServersBackBoardYpos;
+	private Vector2 ServersBackBoardSize;
+
+	private float ScrollXpos;
+	private float ScrollYpos;
+	private Vector2 ScrollSize;
+
+	private float UsernameFieldXpos;
+	private float UsernameFieldYpos;
+
+
+	//Part2
+	private float Part2BackBoardXpos;
+	private float Part2BackBoardYpos;
+	private Vector2 Part2BackBoardSize;
+
+	private float StartGameXpos;
+	private float StartGameYpos;
+	private Vector2 StartGameSize;
+
+	private float CancelXpos;
+	private float CancelYpos;
+	private Vector2 CancelSize;
+
 	// Use this for initialization
 	void Start () {
 		//menuitems
@@ -71,15 +110,66 @@ public class Lobby : MenuBase
 		leftX = centerX - size.x;
 		rightX = centerX + size.x;
 
+
+		//Backboard props..
+		BackBoardSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.35f, 0.9f));
+		BackBoardXpos = screenWidth / 6.5f;
+		BackBoardYpos = screenHeight / 6.2f;
+
+		//Server backboard props..
+		ServersBackBoardSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.35f, 0.9f));
+		ServersBackBoardXpos = screenWidth / 1.9f;
+		ServersBackBoardYpos = screenHeight / 6.2f;
+
+		//Scroll props..
+		ScrollSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.35f, 0.9f));
+		//fortsätt här snart .. 
+
+
+		//Textfield props
+		m_textFieldSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.25f, 0.1f));
+		UsernameFieldXpos = screenWidth / 4.85f;
+		UsernameFieldYpos = screenHeight / 1.95f;
+		
+
 		//knappar
 		//first lobbyapart
-		m_buttonsPart1.Add(new LobbyButton(-100,centerY, size.x, size.y,			"Host Game", new Vector2(centerX,centerY), 0.5f, LeanTweenType.easeOutSine));
-		m_buttonsPart1.Add(new LobbyButton(-100,centerY + size.y, size.x, size.y,	"Refresh", new Vector2(centerX,centerY + size.y), 0.5f, LeanTweenType.easeOutSine));
-		//second lobbyPart
-		m_buttonsPart2.Add(new LobbyButton(-100,centerY, size.x, size.y,			"Start Game", new Vector2(centerX,centerY), 0.5f, LeanTweenType.easeOutSine));
-		m_buttonsPart2.Add(new LobbyButton(-100,centerY + size.y, size.x, size.y,	"Stop Server", new Vector2(centerX,centerY + size.y), 0.5f, LeanTweenType.easeOutSine));
+		
+		//Host new game buttonprops..
+		HostNewGameSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.33f, 0.15f));
+		HostNewGameXpos = screenWidth / 6f;
+		HostNewGameYpos = screenHeight/ 1.45f;
+		m_buttonsPart1.Add(new LobbyButton(-100,HostNewGameYpos, HostNewGameSize.x, HostNewGameSize.y, new Rect(0.0f, 0.566f, 0.60f, 0.139f), new Vector2(HostNewGameXpos,HostNewGameYpos), 0.5f, LeanTweenType.easeOutSine));
 
-		m_textFieldSize = GUIMath.InchToPixels(new Vector2(2f, 0.6f));
+		//Refreshbtn props
+		HostNewGameSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.33f, 0.15f));
+//		HostNewGameXpos = screenWidth / 1.5f;
+//		HostNewGameYpos = screenHeight/ 1.4f;
+		m_buttonsPart1.Add(new LobbyButton(-200,HostNewGameYpos, HostNewGameSize.x, HostNewGameSize.y,	new Rect(0.1f, 0.1f, 0.3f, 0.2f), new Vector2(-4000, HostNewGameYpos), 0.5f, LeanTweenType.easeOutSine));
+
+
+
+		//second lobbyPart
+
+
+		//Backboard part 2
+		Part2BackBoardSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.75f, 0.7f));
+		Part2BackBoardXpos = screenWidth / 8.5f;
+		Part2BackBoardYpos = screenWidth / 12f;
+
+		//StartGameBtn props..
+		StartGameSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.4f, 0.12f));
+		StartGameXpos = screenWidth / 7f;
+		StartGameYpos = screenHeight/ 1.5f;
+		m_buttonsPart2.Add(new LobbyButton(-100,StartGameYpos, StartGameSize.x, StartGameSize.y, new Rect(0.0f, 0.427f, 0.7f, 0.138f), new Vector2(StartGameXpos,StartGameYpos), 0.5f, LeanTweenType.easeOutSine));
+
+		//CancelGameBtn props..
+		CancelSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.4f, 0.12f));
+		CancelXpos = screenWidth / 1.9f;
+		CancelYpos = screenHeight/ 1.495f;
+
+		m_buttonsPart2.Add(new LobbyButton(-100,CancelYpos, CancelSize.x, CancelSize.y,	new Rect(0.0f, 0.705f, 0.7f, 0.138f), new Vector2(CancelXpos,CancelYpos), 0.5f, LeanTweenType.easeOutSine));
+
 
 
 		MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
@@ -107,8 +197,16 @@ public class Lobby : MenuBase
 
 	public override void DoGUI(){
 
+
+		//Draw background..
+		GUI.DrawTexture (new Rect (0.0f, 0.0f, screenWidth, screenHeight), m_backGround);
+		//Draw servers background
+//		GUI.DrawTexture (new Rect (0.0f, 0.0f, screenWidth, screenHeight), m_backGround);
 			//### server not started ###
 		if(Network.peerType == NetworkPeerType.Disconnected){
+			//Draw backgrounds for first part of lobby..
+			GUI.DrawTextureWithTexCoords(new Rect (BackBoardXpos, BackBoardYpos, BackBoardSize.x, BackBoardSize.y), Prefactory.texture_backgrounds, new Rect(0.0f, 0.0f, 0.33f, 0.553f)); 
+			GUI.DrawTextureWithTexCoords(new Rect (ServersBackBoardXpos, ServersBackBoardYpos, ServersBackBoardSize.x, ServersBackBoardSize.y), Prefactory.texture_backgrounds, new Rect(0.33f, 0.0f, 0.35f, 0.553f));
 
 			//animation
 			for(int i = 0; i < m_buttonsPart1.Count; i++){
@@ -116,8 +214,9 @@ public class Lobby : MenuBase
 			}
 
 			//start server (server)
-			m_tempServerName = GUI.TextField(new Rect(rightX, centerY, m_textFieldSize.x, m_textFieldSize.y), m_tempServerName, 25);
-			m_tempPlayerName = GUI.TextField(new Rect(rightX, centerY + size.y, m_textFieldSize.x, m_textFieldSize.y), m_tempPlayerName, 25);
+			m_tempServerName = GUI.TextField(new Rect(UsernameFieldXpos, UsernameFieldYpos, m_textFieldSize.x, m_textFieldSize.y), m_tempServerName, 25);
+
+//			m_tempPlayerName = GUI.TextField(new Rect(rightX + 30.0f, centerY + size.y, m_textFieldSize.x, m_textFieldSize.y), m_tempPlayerName, 25);
 
 			//  START SERVER BUTTON
 
@@ -125,6 +224,7 @@ public class Lobby : MenuBase
 			//start server
 			if(m_buttonsPart1[0].isClicked()){
 
+				Debug.Log("Button 0 clicked");
 				for(int i = 0; i < m_buttonsPart2.Count; i++){
 					m_buttonsPart2[i].resetButton();
 				}
@@ -156,7 +256,7 @@ public class Lobby : MenuBase
 					if(m_hostlist[i].connectedPlayers < m_hostlist[i].playerLimit){
 						j++;
 						string text = m_hostlist[i].gameName + "\n" + (m_hostlist[i].connectedPlayers)+"/"+m_hostlist[i].playerLimit;
-						m_games.Add(new LobbyButton(-100,centerY + size.y * j, size.x, size.y, text, new Vector2(centerX - size.x,centerY + size.y * j), 3.0f + j, LeanTweenType.easeOutElastic));
+						m_games.Add(new LobbyButton(-100,centerY + size.y * j, size.x, size.y, new Rect(0.1f, 0.1f, 0.3f, 0.2f), new Vector2(centerX - size.x,centerY + size.y * j), 3.0f + j, LeanTweenType.easeOutElastic));
 					}
 				}
 			}
@@ -201,6 +301,8 @@ public class Lobby : MenuBase
 			//started server
 		if(Network.peerType == NetworkPeerType.Server){
 
+			GUI.DrawTextureWithTexCoords(new Rect(Part2BackBoardXpos, Part2BackBoardYpos, Part2BackBoardSize.x, Part2BackBoardSize.y), 
+			                             Prefactory.texture_backgrounds, new Rect(0.0f, 0.555f, 0.7f, 0.5f));
 			//animation
 			for(int i = 0; i < m_buttonsPart2.Count; i++){
 				m_buttonsPart2[i].move();

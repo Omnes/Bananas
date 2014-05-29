@@ -10,8 +10,10 @@ public class Prefactory : MonoBehaviour {
 	public GameObject m_EMPHit;
 	public GameObject m_powerupPickup;
 
-	public Texture2D m_muteButton;
-	public Texture2D m_muteButton2;
+	public Gradient m_rainbowColor;
+	public Texture2D m_buttonAtlas;
+
+	public Texture2D m_backGroundsNWinnerFrame;
 
 	//winners
 	public Texture2D m_winnerOtherTexture;
@@ -30,16 +32,17 @@ public class Prefactory : MonoBehaviour {
 	public static GameObject prefab_EMPHit;
 	public static GameObject prefab_powerupPickup;
 
-	public static Texture2D texture_muteButton;
-	public static Texture2D texture_muteButton2;
+	public static Gradient gradient_rainbowColor;
 
 	//winners
 	public static Texture2D texture_winnerOther;
 	public static Texture2D texture_winner;
 
 	public static Texture2D texture_loadingscreen;
+	public static Texture2D texture_buttonAtlas;
 	public static GUIStyle style_loadingscreenText;
-	
+
+	public static Texture2D texture_backgrounds;
 
 	//meshes
 	public static List<GameObject> prefab_meshList;
@@ -52,8 +55,9 @@ public class Prefactory : MonoBehaviour {
 		prefab_EMPHit = m_EMPHit;
 		prefab_powerupPickup = m_powerupPickup;
 
-		texture_muteButton = m_muteButton;
-		texture_muteButton2 = m_muteButton2;
+		gradient_rainbowColor = m_rainbowColor;
+		texture_buttonAtlas = m_buttonAtlas;
+		texture_backgrounds = m_backGroundsNWinnerFrame;
 
 		//winners
 		texture_winner = m_winnerTexture;

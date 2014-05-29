@@ -44,11 +44,34 @@ public class WinstateAnimation : MonoBehaviour {
 
 
 	private bool m_startTimer = false;
-	private float m_endScreenDelay = 20;
+	private float m_endScreenDelay = 50;
 	private float m_endScreenCounter = 0;
+
+
+	//Button properties
+	private float LeaveButtonXpos;
+	private float LeaveButtonYpos;
+	private Vector2 LeaveButtonSize;
+
+	private float RematchButtonXpos;
+	private float RematchButtonYpos;
+	private Vector2 RematchButtonSize;
+
+	private float WinnerFrameXpos;
+	private float WinnerFrameYpos;
+	private Vector2 WinnerFrameSize;
 
 	// Use this for initialization
 	void Start () {
+
+		//Zero the cooldown that "came" from lobby
+		MenuManager.m_lobbyCoolDown = 0.0f;
+		MenuManager.m_standardCoolDown = 0.0f;
+
+
+		float screenWidth = Screen.width;
+		float screenHeight = Screen.height;
+
 		m_connectedPlayers = SeaNet.Instance.getPlayerArr ();
 
 		m_size = GUIMath.InchToPixels(new Vector2(1.5f, 0.8f));
@@ -57,9 +80,22 @@ public class WinstateAnimation : MonoBehaviour {
 		m_leaveButtonPos = new Vector2(Screen.width - m_size.x, Screen.height - m_size.y);
 		m_rematchButtonPos = new Vector2(0, Screen.height - m_size.y);
 
-		m_leaveButton = new LobbyButton(m_leaveButtonPos.x, m_leaveButtonPos.y + 100, m_size.x, m_size.y,		"Leave Game", m_leaveButtonPos, 3.0f, LeanTweenType.easeOutElastic);
-		m_rematchButton = new LobbyButton(m_rematchButtonPos.x, m_rematchButtonPos.y + 100, m_size.x, m_size.y,	"Rematch", m_rematchButtonPos, 3.0f, LeanTweenType.easeOutElastic);
+		//Leave match btn
+		LeaveButtonSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.33f, 0.15f));
+		LeaveButtonXpos = screenWidth - LeaveButtonSize.x;
+		LeaveButtonYpos = screenHeight - LeaveButtonSize.y;
+		m_leaveButton = new LobbyButton(LeaveButtonXpos, LeaveButtonYpos, LeaveButtonSize.x, LeaveButtonSize.y,		new Rect(0.0f, 0.0f, 0.56f, 0.14f), new Vector2(LeaveButtonXpos, LeaveButtonYpos), 3.0f, LeanTweenType.easeOutElastic);
 
+		//Rematch btn
+		RematchButtonSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.33f, 0.15f));
+		RematchButtonXpos = 0.0f;
+		RematchButtonYpos = screenHeight - RematchButtonSize.y;
+		m_rematchButton = new LobbyButton(RematchButtonXpos, RematchButtonYpos, RematchButtonSize.x, RematchButtonSize.y,	new Rect(0.0f, 0.14f, 0.56f, 0.14f), new Vector2(RematchButtonXpos, RematchButtonYpos), 3.0f, LeanTweenType.easeOutElastic);
+
+		//Winner frame ..
+		WinnerFrameSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.33f, 0.15f));
+		WinnerFrameXpos = WinnerFrameSize.x/0.98f;
+		WinnerFrameYpos = screenHeight - WinnerFrameSize.y;
 		
 		for (int i = 0; i < m_rematchChecks.Length; i++) {
 			m_rematchChecks[i] = state.NONE;
@@ -176,12 +212,10 @@ public class WinstateAnimation : MonoBehaviour {
 						}
 					}
 				}
-
 				//leave button
 				m_leaveButton.move();
 				if(m_leaveButton.isClicked()){
 					m_gameEnded = false;
-
 					SeaNet.Instance.setRematchCheck((int)state.LEAVE);
 
 					m_leaveGame = true;
@@ -207,7 +241,8 @@ public class WinstateAnimation : MonoBehaviour {
 				}
 
 				//draw stuff
-				GUI.DrawTexture(new Rect(m_winNamePos.x, m_winNamePos.y, m_size.x, m_size.y), m_winTexture);
+//				GUI.DrawTexture(new Rect(m_winNamePos.x, m_winNamePos.y, m_size.x, m_size.y), m_winTexture);
+				GUI.DrawTextureWithTexCoords(new Rect(WinnerFrameXpos, WinnerFrameYpos, WinnerFrameSize.x, WinnerFrameSize.y), Prefactory.texture_backgrounds, new Rect(0.705f, 0.6f, 0.29f, 0.16f)); 
 				GUI.Label(new Rect(m_winNamePos.x + 20, m_winNamePos.y + (m_size.y / 2),  m_size.x, m_size.y), m_winnerName, m_gui);
 
 			}
