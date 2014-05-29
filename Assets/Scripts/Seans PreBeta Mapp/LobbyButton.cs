@@ -46,12 +46,40 @@ public class LobbyButton{
 		}
 	}
 
+	private bool buttonDown = false;
 	public bool isClicked(){
-		return	MenuBase.CustomButton (m_ltRect.rect, m_allBtns, m_uvRect);
+//		return	MenuBase.CustomButton (m_ltRect.rect, m_allBtns, m_uvRect);
+
+		GUI.DrawTextureWithTexCoords (m_ltRect.rect, m_allBtns, m_uvRect);
+		//Rita ut "i vilket fall" ..
+		if(Input.GetMouseButtonDown(0) /*|| Input.GetTouch(0).phase == TouchPhase.Began)*/ && buttonDown == false)
+		{
+			if(m_ltRect.rect.Contains(Event.current.mousePosition)/* || aPosition.Contains(Input.GetTouch(0).position)*/)
+			{
+//				Debug.Log("Down  " + aPosition);
+				buttonDown = true;
+			}
+		}
+		else if(Input.GetMouseButtonUp(0) /*|| Input.GetTouch(0).phase == TouchPhase.Ended)*/ && buttonDown == true)
+		{
+			//				Debug.Log("up0  " + btnPos);
+			buttonDown = false;
+			if(m_ltRect.rect.Contains(Event.current.mousePosition)/* || aPosition.Contains(Input.GetTouch(0).position)*/)
+			{
+				//					Debug.Log("Up  " + btnPos);
+				SoundManager.Instance.playOneShot(SoundManager.BUTTON_CLICK);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void resetButton(){
 		m_ltRect = new LTRect(m_position.x, m_position.y, m_size.x, m_size.y);
+	}
+	public void changeUVrect(Rect aRect)
+	{
+		m_uvRect = aRect;
 	}
 
 }

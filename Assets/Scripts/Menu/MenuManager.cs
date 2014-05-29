@@ -6,9 +6,15 @@ public class MenuManager : MonoBehaviour
 {
 	private static MenuManager m_menuManagerInstance;	
 	private List<BaseMenuItem> m_allMenus;
-	public static string remoteMenu = "StartingScreen";
+	public static string remoteMenu = "NewStartingScreen";
 	private MenuBase m_currentMenu;
 	private MenuBase m_previousMenu;
+
+	//Sound btn
+	public static List<Rect> m_soundBtnRects;
+
+	public static int m_currentSoundBtn;
+
 	public static float m_standardCoolDown;
 	public static float m_lobbyCoolDown;
 
@@ -38,16 +44,14 @@ public class MenuManager : MonoBehaviour
 		m_allMenus = new List<BaseMenuItem>();
 
 		//Add MenuItems to the list containing all different kind of items that can be added to every menu..
-		addParentMenuItem ("Lobby", LoadSubMenu, "Lobby");
-		addParentMenuItem ("Main Menu", LoadSubMenu, "MainMenu");
-		addParentMenuItem ("Back", BackToPrev, "");
-		addParentMenuItem ("Mute", MuteSound, "");
+//		addParentMenuItem ("Lobby", LoadSubMenu, "Lobby");
+//		addParentMenuItem ("Main Menu", LoadSubMenu, "MainMenu");
+//		addParentMenuItem ("Back", BackToPrev, "");
+//		addParentMenuItem ("Mute", MuteSound, "");
 	}
 	// Use this for initialization
 	void Start () 
 	{
-		m_standardCoolDown = 0;
-		m_lobbyCoolDown = 0;
 		//If currentobject is not camera, change this line..
 		m_currentMenu = (MenuBase) Camera.main.GetComponent(remoteMenu);
 
@@ -57,17 +61,6 @@ public class MenuManager : MonoBehaviour
 
 	void OnGUI()
 	{
-		//Ugly cooldown for btns .. 
-//		if(m_standardCoolDown > 0)
-//		{
-//			m_standardCoolDown -= Time.deltaTime;
-//			m_standardCoolDown = Mathf.Max(0.0f, m_standardCoolDown);
-//		}
-//		if (m_lobbyCoolDown > 0)
-//		{
-//			m_lobbyCoolDown -= Time.deltaTime;
-//			m_lobbyCoolDown = Mathf.Max(0.0f, m_lobbyCoolDown);
-//		}
 		//Calls the current menus draw func(DoGUI)..
 		m_currentMenu.DoGUI ();
 	}
@@ -79,9 +72,9 @@ public class MenuManager : MonoBehaviour
 	}
 
 	//Adds a action item such as toggle sound etc ..
-	private void addActionMenuItem(string aName, BaseMenuItem.OnClickFunc aOnClickFunc)
+	private void addActionMenuItem(string aName, BaseMenuItem.OnClickFunc aOnClickFunc, Rect aUnMute, Rect aMute)
 	{
-		m_allMenus.Add (new ActionMenuItem (aName, aOnClickFunc));
+		m_allMenus.Add (new ActionMenuItem (aName, aOnClickFunc, aUnMute, aMute));
 	}
 	//Adds a parent item which "leads" to another menu..
 	private void addParentMenuItem(string aName, BaseMenuItem.OnClickFunc aOnClickFunc, string aSceneName)
@@ -90,13 +83,12 @@ public class MenuManager : MonoBehaviour
 	}
 
 	//Loads a submenu, this func is called by almost all parentMenuItems..
-	private void LoadSubMenu(BaseMenuItem aSender)
+	public void LoadSubMenu(/*BaseMenuItem aSender*/)
 	{
 
-		SoundManager.Instance.StartLobbyMusic ();
 
 		//Always store the current menu before switching to be able to go back..
-		string nextMenu = aSender.SubMenuName;
+		string nextMenu = "Lobby";
 		m_previousMenu = m_currentMenu;
 		m_currentMenu = (MenuBase)Camera.main.GetComponent (nextMenu);
 
@@ -113,7 +105,9 @@ public class MenuManager : MonoBehaviour
 	}
 	private void MuteSound(BaseMenuItem aSender)
 	{	
-//		m_currentMenu.SoundBtn = 1;
+		Rect unMuted = new Rect (0.267f, 0.8455f, 0.154f, 0.155f);
+		Rect muted = new Rect (0.44f, 0.8455f, 0.1545f, 0.155f);
+		aSender.UVRect = SoundManager.Instance.m_paused ? unMuted : muted;
 		SoundManager.Instance.ToggleMute ();
 	}
 	public void initCurrentMenu(string aMenu)

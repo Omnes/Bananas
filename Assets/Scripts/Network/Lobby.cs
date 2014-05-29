@@ -78,6 +78,10 @@ public class Lobby : MenuBase
 	private float UsernameFieldXpos;
 	private float UsernameFieldYpos;
 
+	private float SoundBtnXpos;
+	private float SoundBtnYpos;
+	private Vector2 SoundBtnSize;
+
 
 	//Part2
 	private float Part2BackBoardXpos;
@@ -97,7 +101,7 @@ public class Lobby : MenuBase
 		//menuitems
 		m_menuItems = new List<BaseMenuItem> ();
 		//add menuitem
-		addMenuItem(MenuManager.Instance.getMenuItem(MenuManager.BACK_TO_PREV));
+//		addMenuItem(MenuManager.Instance.getMenuItem(MenuManager.BACK_TO_PREV));
 		//lägg till mer knappar'
 
 		screenWidth = Screen.width;
@@ -139,13 +143,22 @@ public class Lobby : MenuBase
 		HostNewGameSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.33f, 0.15f));
 		HostNewGameXpos = screenWidth / 6f;
 		HostNewGameYpos = screenHeight/ 1.45f;
-		m_buttonsPart1.Add(new LobbyButton(-100,HostNewGameYpos, HostNewGameSize.x, HostNewGameSize.y, new Rect(0.0f, 0.566f, 0.60f, 0.139f), new Vector2(HostNewGameXpos,HostNewGameYpos), 0.5f, LeanTweenType.easeOutSine));
+		m_buttonsPart1.Add(new LobbyButton(-100,HostNewGameYpos, HostNewGameSize.x, HostNewGameSize.y, new Rect(0.0f, 0.566f, 0.60f, 0.139f),
+		                   new Vector2(HostNewGameXpos,HostNewGameYpos), 0.5f, LeanTweenType.easeOutSine));
+
+		//SoundBtn
+		float screenRatio = Camera.main.camera.aspect;
+		SoundBtnSize = GUIMath.SmallestOfInchAndPercent (new Vector2(0.5f, 0.5f), new Vector2(0.05f, 0.05f * screenRatio));
+		SoundBtnXpos = screenWidth/2 - (size.x / 2);
+		SoundBtnYpos = screenHeight/5;
+		m_buttonsPart1.Add (new LobbyButton (screenWidth - SoundBtnSize.x, 0.0f, SoundBtnSize.x, SoundBtnSize.y, new Rect (0.267f, 0.8455f, 0.154f, 0.155f),
+		                                   new Vector2 (screenWidth - SoundBtnSize.x, 0.0f), 0.0f, LeanTweenType.easeOutSine));
 
 		//Refreshbtn props
-		HostNewGameSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.33f, 0.15f));
-//		HostNewGameXpos = screenWidth / 1.5f;
-//		HostNewGameYpos = screenHeight/ 1.4f;
-		m_buttonsPart1.Add(new LobbyButton(-200,HostNewGameYpos, HostNewGameSize.x, HostNewGameSize.y,	new Rect(0.1f, 0.1f, 0.3f, 0.2f), new Vector2(-4000, HostNewGameYpos), 0.5f, LeanTweenType.easeOutSine));
+//		HostNewGameSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.33f, 0.15f));
+////		HostNewGameXpos = screenWidth / 1.5f;
+////		HostNewGameYpos = screenHeight/ 1.4f;
+//		m_buttonsPart1.Add(new LobbyButton(-200,HostNewGameYpos, HostNewGameSize.x, HostNewGameSize.y,	new Rect(0.1f, 0.1f, 0.3f, 0.2f), new Vector2(-4000, HostNewGameYpos), 0.5f, LeanTweenType.easeOutSine));
 
 
 
@@ -214,9 +227,9 @@ public class Lobby : MenuBase
 			}
 
 			//start server (server)
-			m_tempServerName = GUI.TextField(new Rect(UsernameFieldXpos, UsernameFieldYpos, m_textFieldSize.x, m_textFieldSize.y), m_tempServerName, 25);
+//			m_tempServerName = GUI.TextField(new Rect(UsernameFieldXpos, UsernameFieldYpos, m_textFieldSize.x, m_textFieldSize.y), m_tempServerName, 25);
 
-//			m_tempPlayerName = GUI.TextField(new Rect(rightX + 30.0f, centerY + size.y, m_textFieldSize.x, m_textFieldSize.y), m_tempPlayerName, 25);
+			m_tempPlayerName = GUI.TextField(new Rect(UsernameFieldXpos, UsernameFieldYpos, m_textFieldSize.x, m_textFieldSize.y), m_tempPlayerName, 25);
 
 			//  START SERVER BUTTON
 
@@ -245,20 +258,28 @@ public class Lobby : MenuBase
 			// REFRESH BUTTON
 
 			//client in lobby
-			if(m_buttonsPart1[1].isClicked()){
-				MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
-
-				m_hostlist = MasterServer.PollHostList();
-				m_games.Clear();
-
-				int j = 0;
-				for(int i = 0; i < m_hostlist.Length; i++){
-					if(m_hostlist[i].connectedPlayers < m_hostlist[i].playerLimit){
-						j++;
-						string text = m_hostlist[i].gameName + "\n" + (m_hostlist[i].connectedPlayers)+"/"+m_hostlist[i].playerLimit;
-						m_games.Add(new LobbyButton(-100,centerY + size.y * j, size.x, size.y, new Rect(0.1f, 0.1f, 0.3f, 0.2f), new Vector2(centerX - size.x,centerY + size.y * j), 3.0f + j, LeanTweenType.easeOutElastic));
-					}
-				}
+//			if(m_buttonsPart1[1].isClicked()){
+//				MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
+//
+//				m_hostlist = MasterServer.PollHostList();
+//				m_games.Clear();
+//
+//				int j = 0;
+//				for(int i = 0; i < m_hostlist.Length; i++){
+//					if(m_hostlist[i].connectedPlayers < m_hostlist[i].playerLimit){
+//						j++;
+//						string text = m_hostlist[i].gameName + "\n" + (m_hostlist[i].connectedPlayers)+"/"+m_hostlist[i].playerLimit;
+//						m_games.Add(new LobbyButton(-100,centerY + size.y * j, size.x, size.y, new Rect(0.1f, 0.1f, 0.3f, 0.2f), new Vector2(centerX - size.x,centerY + size.y * j), 3.0f + j, LeanTweenType.easeOutElastic));
+//					}
+//				}
+//			}
+			//
+			if(m_buttonsPart1[1].isClicked())
+			{
+				Rect unMuted = new Rect (0.267f, 0.8455f, 0.154f, 0.155f);
+				Rect muted = new Rect (0.44f, 0.8455f, 0.1545f, 0.155f);
+				m_buttonsPart1[1].changeUVrect(SoundManager.Instance.m_paused ? unMuted : muted);
+				SoundManager.Instance.ToggleMute ();
 			}
 
 			//MasterServer.PollHostList("hej");
@@ -322,6 +343,7 @@ public class Lobby : MenuBase
 					m_buttonsPart1[i].resetButton();
 				}
 			}
+
 
 //			string tempMax = GUI.TextField(new Rect(centerX, centerY + (size.y * 3), size.x, size.y), m_maxTimeField.ToString(), 25);
 //			m_maxTimeField = int.Parse(tempMax);

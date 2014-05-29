@@ -3,7 +3,7 @@ using System.Collections;
 
 public class ActionMenuItem : BaseMenuItem 
 {
-	public ActionMenuItem(string aName, OnClickFunc aClickFunc) : base(aName, aClickFunc)
+	public ActionMenuItem(string aName, OnClickFunc aClickFunc, Rect aUnmuteRect, Rect aMuteRect) : base(aName, aClickFunc)
 	{
 	}
 

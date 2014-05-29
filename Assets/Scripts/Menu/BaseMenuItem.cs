@@ -29,6 +29,7 @@ public class BaseMenuItem //: MonoBehaviour
 	private OnClickFunc m_onClickFunc;
 	public OnClickFunc OnClick{ get { return m_onClickFunc; } }
 
+
 	public BaseMenuItem(string aName, OnClickFunc aClickFunc)
 	{
 		m_onClickFunc = aClickFunc;
