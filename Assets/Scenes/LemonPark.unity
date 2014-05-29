@@ -18,7 +18,7 @@ RenderSettings:
   m_FogDensity: .00999999978
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientLight: {r: .779411793, g: .763602197, b: .636137545, a: 1}
+  m_AmbientLight: {r: .514273345, g: .591934144, b: .602941155, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: .5
   m_FlareStrength: 1
@@ -354,7 +354,7 @@ ParticleSystem:
         rgba: 4294967295
       minMaxState: 1
     startSize:
-      scalar: .300000012
+      scalar: .699999988
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -488,7 +488,7 @@ ParticleSystem:
         serializedVersion: 2
         m_Curve:
         - time: 0
-          value: .189189166
+          value: .476074398
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -1638,7 +1638,7 @@ ParticleSystem:
         rgba: 4294967295
       minMaxState: 1
     startSize:
-      scalar: .300000012
+      scalar: .699999988
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1772,7 +1772,7 @@ ParticleSystem:
         serializedVersion: 2
         m_Curve:
         - time: 0
-          value: .189189166
+          value: .476074398
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -3177,7 +3177,7 @@ ParticleSystem:
         rgba: 4294967295
       minMaxState: 1
     startSize:
-      scalar: .300000012
+      scalar: .699999988
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -3311,7 +3311,7 @@ ParticleSystem:
         serializedVersion: 2
         m_Curve:
         - time: 0
-          value: .189189166
+          value: .476074398
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -6317,7 +6317,7 @@ ParticleSystem:
         rgba: 4294967295
       minMaxState: 1
     startSize:
-      scalar: .300000012
+      scalar: .699999988
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -6451,7 +6451,7 @@ ParticleSystem:
         serializedVersion: 2
         m_Curve:
         - time: 0
-          value: .189189166
+          value: .476074398
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -8162,7 +8162,7 @@ Light:
   serializedVersion: 3
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: .170000002
+  m_Intensity: .25999999
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
