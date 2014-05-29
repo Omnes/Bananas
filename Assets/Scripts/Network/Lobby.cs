@@ -56,7 +56,7 @@ public class Lobby : MenuBase
 	public GUIStyle m_guiStyle;
 	private ServerList m_serverList;
 
-	private Rect m_serverListArea = new Rect(400,0,400,400);
+	private Rect m_serverListArea = new Rect(400,300,400,400);
 
 
 	// Use this for initialization
@@ -442,7 +442,8 @@ public class Lobby : MenuBase
 }
 
 class ServerWidget{
-	private Texture2D m_atlas;
+	private Texture2D m_buttonAtlas;
+	private Texture2D m_backgroundAtlas;
 	private Rect m_texCordsBackground;
 	private Rect m_texCordsButton;
 	private Rect m_buttonPosition;
@@ -456,23 +457,27 @@ class ServerWidget{
 	public ServerWidget(HostData host,Vector2 size){
 		m_size = size;
 		m_host = host;
-		m_atlas = Prefactory.texture_buttonAtlas;
+		m_buttonAtlas = Prefactory.texture_buttonAtlas;
+		m_backgroundAtlas = Prefactory.texture_loadingscreen;
 		
 		m_texCordsBackground = new Rect(0,0,1f,1f);
 		m_texCordsButton = new Rect(0,0,1f,1f);
 		
 		Vector2 buttonSize = new Vector2(m_size.x*0.2f,m_size.y * 0.2f);
-		m_buttonPosition = new Rect(m_size.x*0.75f - buttonSize.x*0.5f,m_size.y*0.5f - buttonSize.y*0.5f,buttonSize.x,buttonSize.y);
-		m_textPosition = new Rect(m_size.x*0.1f,m_size.y*0.1f,m_size.x*0.7f,m_size.y*0.8f);
+		m_buttonPosition = new Rect(m_size.x*0.8f - buttonSize.x*0.5f,m_size.y*0.5f - buttonSize.y*0.5f,buttonSize.x,buttonSize.y);		
+		m_textPosition = new Rect(m_size.x*0.1f,m_size.y*0.1f,m_size.x*0.6f,m_size.y*0.8f);
 	}
 	
 	
 	
 	public void Draw(Vector2 offset){
-		GUI.DrawTextureWithTexCoords(new Rect(offset.x,offset.y,m_size.x,m_size.y),m_atlas,m_texCordsBackground); //draw background
+		GUI.DrawTextureWithTexCoords(new Rect(offset.x,offset.y,m_size.x,m_size.y),m_backgroundAtlas,m_texCordsBackground); //draw background
+//		GUI.Box(new Rect(offset.x,offset.y,m_size.x,m_size.y),"background");
+//		GUI.Box(RectAddVector2(m_buttonPosition,offset),"button");
+//		GUI.Box(RectAddVector2(m_textPosition,offset),"text");
 		string text = m_host.gameName + "\n" + (m_host.connectedPlayers)+"/"+m_host.playerLimit;
 		GUI.Label(RectAddVector2(m_textPosition,offset), text,m_guiStyle);
-		if(MenuBase.CustomButton(RectAddVector2(m_buttonPosition,offset),m_atlas,m_texCordsButton)){
+		if(MenuBase.CustomButton(RectAddVector2(m_buttonPosition,offset),m_buttonAtlas,m_texCordsButton)){
 			//			if(m_tempPlayerName.Length == 0){
 			//				m_tempPlayerName = "Unknown";
 			//			}
@@ -504,14 +509,15 @@ class ServerList{
 	
 	public void SetHostList(HostData[] hostData){
 		m_widgets.Clear();
-		Vector2 buttonSize = new Vector2(m_area.x*0.9f,m_area.y*0.2f);
+		Vector2 widgetSize = new Vector2(m_area.x*0.9f,m_area.y*0.3f);
 		for (int i = 0; i < hostData.Length; i++) {
-			m_widgets.Add(new ServerWidget(hostData[i],buttonSize));
+			m_widgets.Add(new ServerWidget(hostData[i],widgetSize));
 		}
 	}
 	
 	public void Draw(){
 		GUI.DrawTextureWithTexCoords(m_area,m_atlas,texCordsBackground); //draw background
+//		GUI.Box (m_area,"area");
 		for (int i = 0; i < m_widgets.Count; i++) {
 			m_widgets[i].Draw(new Vector2(m_area.x, m_area.y + m_widgets[i].getSize().y * i + m_scrollOffset)); //add padding
 		}	
