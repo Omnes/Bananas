@@ -212,7 +212,7 @@ ModelImporter:
     7400002: Idle
     7400004: Reverse
     7400006: IdleBlow
-    7400008: RunBlow
+    7400008: Run
     7400010: RunIdle
     7400012: Tackle
     7400014: Tackled
@@ -1156,7 +1156,7 @@ ModelImporter:
       maskType: 0
       maskSource: {instanceID: 0}
     - serializedVersion: 16
-      name: RunBlow
+      name: Run
       takeName: Take 4
       firstFrame: 1
       lastFrame: 50

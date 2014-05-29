@@ -238,13 +238,14 @@ public class PowerupManager : MonoBehaviour {
 	
 	public static void Disable() {
 		m_canSpawn = false;
-		Clear ();
+//		Clear ();
 	}
 
 	private static bool CanSpawnTimeBomb() { 
-		return timeBombTimer > Mathf.Max(TimeBombBuff.BOMB_DURATION_MAX, INIT_SPAWN_DELAY_MIN) &&
-				timeBombSpawnCount == 0 &&
-				Winstate.m_timeLeft <= 45;
+		return (timeBombTimer > Mathf.Max(TimeBombBuff.BOMB_DURATION_MAX, INIT_SPAWN_DELAY_MIN)) &&
+				(timeBombSpawnCount == 0) &&
+				(Winstate.m_timeLeft <= 60) &&
+				(Winstate.m_timeLeft >= 25);
 	}
 
 	private static bool CanSpawnBigLeafBlower() { 
