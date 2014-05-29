@@ -7,13 +7,14 @@ public class ScoreKeeper : MonoBehaviour {
 //	private static string[] m_playerNames = new string[4];
 	private static GUIScore m_scoreBoard;
 
-//	void Start(){
-//		m_playerNames = SeaNet.Instance.getPlayerNames();
-//	}
+	public static bool m_hasFoundLeafCollectors = false;
+	private static ParticleSystem[] m_scoreParticleSystem;
 
 	public static void AddScore(int player,int score){
 		m_scores[player] += score;
-		updateScoreBoard(player,m_scores[player]);
+		updateScoreBoard(player, m_scores[player]);
+
+		UpdateParticleSystems (player);
 
 		if (SeaNet.Instance.getLocalPlayer() == player) {
 			SoundManager.Instance.playOneShot(SoundManager.SCORE);
@@ -48,5 +49,22 @@ public class ScoreKeeper : MonoBehaviour {
 			}
 		}
 		return totalScore > 0 ? playerID : 0;
+	}
+
+	private static void UpdateParticleSystems(int player) {
+		if (m_hasFoundLeafCollectors == false) {
+			m_hasFoundLeafCollectors = true;
+			
+			m_scoreParticleSystem = new ParticleSystem[4];
+			GameObject[] leafCollectors = GameObject.FindGameObjectsWithTag("Leaf_collector");
+			
+//			Debug.Log("LeafCollectors: " + leafCollectors.Length);
+			for (int i = 0; i < leafCollectors.Length; i++) {
+				int collectorID = leafCollectors[i].GetComponent<ID>().m_ID;
+				m_scoreParticleSystem[collectorID] = leafCollectors[i].particleSystem;
+			}
+		}
+		
+		m_scoreParticleSystem [player].Play ();
 	}
 }
