@@ -5,13 +5,14 @@ using System.Collections.Generic;
 
 public class MenuBase : MonoBehaviour 
 {
+
 	protected List<BaseMenuItem> m_menuItems;
 	protected MenuManager m_instance;
 	private bool m_firstTime = true;
 	public bool FirstTime{set{m_firstTime = value;}}
 
 	public Texture m_backGround;
-	public Texture m_btnImg;
+	public Texture2D m_btnImg;
 
 	//Sound btns .. 
 	protected int m_currentSoundBtn;
@@ -45,16 +46,17 @@ public class MenuBase : MonoBehaviour
 	{
 		GUI.DrawTexture (new Rect (0.0f, 0.0f, screenWidth, screenHeight), m_backGround);
 		foreach(BaseMenuItem item in m_menuItems)
-		{
+			{
 			if(LeanTween.isTweening(item.LtRect) == false && m_firstTime == true)
 			{
 				LeanTween.move(item.LtRect, item.ToPos, 3.0f).setEase(item.LeanTweenType);
 			}
-			if(CustomButton(item.LtRect.rect, m_btnImg, item.UVRect))
+			if(CustomButton(item.LtRect.rect, m_btnImg, item.UVRect) && MenuManager.m_standardCoolDown == 0)
 			{
 				if(item.OnClick != null)
 				{
 					Debug.Log("click!");
+					MenuManager.m_standardCoolDown = 0.5f;
 					item.OnClick(item);
 				}
 			}
@@ -82,7 +84,7 @@ public class MenuBase : MonoBehaviour
 	{
 		//Rita ut "i vilket fall" ..
 		GUI.DrawTextureWithTexCoords (aPosition, aButtonTexture, aUvRect);
-		if(Input.touchCount > 0 || (Input.GetMouseButtonDown(0)))
+		if(Input.touchCount > 0 || Input.GetMouseButtonDown(0))
 		{
 			if(aPosition.Contains(Event.current.mousePosition))
 			{
