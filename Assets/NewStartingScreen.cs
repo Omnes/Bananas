@@ -26,8 +26,8 @@ public class NewStartingScreen : MenuBase
 		PlaySize = GUIMath.SmallestOfInchAndPercent(new Vector2(300.0f, 150.0f), new Vector2(0.3f, 0.17f));
 		PlayXpos = (screenWidth * 0.5f) - (PlaySize.x * 0.5f);
 		PlayYpos = screenHeight * 0.5f + PlaySize.y;
-		PlayBtn = new LobbyButton(-200, 100.0f, PlaySize.x, PlaySize.y, new Rect(0.565f, 0.19f, 0.43f, 0.165f) ,new Vector2 (PlayXpos, PlayYpos)
-		               , 3.0f , LeanTweenType.easeOutElastic);
+		PlayBtn = new LobbyButton(Screen.width*0.5f - PlaySize.x*0.5f, Screen.height + PlaySize.y , PlaySize.x, PlaySize.y, new Rect(0.565f, 0.19f, 0.43f, 0.165f) ,new Vector2 (PlayXpos, PlayYpos)
+		               , 1.0f , LeanTweenType.easeOutSine);
 
 		//SoundBtn
 		SoundSize = GUIMath.SmallestOfInchAndPercent (new Vector2(0.5f, 0.5f), new Vector2(0.05f, 0.05f * screenRatio));

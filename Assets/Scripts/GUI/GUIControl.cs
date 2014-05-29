@@ -45,9 +45,8 @@ public class GUIControl : MonoBehaviour {
 	void OnGUI() {
 		Vector2 size = GUIMath.SmallestOfInchAndPercent(new Vector2(0.5f,0.5f),new Vector2(0.09f,0.09f));
 //		Vector2 size = new Vector2(50,50);
-		float width = 0.154296875f;
-		Rect texCordsMute = new Rect(0.267578f,1f-width,width,width);
-		Rect texCordsUnmute = new Rect(0.267578f+width,1f-width,width,width);
+		Rect texCordsMute = GUIMath.CalcTexCordsFromPixelRect(new Rect(294,0,158,158));
+		Rect texCordsUnmute = GUIMath.CalcTexCordsFromPixelRect(new Rect(451,0,158,158));
 		float PADDING = 0;
 		Rect texCord = SoundManager.Instance.m_paused ? texCordsUnmute : texCordsMute;
 //		if(MenuBase.CustomButton(new Rect(Screen.width - (size.x + PADDING), PADDING, size.x, size.y), Prefactory.texture_buttonAtlas,texCord)){
