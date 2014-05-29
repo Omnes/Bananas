@@ -12,7 +12,6 @@ public class Prefactory : MonoBehaviour {
 
 	public Gradient m_rainbowColor;
 	public Texture2D m_buttonAtlas;
-
 	public Texture2D m_backGroundsNWinnerFrame;
 
 	//winners
@@ -33,6 +32,7 @@ public class Prefactory : MonoBehaviour {
 	public static GameObject prefab_powerupPickup;
 
 	public static Gradient gradient_rainbowColor;
+
 
 	//winners
 	public static Texture2D texture_winnerOther;

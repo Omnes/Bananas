@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class MenuBase : MonoBehaviour 
 {
-
 	protected List<BaseMenuItem> m_menuItems;
 	protected MenuManager m_instance;
 	private bool m_firstTime = true;
@@ -43,6 +42,11 @@ public class MenuBase : MonoBehaviour
 		
 		m_instance = MenuManager.Instance;
 	}
+
+	public virtual void DoUpdate(){
+
+	}
+
 
 	public virtual void DoGUI()
 	{
@@ -85,6 +89,7 @@ public class MenuBase : MonoBehaviour
 	{
 		//Rita ut "i vilket fall" ..
 		GUI.DrawTextureWithTexCoords (aPosition, aButtonTexture, aUvRect);
+
 		if(Input.touchCount > 0 || Input.GetMouseButtonDown(0) && (Time.time > s_lastClickTime + CLICKCOOLDOWN))
 		{
 			if(aPosition.Contains(Event.current.mousePosition))
