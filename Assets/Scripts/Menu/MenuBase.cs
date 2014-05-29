@@ -72,14 +72,7 @@ public class MenuBase : MonoBehaviour
 //		}
 //		m_firstTime = false;
 
-		Rect texCordsMute = GUIMath.CalcTexCordsFromPixelRect(new Rect(294,0,158,158));
-		Rect texCordsUnmute = GUIMath.CalcTexCordsFromPixelRect(new Rect(451,0,158,158));
 
-		if(this.m_muteButton.isClicked()){
-			SoundManager.Instance.ToggleMute();
-			Rect texCord = SoundManager.Instance.m_paused ? texCordsUnmute : texCordsMute;
-			m_muteButton.changeUVrect(texCord);
-		}
 	}
 	
 	protected void addMenuItem(BaseMenuItem aItem)
