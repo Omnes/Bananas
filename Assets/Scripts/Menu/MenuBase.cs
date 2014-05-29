@@ -12,7 +12,6 @@ public class MenuBase : MonoBehaviour
 	public bool FirstTime{set{m_firstTime = value;}}
 
 	public Texture m_backGround;
-	public Texture2D m_btnImg;
 
 	//Sound btns .. 
 	protected int m_currentSoundBtn;
@@ -54,7 +53,7 @@ public class MenuBase : MonoBehaviour
 			{
 				LeanTween.move(item.LtRect, item.ToPos, 3.0f).setEase(item.LeanTweenType);
 			}
-			if(CustomButton(item.LtRect.rect, m_btnImg, item.UVRect))
+			if(CustomButton(item.LtRect.rect, Prefactory.texture_buttonAtlas, item.UVRect))
 			{
 				if(item.OnClick != null)
 				{

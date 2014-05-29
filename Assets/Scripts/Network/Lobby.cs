@@ -53,10 +53,6 @@ public class Lobby : MenuBase
 	//hoistlist
 	public HostData[] m_hostlist;
 
-
-	//Textures
-	public Texture2D m_lobbyBackgrounds;
-
 	//Graphical Properties..
 	//Part 1
 	private float HostNewGameXpos;
@@ -209,8 +205,8 @@ public class Lobby : MenuBase
 			//### server not started ###
 		if(Network.peerType == NetworkPeerType.Disconnected){
 			//Draw backgrounds for first part of lobby..
-			GUI.DrawTextureWithTexCoords(new Rect (BackBoardXpos, BackBoardYpos, BackBoardSize.x, BackBoardSize.y), m_lobbyBackgrounds, new Rect(0.0f, 0.0f, 0.33f, 0.553f)); 
-			GUI.DrawTextureWithTexCoords(new Rect (ServersBackBoardXpos, ServersBackBoardYpos, ServersBackBoardSize.x, ServersBackBoardSize.y), m_lobbyBackgrounds, new Rect(0.33f, 0.0f, 0.35f, 0.553f));
+			GUI.DrawTextureWithTexCoords(new Rect (BackBoardXpos, BackBoardYpos, BackBoardSize.x, BackBoardSize.y), Prefactory.texture_backgrounds, new Rect(0.0f, 0.0f, 0.33f, 0.553f)); 
+			GUI.DrawTextureWithTexCoords(new Rect (ServersBackBoardXpos, ServersBackBoardYpos, ServersBackBoardSize.x, ServersBackBoardSize.y), Prefactory.texture_backgrounds, new Rect(0.33f, 0.0f, 0.35f, 0.553f));
 
 			//animation
 			for(int i = 0; i < m_buttonsPart1.Count; i++){
@@ -306,7 +302,7 @@ public class Lobby : MenuBase
 		if(Network.peerType == NetworkPeerType.Server){
 
 			GUI.DrawTextureWithTexCoords(new Rect(Part2BackBoardXpos, Part2BackBoardYpos, Part2BackBoardSize.x, Part2BackBoardSize.y), 
-			                             m_lobbyBackgrounds, new Rect(0.0f, 0.555f, 0.7f, 0.5f));
+			                             Prefactory.texture_backgrounds, new Rect(0.0f, 0.555f, 0.7f, 0.5f));
 			//animation
 			for(int i = 0; i < m_buttonsPart2.Count; i++){
 				m_buttonsPart2[i].move();

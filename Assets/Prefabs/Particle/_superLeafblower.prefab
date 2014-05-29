@@ -8,18 +8,14 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400000}
-  - 65: {fileID: 6500000}
-  - 54: {fileID: 5400000}
-  - 114: {fileID: 11400002}
-  - 114: {fileID: 11400006}
   - 198: {fileID: 19800000}
   - 199: {fileID: 19900000}
-  m_Layer: 12
-  m_Name: leaf_collector
-  m_TagString: Leaf_collector
+  m_Layer: 0
+  m_Name: _superLeafblower
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &400000
 Transform:
@@ -27,79 +23,29 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 5.03434663e-08}
-  m_LocalPosition: {x: 0, y: .75, z: .300000012}
-  m_LocalScale: {x: 8, y: 1.5, z: 4}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: .0459356308, y: .361837387, z: .150683939}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
---- !u!54 &5400000
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
---- !u!65 &6500000
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &11400002
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b24a7777672ef714d9442727ca8fa14d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ID: 3
---- !u!114 &11400006
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fde14f7db4605f7428500bc63b36efbd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  lengthInSec: .200000003
+  lengthInSec: .850000024
   startDelay: 0
   speed: 1
   randomSeed: 0
-  looping: 0
+  looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   moveWithTransform: 1
   InitialModule:
     enabled: 1
     startLifetime:
-      scalar: .620000005
+      scalar: .850000024
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -132,7 +78,7 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 0
     startSpeed:
-      scalar: 12
+      scalar: 5.49059343
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -168,13 +114,13 @@ ParticleSystem:
       maxGradient:
         key0:
           serializedVersion: 2
-          rgba: 4279532933
+          rgba: 2415919359
         key1:
           serializedVersion: 2
-          rgba: 4278251007
+          rgba: 2432650192
         key2:
           serializedVersion: 2
-          rgba: 16777215
+          rgba: 16056064
         key3:
           serializedVersion: 2
           rgba: 1507082
@@ -186,17 +132,17 @@ ParticleSystem:
           rgba: 255
         key6:
           serializedVersion: 2
-          rgba: 0
+          rgba: 255
         key7:
           serializedVersion: 2
           rgba: 0
         ctime0: 0
-        ctime1: 31418
-        ctime2: 65535
-        ctime3: 43754
-        ctime4: 54934
-        ctime5: 65535
-        ctime6: 0
+        ctime1: 18311
+        ctime2: 31033
+        ctime3: 41634
+        ctime4: 50308
+        ctime5: 61680
+        ctime6: 61680
         ctime7: 0
         atime0: 0
         atime1: 65535
@@ -206,7 +152,7 @@ ParticleSystem:
         atime5: 0
         atime6: 0
         atime7: 0
-        m_NumColorKeys: 3
+        m_NumColorKeys: 6
         m_NumAlphaKeys: 2
       minGradient:
         key0:
@@ -256,10 +202,10 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 4294967295
+        rgba: 251658239
       minMaxState: 1
     startSize:
-      scalar: .300000012
+      scalar: .5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -326,25 +272,25 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: 0
     inheritVelocity: 0
-    maxNumParticles: 125
+    maxNumParticles: 3000
   ShapeModule:
     serializedVersion: 2
     enabled: 1
     type: 4
-    radius: .280000001
-    angle: 29.7158833
-    length: 3.01782298
+    radius: .0299999993
+    angle: 16.2099991
+    length: 5
     boxX: 1
     boxY: 1
     boxZ: 1
     placementMode: 0
     m_Mesh: {fileID: 0}
-    randomDirection: 1
+    randomDirection: 0
   EmissionModule:
     enabled: 1
     m_Type: 0
     rate:
-      scalar: 200
+      scalar: 300
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -393,19 +339,14 @@ ParticleSystem:
         serializedVersion: 2
         m_Curve:
         - time: 0
-          value: .189189166
+          value: 1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
-        - time: .498166144
-          value: 1
-          inSlope: 6.37041978e-07
-          outSlope: 6.37041978e-07
-          tangentMode: 0
         - time: 1
-          value: .202702805
-          inSlope: -2
-          outSlope: -2
+          value: .32432428
+          inSlope: -1.39428556
+          outSlope: -1.39428556
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -428,7 +369,7 @@ ParticleSystem:
   RotationModule:
     enabled: 0
     curve:
-      scalar: .785398126
+      scalar: .785398185
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -472,7 +413,7 @@ ParticleSystem:
           rgba: 16777215
         key2:
           serializedVersion: 2
-          rgba: 4294246144
+          rgba: 16056064
         key3:
           serializedVersion: 2
           rgba: 1507082
@@ -484,58 +425,15 @@ ParticleSystem:
           rgba: 255
         key6:
           serializedVersion: 2
-          rgba: 255
+          rgba: 0
         key7:
           serializedVersion: 2
-          rgba: 255
+          rgba: 0
         ctime0: 0
         ctime1: 65535
         ctime2: 33731
         ctime3: 43754
         ctime4: 54934
-        ctime5: 65535
-        ctime6: 65535
-        ctime7: 65535
-        atime0: 0
-        atime1: 65535
-        atime2: 65535
-        atime3: 0
-        atime4: 0
-        atime5: 0
-        atime6: 0
-        atime7: 0
-        m_NumColorKeys: 2
-        m_NumAlphaKeys: 2
-      minGradient:
-        key0:
-          serializedVersion: 2
-          rgba: 4278190335
-        key1:
-          serializedVersion: 2
-          rgba: 4278255611
-        key2:
-          serializedVersion: 2
-          rgba: 1507082
-        key3:
-          serializedVersion: 2
-          rgba: 16056064
-        key4:
-          serializedVersion: 2
-          rgba: 16731088
-        key5:
-          serializedVersion: 2
-          rgba: 4934655
-        key6:
-          serializedVersion: 2
-          rgba: 0
-        key7:
-          serializedVersion: 2
-          rgba: 0
-        ctime0: 0
-        ctime1: 15035
-        ctime2: 27756
-        ctime3: 39707
-        ctime4: 52621
         ctime5: 65535
         ctime6: 0
         ctime7: 0
@@ -547,7 +445,50 @@ ParticleSystem:
         atime5: 0
         atime6: 0
         atime7: 0
-        m_NumColorKeys: 6
+        m_NumColorKeys: 2
+        m_NumAlphaKeys: 2
+      minGradient:
+        key0:
+          serializedVersion: 2
+          rgba: 4294967295
+        key1:
+          serializedVersion: 2
+          rgba: 4294967295
+        key2:
+          serializedVersion: 2
+          rgba: 0
+        key3:
+          serializedVersion: 2
+          rgba: 0
+        key4:
+          serializedVersion: 2
+          rgba: 0
+        key5:
+          serializedVersion: 2
+          rgba: 0
+        key6:
+          serializedVersion: 2
+          rgba: 0
+        key7:
+          serializedVersion: 2
+          rgba: 0
+        ctime0: 0
+        ctime1: 65535
+        ctime2: 0
+        ctime3: 0
+        ctime4: 0
+        ctime5: 0
+        ctime6: 0
+        ctime7: 0
+        atime0: 0
+        atime1: 65535
+        atime2: 0
+        atime3: 0
+        atime4: 0
+        atime5: 0
+        atime6: 0
+        atime7: 0
+        m_NumColorKeys: 2
         m_NumAlphaKeys: 2
       minColor:
         serializedVersion: 2
@@ -700,7 +641,7 @@ ParticleSystem:
       minMaxState: 0
     inWorldSpace: 0
   ForceModule:
-    enabled: 1
+    enabled: 0
     x:
       scalar: 0
       maxCurve:
@@ -768,7 +709,7 @@ ParticleSystem:
         m_PostInfinity: 2
       minMaxState: 0
     z:
-      scalar: -20
+      scalar: 0
       maxCurve:
         serializedVersion: 2
         m_Curve:
