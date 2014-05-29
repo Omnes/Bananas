@@ -94,14 +94,8 @@ public class LobbyButton{
 					return true;
 				}
 			}
-			//PC
-			if((Input.GetMouseButtonDown(0)) && buttonDown == false){
-				if(pos.Contains(Event.current.mousePosition)){
-					buttonDown = true;
-				}
-			}
-			else if((Input.GetMouseButtonUp(0)) && buttonDown == true){
-				buttonDown = false;
+
+			if(Input.GetMouseButtonUp(0)){
 				if(pos.Contains(Event.current.mousePosition)){
 					s_lastClickTime = Time.time;
 					SoundManager.Instance.playOneShot(SoundManager.BUTTON_CLICK);

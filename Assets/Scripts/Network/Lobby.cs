@@ -100,7 +100,11 @@ public class Lobby : MenuBase
 	public float  ServerListYSize = 0.6f;
 	private LobbyButton m_muteButton;
 
+
+	private LobbyButton m_refreshButton;
+
 	private GUIStyle myGuiStyle;
+
 
 	// Use this for initialization
 	void Start () {
@@ -180,18 +184,23 @@ public class Lobby : MenuBase
 		Part2BackBoardYpos = screenWidth / 12f;
 
 		//StartGameBtn props..
-		StartGameSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.4f, 0.12f));
+		StartGameSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.28f, 0.12f));
 		StartGameXpos = screenWidth / 7f;
 		StartGameYpos = screenHeight/ 1.5f;
-		m_buttonsPart2.Add(new LobbyButton(-100,StartGameYpos, StartGameSize.x, StartGameSize.y, new Rect(0.0f, 0.427f, 0.7f, 0.138f), new Vector2(StartGameXpos,StartGameYpos), 0.5f, LeanTweenType.easeOutSine));
+		m_buttonsPart2.Add(new LobbyButton(-100,StartGameYpos, StartGameSize.x, StartGameSize.y, GUIMath.CalcTexCordsFromPixelRect(new Rect(0,445,571,143)), new Vector2(StartGameXpos,StartGameYpos), 0.5f, LeanTweenType.easeOutSine));
 
 		//CancelGameBtn props..
-		CancelSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.4f, 0.12f));
+		CancelSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.28f, 0.12f));
 		CancelXpos = screenWidth / 1.9f;
 		CancelYpos = screenHeight/ 1.495f;
 
-		m_buttonsPart2.Add(new LobbyButton(-100,CancelYpos, CancelSize.x, CancelSize.y,	new Rect(0.0f, 0.705f, 0.7f, 0.138f), new Vector2(CancelXpos,CancelYpos), 0.5f, LeanTweenType.easeOutSine));
+		m_buttonsPart2.Add(new LobbyButton(-100,CancelYpos, CancelSize.x, CancelSize.y,	GUIMath.CalcTexCordsFromPixelRect(new Rect(0,158,571,143)), new Vector2(CancelXpos,CancelYpos), 0.5f, LeanTweenType.easeOutSine));
 
+
+		Vector2 refreshSize = new Vector2(ServersBackBoardSize.x*0.2f,ServersBackBoardSize.x*0.2f);
+		Rect refreshTexCords = GUIMath.CalcTexCordsFromPixelRect(new Rect(624,158,158,143));
+		Rect refreshPos = new Rect(ServersBackBoardXpos + ServersBackBoardSize.x*0.5f - refreshSize.x*0.5f,ServersBackBoardYpos + ServersBackBoardSize.y,refreshSize.x,refreshSize.y );
+		m_refreshButton = new LobbyButton(refreshPos,refreshTexCords);
 
 
 //		MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
@@ -271,8 +280,13 @@ public class Lobby : MenuBase
 				addPlayerToClientList(m_myPlayerData);
 			}
 
+			if(m_refreshButton.isClicked()){
+				RefreshHostList();
+			}
 		
 			m_serverList.Draw();
+
+
 
 
 		}
