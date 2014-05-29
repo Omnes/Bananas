@@ -47,19 +47,7 @@ public class LobbyButton{
 	}
 
 	public bool isClicked(){
-		GUI.DrawTextureWithTexCoords (m_ltRect.rect, m_allBtns, m_uvRect);
-		if((Input.touchCount > 0 || Input.GetMouseButtonDown(0)) && MenuManager.m_lobbyCoolDown == 0.0f)
-		{
-			if(m_ltRect.rect.Contains(Event.current.mousePosition))
-			{
-				Debug.Log("Pressed btn");
-				MenuManager.m_lobbyCoolDown = 0.5f;
-				return true;
-			}
-		}
-		return false;
-
-//		return GUI.Button(m_ltRect.rect, m_name);
+		return	MenuBase.CustomButton (m_ltRect.rect, m_allBtns, m_uvRect);
 	}
 
 	public void resetButton(){
