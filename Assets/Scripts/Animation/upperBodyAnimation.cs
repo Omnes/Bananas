@@ -50,39 +50,81 @@ public class upperBodyAnimation : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-
-//		if (m_currentState == state.RUNNING) {
-//			//Debug.Log(m_player.rigidbody.velocity.magnitude);
-//			m_playerAnimator.SetFloat("playerSpeed", m_player.velocity.magnitude);
+//	void Update () {
+//
+////		if (m_currentState == state.RUNNING) {
+////			//Debug.Log(m_player.rigidbody.velocity.magnitude);
+////			m_playerAnimator.SetFloat("playerSpeed", m_player.velocity.magnitude);
+////		}
+//
+//		//fixa så if state != currentstate kör func
+//		if(m_playerAnimator != null){
+//			if(m_myState != m_currentState){
+//				if(m_myState == state.RUNNING){
+//						int statePriority = 1;
+//
+//						if(!checkHighPriority(statePriority)){
+//							m_priorityList[2] = state.RUNNING;
+//							m_playerAnimator.SetBool("running", true);
+//							m_currentState = state.RUNNING;
+//						}
+//				
+//					}else if(m_myState == state.IDLE){
+//						int statePriority = 1;
+//
+//						if(!checkHighPriority(statePriority)){
+//							m_priorityList[2] = state.IDLE;
+//							m_playerAnimator.SetBool("running", false);
+//							m_currentState = state.IDLE;
+//						}
+//					}
+//			}
 //		}
+//	}
 
-		//fixa så if state != currentstate kör func
+
+
+		void Update () {
+	
+		}
+
+
+	//states
+
+	public void runAnimation(){
+
 		if(m_playerAnimator != null){
+
+			m_myState = state.RUNNING;
 			if(m_myState != m_currentState){
-				if(m_myState == state.RUNNING){
-						int statePriority = 1;
 
-						if(!checkHighPriority(statePriority)){
-							m_priorityList[2] = state.RUNNING;
-							m_playerAnimator.SetBool("running", true);
-							m_currentState = state.RUNNING;
-						}
-				
-					}else if(m_myState == state.IDLE){
-						int statePriority = 1;
+				int statePriority = 1;
 
-						if(!checkHighPriority(statePriority)){
-							m_priorityList[2] = state.IDLE;
-							m_playerAnimator.SetBool("running", false);
-							m_currentState = state.IDLE;
-						}
-					}
+				if(!checkHighPriority(statePriority)){
+
+					m_priorityList[2] = state.RUNNING;
+					m_playerAnimator.SetBool("running", true);
+					m_currentState = state.RUNNING;
+				}
 			}
 		}
 	}
-	//states
 
+	public void idleAnimation(){
+		if(m_playerAnimator != null){
+
+			m_myState = state.IDLE;
+			if(m_myState != m_currentState){
+				int statePriority = 1;
+
+				if(!checkHighPriority(statePriority)){
+					m_priorityList[2] = state.IDLE;
+					m_playerAnimator.SetBool("running", false);
+					m_currentState = state.IDLE;
+				}
+			}
+		}
+	}
 
 	//tackle animation
 	public void tackleAnimation(float dizzyTime){

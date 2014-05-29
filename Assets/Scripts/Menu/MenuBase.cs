@@ -5,17 +5,12 @@ using System.Collections.Generic;
 
 public class MenuBase : MonoBehaviour 
 {
-
-	public static float lastClickTime = 0;
-	public const float cooldown = 0.3f;
-
 	protected List<BaseMenuItem> m_menuItems;
 	protected MenuManager m_instance;
 	private bool m_firstTime = true;
 	public bool FirstTime{set{m_firstTime = value;}}
 
 	public Texture m_backGround;
-	public Texture m_btnImg;
 
 	//Sound btns .. 
 	protected int m_currentSoundBtn;
@@ -31,6 +26,9 @@ public class MenuBase : MonoBehaviour
 
 	protected float leftX;
 	protected float rightX;
+
+	private static float s_lastClickTime = 0f;
+	private const float CLICKCOOLDOWN = 0.3f;
 
 
 	// Use this for initialization
@@ -54,12 +52,12 @@ public class MenuBase : MonoBehaviour
 	{
 		GUI.DrawTexture (new Rect (0.0f, 0.0f, screenWidth, screenHeight), m_backGround);
 		foreach(BaseMenuItem item in m_menuItems)
-		{
+			{
 			if(LeanTween.isTweening(item.LtRect) == false && m_firstTime == true)
 			{
 				LeanTween.move(item.LtRect, item.ToPos, 3.0f).setEase(item.LeanTweenType);
 			}
-			if(CustomButton(item.LtRect.rect, m_btnImg, item.UVRect))
+			if(CustomButton(item.LtRect.rect, Prefactory.texture_buttonAtlas, item.UVRect))
 			{
 				if(item.OnClick != null)
 				{
@@ -91,12 +89,14 @@ public class MenuBase : MonoBehaviour
 	{
 		//Rita ut "i vilket fall" ..
 		GUI.DrawTextureWithTexCoords (aPosition, aButtonTexture, aUvRect);
-		if((Input.touchCount > 0 || Input.GetMouseButtonDown(0)) && Time.time > lastClickTime + cooldown)
+
+		if(Input.touchCount > 0 || Input.GetMouseButtonDown(0) && (Time.time > s_lastClickTime + CLICKCOOLDOWN))
 		{
 			if(aPosition.Contains(Event.current.mousePosition))
 			{
 				Debug.Log("Pressed btn");
-				lastClickTime = Time.time;
+//				MenuManager.m_standardCoolDown = 1.0f;
+				s_lastClickTime = Time.time;
 				SoundManager.Instance.playOneShot(SoundManager.BUTTON_CLICK);
 				return true;
 			}
