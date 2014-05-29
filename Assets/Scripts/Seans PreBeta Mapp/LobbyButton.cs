@@ -48,13 +48,12 @@ public class LobbyButton{
 
 	public bool isClicked(){
 		GUI.DrawTextureWithTexCoords (m_ltRect.rect, m_allBtns, m_uvRect);
-		if((Input.touchCount > 0 || Input.GetMouseButtonDown(0)) && MenuManager.m_lobbyCoolDown == 0)
+		if((Input.touchCount > 0 || Input.GetMouseButtonDown(0)) && MenuManager.m_lobbyCoolDown == 0.0f)
 		{
-//			Touch theTouch = Input.touches[0];
 			if(m_ltRect.rect.Contains(Event.current.mousePosition))
 			{
 				Debug.Log("Pressed btn");
-				MenuManager.m_lobbyCoolDown = 100;
+				MenuManager.m_lobbyCoolDown = 0.5f;
 				return true;
 			}
 		}

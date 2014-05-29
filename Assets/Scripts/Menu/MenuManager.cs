@@ -9,8 +9,8 @@ public class MenuManager : MonoBehaviour
 	public static string remoteMenu = "StartingScreen";
 	private MenuBase m_currentMenu;
 	private MenuBase m_previousMenu;
-	public static int m_standardCoolDown;
-	public static int m_lobbyCoolDown;
+	public static float m_standardCoolDown;
+	public static float m_lobbyCoolDown;
 
 	public const int TO_LOBBY = 0;
 	public const int TO_MAIN_MENU = 1;
@@ -59,9 +59,15 @@ public class MenuManager : MonoBehaviour
 	{
 		//Ugly cooldown for btns .. 
 		if(m_standardCoolDown > 0)
-			m_standardCoolDown -= 1;
+		{
+			m_standardCoolDown -= Time.deltaTime;
+			m_standardCoolDown = Mathf.Max(0.0f, m_standardCoolDown);
+		}
 		if (m_lobbyCoolDown > 0)
-			m_lobbyCoolDown -= 1;
+		{
+			m_lobbyCoolDown -= Time.deltaTime;
+			m_lobbyCoolDown = Mathf.Max(0.0f, m_lobbyCoolDown);
+		}
 		//Calls the current menus draw func(DoGUI)..
 		m_currentMenu.DoGUI ();
 	}

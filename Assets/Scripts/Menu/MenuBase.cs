@@ -56,7 +56,7 @@ public class MenuBase : MonoBehaviour
 				if(item.OnClick != null)
 				{
 					Debug.Log("click!");
-					MenuManager.m_standardCoolDown = 100;
+					MenuManager.m_standardCoolDown = 0.5f;
 					item.OnClick(item);
 				}
 			}
@@ -84,7 +84,7 @@ public class MenuBase : MonoBehaviour
 	{
 		//Rita ut "i vilket fall" ..
 		GUI.DrawTextureWithTexCoords (aPosition, aButtonTexture, aUvRect);
-		if(Input.touchCount > 0 || (Input.GetMouseButtonDown(0)))
+		if(Input.touchCount > 0 || Input.GetMouseButtonDown(0))
 		{
 			if(aPosition.Contains(Event.current.mousePosition))
 			{
