@@ -108,11 +108,9 @@ public class WinstateAnimation : MonoBehaviour {
 		if (m_gameEnded && !m_startTimer) {
 			m_startTimer = true;
 			m_endScreenCounter = Time.time;
-			Debug.Log("START TIME"+Time.time);
 		}
 		if (Time.time > (m_endScreenCounter + m_endScreenDelay) && m_startTimer) {
 			sendToLobby();
-			Debug.Log("END TIME"+Time.time);
 		}
 	}
 
@@ -201,15 +199,20 @@ public class WinstateAnimation : MonoBehaviour {
 				if(m_winnerName == ""){
 					
 					m_gui = new GUIStyle();
-					m_gui.fontSize = 22;
+					m_gui.alignment = TextAnchor.MiddleCenter;
+					m_gui.fontSize = (int) (WinnerFrameSize.y * 0.4f);
 					
 					for(int i = 0; i < m_connectedPlayers.Count; i++){
 						if(m_connectedPlayers[i].m_id == ScoreKeeper.GetFirstPlaceID()){
-							
-							m_winnerName = m_connectedPlayers[i].m_name;
+
+							if(m_connectedPlayers[i].m_name.Length > 8){
+								m_gui.fontSize = (int) (WinnerFrameSize.y * 0.3f);
+							}
+
+							m_winnerName = m_connectedPlayers[i].m_name + " Won";
 							m_winTexture = Prefactory.texture_winnerOther;
 							if(SeaNet.Instance.getLocalPlayer() == i){
-								m_winnerName = "";
+								m_winnerName = "You Win!";
 								m_winTexture = Prefactory.texture_winner;
 							}
 						}
@@ -246,7 +249,7 @@ public class WinstateAnimation : MonoBehaviour {
 				//draw stuff
 				//GUI.DrawTexture(new Rect(m_winNamePos.x, m_winNamePos.y, m_size.x, m_size.y), m_winTexture);
 				GUI.DrawTextureWithTexCoords(new Rect(WinnerFrameXpos, WinnerFrameYpos, WinnerFrameSize.x, WinnerFrameSize.y), Prefactory.texture_backgrounds, new Rect(0.705f, 0.6f, 0.29f, 0.16f)); 
-				GUI.Label(new Rect(m_winNamePos.x + 20, m_winNamePos.y + (m_size.y / 2),  m_size.x, m_size.y), m_winnerName, m_gui);
+				GUI.Label(new Rect(WinnerFrameXpos, WinnerFrameYpos, WinnerFrameSize.x, WinnerFrameSize.y), m_winnerName, m_gui);
 
 			}
 		}
@@ -272,12 +275,6 @@ public class WinstateAnimation : MonoBehaviour {
 	public void SetRematchCheck(int playerId, int newState){
 
 		m_rematchChecks[playerId] = (state)newState;
-
-		//for(int i = 0; i < 3; i++){
-			//Debug.Log("playerID "+playerId);
-			//GameObject newObj = GameObject.Find("Background_"+1);
-			//Debug.Log(newObj.transform.position.x);
-		//}
 
 		if (!m_leaveGame) {
 			if (newState == (int)state.LEAVE) {
