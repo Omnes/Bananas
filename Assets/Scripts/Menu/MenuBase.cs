@@ -55,7 +55,7 @@ public class MenuBase : MonoBehaviour
 			{
 			if(LeanTween.isTweening(item.LtRect) == false && m_firstTime == true)
 			{
-				LeanTween.move(item.LtRect, item.ToPos, 3.0f).setEase(item.LeanTweenType);
+				LeanTween.move(item.LtRect, item.ToPos, 1.5f).setEase(item.LeanTweenType);
 			}
 			if(CustomButton(item.LtRect.rect, Prefactory.texture_buttonAtlas, item.UVRect))
 			{
