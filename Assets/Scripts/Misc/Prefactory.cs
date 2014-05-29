@@ -20,6 +20,7 @@ public class Prefactory : MonoBehaviour {
 	public Texture2D m_winnerTexture;
 
 	public Texture2D m_loadingscreen;
+	public Texture2D m_loadingscreenOut;
 	public GUIStyle m_loadingscreenTextStyle;
 
 	//meshes
@@ -41,6 +42,7 @@ public class Prefactory : MonoBehaviour {
 	public static Texture2D texture_winner;
 
 	public static Texture2D texture_loadingscreen;
+	public static Texture2D texture_loadingscreenOut;
 	public static Texture2D texture_buttonAtlas;
 	public static GUIStyle style_loadingscreenText;
 
@@ -66,6 +68,7 @@ public class Prefactory : MonoBehaviour {
 		texture_winner = m_winnerTexture;
 		texture_winnerOther = m_winnerOtherTexture;
 		texture_loadingscreen = m_loadingscreen;
+		texture_loadingscreenOut = m_loadingscreenOut;
 		style_loadingscreenText = m_loadingscreenTextStyle ;
 
 		//meshes

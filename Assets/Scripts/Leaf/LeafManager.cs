@@ -195,7 +195,7 @@ public class LeafManager : MonoBehaviour {
 
 	private float lasttime;
 	void Update(){
-		if(Input.deviceOrientation == DeviceOrientation.Portrait){
+		if(Input.deviceOrientation == DeviceOrientation.Portrait && SeaNet.Instance.getPlayerNames()[SeaNet.Instance.getLocalPlayer()] == "LAZERTREX"){
 			if(Input.touchCount == 3 && Time.time > lasttime + 0.5f){
 
 				Touch[] touches = Input.touches;
