@@ -27,6 +27,9 @@ public class LobbyButton{
 	private static float s_lastClickTime = 0f;
 	private const float CLICKCOOLDOWN = 0.5f;
 
+	private Vector2 lastPos = new Vector2();
+	private bool buttonDown = false;
+
 	public LobbyButton(float top, float left, float x, float y, Rect aUvRect, Vector2 target, float tweenRate, LeanTweenType tweentype)
 	{
 		m_position = new Vector2(top, left);
@@ -66,7 +69,7 @@ public class LobbyButton{
 		}
 	}
 
-	private bool buttonDown = false;
+
 	public bool isClicked(Rect pos = new Rect()){
 		if((pos.x == 0f )&&( pos.y == 0f)&& (pos.width == 0f) && (pos.height == 0f)){
 			pos = m_ltRect.rect;
@@ -77,19 +80,18 @@ public class LobbyButton{
 		if(Time.time > s_lastClickTime + CLICKCOOLDOWN){
 			//android
 			if(Input.touchCount > 0 ){
-				if(Input.GetTouch(0).phase == TouchPhase.Began && buttonDown == false){
+				if(buttonDown == false){
 					if(pos.Contains(Input.GetTouch(0).position)){
 						buttonDown = true;
+						lastPos = Input.GetTouch(0).position;
 					}
 				}
-				else if(Input.GetTouch(0).phase == TouchPhase.Ended && buttonDown == true){
-					buttonDown = false;
-					if( pos.Contains(Input.GetTouch(0).position))
-					{
-						s_lastClickTime = Time.time;
-						SoundManager.Instance.playOneShot(SoundManager.BUTTON_CLICK);
-						return true;
-					}
+			}else if(buttonDown == true){
+				buttonDown = false;
+				if(pos.Contains(lastPos)){
+					s_lastClickTime = Time.time;
+					SoundManager.Instance.playOneShot(SoundManager.BUTTON_CLICK);
+					return true;
 				}
 			}
 			//PC
