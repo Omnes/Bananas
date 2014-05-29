@@ -10,7 +10,8 @@ GameObject:
   - 4: {fileID: 400000}
   - 198: {fileID: 19800000}
   - 199: {fileID: 19900000}
-  - 95: {fileID: 9500000}
+  - 114: {fileID: 11400000}
+  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: _stunDizzy
   m_TagString: Untagged
@@ -24,25 +25,36 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106829}
-  m_LocalPosition: {x: -.0362055302, y: .76935041, z: -.0213081203}
+  m_LocalRotation: {x: .707106829, y: 0, z: 0, w: -.707106829}
+  m_LocalPosition: {x: -19.5678177, y: 14.4579525, z: 1.44181776}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
---- !u!95 &9500000
-Animator:
-  serializedVersion: 2
+--- !u!114 &11400000
+MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e4d0351b59b0eeb468f8b1f91e26e10b, type: 2}
-  m_CullingMode: 0
-  m_ApplyRootMotion: 1
-  m_AnimatePhysics: 0
-  m_HasTransformHierarchy: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4639f639fd9a5a4688ff4d73edb00b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultAngle: {x: 270, y: 0, z: 0}
+  rotationSpeed: {x: 0, y: -90, z: 0}
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a13de38cc37eb346bef371b4a7bfa25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_offset: {x: 0, y: .400000006, z: 0}
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -220,7 +232,7 @@ ParticleSystem:
         rgba: 4294967295
       minMaxState: 0
     startSize:
-      scalar: .300000012
+      scalar: .5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -287,12 +299,12 @@ ParticleSystem:
       minMaxState: 0
     gravityModifier: 0
     inheritVelocity: 0
-    maxNumParticles: 400
+    maxNumParticles: 10
   ShapeModule:
     serializedVersion: 2
     enabled: 1
     type: 7
-    radius: .419999987
+    radius: .5
     angle: 0
     length: 5
     boxX: 1
@@ -300,12 +312,12 @@ ParticleSystem:
     boxZ: 1
     placementMode: 0
     m_Mesh: {fileID: 0}
-    randomDirection: 1
+    randomDirection: 0
   EmissionModule:
     enabled: 1
     m_Type: 0
     rate:
-      scalar: 40
+      scalar: 50
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1117,7 +1129,7 @@ ParticleSystemRenderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: dba09349b8a623640a378e395e294232, type: 2}
+  - {fileID: 2100000, guid: c62251726a7567441afb1f3a33192886, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0

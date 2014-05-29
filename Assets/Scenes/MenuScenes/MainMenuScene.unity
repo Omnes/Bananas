@@ -185,6 +185,10 @@ Prefab:
       propertyPath: m_backGroundsNWinnerFrame
       value: 
       objectReference: {fileID: 2800000, guid: f1b4709fd15e4384dae8ed265a988ba5, type: 3}
+    - target: {fileID: 11400000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
+      propertyPath: m_Stun
+      value: 
+      objectReference: {fileID: 100000, guid: cb5dc3ef07febde4cab5c9cfd2c61142, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: da05caf9f7029394fb9a6933de03792f, type: 2}
   m_RootGameObject: {fileID: 739097174}
@@ -223,6 +227,7 @@ MonoBehaviour:
   m_bombExplosion: {fileID: 100000, guid: b66d9a7777100b14fbd7cc181c7b9972, type: 2}
   m_EMP: {fileID: 100000, guid: a79a773766ff80145ac0b2fa9c007fde, type: 2}
   m_EMPHit: {fileID: 100000, guid: 74eb5785c6333ea4b86bdf0012a4607a, type: 2}
+  m_Stun: {fileID: 100000, guid: cb5dc3ef07febde4cab5c9cfd2c61142, type: 2}
   m_powerupPickup: {fileID: 100000, guid: 926a86c1ce11e59488f1b2761e28b58f, type: 2}
   m_rainbowColor:
     key0:
