@@ -2,16 +2,13 @@
 using System.Collections;
 
 public class TimeBombAnimator : MonoBehaviour {
-	public float rotationSpeed = 45;
-	private float angle = 0;
-
-//	public float scaleSpeed = 500;
-//	public float scaleAmplitude = 0.25f;
+	public Vector3 defaultAngle = Vector3.zero;
+	public Vector3 rotationSpeed = Vector3.zero;
+	private Vector3 angle = Vector3.zero;
 
 	void LateUpdate () {
-		transform.rotation = Quaternion.Euler(0, angle, 0);
+		transform.rotation = Quaternion.Euler(defaultAngle + angle);
 		angle += Time.deltaTime * rotationSpeed;
-//		transform.localScale = Vector3.one + Vector3.one * Mathf.Sin (Time.time * scaleSpeed) * scaleAmplitude;
 	}
 
 }

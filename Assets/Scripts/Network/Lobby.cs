@@ -6,18 +6,13 @@ public class Lobby : MenuBase
 {
 
 
-	//Daniel
-	MenuManager instance;
-
-
-
 	//private string m_remoteIP = "127.0.0.1";
 	//private int m_remotePort = 7777;
 	private int m_listenPort = 7777;
 	private bool m_useNAT = false;
 
 
-	private int m_maxPlayers = 4; // server doesnt count, maybe?
+	private int m_maxPlayers = 3; // server doesnt count, maybe?
 	public string[] m_levels = {"LemonPark"};
 
 	//might not be use3d
@@ -37,18 +32,94 @@ public class Lobby : MenuBase
 	private string m_tempServerName = "";
 
 	//maxtime field
-	private int m_maxTimeField = 600;
+	private int m_maxTimeField = 90;
 
 	//scroll startpos
 	private Vector2 m_scrollRectPos = new Vector2(100,100);
 	public int m_maxGames = 10;
 
+	//
+	private Vector2 m_textFieldSize;
+
+
+	//eh seans nya knapp
+	//lobby part 1 knappar
+	public List<LobbyButton> m_buttonsPart1 = new List<LobbyButton>();
+	//Lobby part 2 knapar
+	public List<LobbyButton> m_buttonsPart2 = new List<LobbyButton>();
+	//gamelist
+	public List<LobbyButton> m_games = new List<LobbyButton>();
+
+	//hoistlist
+	public HostData[] m_hostlist;
+	
+	public GUIStyle m_guiStyle;
+	private ServerList m_serverList;
+	private float m_lastServerRefresh;
+	public float m_ServerRefreshRate = 5f; 
+
+
+	//Graphical Properties..
+	//Part 1
+	private float HostNewGameXpos;
+	private float HostNewGameYpos;
+	private Vector2 HostNewGameSize;
+
+	private float RefreshXpos;
+	private float RefreshYpos;
+	private Vector2 RefreshSize;
+
+	private float BackBoardXpos;
+	private float BackBoardYpos;
+	private Vector2 BackBoardSize;
+
+	private float ServersBackBoardXpos;
+	private float ServersBackBoardYpos;
+	private Vector2 ServersBackBoardSize;
+
+	private float ScrollXpos;
+	private float ScrollYpos;
+	private Vector2 ScrollSize;
+
+	private float UsernameFieldXpos;
+	private float UsernameFieldYpos;
+
+	//Part2
+	private float Part2BackBoardXpos;
+	private float Part2BackBoardYpos;
+	private Vector2 Part2BackBoardSize;
+
+	private float StartGameXpos;
+	private float StartGameYpos;
+	private Vector2 StartGameSize;
+
+	private float CancelXpos;
+	private float CancelYpos;
+	private Vector2 CancelSize;
+
+	public float  ServerListYSize = 0.6f;
+	private LobbyButton m_muteButton;
+
+
+	private LobbyButton m_refreshButton;
+
+	private GUIStyle myGuiStyle;
+
+
 	// Use this for initialization
 	void Start () {
-		//Daniel
-		instance = MenuManager.Instance;
+
+		//playernames
+		myGuiStyle = new GUIStyle();
+		myGuiStyle.alignment = TextAnchor.MiddleCenter;
+		myGuiStyle.fontSize = 30;
+
+		//menuitems
 		m_menuItems = new List<BaseMenuItem> ();
-		addMenuItem(instance.getMenuItem(MenuManager.BACK_TO_PREV));
+		//add menuitem
+//		addMenuItem(MenuManager.Instance.getMenuItem(MenuManager.BACK_TO_PREV));
+		//lägg till mer knappar'
+
 		screenWidth = Screen.width;
 		screenHeight = Screen.height;
 		size = GUIMath.InchToPixels(new Vector2(1.5f, 0.8f));
@@ -60,148 +131,279 @@ public class Lobby : MenuBase
 		rightX = centerX + size.x;
 
 
+		//Backboard props..
+		BackBoardSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.35f, 0.9f));
+		BackBoardXpos = screenWidth / 6.5f;
+		BackBoardYpos = screenHeight / 6.2f;
 
-		MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
+		//Server backboard props..
+		ServersBackBoardSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.35f, ServerListYSize));
+		ServersBackBoardXpos = screenWidth / 1.9f;
+		ServersBackBoardYpos = screenHeight /6.2f;
+
+		m_serverList = new ServerList(new Rect(ServersBackBoardXpos,ServersBackBoardYpos,ServersBackBoardSize.x,ServersBackBoardSize.y));
+
+		//Scroll props..
+		ScrollSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.35f, 0.9f));
+		//fortsätt här snart .. 
+
+
+		//Textfield props
+		m_textFieldSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.25f, 0.1f));
+		UsernameFieldXpos = screenWidth / 4.85f;
+		UsernameFieldYpos = screenHeight / 1.95f;
+		
+
+		//knappar
+		//first lobbyapart
+		
+		//Host new game buttonprops..
+		HostNewGameSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.33f, 0.15f));
+		HostNewGameXpos = screenWidth / 6f;
+		HostNewGameYpos = screenHeight/ 1.45f;
+		m_buttonsPart1.Add(new LobbyButton(-100,HostNewGameYpos, HostNewGameSize.x, HostNewGameSize.y, new Rect(0.0f, 0.566f, 0.60f, 0.139f),
+		                   new Vector2(HostNewGameXpos,HostNewGameYpos), 0.5f, LeanTweenType.easeOutSine));
+
+		//SoundBtn
+		float screenRatio = Camera.main.camera.aspect;
+
+		//Refreshbtn props
+//		HostNewGameSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.33f, 0.15f));
+////		HostNewGameXpos = screenWidth / 1.5f;
+////		HostNewGameYpos = screenHeight/ 1.4f;
+//		m_buttonsPart1.Add(new LobbyButton(-200,HostNewGameYpos, HostNewGameSize.x, HostNewGameSize.y,	new Rect(0.1f, 0.1f, 0.3f, 0.2f), new Vector2(-4000, HostNewGameYpos), 0.5f, LeanTweenType.easeOutSine));
+
+
+
+		//second lobbyPart
+
+
+		//Backboard part 2
+		Part2BackBoardSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.75f, 0.7f));
+		Part2BackBoardXpos = screenWidth / 8.5f;
+		Part2BackBoardYpos = screenWidth / 12f;
+
+		//StartGameBtn props..
+		StartGameSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.28f, 0.12f));
+		StartGameXpos = screenWidth / 7f;
+		StartGameYpos = screenHeight/ 1.5f;
+		m_buttonsPart2.Add(new LobbyButton(-100,StartGameYpos, StartGameSize.x, StartGameSize.y, GUIMath.CalcTexCordsFromPixelRect(new Rect(0,445,571,143)), new Vector2(StartGameXpos,StartGameYpos), 0.5f, LeanTweenType.easeOutSine));
+
+		//CancelGameBtn props..
+		CancelSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.28f, 0.12f));
+		CancelXpos = screenWidth / 1.9f;
+		CancelYpos = screenHeight/ 1.495f;
+
+		m_buttonsPart2.Add(new LobbyButton(-100,CancelYpos, CancelSize.x, CancelSize.y,	GUIMath.CalcTexCordsFromPixelRect(new Rect(0,158,571,143)), new Vector2(CancelXpos,CancelYpos), 0.5f, LeanTweenType.easeOutSine));
+
+
+		Vector2 refreshSize = new Vector2(ServersBackBoardSize.x*0.2f,ServersBackBoardSize.x*0.2f);
+		Rect refreshTexCords = GUIMath.CalcTexCordsFromPixelRect(new Rect(624,158,158,143));
+		Rect refreshPos = new Rect(ServersBackBoardXpos + ServersBackBoardSize.x*0.5f - refreshSize.x*0.5f,ServersBackBoardYpos + ServersBackBoardSize.y,refreshSize.x,refreshSize.y );
+		m_refreshButton = new LobbyButton(refreshPos,refreshTexCords);
+
+
+//		MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
 
 		//check if seanet exist
 		if(!SeaNet.isNull()){
 			if(SeaNet.Instance.m_connectedPlayers != null){
 				m_connectedPlayers = SeaNet.Instance.m_connectedPlayers;
-			}
-		}
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
-
-
-	public override void DoGUI(){
-
-		//back
-		foreach(BaseMenuItem item in m_menuItems){
-			if(LeanTween.isTweening(item.LtRect) == false){
-				LeanTween.move(item.LtRect, item.ToPos, 3.0f).setEase(item.LeanTweenType);
-			}
-
-			if(GUI.Button(item.LtRect.rect, item.Name))		//Hårdkodat för det "enda" elementet från Daniel
-			{
-				if(item.OnClick != null)
-				{
-					item.OnClick(item);
-				}
+				Network.maxConnections = m_maxPlayers;
+				Debug.Log("RESTART");
 			}
 		}
 
-		Vector2 textFieldSize = GUIMath.InchToPixels(new Vector2(2f, 0.6f));
-
-
-
-			//### server not started ###
-		if(Network.peerType == NetworkPeerType.Disconnected){
-
-			//start server (server)
-			m_tempServerName = GUI.TextField(new Rect(rightX, centerY, textFieldSize.x, textFieldSize.y), m_tempServerName, 25);
-			m_tempPlayerName = GUI.TextField(new Rect(rightX, centerY + size.y, textFieldSize.x, textFieldSize.y), m_tempPlayerName, 25);
-
-			if(GUI.Button(new Rect(centerX, centerY, size.x, size.y), "Start Server")){
-				if(m_tempPlayerName.Length == 0){
-					m_tempPlayerName = "NOOB";
-				}
-				if(m_tempServerName.Length == 0){
-					m_tempServerName = "NOOBS ONLY";
-				}
-				startServer(m_tempServerName);
-				//add ip for player who started server
-				m_myPlayerData = new PlayerData(m_tempPlayerName, Network.player.guid);
-				m_myPlayerData.local = true;
-				addPlayerToClientList(m_myPlayerData);
-			}
-		}
-			//started server
-		if(Network.peerType == NetworkPeerType.Server){
-			if(GUI.Button(new Rect(centerX, centerY, size.x, size.y), "Start Game")){
-				//set maxtime
-				SeaNet.Instance.setMaxTime(m_maxTimeField);
-
-				//create ID for allplayers
-				createId();
-				//loads next level
-				Network.maxConnections = -1;
-				//denna fungerar inte
-				MasterServer.UnregisterHost();
-				loadLevel();
-			}
-			if(GUI.Button(new Rect(centerX, centerY + size.y, size.x, size.y), "Stop Server")){
-				m_tempServerName = "";
-				stopServer();
-			}
-			if(GUI.Button(new Rect(centerX, centerY + (size.y * 2), size.x, size.y), "SEE STUFF")){
-				networkView.RPC("showStuff", RPCMode.All);
-			}
-
-			string tempMax = GUI.TextField(new Rect(centerX, centerY + (size.y * 3), size.x, size.y), m_maxTimeField.ToString(), 25);
-			m_maxTimeField = int.Parse(tempMax);
-
-		}/*else if(Network.peerType == NetworkPeerType.Client){
-			//client in serverlobby
-		}*/else{
-			//client in lobby
-			if(GUI.Button(new Rect(centerX, centerY + size.y, size.x, size.y), "Refresh")){
-				MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
-			}
-			
-			//
-			HostData[] data = MasterServer.PollHostList();
-			//MasterServer.PollHostList("hej");
-
-			GUILayout.BeginArea(new Rect(leftX, centerY, size.x, size.y * m_maxGames));
-			//GUILayout.FlexibleSpace();
-			GUILayout.BeginVertical();
-			//leftX, centerY + i * size.y, size.x, size.y
-			GUILayout.MinHeight(size.y);
-
-			m_scrollRectPos = GUILayout.BeginScrollView(m_scrollRectPos, GUILayout.Width(size.x), GUILayout.Height(screenHeight));
-
-				for( int i = 0; i < data.Length; i++){
-					if(GUILayout.Button(data[i].gameName, GUILayout.MinHeight(size.y))){
-
-							if(m_tempPlayerName.Length == 0){
-								m_tempPlayerName = "NOOB";
-							}
-							//connecting to server
-							//send networkplayer as patramaeter for cleanup ?
-							connectToServer(data[i]);
-							Debug.Log("NETWORKID: "+ Network.player.guid);
-
-					}
-				}
-
-
-			GUILayout.EndScrollView();
-
-			GUILayout.EndVertical();
-			GUILayout.EndArea();
-		}
-
-		for(int i = 0; i < m_connectedPlayers.Count; i++){
-			GUILayout.Label("Client Name: "+ m_connectedPlayers[i].m_name+" Client GUID"+m_connectedPlayers[i].m_guid);
-		}
-		GUILayout.Label("ListSize (players): "+m_connectedPlayers.Count);
+		float PADDING = 5f;
+		Vector2 muteSize = GUIMath.SmallestOfInchAndPercent(new Vector2(0.5f,0.5f),new Vector2(0.09f,0.09f));
+		m_muteButton = new LobbyButton(new Rect(Screen.width - (muteSize.x + PADDING), PADDING, muteSize.x, muteSize.y),GUIMath.CalcTexCordsFromPixelRect(new Rect(294,0,158,158)));
 
 	}
 
 	//From Daniel
 	public override void InitMenuItems()
 	{
-		AdjustMenuItem (m_menuItems [0], new LTRect (-200.0f, 100.0f, size.x, size.y), new Vector2 (centerX, centerY + size.y * 2), LeanTweenType.easeOutElastic);
+		RefreshHostList();
+		m_lastServerRefresh = 0f;
+	}
+
+	private void RefreshHostList(){
+		MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
+		HostData[] hostlist = MasterServer.PollHostList();
+		m_serverList.SetHostList(hostlist);
+	}
+	
+
+	public override void DoGUI(){
+
+
+		//Draw background..
+		GUI.DrawTexture (new Rect (0.0f, 0.0f, screenWidth, screenHeight), m_backGround);
+		//Draw servers background
+//		GUI.DrawTexture (new Rect (0.0f, 0.0f, screenWidth, screenHeight), m_backGround);
+			//### server not started ###
+		if(Network.peerType == NetworkPeerType.Disconnected){
+			//Draw backgrounds for first part of lobby..
+			GUI.DrawTextureWithTexCoords(new Rect (BackBoardXpos, BackBoardYpos, BackBoardSize.x, BackBoardSize.y), Prefactory.texture_backgrounds, new Rect(0.0f, 0.0f, 0.33f, 0.553f)); 
+//			GUI.DrawTextureWithTexCoords(new Rect (ServersBackBoardXpos, ServersBackBoardYpos, ServersBackBoardSize.x, ServersBackBoardSize.y), Prefactory.texture_backgrounds, new Rect(0.33f, 0.0f, 0.35f, 0.553f));
+
+			//animation
+			for(int i = 0; i < m_buttonsPart1.Count; i++){
+				m_buttonsPart1[i].move();
+			}
+
+			//start server (server)
+			m_tempPlayerName = GUI.TextField(new Rect(UsernameFieldXpos, UsernameFieldYpos, m_textFieldSize.x, m_textFieldSize.y), m_tempPlayerName, 25);
+
+			//  START SERVER BUTTON
+
+			//if(GUI.Button(new Rect(centerX, centerY, size.x, size.y), "Start Server")){
+			//start server
+			if(m_buttonsPart1[0].isClicked()){
+
+				Debug.Log("Button 0 clicked");
+				for(int i = 0; i < m_buttonsPart2.Count; i++){
+					m_buttonsPart2[i].resetButton();
+				}
+
+				if(m_tempPlayerName.Length == 0){
+					m_tempPlayerName = "Anonymous";
+				}
+//				if(m_tempServerName.Length == 0){
+//					m_tempServerName = "NOOBS ONLY";
+//				}
+//				startServer(m_tempServerName);
+				startServer(m_tempPlayerName + "'s game");
+				//add ip for player who started server
+				m_myPlayerData = new PlayerData(m_tempPlayerName, Network.player.guid);
+				m_myPlayerData.local = true;
+				addPlayerToClientList(m_myPlayerData);
+			}
+
+			if(m_refreshButton.isClicked()){
+				RefreshHostList();
+			}
+		
+			m_serverList.Draw();
+
+
+
+
+		}
+
+		// START GAME BUTTON
+
+			//started server
+		if(Network.peerType == NetworkPeerType.Server){
+
+			GUI.DrawTextureWithTexCoords(new Rect(Part2BackBoardXpos, Part2BackBoardYpos, Part2BackBoardSize.x, Part2BackBoardSize.y), 
+			                             Prefactory.texture_backgrounds, GUIMath.CalcTexCordsFromPixelRect(new Rect(0,0,719,457)));
+
+			float buttonX = Part2BackBoardXpos;
+			float buttonY = Part2BackBoardYpos;
+			float buttonWidth = (Part2BackBoardSize.x / 2);
+			float buttonHeight = Part2BackBoardSize.y / 5;
+			
+			for(int i = 0; i < 4; i++){
+				Rect uvRect = new Rect(0.7041f,1f - 0.2363f, 0.2929f,0.0859f);
+				Rect PosAndSize = new Rect(Part2BackBoardXpos + i%2 * buttonWidth , ((Part2BackBoardSize.y/2) - buttonHeight)  + ((int)i/2) * (buttonHeight + 10), buttonWidth, buttonHeight);
+				GUI.DrawTextureWithTexCoords(PosAndSize, Prefactory.texture_backgrounds, uvRect);
+			}
+			
+			for(int i = 0; i < m_connectedPlayers.Count; i++){
+				GUI.Label(new Rect(Part2BackBoardXpos + i%2 * buttonWidth, ((Part2BackBoardSize.y/2) - buttonHeight)  + ((int)i/2) * (buttonHeight + 10), buttonWidth, buttonHeight), m_connectedPlayers[i].m_name, myGuiStyle);
+			}
+
+			//animation
+			for(int i = 0; i < m_buttonsPart2.Count; i++){
+				m_buttonsPart2[i].move();
+			}
+
+			//start game
+			if(m_buttonsPart2[0].isClicked()){
+				startGame();
+			}
+
+		// STOP GAME BUTTON
+
+			if(m_buttonsPart2[1].isClicked()){
+				stopServer();
+
+				for(int i = 0; i < m_buttonsPart1.Count; i++){
+					m_buttonsPart1[i].resetButton();
+				}
+			}
+
+
+//			string tempMax = GUI.TextField(new Rect(centerX, centerY + (size.y * 3), size.x, size.y), m_maxTimeField.ToString(), 25);
+//			m_maxTimeField = int.Parse(tempMax);
+
+		}
+
+		if(Network.peerType == NetworkPeerType.Client){
+			GUI.DrawTextureWithTexCoords(new Rect(Part2BackBoardXpos, Part2BackBoardYpos, Part2BackBoardSize.x, Part2BackBoardSize.y), 
+			                             Prefactory.texture_backgrounds, GUIMath.CalcTexCordsFromPixelRect(new Rect(0,0,719,457)));
+
+			float buttonX = Part2BackBoardXpos;
+			float buttonY = Part2BackBoardYpos;
+			float buttonWidth = (Part2BackBoardSize.x / 2);
+			float buttonHeight = Part2BackBoardSize.y / 5;
+
+			for(int i = 0; i < 4; i++){
+				Rect uvRect = new Rect(0.7041f,1f - 0.2363f, 0.2929f,0.0859f);
+				Rect PosAndSize = new Rect(Part2BackBoardXpos + i%2 * buttonWidth , ((Part2BackBoardSize.y/2) - buttonHeight)  + ((int)i/2) * (buttonHeight + 10), buttonWidth, buttonHeight);
+				GUI.DrawTextureWithTexCoords(PosAndSize, Prefactory.texture_backgrounds, uvRect);
+			}
+
+			for(int i = 0; i < m_connectedPlayers.Count; i++){
+				GUI.Label(new Rect(Part2BackBoardXpos + i%2 * buttonWidth, ((Part2BackBoardSize.y/2) - buttonHeight)  + ((int)i/2) * (buttonHeight + 10), buttonWidth, buttonHeight), m_connectedPlayers[i].m_name, myGuiStyle);
+			}
+
+		}
+
+
+//		for(int i = 0; i < m_connectedPlayers.Count; i++){
+//			GUILayout.Label("Client Name: "+ m_connectedPlayers[i].m_name+" Client GUID"+m_connectedPlayers[i].m_guid);
+//		}
+//		GUILayout.Label("ListSize (players): "+m_connectedPlayers.Count);
+
+		Rect texCordsMute = GUIMath.CalcTexCordsFromPixelRect(new Rect(294,0,158,158));
+		Rect texCordsUnmute = GUIMath.CalcTexCordsFromPixelRect(new Rect(451,0,158,158));
+		
+		if(this.m_muteButton.isClicked()){
+			SoundManager.Instance.ToggleMute();
+			Rect texCord = SoundManager.Instance.m_paused ? texCordsUnmute : texCordsMute;
+			m_muteButton.changeUVrect(texCord);
+		}
+
+
 	}
 
 
 
+	public override void DoUpdate (){
+		if(Time.time > m_lastServerRefresh + m_ServerRefreshRate){
+			RefreshHostList();
+			m_lastServerRefresh = Time.time;
+		}
+		m_serverList.update();
+		//scroll
+//		base.DoUpdate ();
+	}
 
+	public void startGame(){
+		//set maxtime
+		SeaNet.Instance.setMaxTime(m_maxTimeField);
+		
+		//create ID for allplayers
+		createId();
+		//loads next level
+		Network.maxConnections = -1;
+		//denna fungerar inte
+		MasterServer.UnregisterHost();
+		SeaNet.Instance.loadLevel(m_levels[0]);
+
+	}
 
 	//		For starting server on mobile device use 
 	//		Network.TestConnnection to check if device can use NAT punchthrough
@@ -223,7 +425,7 @@ public class Lobby : MenuBase
 		Debug.Log("lobby.cs : Shuting down Server");
 	}
 
-	public void connectToServer(HostData e){
+	public static void connectToServer(HostData e){
 		Network.Connect(e);
 		Debug.Log("lobby.cs : Connecting Server");
 	}
@@ -244,9 +446,7 @@ public class Lobby : MenuBase
 		//
 	}
 
-	public void loadLevel(){
-		networkView.RPC("loadLevelRPC", RPCMode.All);
-	}
+
 
 	//lägger till spelare så den kan följa med till nästa scen
 	public void addPlayerToClientList(PlayerData p){
@@ -336,10 +536,7 @@ public class Lobby : MenuBase
 
 	// ###			SERVER			###
 
-	[RPC]
-	private void loadLevelRPC(){
-		Application.LoadLevel(m_levels[0]);
-	}
+
 
 	//set name and if it's local
 	//THIS IS ONLY DONE ON SERVERSIDE
@@ -383,10 +580,120 @@ public class Lobby : MenuBase
 		}
 	}
 
-	//###		REMOVE THIS LATER ONLY TEST (fråga sean obv)		####
-	[RPC]
-	private void showStuff(){
-		SeaNet.Instance.testLookAtStuff();
+
+}
+
+class ServerWidget{
+	private Texture2D m_buttonAtlas;
+	private Texture2D m_backgroundAtlas;
+	private Rect m_texCordsBackground;
+	private Rect m_texCordsButton;
+	private Rect m_buttonPosition;
+	private Rect m_textPosition;
+	
+	private HostData m_host;
+	private Vector2 m_size;
+	
+	private GUIStyle m_guiStyle = GUIStyle.none;
+
+	private LobbyButton m_joinButton;
+	
+	public ServerWidget(HostData host,Vector2 size){
+		m_size = size;
+		m_host = host;
+		m_buttonAtlas = Prefactory.texture_buttonAtlas;
+		m_backgroundAtlas = Prefactory.texture_backgrounds;
+		
+		m_texCordsBackground = new Rect(0.7041f,1f - 0.2363f, 0.2929f,0.0859f);
+//		m_texCordsButton = new Rect(0.5634f,1f,0.3447f,0.1875f);
+		m_texCordsButton = GUIMath.CalcTexCordsFromPixelRect(new Rect(577,835,350,190),1024);
+		
+		Vector2 buttonSize = new Vector2(m_size.x*0.3f,m_size.y * 0.45f);
+		m_buttonPosition = new Rect(m_size.x*0.8f - buttonSize.x*0.5f,m_size.y*0.5f - buttonSize.y*0.5f,buttonSize.x,buttonSize.y);		
+		m_textPosition = new Rect(m_size.x*0.1f,m_size.y*0.1f,m_size.x*0.6f,m_size.y*0.8f);
+
+		m_joinButton = new LobbyButton(m_buttonPosition,m_texCordsButton);
+	}
+	
+	
+	
+	public void Draw(Vector2 offset){
+
+		GUI.DrawTextureWithTexCoords(new Rect(offset.x,offset.y,m_size.x,m_size.y),m_backgroundAtlas,m_texCordsBackground); //draw background
+		string text = m_host.gameName + "\n" + (m_host.connectedPlayers)+"/"+m_host.playerLimit;
+		GUI.Label(RectAddVector2(m_textPosition,offset), text,m_guiStyle);
+		if(m_joinButton.isClicked(RectAddVector2(m_buttonPosition,offset))){
+			Lobby.connectToServer(m_host);
+		}
 	}
 
+	public Vector2 getSize(){
+		return m_size;
+	}
+	
+	Rect RectAddVector2(Rect r, Vector2 v){
+		return new Rect(r.x+v.x, r.y+v.y,r.width,r.height);
+	}
+}
+
+class ServerList{
+	private List<ServerWidget> m_widgets = new List<ServerWidget>();
+	private float m_scrollOffset = 0;
+	private Texture2D m_atlas;
+	private Rect texCordsBackground;
+	private Rect m_area;
+	private Vector2 m_widgetSize;
+	private float m_maxScrollOffset = 0;
+	
+	public ServerList(Rect area){
+		m_area = area;
+		m_atlas = Prefactory.texture_backgrounds;
+		texCordsBackground = GUIMath.CalcTexCordsFromPixelRect(new Rect(338,456,360,457),1024);
+		m_widgetSize = new Vector2(m_area.width*0.85f,m_area.height*0.2f);
+	}
+	
+	public void SetHostList(HostData[] hostData){
+		m_widgets.Clear();
+
+		for (int i = 0; i < hostData.Length; i++) {
+			if( hostData[i].connectedPlayers < hostData[i].playerLimit){
+				m_widgets.Add(new ServerWidget(hostData[i],m_widgetSize));
+			}
+		}
+
+		m_maxScrollOffset = Mathf.Clamp(m_widgetSize.y * m_widgets.Count - m_area.height,0,float.MaxValue);
+		m_scrollOffset = Mathf.Clamp(m_scrollOffset,-m_maxScrollOffset,m_maxScrollOffset);
+	}
+
+	public void update(){
+		if(m_widgetSize.y * m_widgets.Count > m_area.height){
+			Touch[] touches = Input.touches;
+			if(touches.Length > 0){
+				if(m_area.Contains(touches[0].position)){
+					scroll(touches[0].deltaPosition.y*2f);
+				}
+			}
+			scroll(Input.GetAxis("Mouse ScrollWheel")*200f);
+		}
+	}
+	private void scroll(float delta){
+		m_scrollOffset += delta;
+		m_scrollOffset = Mathf.Clamp(m_scrollOffset,-m_maxScrollOffset,m_maxScrollOffset);
+	}
+	
+	public void Draw(){
+		GUI.DrawTextureWithTexCoords(m_area,m_atlas,texCordsBackground); //draw background
+//		GUI.Box(m_area,"Area");
+		GUI.BeginGroup(m_area);
+		float paddingX = m_area.width * 0.03f;
+		float paddingY = m_area.height * 0.01f;
+//		GUI.Box (m_area,"area");
+		for (int i = 0; i < m_widgets.Count; i++) {
+			float yPos = paddingY*2f + (m_widgets[i].getSize().y + paddingY) * i + m_scrollOffset;
+			if((yPos < m_area.height ) && (yPos + m_widgetSize.y > 0f)){
+				m_widgets[i].Draw(new Vector2(paddingX, yPos)); //add padding
+			}
+		}
+		GUI.EndGroup();
+	}
 }

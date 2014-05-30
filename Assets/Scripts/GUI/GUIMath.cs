@@ -41,5 +41,16 @@ public class GUIMath{
 		int y = (int)Mathf.Min( GUIMath.InchToPixels(inch.y), Screen.height * percent.y); 
 		return new Vector2(x,y);
 	}
+	/* <summary>
+	 * Convert topleft aligned pixel rects to texture cords unity can use in for example GUI.DrawTextureWithTexCords
+	 * </summary>
+	 */ 
+
+	public static Rect CalcTexCordsFromPixelRect(Rect area,float TextureSize = 1024f){
+		return new Rect(area.x/TextureSize,1f-(area.y+area.height)/TextureSize,area.width/TextureSize,area.height/TextureSize);
+	}
+//	public static CalcTexCordsFromPixelRect(Rect area,float TextureSizeX,float TextureSizeY){
+//		
+//	}
 
 }

@@ -3,26 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class TimeBombBuff : Buff {
+
 	//Design parameters
 	public const int BOMB_DURATION_MIN = 12;
 	public const int BOMB_DURATION_MAX = 12;
 	
-	public const float STUN_DURATION = 1.5f;
-	public const float TRANSFER_COOLDOWN = 0.5f;
+	public const float STUN_DURATION = 3f;
+	public const float TRANSFER_COOLDOWN = 1f;
 
-	public const float SOUND_LENGTH = 1.0f;
+	GameObject m_bomb;
+	GameObject m_playerCircle;
+	GameObject m_explosion;
+
+
 	private static Color START_COLOR = new Color(1, 1, 0);
 	private static Color END_COLOR = new Color(1, 0, 0);
-
-	//Variables
-	private GameObject m_bomb = null;
-	private GameObject m_playerCircle = null;
-	private GameObject m_explosion = null;
-
+	
 	SyncMovement m_syncMovement;
 	private bool m_isLocal;
-
-//	private List<Buff> m_targetBuffs = new List<Buff>();
 	
 	public TimeBombBuff(GameObject playerRef, float duration):base(playerRef)
 	{
@@ -44,16 +42,14 @@ public class TimeBombBuff : Buff {
 		if (m_isLocal) {
 			m_playerCircle = Instantiate (Prefactory.prefab_playerCircle) as GameObject;
 			m_playerCircle.transform.parent = m_playerRef.transform;
-			m_playerCircle.transform.localPosition = new Vector3(0.0f, -1.0f, 0.0f);
+			m_playerCircle.transform.localPosition = new Vector3(0.0f, -0.9f, 0.0f);
 			UpdateColor ();
 
 //			for (int i = 0; i < SyncMovement.s_syncMovements.Length; i++) {
 //				if (SyncMovement.s_syncMovements[i] != null)
 //				{
-//					Debug.Log("SyncMovement: " + SyncMovement.s_syncMovements[i]);
 //					if (SyncMovement.s_syncMovements[i].isLocal == false) {
-//						Buff b = BuffManager.m_buffManagers[i].AddBuff(new TimeBombTargetBuff(BuffManager.m_buffManagers[i].gameObject));
-//						m_targetBuffs.Add(b);
+//						BuffManager.m_buffManagers[i].AddBuff(new TimeBombTargetBuff(BuffManager.m_buffManagers[i].gameObject));
 //					}
 //				}
 //			}
@@ -62,7 +58,7 @@ public class TimeBombBuff : Buff {
 
 	override public void PeriodicEvent()
 	{
-		SoundManager.Instance.playOneShot (SoundManager.TIMEBOMB_TICK);
+//		SoundManager.Instance.playOneShot (SoundManager.TIMEBOMB_TICK);
 		if (m_playerCircle != null) {
 			UpdateColor ();
 		}
@@ -101,12 +97,12 @@ public class TimeBombBuff : Buff {
 			Debug.Log("SOMETHING WENT TERRIBLY WRONG 2");
 		}
 
-		//Ta inte bort saker i expire!
 //		for (int i = 0; i < SyncMovement.s_syncMovements.Length; i++) {
-//			if (BuffManager.m_buffManagers[i] != null) {
-//				if (BuffManager.m_buffManagers[i].HasBuff(typeof(TimeBombTargetBuff))) {
-//					BuffManager.m_buffManagers[i].GetBuff(typeof(TimeBombTargetBuff)).kill();
-//					BuffManager.m_buffManagers[i].RemoveBuff(typeof(TimeBombTargetBuff));
+//			if (SyncMovement.s_syncMovements[i].isLocal == false) {
+//				if (BuffManager.m_buffManagers[i] != null) {
+//					if (BuffManager.m_buffManagers[i].HasBuff((int)Buff.Type.TIME_BOMB_TARGET)) {
+//						BuffManager.m_buffManagers[i].RemoveBuff((int)Buff.Type.TIME_BOMB_TARGET);
+//					}
 //				}
 //			}
 //		}
@@ -131,13 +127,23 @@ public class TimeBombBuff : Buff {
 	}
 
 	public static float GetDuration() {
-		return Random.Range(BOMB_DURATION_MIN, BOMB_DURATION_MAX) * SOUND_LENGTH;
+		return Random.Range(BOMB_DURATION_MIN, BOMB_DURATION_MAX);
 	}
 
 	/**
 	 * Returns true if the buff is allowed to be transfered to another player
 	 */
 	public bool CanTransfer() {
-		return (Time.time - m_timeCreated) > TRANSFER_COOLDOWN;
+		return ((Time.time - m_timeCreated) > TRANSFER_COOLDOWN) || m_durationTimer <= TRANSFER_COOLDOWN;
+	}
+
+	public override string ToString ()
+	{
+		return string.Format ("[TimeBombBuff], alive={0}]", alive);
+	}
+
+	public override int GetBuffType()
+	{
+		return (int)Buff.Type.TIME_BOMB;
 	}
 }

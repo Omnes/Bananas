@@ -21,4 +21,19 @@ public class TimeBombTargetBuff : Buff {
 	{
 		Destroy (m_playerCircle);
 	}
+
+	public override void RemoveEvent ()
+	{
+		ExpireEvent ();
+	}
+
+	public override string ToString ()
+	{
+		return string.Format ("[TimeBombTargetBuff], alive={0}]", alive);
+	}
+
+	public override int GetBuffType()
+	{
+		return (int)Buff.Type.TIME_BOMB_TARGET;
+	}
 }

@@ -5,6 +5,7 @@ Temp
 *.unityproj
 *.sln
 *.userprefs 
+*.pdb
 
 [Ll]ibrary/
 [Tt]emp/

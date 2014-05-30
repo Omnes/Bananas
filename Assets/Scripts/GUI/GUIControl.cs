@@ -6,6 +6,7 @@ public class GUIControl : MonoBehaviour {
 	private Camera m_camera;
 //	public TouchInput m_input;
 	public static int DEFAULT_DPI = 96; // 96 for computers and 200-300 ish for phones
+	public GUIStyle m_muteButtonStyle;
 	
 	public void initiateGUI(TouchInput input){
 //		m_input = input;
@@ -39,21 +40,23 @@ public class GUIControl : MonoBehaviour {
 	}
 
 	//Mute button
-	private const float WIDTH = 50;
-	private const float HEIGHT = 50;
-	private const float PADDING = 10;
+	private LobbyButton m_muteButton;
+
+	void Start(){
+		float PADDING = 5f;
+		Vector2 size = GUIMath.SmallestOfInchAndPercent(new Vector2(0.5f,0.5f),new Vector2(0.09f,0.09f));
+		m_muteButton = new LobbyButton(new Rect(Screen.width - (size.x + PADDING), PADDING, size.x, size.y),GUIMath.CalcTexCordsFromPixelRect(new Rect(294,0,158,158)));
+	}
+
 	void OnGUI() {
-		if (SoundManager.Instance.m_paused == false) {
-			if(GUI.Button(new Rect(Screen.width - (WIDTH + PADDING), PADDING, WIDTH, HEIGHT), Prefactory.texture_muteButton))
-			{
-				SoundManager.Instance.ToggleMute();
-			}
-		}
-		else {
-			if(GUI.Button(new Rect(Screen.width - (WIDTH + PADDING), PADDING, WIDTH, HEIGHT), Prefactory.texture_muteButton2))
-			{
-				SoundManager.Instance.ToggleMute();
-			}
+
+//		Vector2 size = new Vector2(50,50);
+		Rect texCordsMute = GUIMath.CalcTexCordsFromPixelRect(new Rect(294,0,158,158));
+		Rect texCordsUnmute = GUIMath.CalcTexCordsFromPixelRect(new Rect(451,0,158,158));
+		if(m_muteButton.isClicked()){
+			SoundManager.Instance.ToggleMute();
+			Rect texCord = SoundManager.Instance.m_paused ? texCordsUnmute : texCordsMute;
+			m_muteButton.changeUVrect(texCord);
 		}
 	}
 }

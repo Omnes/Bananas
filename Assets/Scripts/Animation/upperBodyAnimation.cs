@@ -10,18 +10,21 @@ public class upperBodyAnimation : MonoBehaviour {
 		RUNNING,
 		IDLE,
 		TACKLE,
+		STUN,
 		NONE
 	};
 
 	private state m_myState;
 	private state m_currentState;
-	private state m_previousState;
+//	private state m_previousState;
 	public bool m_isTackling;
 
 	public state[] m_priorityList = new state[3];
 	//public state[] m_priorityList = {state.NONE, state.NONE, state.IDLE};
 
 	public Animator m_playerAnimator;
+
+	private Rigidbody m_player;
 
 	// Use this for initialization
 	void Start () {
@@ -31,6 +34,8 @@ public class upperBodyAnimation : MonoBehaviour {
 		m_currentState = m_myState;
 		m_isTackling = false;
 
+		//player
+		m_player = rigidbody;
 
 		//currentstates
 		//NONE / TACKLE / TACKLED
@@ -45,48 +50,80 @@ public class upperBodyAnimation : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+//	void Update () {
+//
+////		if (m_currentState == state.RUNNING) {
+////			//Debug.Log(m_player.rigidbody.velocity.magnitude);
+////			m_playerAnimator.SetFloat("playerSpeed", m_player.velocity.magnitude);
+////		}
+//
+//		//fixa så if state != currentstate kör func
+//		if(m_playerAnimator != null){
+//			if(m_myState != m_currentState){
+//				if(m_myState == state.RUNNING){
+//						int statePriority = 1;
+//
+//						if(!checkHighPriority(statePriority)){
+//							m_priorityList[2] = state.RUNNING;
+//							m_playerAnimator.SetBool("running", true);
+//							m_currentState = state.RUNNING;
+//						}
+//				
+//					}else if(m_myState == state.IDLE){
+//						int statePriority = 1;
+//
+//						if(!checkHighPriority(statePriority)){
+//							m_priorityList[2] = state.IDLE;
+//							m_playerAnimator.SetBool("running", false);
+//							m_currentState = state.IDLE;
+//						}
+//					}
+//			}
+//		}
+//	}
 
-		//fixa så if state != currentstate kör func
-		if(m_myState != m_currentState){
-			if(m_myState == state.RUNNING){
-					int statePriority = 1;
 
-					if(!checkHighPriority(statePriority)){
-						m_priorityList[2] = state.RUNNING;
-						m_playerAnimator.SetFloat("playerSpeed", 1);
-						m_currentState = state.RUNNING;
-					}
-			
-				}else if(m_myState == state.IDLE){
-					int statePriority = 1;
 
-					if(!checkHighPriority(statePriority)){
-						m_priorityList[2] = state.IDLE;
-						m_playerAnimator.SetFloat("playerSpeed", 0);
-						m_currentState = state.IDLE;
-					}
-				}
+		void Update () {
+	
 		}
-
-	}
-
 
 
 	//states
 
-	//IDLE
-	public void idleAnimation(){
-		m_previousState = m_currentState;
-		//Debug.Log("IDLE");
-		m_playerAnimator.SetFloat("playerSpeed", 0);			//ta bort sen.
+	public void runAnimation(){
+
+		if(m_playerAnimator != null){
+
+			m_myState = state.RUNNING;
+			if(m_myState != m_currentState){
+
+				int statePriority = 1;
+
+				if(!checkHighPriority(statePriority)){
+
+					m_priorityList[2] = state.RUNNING;
+					m_playerAnimator.SetBool("running", true);
+					m_currentState = state.RUNNING;
+				}
+			}
+		}
 	}
 
-	//running
-	public void runningAnimation(){
-		m_previousState = m_currentState;
-		//Debug.Log("RUNNING");
-		m_playerAnimator.SetFloat("playerSpeed", 1);			//ta bort sen.
+	public void idleAnimation(){
+		if(m_playerAnimator != null){
+
+			m_myState = state.IDLE;
+			if(m_myState != m_currentState){
+				int statePriority = 1;
+
+				if(!checkHighPriority(statePriority)){
+					m_priorityList[2] = state.IDLE;
+					m_playerAnimator.SetBool("running", false);
+					m_currentState = state.IDLE;
+				}
+			}
+		}
 	}
 
 	//tackle animation
@@ -96,30 +133,52 @@ public class upperBodyAnimation : MonoBehaviour {
 			m_priorityList[0] = state.TACKLE;
 			m_playerAnimator.SetBool("tackle", true);
 			m_currentState = state.TACKLE;
+			m_playerAnimator.SetFloat("playerSpeed", 5);
 
-			StartCoroutine("tackleCoroutine", dizzyTime);
+			StartCoroutine(tackleCoroutine("tackle", dizzyTime));
 
 		}
 	}
 
-	IEnumerator tackleCoroutine(float dizzytime){
+	//tackle animation
+	public void tackleLoseAnimation(float dizzyTime){
+		if(m_currentState != state.TACKLE){
+			//Debug.Log("TACKLE");
+			m_priorityList[0] = state.TACKLE;
+			m_playerAnimator.SetBool("tackleLose", true);
+			m_currentState = state.TACKLE;
+			m_playerAnimator.SetFloat("playerSpeed", 5);
+
+			StartCoroutine(tackleCoroutine("tackleLose", dizzyTime));
+			
+		}
+	}
+
+	IEnumerator tackleCoroutine(string varibleName, float dizzytime){
 		yield return new WaitForSeconds(dizzytime);
 		
 		m_priorityList[0] = state.NONE;
-		m_playerAnimator.SetBool("tackle", false);
+		m_playerAnimator.SetBool(varibleName, false);
 		m_currentState = state.NONE;
+	}
+
+	public void stunAnimation(){
+		if(m_currentState != state.STUN){
+			//Debug.Log("TACKLE");
+			m_priorityList[0] = state.STUN;
+			m_playerAnimator.SetBool("stun", true);
+			m_currentState = state.STUN;
+			m_playerAnimator.SetFloat("playerSpeed", 5);
+		}
+	}
+
+	public void stopStunAnimation(){
+		m_priorityList[0] = state.NONE;
+		m_playerAnimator.SetBool("stun", false);
 	}
 
 	//blowing while running animation
 	public void blowAnimation(){
-		int statePriority = 0;
-
-//		if(!checkHighPriority(statePriority)){
-//			//Debug.Log("BLOW");
-//			m_priorityList[1] = state.BLOW;
-//			m_playerAnimator.SetBool("isBlowing", true);
-//			m_currentState = state.BLOW;
-//		}
 	}
 
 	public void stopBlowAnimation(){
