@@ -104,7 +104,8 @@ public class Lobby : MenuBase
 	private LobbyButton m_refreshButton;
 
 	private GUIStyle myGuiStyle;
-
+	public GUIStyle m_typeNameStyle;
+	public Font fontLobby;
 
 	// Use this for initialization
 	void Start () {
@@ -112,7 +113,12 @@ public class Lobby : MenuBase
 		//playernames
 		myGuiStyle = new GUIStyle();
 		myGuiStyle.alignment = TextAnchor.MiddleCenter;
-		myGuiStyle.fontSize = 30;
+		myGuiStyle.font = fontLobby;//(Font)Resources.Load("Textures/Fonts/FluxArchitectRegular");
+		myGuiStyle.fontSize = Screen.height / 10;
+		
+		m_typeNameStyle.alignment = TextAnchor.MiddleCenter;
+		m_typeNameStyle.font = fontLobby;//(Font)Resources.Load("Textures/Fonts/FluxArchitectRegular");
+		m_typeNameStyle.fontSize = Screen.height / 15;
 
 		//menuitems
 		m_menuItems = new List<BaseMenuItem> ();
@@ -253,7 +259,8 @@ public class Lobby : MenuBase
 			}
 
 			//start server (server)
-			m_tempPlayerName = GUI.TextField(new Rect(UsernameFieldXpos, UsernameFieldYpos, m_textFieldSize.x, m_textFieldSize.y), m_tempPlayerName, 25);
+
+			m_tempPlayerName = GUI.TextField(new Rect(UsernameFieldXpos, UsernameFieldYpos, m_textFieldSize.x, m_textFieldSize.y), m_tempPlayerName, 10, m_typeNameStyle);
 
 			//  START SERVER BUTTON
 
@@ -603,7 +610,13 @@ class ServerWidget{
 		m_host = host;
 		m_buttonAtlas = Prefactory.texture_buttonAtlas;
 		m_backgroundAtlas = Prefactory.texture_backgrounds;
-		
+
+		// font
+		m_guiStyle = new GUIStyle();
+		m_guiStyle.alignment = TextAnchor.MiddleCenter;
+		m_guiStyle.font = (Font)Resources.Load("Textures/Fonts/ARLRDBD");
+		m_guiStyle.fontSize = Screen.height / 20;
+
 		m_texCordsBackground = new Rect(0.7041f,1f - 0.2363f, 0.2929f,0.0859f);
 //		m_texCordsButton = new Rect(0.5634f,1f,0.3447f,0.1875f);
 		m_texCordsButton = GUIMath.CalcTexCordsFromPixelRect(new Rect(577,835,350,190),1024);
