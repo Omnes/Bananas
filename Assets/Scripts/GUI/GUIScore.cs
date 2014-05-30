@@ -8,6 +8,7 @@ public class GUIScore : MonoBehaviour {
 
 	public Transform[] m_scoreObjects;
 	public Transform[] m_scoreBackgrounds;
+	public Transform[] m_playerNames;
 	private Transform[] m_leaderGlows;
 
 	private TextMesh[] m_texts;
@@ -26,7 +27,14 @@ public class GUIScore : MonoBehaviour {
 			Transform scoreObject = m_scoreObjects[i];
 			m_texts[i] = scoreObject.GetComponent<TextMesh>();
 		}
-
+		int connectedPlayers = SeaNet.Instance.m_connectedPlayers.Count;
+		for(int i = 0; i < connectedPlayers; i++){
+			Transform nameTransform = m_playerNames[i];
+			nameTransform.renderer.enabled = true;
+			string name = SeaNet.Instance.getPlayerNames()[i];
+			name = name.Substring(0,3);
+			nameTransform.GetComponent<TextMesh>().text = name;
+		}
 
 		ScoreKeeper.RegistrerGUIScore(this);
 	}
@@ -54,16 +62,19 @@ public class GUIScore : MonoBehaviour {
 
 		Vector3 originalSizeBackground = m_scoreBackgrounds[id].localScale;
 		Vector3 originalSizeText = m_scoreObjects[id].localScale;
+		Vector3 originalSizeName = m_playerNames[id].localScale;
 
 		while(startTime + m_plingDuration > Time.time){
 			scale -= scaleDelta*Time.deltaTime;
 			m_scoreBackgrounds[id].localScale = originalSizeBackground*scale;
 			m_scoreObjects[id].localScale = originalSizeText*scale;
+			m_playerNames[id].localScale = originalSizeName*scale;
 			yield return null;
 		}
 		//reset the sizes to not mess with batching
 		m_scoreBackgrounds[id].localScale = originalSizeBackground;
 		m_scoreObjects[id].localScale = originalSizeText;
+		m_playerNames[id].localScale = originalSizeName;
 
 	}
 
