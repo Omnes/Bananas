@@ -1,118 +1,244 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public class LobbyButton
+{
+	private LTRect m_button;
+	private Rect m_defButtonRect;
 
-public class LobbyButton{
+	private Vector2 m_targetPos;
 
-	//name
-	private string m_name;
-	//rect
-	private LTRect m_ltRect;
-	//pos
-	private Vector2 m_position;
-	private Vector2 m_targetPosition;
-	//type
-	private LeanTweenType m_leanTweenType;
-	//rate
-	public float m_tweenRate = 3.0f;
-	//size
-	private Vector2 m_size;
+	public float m_tweenTime;
+	private LeanTweenType m_tweenType;
 
 	private Rect m_uvRect;
-	//btnImageMap
-
 	public Texture2D m_allBtns;
-	private Texture2D m_btnTexture;
 
 	private static float s_lastClickTime = 0f;
-	private const float CLICKCOOLDOWN = 0.5f;
+	private const float COOLDOWN = 0.125f;
 
-	private Vector2 lastPos = new Vector2();
-	private bool buttonDown = false;
+	private Vector2 m_lastPos = new Vector2();
+	private bool m_buttonDown = false;
 
-	public LobbyButton(float top, float left, float x, float y, Rect aUvRect, Vector2 target, float tweenRate, LeanTweenType tweentype)
+	private bool m_hasTweened = false;
+
+//	private bool m_enable;
+
+	public LobbyButton(float x, float y, float width, float height, Rect aUvRect,
+	                   Vector2 target, float tweenRate, LeanTweenType tweentype)
 	{
-		m_position = new Vector2(top, left);
-		m_size = new Vector2(x,y);
-
 		m_uvRect = aUvRect;
 		m_allBtns = Prefactory.texture_buttonAtlas;
-//		m_name = name;
-		//ltRect
-		m_ltRect = new LTRect(top, left, x, y);
+		
+		m_button = new LTRect(x, y, width, height);
+		m_defButtonRect = new Rect (m_button.rect);
 
-		m_targetPosition = target;
-		m_leanTweenType = tweentype;
-		m_tweenRate = tweenRate;
+		if (target != Vector2.zero) {
+			m_targetPos = target;
+		} else {
+			m_targetPos.x = x;
+			m_targetPos.y = y;
+		}
+		m_tweenTime = tweenRate;
+		m_tweenType = tweentype;
+
+//		if (m_tweenType != LeanTweenType.notUsed) {
+//			LeanTween.move(m_button, m_targetPos, m_tweenTime).setEase(m_tweenType);
+//		}
 	}
 
-	public LobbyButton(Rect area, Rect aUvRect)
+	public LobbyButton(Rect area, Rect aUvRect) : 
+		this(area.x, area.y, area.width, area.height, aUvRect, Vector2.zero, 0f, LeanTweenType.notUsed)
 	{
-		m_position = new Vector2(area.x, area.y);
-		m_size = new Vector2(area.width,area.height);
-		
-		m_uvRect = aUvRect;
-		m_allBtns = Prefactory.texture_buttonAtlas;
-		//		m_name = name;
-		//ltRect
-		m_ltRect = new LTRect(area);
-		
-		m_targetPosition = Vector2.zero;
-		m_leanTweenType = LeanTweenType.notUsed;
-		m_tweenRate = 0f;
-	}
 
+	}
 
 	public void move(){
-		if(LeanTween.isTweening(m_ltRect) == false){
-			LeanTween.move(m_ltRect, m_targetPosition, m_tweenRate).setEase(m_leanTweenType);
+		if(m_hasTweened == false){
+			m_hasTweened = true;
+			LeanTween.move(m_button, m_targetPos, m_tweenTime).setEase(m_tweenType);
 		}
 	}
 
-
-	public bool isClicked(Rect pos = new Rect()){
-		if((pos.x == 0f )&&( pos.y == 0f)&& (pos.width == 0f) && (pos.height == 0f)){
-			pos = m_ltRect.rect;
+	public bool isClicked(Rect buttonArea = new Rect()) {
+		if(buttonArea.x == 0f && buttonArea.y == 0f && buttonArea.width == 0f && buttonArea.height == 0f) {
+			buttonArea = m_button.rect;
 		}
-//		return	MenuBase.CustomButton (m_ltRect.rect, m_allBtns, m_uvRect);
 
-		GUI.DrawTextureWithTexCoords (pos, m_allBtns, m_uvRect);
-		if(Time.time > s_lastClickTime + CLICKCOOLDOWN){
+		GUI.DrawTextureWithTexCoords (buttonArea, m_allBtns, m_uvRect);
+		if(Time.time > s_lastClickTime + COOLDOWN){
 			//android
 			if(Input.touchCount > 0 ){
-				if(buttonDown == false){
-					if(pos.Contains(Input.GetTouch(0).position)){
-						buttonDown = true;
-						lastPos = Input.GetTouch(0).position;
+				if(m_buttonDown == false){
+					if(buttonArea.Contains(Input.GetTouch(0).position)){
+						m_buttonDown = true;
+						m_lastPos = Input.GetTouch(0).position;
 					}
 				}
-			}else if(buttonDown == true){
-				buttonDown = false;
-				if(pos.Contains(lastPos)){
+			}else if(m_buttonDown == true){
+				m_buttonDown = false;
+				if(buttonArea.Contains(m_lastPos)){
 					s_lastClickTime = Time.time;
 					SoundManager.Instance.playOneShot(SoundManager.BUTTON_CLICK);
 					return true;
 				}
 			}
 
+			//PC
+			if(Input.GetMouseButtonDown(0)){
+				if(buttonArea.Contains(Event.current.mousePosition)){
+					Debug.Log("Down");
+					m_buttonDown = true;
+					scaleButton(0.75f);
+				}
+			}
 			if(Input.GetMouseButtonUp(0)){
-				if(pos.Contains(Event.current.mousePosition)){
+				if(buttonArea.Contains(Event.current.mousePosition)){
+					Debug.Log("Up");
+					scaleButton(1.0f);
 					s_lastClickTime = Time.time;
 					SoundManager.Instance.playOneShot(SoundManager.BUTTON_CLICK);
 					return true;
 				}
 			}
+
+//			if (m_buttonDown) {
+//				scaleButton(0.75f);
+//			}
+//			else {
+//				scaleButton(1.0f);
+//			}
 		}
 		return false;
+	}
 
+	private void scaleButton(float scale) {
+		m_button.width = m_defButtonRect.width * scale;
+		m_button.height = m_defButtonRect.height * scale;
+		m_button.x = m_targetPos.x + (m_defButtonRect.width - m_button.width) / 2;
+		m_button.y = m_targetPos.y + (m_defButtonRect.height - m_button.height) / 2;
+//		m_button.x = m_defButtonRect.x + (m_defButtonRect.width - m_button.width) / 2;
+//		m_button.y = m_defButtonRect.y + (m_defButtonRect.height - m_button.height) / 2;
 	}
 
 	public void resetButton(){
-		m_ltRect = new LTRect(m_position.x, m_position.y, m_size.x, m_size.y);
+		m_button = new LTRect(m_defButtonRect);
+		m_hasTweened = false;
 	}
+
 	public void changeUVrect(Rect aRect)
 	{
 		m_uvRect = aRect;
 	}
 
 }
+
+
+
+
+/*
+using UnityEngine;
+using System.Collections;
+
+public class LobbyButton
+{
+	private LTRect m_button;
+	private Rect m_defButtonRect;
+
+	private Vector2 m_targetPos;
+
+	public float m_tweenTime;
+	private LeanTweenType m_tweenType;
+
+	private Rect m_uvRect;
+	public Texture2D m_allBtns;
+
+	private static float s_lastClickTime = 0f;
+	private const float COOLDOWN = 0.125f;
+
+	private Vector2 m_lastPos = new Vector2();
+	private bool m_buttonDown = false;
+
+//	private bool m_enable;
+
+	public LobbyButton(Rect area, Rect aUvRect)
+	{
+		m_uvRect = aUvRect;
+		m_allBtns = Prefactory.texture_buttonAtlas;
+		
+		m_button = new LTRect(area);
+		m_defButtonRect = new Rect (m_button.rect);
+	}
+
+	public bool isClicked(Rect buttonArea = new Rect()) {
+		if(buttonArea.x == 0f && buttonArea.y == 0f && buttonArea.width == 0f && buttonArea.height == 0f) {
+			buttonArea = m_button.rect;
+		}
+
+		GUI.DrawTextureWithTexCoords (buttonArea, m_allBtns, m_uvRect);
+		if(Time.time > s_lastClickTime + COOLDOWN){
+			//android
+			if(Input.touchCount > 0 ){
+				if(m_buttonDown == false){
+					if(buttonArea.Contains(Input.GetTouch(0).position)){
+						m_buttonDown = true;
+						m_lastPos = Input.GetTouch(0).position;
+					}
+				}
+			}else if(m_buttonDown == true){
+				m_buttonDown = false;
+				if(buttonArea.Contains(m_lastPos)){
+					s_lastClickTime = Time.time;
+					SoundManager.Instance.playOneShot(SoundManager.BUTTON_CLICK);
+					return true;
+				}
+			}
+
+			//PC
+			if(Input.GetMouseButtonDown(0)){
+				if(buttonArea.Contains(Event.current.mousePosition)){
+					Debug.Log("Down");
+					m_buttonDown = true;
+					scaleButton(0.75f);
+				}
+			}
+			if(Input.GetMouseButtonUp(0)){
+				if(buttonArea.Contains(Event.current.mousePosition)){
+					Debug.Log("Up");
+					scaleButton(1.0f);
+					s_lastClickTime = Time.time;
+					SoundManager.Instance.playOneShot(SoundManager.BUTTON_CLICK);
+					return true;
+				}
+			}
+
+//			if (m_buttonDown) {
+//				scaleButton(0.75f);
+//			}
+//			else {
+//				scaleButton(1.0f);
+//			}
+		}
+		return false;
+	}
+
+	private void scaleButton(float scale) {
+		m_button.width = m_defButtonRect.width * scale;
+		m_button.height = m_defButtonRect.height * scale;
+		m_button.x = m_targetPos.x + (m_defButtonRect.width - m_button.width) / 2;
+		m_button.y = m_targetPos.y + (m_defButtonRect.height - m_button.height) / 2;
+//		m_button.x = m_defButtonRect.x + (m_defButtonRect.width - m_button.width) / 2;
+//		m_button.y = m_defButtonRect.y + (m_defButtonRect.height - m_button.height) / 2;
+	}
+
+	public void resetButton(){
+		m_button = new LTRect(m_defButtonRect);
+	}
+
+	public void changeUVrect(Rect aRect)
+	{
+		m_uvRect = aRect;
+	}
+
+}
+*/
