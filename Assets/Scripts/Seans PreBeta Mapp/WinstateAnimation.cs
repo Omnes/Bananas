@@ -108,11 +108,9 @@ public class WinstateAnimation : MonoBehaviour {
 		if (m_gameEnded && !m_startTimer) {
 			m_startTimer = true;
 			m_endScreenCounter = Time.time;
-			Debug.Log("START TIME"+Time.time);
 		}
 		if (Time.time > (m_endScreenCounter + m_endScreenDelay) && m_startTimer) {
 			sendToLobby();
-			Debug.Log("END TIME"+Time.time);
 		}
 	}
 
@@ -201,16 +199,20 @@ public class WinstateAnimation : MonoBehaviour {
 				if(m_winnerName == ""){
 					
 					m_gui = new GUIStyle();
-					m_gui.fontSize = 22;
+					m_gui.alignment = TextAnchor.MiddleCenter;
+					m_gui.fontSize = (int) (WinnerFrameSize.y * 0.3f);
 					
 					for(int i = 0; i < m_connectedPlayers.Count; i++){
 						if(m_connectedPlayers[i].m_id == ScoreKeeper.GetFirstPlaceID()){
-							
-							m_winnerName = m_connectedPlayers[i].m_name;
-							m_winTexture = Prefactory.texture_winnerOther;
+							if(m_connectedPlayers[i].m_name == ""){
+								m_winnerName = "Player "+i;
+							}
+
+							m_winnerName = m_connectedPlayers[i].m_name + "\nwon";
+//							m_winTexture = Prefactory.texture_winnerOther;
 							if(SeaNet.Instance.getLocalPlayer() == i){
-								m_winnerName = "";
-								m_winTexture = Prefactory.texture_winner;
+								m_winnerName = "You win!";
+//								m_winTexture = Prefactory.texture_winner;
 							}
 						}
 					}
@@ -243,10 +245,11 @@ public class WinstateAnimation : MonoBehaviour {
 					reset();
 				}
 
+
 				//draw stuff
 				//GUI.DrawTexture(new Rect(m_winNamePos.x, m_winNamePos.y, m_size.x, m_size.y), m_winTexture);
 				GUI.DrawTextureWithTexCoords(new Rect(WinnerFrameXpos, WinnerFrameYpos, WinnerFrameSize.x, WinnerFrameSize.y), Prefactory.texture_backgrounds, new Rect(0.705f, 0.6f, 0.29f, 0.16f)); 
-				GUI.Label(new Rect(m_winNamePos.x + 20, m_winNamePos.y + (m_size.y / 2),  m_size.x, m_size.y), m_winnerName, m_gui);
+				GUI.Label(new Rect(WinnerFrameXpos, WinnerFrameYpos, WinnerFrameSize.x, WinnerFrameSize.y), m_winnerName, m_gui);
 
 			}
 		}
@@ -273,12 +276,6 @@ public class WinstateAnimation : MonoBehaviour {
 
 		m_rematchChecks[playerId] = (state)newState;
 
-		//for(int i = 0; i < 3; i++){
-			//Debug.Log("playerID "+playerId);
-			//GameObject newObj = GameObject.Find("Background_"+1);
-			//Debug.Log(newObj.transform.position.x);
-		//}
-
 		if (!m_leaveGame) {
 			if (newState == (int)state.LEAVE) {
 				//do GUI check
@@ -288,7 +285,8 @@ public class WinstateAnimation : MonoBehaviour {
 
 				if(newObj != null && myCamera != null){
 					Vector3 scorePos = myCamera.WorldToScreenPoint(newObj.transform.position);
-					m_Checks[playerId] = new EndCheck(new Rect(scorePos.x, 5, 30,30), EndCheck.state.CROSS, Prefactory.texture_buttonAtlas);
+					float sizeX = (newObj.transform.localScale.y * Screen.height);
+					m_Checks[playerId] = new EndCheck(new Rect(scorePos.x - 12, (Screen.height - scorePos.y) + sizeX, sizeX, sizeX), EndCheck.state.CROSS, Prefactory.texture_buttonAtlas);
 				}
 
 			} else {
@@ -297,9 +295,12 @@ public class WinstateAnimation : MonoBehaviour {
 				GameObject newObj = GameObject.Find("Background_"+scoreId);
 				Camera myCamera = GameObject.Find("GUICamera(Clone)").camera;
 
+
+
 				if(newObj != null && myCamera != null){
 					Vector3 scorePos = myCamera.WorldToScreenPoint(newObj.transform.position);
-					m_Checks[playerId] = new EndCheck(new Rect(scorePos.x, 5, 30,30), EndCheck.state.CHECK, Prefactory.texture_buttonAtlas);
+					float sizeX = (newObj.transform.localScale.y * Screen.height);
+					m_Checks[playerId] = new EndCheck(new Rect(scorePos.x - 12, (Screen.height - scorePos.y) + sizeX, sizeX, sizeX), EndCheck.state.CHECK, Prefactory.texture_buttonAtlas);
 				}
 				
 				//### REMATCH ###

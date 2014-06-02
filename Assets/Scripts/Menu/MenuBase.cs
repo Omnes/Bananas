@@ -32,6 +32,8 @@ public class MenuBase : MonoBehaviour
 
 	private static bool buttonDown = false;
 	private static Rect btnPos;
+
+	private LobbyButton m_muteButton;
 	// Use this for initialization
 	void Start () 
 	{
@@ -42,6 +44,7 @@ public class MenuBase : MonoBehaviour
 		float centerY = screenHeight/6;
 
 		m_instance = MenuManager.Instance;
+
 	}
 
 	public virtual void DoUpdate()
@@ -52,22 +55,24 @@ public class MenuBase : MonoBehaviour
 
 	public virtual void DoGUI()
 	{
-		GUI.DrawTexture (new Rect (0.0f, 0.0f, screenWidth, screenHeight), m_backGround);
-		foreach(BaseMenuItem item in m_menuItems)
-		{
-			if(LeanTween.isTweening(item.LtRect) == false && m_firstTime == true)
-			{
-				LeanTween.move(item.LtRect, item.ToPos, 1.5f).setEase(item.LeanTweenType);
-			}
-//			if(CustomButton(item.LtRect.rect, Prefactory.texture_buttonAtlas, item.UVRect))
+//		GUI.DrawTexture (new Rect (0.0f, 0.0f, screenWidth, screenHeight), m_backGround);
+//		foreach(BaseMenuItem item in m_menuItems)
+//		{
+//			if(LeanTween.isTweening(item.LtRect) == false && m_firstTime == true)
 //			{
-//				if(item.OnClick != null)
-//				{
-//					item.OnClick(item);
-//				}
+//				LeanTween.move(item.LtRect, item.ToPos, 1.5f).setEase(item.LeanTweenType);
 //			}
-		}
-		m_firstTime = false;
+////			if(CustomButton(item.LtRect.rect, Prefactory.texture_buttonAtlas, item.UVRect))
+////			{
+////				if(item.OnClick != null)
+////				{
+////					item.OnClick(item);
+////				}
+////			}
+//		}
+//		m_firstTime = false;
+
+
 	}
 	
 	protected void addMenuItem(BaseMenuItem aItem)

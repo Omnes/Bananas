@@ -24,6 +24,12 @@ public class LobbyButton{
 	public Texture2D m_allBtns;
 	private Texture2D m_btnTexture;
 
+	private static float s_lastClickTime = 0f;
+	private const float CLICKCOOLDOWN = 0.5f;
+
+	private Vector2 lastPos = new Vector2();
+	private bool buttonDown = false;
+
 	public LobbyButton(float top, float left, float x, float y, Rect aUvRect, Vector2 target, float tweenRate, LeanTweenType tweentype)
 	{
 		m_position = new Vector2(top, left);
@@ -40,38 +46,65 @@ public class LobbyButton{
 		m_tweenRate = tweenRate;
 	}
 
+	public LobbyButton(Rect area, Rect aUvRect)
+	{
+		m_position = new Vector2(area.x, area.y);
+		m_size = new Vector2(area.width,area.height);
+		
+		m_uvRect = aUvRect;
+		m_allBtns = Prefactory.texture_buttonAtlas;
+		//		m_name = name;
+		//ltRect
+		m_ltRect = new LTRect(area);
+		
+		m_targetPosition = Vector2.zero;
+		m_leanTweenType = LeanTweenType.notUsed;
+		m_tweenRate = 0f;
+	}
+
+
 	public void move(){
 		if(LeanTween.isTweening(m_ltRect) == false){
 			LeanTween.move(m_ltRect, m_targetPosition, m_tweenRate).setEase(m_leanTweenType);
 		}
 	}
 
-	private bool buttonDown = false;
-	public bool isClicked(){
+
+	public bool isClicked(Rect pos = new Rect()){
+		if((pos.x == 0f )&&( pos.y == 0f)&& (pos.width == 0f) && (pos.height == 0f)){
+			pos = m_ltRect.rect;
+		}
 //		return	MenuBase.CustomButton (m_ltRect.rect, m_allBtns, m_uvRect);
 
-		GUI.DrawTextureWithTexCoords (m_ltRect.rect, m_allBtns, m_uvRect);
-		//Rita ut "i vilket fall" ..
-		if(Input.GetMouseButtonDown(0) /*|| Input.GetTouch(0).phase == TouchPhase.Began)*/ && buttonDown == false)
-		{
-			if(m_ltRect.rect.Contains(Event.current.mousePosition)/* || aPosition.Contains(Input.GetTouch(0).position)*/)
-			{
-//				Debug.Log("Down  " + aPosition);
-				buttonDown = true;
+		GUI.DrawTextureWithTexCoords (pos, m_allBtns, m_uvRect);
+		if(Time.time > s_lastClickTime + CLICKCOOLDOWN){
+			//android
+			if(Input.touchCount > 0 ){
+				if(buttonDown == false){
+					if(pos.Contains(Input.GetTouch(0).position)){
+						buttonDown = true;
+						lastPos = Input.GetTouch(0).position;
+					}
+				}
+			}else if(buttonDown == true){
+				buttonDown = false;
+				if(pos.Contains(lastPos)){
+					s_lastClickTime = Time.time;
+					SoundManager.Instance.playOneShot(SoundManager.BUTTON_CLICK);
+					return true;
+				}
 			}
-		}
-		else if(Input.GetMouseButtonUp(0) /*|| Input.GetTouch(0).phase == TouchPhase.Ended)*/ && buttonDown == true)
-		{
-			//				Debug.Log("up0  " + btnPos);
-			buttonDown = false;
-			if(m_ltRect.rect.Contains(Event.current.mousePosition)/* || aPosition.Contains(Input.GetTouch(0).position)*/)
-			{
-				//					Debug.Log("Up  " + btnPos);
-				SoundManager.Instance.playOneShot(SoundManager.BUTTON_CLICK);
-				return true;
+
+			if(Input.GetMouseButtonUp(0)){
+				if(pos.Contains(Event.current.mousePosition)){
+					s_lastClickTime = Time.time;
+					SoundManager.Instance.playOneShot(SoundManager.BUTTON_CLICK);
+					return true;
+				}
 			}
 		}
 		return false;
+
 	}
 
 	public void resetButton(){

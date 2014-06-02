@@ -141,8 +141,7 @@ public class LeafBlower : MonoBehaviour {
 	
 	public void doGoal(int nrOfLeafs,int goalID){
 		returnLeafsToPool(nrOfLeafs);
-		ScoreKeeper.AddScore(goalID,nrOfLeafs);
-		// SoundManager.Instance.playOneShot(SoundManager.SCORE);
+		ScoreKeeper.AddScore(goalID, nrOfLeafs);
 	}
 	
 	//this is the own "leaf dumper" trigger -- this gives the score to the players
@@ -154,7 +153,7 @@ public class LeafBlower : MonoBehaviour {
 					
 					int nrOfLeafs = m_collectedLeafs.Count;
 					if (nrOfLeafs > 0) {
-						LeafManager.s_lazyInstance.requestDoGoal(nrOfLeafs,m_id,goalID);
+						LeafManager.s_lazyInstance.requestDoGoal(nrOfLeafs, m_id, goalID);
 						other.gameObject.particleSystem.Play();
 					}
 				}

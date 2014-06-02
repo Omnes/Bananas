@@ -93,8 +93,6 @@ public class MenuManager : MonoBehaviour
 	//Loads a submenu, this func is called by almost all parentMenuItems..
 	public void LoadSubMenu(/*BaseMenuItem aSender*/)
 	{
-
-
 		//Always store the current menu before switching to be able to go back..
 		string nextMenu = "Lobby";
 		m_previousMenu = m_currentMenu;

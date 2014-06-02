@@ -84,11 +84,6 @@ public class Lobby : MenuBase
 	private float UsernameFieldXpos;
 	private float UsernameFieldYpos;
 
-	private float SoundBtnXpos;
-	private float SoundBtnYpos;
-	private Vector2 SoundBtnSize;
-
-
 	//Part2
 	private float Part2BackBoardXpos;
 	private float Part2BackBoardYpos;
@@ -103,9 +98,28 @@ public class Lobby : MenuBase
 	private Vector2 CancelSize;
 
 	public float  ServerListYSize = 0.6f;
+	private LobbyButton m_muteButton;
+
+
+	private LobbyButton m_refreshButton;
+
+	private GUIStyle myGuiStyle;
+	public GUIStyle m_typeNameStyle;
+	public Font fontLobby;
 
 	// Use this for initialization
 	void Start () {
+
+		//playernames
+		myGuiStyle = new GUIStyle();
+		myGuiStyle.alignment = TextAnchor.MiddleCenter;
+		myGuiStyle.font = fontLobby;//(Font)Resources.Load("Textures/Fonts/FluxArchitectRegular");
+		myGuiStyle.fontSize = Screen.height / 10;
+		
+		m_typeNameStyle.alignment = TextAnchor.MiddleCenter;
+		m_typeNameStyle.font = fontLobby;//(Font)Resources.Load("Textures/Fonts/FluxArchitectRegular");
+		m_typeNameStyle.fontSize = Screen.height / 15;
+
 		//menuitems
 		m_menuItems = new List<BaseMenuItem> ();
 		//add menuitem
@@ -158,11 +172,6 @@ public class Lobby : MenuBase
 
 		//SoundBtn
 		float screenRatio = Camera.main.camera.aspect;
-		SoundBtnSize = GUIMath.SmallestOfInchAndPercent (new Vector2(0.5f, 0.5f), new Vector2(0.05f, 0.05f * screenRatio));
-		SoundBtnXpos = screenWidth/2 - (size.x / 2);
-		SoundBtnYpos = screenHeight/5;
-		m_buttonsPart1.Add (new LobbyButton (screenWidth - SoundBtnSize.x, 0.0f, SoundBtnSize.x, SoundBtnSize.y, new Rect (0.267f, 0.8455f, 0.154f, 0.155f),
-		                                   new Vector2 (screenWidth - SoundBtnSize.x, 0.0f), 0.0f, LeanTweenType.easeOutSine));
 
 		//Refreshbtn props
 //		HostNewGameSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.33f, 0.15f));
@@ -181,18 +190,23 @@ public class Lobby : MenuBase
 		Part2BackBoardYpos = screenWidth / 12f;
 
 		//StartGameBtn props..
-		StartGameSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.4f, 0.12f));
+		StartGameSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.28f, 0.12f));
 		StartGameXpos = screenWidth / 7f;
 		StartGameYpos = screenHeight/ 1.5f;
-		m_buttonsPart2.Add(new LobbyButton(-100,StartGameYpos, StartGameSize.x, StartGameSize.y, new Rect(0.0f, 0.427f, 0.7f, 0.138f), new Vector2(StartGameXpos,StartGameYpos), 0.5f, LeanTweenType.easeOutSine));
+		m_buttonsPart2.Add(new LobbyButton(-100,StartGameYpos, StartGameSize.x, StartGameSize.y, GUIMath.CalcTexCordsFromPixelRect(new Rect(0,445,571,143)), new Vector2(StartGameXpos,StartGameYpos), 0.5f, LeanTweenType.easeOutSine));
 
 		//CancelGameBtn props..
-		CancelSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.4f, 0.12f));
+		CancelSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.28f, 0.12f));
 		CancelXpos = screenWidth / 1.9f;
 		CancelYpos = screenHeight/ 1.495f;
 
-		m_buttonsPart2.Add(new LobbyButton(-100,CancelYpos, CancelSize.x, CancelSize.y,	new Rect(0.0f, 0.705f, 0.7f, 0.138f), new Vector2(CancelXpos,CancelYpos), 0.5f, LeanTweenType.easeOutSine));
+		m_buttonsPart2.Add(new LobbyButton(-100,CancelYpos, CancelSize.x, CancelSize.y,	GUIMath.CalcTexCordsFromPixelRect(new Rect(0,158,571,143)), new Vector2(CancelXpos,CancelYpos), 0.5f, LeanTweenType.easeOutSine));
 
+
+		Vector2 refreshSize = new Vector2(ServersBackBoardSize.x*0.2f,ServersBackBoardSize.x*0.2f);
+		Rect refreshTexCords = GUIMath.CalcTexCordsFromPixelRect(new Rect(624,158,158,143));
+		Rect refreshPos = new Rect(ServersBackBoardXpos + ServersBackBoardSize.x*0.5f - refreshSize.x*0.5f,ServersBackBoardYpos + ServersBackBoardSize.y,refreshSize.x,refreshSize.y );
+		m_refreshButton = new LobbyButton(refreshPos,refreshTexCords);
 
 
 //		MasterServer.RequestHostList("StoryAboutMarvevellousSwaggerLeif");
@@ -205,6 +219,10 @@ public class Lobby : MenuBase
 				Debug.Log("RESTART");
 			}
 		}
+
+		float PADDING = 5f;
+		Vector2 muteSize = GUIMath.SmallestOfInchAndPercent(new Vector2(0.5f,0.5f),new Vector2(0.09f,0.09f));
+		m_muteButton = new LobbyButton(new Rect(Screen.width - (muteSize.x + PADDING), PADDING, muteSize.x, muteSize.y),GUIMath.CalcTexCordsFromPixelRect(new Rect(294,0,158,158)));
 
 	}
 
@@ -241,7 +259,8 @@ public class Lobby : MenuBase
 			}
 
 			//start server (server)
-			m_tempPlayerName = GUI.TextField(new Rect(UsernameFieldXpos, UsernameFieldYpos, m_textFieldSize.x, m_textFieldSize.y), m_tempPlayerName, 25);
+
+			m_tempPlayerName = GUI.TextField(new Rect(UsernameFieldXpos, UsernameFieldYpos, m_textFieldSize.x, m_textFieldSize.y), m_tempPlayerName, 10, m_typeNameStyle);
 
 			//  START SERVER BUTTON
 
@@ -268,17 +287,13 @@ public class Lobby : MenuBase
 				addPlayerToClientList(m_myPlayerData);
 			}
 
-
-			if(m_buttonsPart1[1].isClicked())
-			{
-				Rect unMuted = new Rect (0.267f, 0.8455f, 0.154f, 0.155f);
-				Rect muted = new Rect (0.44f, 0.8455f, 0.1545f, 0.155f);
-				m_buttonsPart1[1].changeUVrect(SoundManager.Instance.m_paused ? unMuted : muted);
-				SoundManager.Instance.ToggleMute ();
+			if(m_refreshButton.isClicked()){
+				RefreshHostList();
 			}
-
 		
 			m_serverList.Draw();
+
+
 
 
 		}
@@ -289,7 +304,23 @@ public class Lobby : MenuBase
 		if(Network.peerType == NetworkPeerType.Server){
 
 			GUI.DrawTextureWithTexCoords(new Rect(Part2BackBoardXpos, Part2BackBoardYpos, Part2BackBoardSize.x, Part2BackBoardSize.y), 
-			                             Prefactory.texture_backgrounds, new Rect(0.0f, 0.555f, 0.7f, 0.5f));
+			                             Prefactory.texture_backgrounds, GUIMath.CalcTexCordsFromPixelRect(new Rect(0,0,719,457)));
+
+			float buttonX = Part2BackBoardXpos;
+			float buttonY = Part2BackBoardYpos;
+			float buttonWidth = (Part2BackBoardSize.x / 2);
+			float buttonHeight = Part2BackBoardSize.y / 5;
+			
+			for(int i = 0; i < 4; i++){
+				Rect uvRect = new Rect(0.7041f,1f - 0.2363f, 0.2929f,0.0859f);
+				Rect PosAndSize = new Rect(Part2BackBoardXpos + i%2 * buttonWidth , ((Part2BackBoardSize.y/2) - buttonHeight)  + ((int)i/2) * (buttonHeight + 10), buttonWidth, buttonHeight);
+				GUI.DrawTextureWithTexCoords(PosAndSize, Prefactory.texture_backgrounds, uvRect);
+			}
+			
+			for(int i = 0; i < m_connectedPlayers.Count; i++){
+				GUI.Label(new Rect(Part2BackBoardXpos + i%2 * buttonWidth, ((Part2BackBoardSize.y/2) - buttonHeight)  + ((int)i/2) * (buttonHeight + 10), buttonWidth, buttonHeight), m_connectedPlayers[i].m_name, myGuiStyle);
+			}
+
 			//animation
 			for(int i = 0; i < m_buttonsPart2.Count; i++){
 				m_buttonsPart2[i].move();
@@ -316,10 +347,42 @@ public class Lobby : MenuBase
 
 		}
 
-		for(int i = 0; i < m_connectedPlayers.Count; i++){
-			GUILayout.Label("Client Name: "+ m_connectedPlayers[i].m_name+" Client GUID"+m_connectedPlayers[i].m_guid);
+		if(Network.peerType == NetworkPeerType.Client){
+			GUI.DrawTextureWithTexCoords(new Rect(Part2BackBoardXpos, Part2BackBoardYpos, Part2BackBoardSize.x, Part2BackBoardSize.y), 
+			                             Prefactory.texture_backgrounds, GUIMath.CalcTexCordsFromPixelRect(new Rect(0,0,719,457)));
+
+			float buttonX = Part2BackBoardXpos;
+			float buttonY = Part2BackBoardYpos;
+			float buttonWidth = (Part2BackBoardSize.x / 2);
+			float buttonHeight = Part2BackBoardSize.y / 5;
+
+			for(int i = 0; i < 4; i++){
+				Rect uvRect = new Rect(0.7041f,1f - 0.2363f, 0.2929f,0.0859f);
+				Rect PosAndSize = new Rect(Part2BackBoardXpos + i%2 * buttonWidth , ((Part2BackBoardSize.y/2) - buttonHeight)  + ((int)i/2) * (buttonHeight + 10), buttonWidth, buttonHeight);
+				GUI.DrawTextureWithTexCoords(PosAndSize, Prefactory.texture_backgrounds, uvRect);
+			}
+
+			for(int i = 0; i < m_connectedPlayers.Count; i++){
+				GUI.Label(new Rect(Part2BackBoardXpos + i%2 * buttonWidth, ((Part2BackBoardSize.y/2) - buttonHeight)  + ((int)i/2) * (buttonHeight + 10), buttonWidth, buttonHeight), m_connectedPlayers[i].m_name, myGuiStyle);
+			}
+
 		}
+
+
+//		for(int i = 0; i < m_connectedPlayers.Count; i++){
+//			GUILayout.Label("Client Name: "+ m_connectedPlayers[i].m_name+" Client GUID"+m_connectedPlayers[i].m_guid);
+//		}
 //		GUILayout.Label("ListSize (players): "+m_connectedPlayers.Count);
+
+		Rect texCordsMute = GUIMath.CalcTexCordsFromPixelRect(new Rect(294,0,158,158));
+		Rect texCordsUnmute = GUIMath.CalcTexCordsFromPixelRect(new Rect(451,0,158,158));
+		
+		if(this.m_muteButton.isClicked()){
+			SoundManager.Instance.ToggleMute();
+			Rect texCord = SoundManager.Instance.m_paused ? texCordsUnmute : texCordsMute;
+			m_muteButton.changeUVrect(texCord);
+		}
+
 
 	}
 
@@ -539,13 +602,21 @@ class ServerWidget{
 	private Vector2 m_size;
 	
 	private GUIStyle m_guiStyle = GUIStyle.none;
+
+	private LobbyButton m_joinButton;
 	
 	public ServerWidget(HostData host,Vector2 size){
 		m_size = size;
 		m_host = host;
 		m_buttonAtlas = Prefactory.texture_buttonAtlas;
 		m_backgroundAtlas = Prefactory.texture_backgrounds;
-		
+
+		// font
+		m_guiStyle = new GUIStyle();
+		m_guiStyle.alignment = TextAnchor.MiddleCenter;
+		m_guiStyle.font = (Font)Resources.Load("Textures/Fonts/ARLRDBD");
+		m_guiStyle.fontSize = Screen.height / 20;
+
 		m_texCordsBackground = new Rect(0.7041f,1f - 0.2363f, 0.2929f,0.0859f);
 //		m_texCordsButton = new Rect(0.5634f,1f,0.3447f,0.1875f);
 		m_texCordsButton = GUIMath.CalcTexCordsFromPixelRect(new Rect(577,835,350,190),1024);
@@ -553,6 +624,8 @@ class ServerWidget{
 		Vector2 buttonSize = new Vector2(m_size.x*0.3f,m_size.y * 0.45f);
 		m_buttonPosition = new Rect(m_size.x*0.8f - buttonSize.x*0.5f,m_size.y*0.5f - buttonSize.y*0.5f,buttonSize.x,buttonSize.y);		
 		m_textPosition = new Rect(m_size.x*0.1f,m_size.y*0.1f,m_size.x*0.6f,m_size.y*0.8f);
+
+		m_joinButton = new LobbyButton(m_buttonPosition,m_texCordsButton);
 	}
 	
 	
@@ -562,10 +635,7 @@ class ServerWidget{
 		GUI.DrawTextureWithTexCoords(new Rect(offset.x,offset.y,m_size.x,m_size.y),m_backgroundAtlas,m_texCordsBackground); //draw background
 		string text = m_host.gameName + "\n" + (m_host.connectedPlayers)+"/"+m_host.playerLimit;
 		GUI.Label(RectAddVector2(m_textPosition,offset), text,m_guiStyle);
-		if(MenuBase.CustomButton(RectAddVector2(m_buttonPosition,offset),m_buttonAtlas,m_texCordsButton)){
-			//			if(m_tempPlayerName.Length == 0){
-			//				m_tempPlayerName = "Unknown";
-			//			}
+		if(m_joinButton.isClicked(RectAddVector2(m_buttonPosition,offset))){
 			Lobby.connectToServer(m_host);
 		}
 	}
