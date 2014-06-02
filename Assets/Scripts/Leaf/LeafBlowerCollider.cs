@@ -10,7 +10,7 @@ public class LeafBlowerCollider : MonoBehaviour {
 		parentBlower = transform.parent.GetComponent<LeafBlower>();
 	}
 	
-	void OnTriggerStay(Collider col){
+	void OnTriggerEnter(Collider col){
 		parentBlower.OnTriggerEnterInChild(col);
 	}
 }

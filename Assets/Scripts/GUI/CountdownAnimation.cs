@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/*
+ * Used to play the countdown animation at the start of the match
+ */
 public class CountdownAnimation : MonoBehaviour {
 
 	public Transform m_numbers;
@@ -17,7 +19,7 @@ public class CountdownAnimation : MonoBehaviour {
 	public void Play(){
 		StartCoroutine(PlayAnimation());
 	}
-
+	//plays the entire 321BRAWL animation
 	private IEnumerator PlayAnimation(){
 
 		StartCoroutine(Animate(m_numbers,0.3f,0.3f));
@@ -34,6 +36,7 @@ public class CountdownAnimation : MonoBehaviour {
 		StartCoroutine(Animate(m_brawl,0.9f,0.6f));
 		yield return new WaitForSeconds(0.65f);
 
+		//unstuns the players
 		for(int i = 0; i < 4;i++){
 			if(SyncMovement.s_syncMovements[i] != null){
 				SyncMovement.s_syncMovements[i].GetComponent<InputHub>().ClearMovementStuns();
@@ -50,7 +53,8 @@ public class CountdownAnimation : MonoBehaviour {
 		Vector3 endPosition = new Vector3(0,0,transform.localPosition.z);
 		float startTime = Time.time;
 		obj.renderer.enabled = true;
-		
+
+		//scale up the object
 		while(startTime + moveDuration > Time.time){
 			float f = (Time.time - startTime)/moveDuration;
 			obj.renderer.material.color = Color.Lerp(new Color(1,1,1,0),Color.white,f);
@@ -59,6 +63,7 @@ public class CountdownAnimation : MonoBehaviour {
 			
 			yield return null;
 		}
+		//fade it out
 		while(startTime + moveDuration + fadeDuration > Time.time){
 			float f = (Time.time - (startTime+moveDuration))/fadeDuration;
 			obj.renderer.material.color = Color.Lerp(Color.white,new Color(1,1,1,0),f);

@@ -3,6 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using FMOD.Studio;
 
+/*
+ * Collects leafs colliding with the player and adding them to the leafs the player moves. Also syncs it over the network
+ * 
+ */
+
 //TODO: Gör om distanceToLeaf så att den använder vector2D
 public class LeafBlower : MonoBehaviour {
 	
@@ -16,7 +21,7 @@ public class LeafBlower : MonoBehaviour {
 	private bool m_particleEmit = false;
 	private playerAnimation m_animation;
 	private float m_blowPower = 0.0f;
-//	private Transform m_playerRef;
+
 	private InputHub m_inputhub;
 	private FMOD.Studio.EventInstance m_blowSound;
 	
@@ -44,9 +49,9 @@ public class LeafBlower : MonoBehaviour {
 		m_blowSound = SoundManager.Instance.play(SoundManager.LEAFBLOWER);
 //		m_playerRef = transform.parent;
 	}
-	
-	void Update()
-	{
+
+	//playing the sounds and particle effects
+	void Update(){
 		if (m_blowSound != null) {
 			m_blowPower = m_inputhub.getCurrentBlowingPower();
 			m_blowSound.setVolume (m_blowPower);
@@ -54,7 +59,7 @@ public class LeafBlower : MonoBehaviour {
 		
 		if(m_blowPower > 0){
 			if(!m_particleEmit){
-				m_animation.blowAnim();
+//				m_animation.blowAnim();
 				
 				m_particleEmit = true;
 				m_particleSystem.Play();
@@ -65,15 +70,15 @@ public class LeafBlower : MonoBehaviour {
 			m_particleSystem.Stop();
 		}
 		
-		if(Input.GetKeyDown(KeyCode.A)){ // TEMP DEBUG
-			if(Network.isServer){
-				requestDrop(10);
-			}
-		}
+//		if(Input.GetKeyDown(KeyCode.A)){ // TEMP DEBUG
+//			if(Network.isServer){
+//				requestDrop(10);
+//			}
+//		}
 		tmp_canPickup = m_collectedLeafs.Count < m_maxLeaf;
 		
 	}
-	
+	//adds a leaf to the players whirlwind
 	public void addLeaf(Transform leaf){
 		float randomAngle = Random.Range(0f,360f);
 		float randomDistance = Random.Range(-m_randomLeafInBlowerRange,m_randomLeafInBlowerRange);
@@ -115,8 +120,6 @@ public class LeafBlower : MonoBehaviour {
 		}
 		m_collectedLeafs.RemoveRange(0,count);
 	}
-	
-	
 	
 	public void OnDestroy()
 	{
@@ -160,7 +163,7 @@ public class LeafBlower : MonoBehaviour {
 			}
 		}
 	}
-	
+	//calculates the movement penalty on the player
 	public float getLeafSpeedModifier(){
 		float modifier = (float)(m_collectedLeafs.Count - m_leafThreshold) / (float)(m_maxLeaf - m_leafThreshold); // current/max = percent
 		// Debug.Log("Pre: " + modifier);

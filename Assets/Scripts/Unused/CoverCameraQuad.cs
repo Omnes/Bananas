@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//scales up a quad to cover the camera
 //this script should be on The GUI prefab
 
 [ExecuteInEditMode]

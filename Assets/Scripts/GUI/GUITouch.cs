@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * "glows" on the side of the screen when the user presses the corresponding side
+ * 
+ */
+
 public class GUITouch : MonoBehaviour {
 
 	public static GUITouch s_lazyInstance;

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * The server sends the position/speed/rotation to the clients 
+ */
 
 public class StateTransmitter : MonoBehaviour {
 
@@ -11,10 +14,10 @@ public class StateTransmitter : MonoBehaviour {
 		m_playerMovement = SyncMovement.s_syncMovements[id];
 	}
 
-	// Update is called once per frame
+	//the server packs the data down and sends it to the clients, who packs it up
 	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info){
 		if(m_playerMovement != null){
-			if(stream.isWriting){
+			if(stream.isWriting){ //server
 				SyncData sd = m_playerMovement.getData();
 				stream.Serialize(ref sd.m_position);
 				stream.Serialize(ref sd.m_velocity);
@@ -24,7 +27,7 @@ public class StateTransmitter : MonoBehaviour {
 				//stream.Serialize(ref sd.m_rotation);
 //				stream.Serialize(ref sd.m_blowing);
 
-			}else{
+			}else{ //client
 				Vector3 position = new Vector3();
 				Vector3 velocity = new Vector3();
 				Quaternion rotation = new Quaternion();

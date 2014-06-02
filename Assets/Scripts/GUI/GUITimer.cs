@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * A simple timer 
+ * 
+ */
+
 public class GUITimer : MonoBehaviour {
 
 	public static GUITimer s_lazyInstance;
@@ -22,6 +27,7 @@ public class GUITimer : MonoBehaviour {
 		return (int)(time / 60) + ":" + (seconds < 10 ? "0" + seconds : ""+seconds);
 	}
 
+	//smoothly moves the timer off screen
 	public void Play(Vector2 endPosition,float moveDuration){
 		StartCoroutine(playAnimation(endPosition,moveDuration));
 	}
@@ -36,8 +42,6 @@ public class GUITimer : MonoBehaviour {
 			yield return null;
 		}
 
-
 	}
-	
 
 }

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class ScoreKeeper : MonoBehaviour {
 	private static int[] m_scores = new int[4];
-//	private static string[] m_playerNames = new string[4];
 	private static GUIScore m_scoreBoard;
 
 	public static bool m_hasFoundLeafCollectors = false;

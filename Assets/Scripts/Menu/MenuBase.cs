@@ -12,8 +12,8 @@ public class MenuBase : MonoBehaviour
 
 	public Texture m_backGround;
 
-	private Rect texCordsMute = new Rect (0.267f, 0.8455f, 0.154f, 0.155f);
-	private Rect texCordsUnmute = new Rect (0.422f, 0.8455f, 0.154f, 0.155f);
+//	private Rect texCordsMute = new Rect (0.267f, 0.8455f, 0.154f, 0.155f);
+//	private Rect texCordsUnmute = new Rect (0.422f, 0.8455f, 0.154f, 0.155f);
 
 	//button proportions..
 	protected int screenWidth;
@@ -40,8 +40,8 @@ public class MenuBase : MonoBehaviour
 		screenWidth = Screen.width;
 		screenHeight = Screen.height;
 		size = GUIMath.InchToPixels(new Vector2(1.5f, 0.8f));
-		float centerX = screenWidth/2 - (size.x / 2);
-		float centerY = screenHeight/6;
+		centerX = screenWidth/2 - (size.x / 2);
+		centerY = screenHeight/6;
 
 		m_instance = MenuManager.Instance;
 
@@ -55,23 +55,6 @@ public class MenuBase : MonoBehaviour
 
 	public virtual void DoGUI()
 	{
-//		GUI.DrawTexture (new Rect (0.0f, 0.0f, screenWidth, screenHeight), m_backGround);
-//		foreach(BaseMenuItem item in m_menuItems)
-//		{
-//			if(LeanTween.isTweening(item.LtRect) == false && m_firstTime == true)
-//			{
-//				LeanTween.move(item.LtRect, item.ToPos, 1.5f).setEase(item.LeanTweenType);
-//			}
-////			if(CustomButton(item.LtRect.rect, Prefactory.texture_buttonAtlas, item.UVRect))
-////			{
-////				if(item.OnClick != null)
-////				{
-////					item.OnClick(item);
-////				}
-////			}
-//		}
-//		m_firstTime = false;
-
 
 	}
 	

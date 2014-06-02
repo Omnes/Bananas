@@ -18,7 +18,7 @@ public class NewStartingScreen : MenuBase
 		SoundManager.Instance.StartMenuMusic ();
 		screenWidth = Screen.width;
 		screenHeight = Screen.height;
-		float screenRatio = Camera.main.camera.aspect;
+//		float screenRatio = Camera.main.camera.aspect;
 
 		//Play btn..
 		PlaySize = GUIMath.SmallestOfInchAndPercent(new Vector2(300.0f, 150.0f), new Vector2(0.3f, 0.17f));
@@ -30,12 +30,6 @@ public class NewStartingScreen : MenuBase
 		float PADDING = 5f;
 		Vector2 muteSize = GUIMath.SmallestOfInchAndPercent(new Vector2(0.5f,0.5f),new Vector2(0.09f,0.09f));
 		m_muteButton = new LobbyButton(new Rect(Screen.width - (muteSize.x + PADDING), PADDING, muteSize.x, muteSize.y),GUIMath.CalcTexCordsFromPixelRect(new Rect(294,0,158,158)));
-		
-	}
-	
-	// Update is called once per frame
-	public virtual void DoUpdate()
-	{
 		
 	}
 

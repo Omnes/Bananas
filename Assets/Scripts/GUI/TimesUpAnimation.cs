@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * The animation that displays "Times up!" at the end of the game
+ * 
+ */
+
 public class TimesUpAnimation : MonoBehaviour {
 
 	public static TimesUpAnimation instance;

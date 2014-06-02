@@ -1,6 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Sets up the local playerController over the network
+ * each playerController keeps track of the corresponding users characters
+ * the local controllers differs from the remote ones
+ */
+
 public class InitLocalController : MonoBehaviour {
 
 	public GameObject ControllerPrefab;
@@ -20,7 +26,6 @@ public class InitLocalController : MonoBehaviour {
 		//local init
 		InitPlayer initPlayer = controller.GetComponent<InitPlayer>();
 
-		//min själ gjorde ont när jag skrev det här - byt mycket gärna ut mot en vettig lösning!
 		GameObject localInput = GetComponent<InitLocalInput>().getLocalInput();
 		if(localInput == null) Debug.LogError("could not find the object local_input");
 		initPlayer.setLocal(true);

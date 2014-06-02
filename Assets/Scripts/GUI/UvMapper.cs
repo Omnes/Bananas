@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * UVmaps a quad to apart of a texture
+ * 
+ */
+
 //[ExecuteInEditMode]
 public class UvMapper : MonoBehaviour {
 

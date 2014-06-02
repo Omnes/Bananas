@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * sends the clients input to the server who assigns it to the corresponding player on the serverside
+ * 
+ */
+
 public class InputTransmitter : MonoBehaviour {
 
 	private InputMetod m_input;
@@ -15,7 +20,6 @@ public class InputTransmitter : MonoBehaviour {
 	
 	void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info){
 
-		//bara den som äger networkviewn som kommer köra detta... (det antagandet görs iallafall här)
 		if(Network.isClient && stream.isWriting){
 			//sending to the server (for some reason they can only send vec3 not vec2)
 			Vector3 sendVec = packAsVec3(m_input.getCurrentInputVector(),m_input.getCurrentBlowingPower());

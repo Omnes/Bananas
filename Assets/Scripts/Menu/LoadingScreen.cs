@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Displays a loadingscreen that is presistent over scenes and can be opened/removed at any time 
+ */
+
 public class LoadingScreen : MonoBehaviour {
 	
 	private static GameObject m_loadingScreen;
@@ -8,6 +12,7 @@ public class LoadingScreen : MonoBehaviour {
 	private string m_text = "Loading..."; 
 	private GUIStyle m_textStyle;
 
+	//opens the loadingscreen
 	public static void OpenLoadingScreen(string text,Texture2D background){
 		if(m_loadingScreen == null){
 
@@ -20,8 +25,7 @@ public class LoadingScreen : MonoBehaviour {
 			if(winstate != null){
 				winstate.GetComponent<WinstateAnimation>().enabled = false; 
 			}
-
-			//
+			//creating the screen object
 			m_loadingScreen = new GameObject();
 			m_loadingScreen.name = "Loadingscreen";
 			m_loadingScreen.AddComponent<LoadingScreen>();
@@ -37,6 +41,7 @@ public class LoadingScreen : MonoBehaviour {
 		m_textStyle = Prefactory.style_loadingscreenText;
 	}
 
+	//re enables the hacky things we disabled when opening and closes the screen
 	public static void CloseLoadingScreen(){
 		GameObject winstate = GameObject.Find("SeaNet"); 
 		if(winstate != null){
@@ -45,6 +50,7 @@ public class LoadingScreen : MonoBehaviour {
 		Destroy(m_loadingScreen);
 	}
 
+	//changes the loading text
 	public static void SetLoadingText(string text){
 		if(m_loadingScreen != null){
 			m_loadingScreen.GetComponent<LoadingScreen>().setText(text);

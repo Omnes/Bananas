@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GUIElementPlacer : MonoBehaviour {
+/*
+ * places the ingame gui elements on the correct spot
+ * 
+ */
 
+public class GUIElementPlacer : MonoBehaviour {
 
 	public Transform[] m_scores;
 	public Transform[] m_names;
@@ -10,7 +14,6 @@ public class GUIElementPlacer : MonoBehaviour {
 	public float m_scoreArea = 0.9f;
 	public float m_localscoreSizeMult = 1.1f;
 	public float m_topMargin = 0.02f;
-	
 
 	public Transform m_timer;
 
@@ -22,7 +25,7 @@ public class GUIElementPlacer : MonoBehaviour {
 		placeTimer();
 	}
 
-	//places the score counters and their backgrounds
+	//places the score counters and their backgrounds, looks pretty scary
 	void placeScores(){
 		int localPlayer = SeaNet.Instance.getLocalPlayer();
 		int nrOfPlayers = SeaNet.Instance.m_connectedPlayers.Count;

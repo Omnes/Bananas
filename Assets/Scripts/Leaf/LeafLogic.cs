@@ -112,7 +112,7 @@ public class LeafLogic : MonoBehaviour {
 //	bool isWithinConstraints(){
 //		return Vector3.Distance(m_transform.position,m_originalParent.position) < m_constraintRange;
 //	}
-
+	//constraints the position to one within the playfield
 	Vector3 getConstrainedPosition(Vector3 pos){
 		Vector3 delta = (pos - m_originalParent.position);
 		if(delta.magnitude > m_maxConstraintRange){
@@ -130,7 +130,7 @@ public class LeafLogic : MonoBehaviour {
 			Profiler.EndSample();
 		}
 	}
-
+	//reset the leaf
 	public void clean(){
 		m_transform.parent = m_originalParent;
 		m_speed = 0f;
@@ -139,6 +139,7 @@ public class LeafLogic : MonoBehaviour {
 		m_toBeParent = null;
 	}
 
+	//plays the spawn animation
 	public void spawn(){
 		StartCoroutine(scaleUpLeaf());
 	}
@@ -155,7 +156,7 @@ public class LeafLogic : MonoBehaviour {
 		transform.localScale = endSize;
 
 	}
-
+	//drops the leaf to the ground
 	public void dropFromWhirlwind(Vector3 pos){
 		m_state = State.Drop;
 		m_endPosition = getConstrainedPosition(pos);
