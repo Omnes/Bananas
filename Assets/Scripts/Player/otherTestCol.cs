@@ -45,19 +45,15 @@ public class otherTestCol : MonoBehaviour
 				{
 					m_cooldownTimer = 0;
 
-						//Get components
-						otherTestCol opponent = other.transform.GetComponent<otherTestCol>();
-						m_otherMovLogic = other.gameObject.GetComponent<MovementLogic>();
-						m_myMovLogic = gameObject.GetComponent<MovementLogic> ();
+					//Get components
+					otherTestCol opponent = other.transform.GetComponent<otherTestCol>();
+					m_otherMovLogic = other.gameObject.GetComponent<MovementLogic>();
+					m_myMovLogic = gameObject.GetComponent<MovementLogic> ();
 						
 					//The centerline between the two collision circles
 					Vector3 cLine = other.transform.position - transform.position;
 					cLine.Normalize();
-					
-					//Calculate the angle between the players
-//						float myAngleToCenter = Mathf.Abs (Vector3.Angle (cLine, transform.forward));
-//						float oppAngleToCenter = Mathf.Abs (Vector3.Angle (cLine, opponent.transform.forward));
-					
+
 					//Calculate other players velocity
 					Vector3 othersVel = m_otherMovLogic.getRigidVelVect();
 					float x1 = Vector3.Dot(cLine, othersVel);

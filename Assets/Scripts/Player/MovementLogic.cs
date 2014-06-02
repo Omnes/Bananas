@@ -143,6 +143,7 @@ public class MovementLogic : MonoBehaviour
 
 		Profiler.BeginSample("Velocity");
 		float inputSpeed =  Mathf.Pow((right + left),m_powSpeed);
+
 		//adding som velocity
 		newVelocity = Vector3.Project (currentVelocity, dir.normalized);
 
