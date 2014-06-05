@@ -89,9 +89,9 @@ public class Lobby : MenuBase
 			}
 		}
 
-		MasterServer.ipAddress = "195.198.115.142";
-		Network.natFacilitatorIP = "195.198.115.142";
-		Network.natFacilitatorPort = 50005;
+//		MasterServer.ipAddress = "195.198.115.142";
+//		Network.natFacilitatorIP = "195.198.115.142";
+//		Network.natFacilitatorPort = 50005;
 	}
 
 	//gets called from menumanager on switch to this
