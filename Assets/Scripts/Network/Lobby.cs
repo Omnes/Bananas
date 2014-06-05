@@ -16,6 +16,7 @@ public class Lobby : MenuBase
 	
 	//name of user
 	private string m_tempPlayerName = "";
+	private string m_tempIP = "";
 
 	//maxtime field
 	private int m_maxTimeField = 90;
@@ -29,6 +30,7 @@ public class Lobby : MenuBase
 	public List<LobbyButton> m_games = new List<LobbyButton>();
 	private LobbyButton m_muteButton;
 	private LobbyButton m_refreshButton;
+	private LobbyButton m_directConnectButton;
 	
 	//hostlist
 	public HostData[] m_hostlist;
@@ -87,7 +89,9 @@ public class Lobby : MenuBase
 			}
 		}
 
-		MasterServer.ipAddress = "193.10.184.20";
+		MasterServer.ipAddress = "195.198.115.142";
+		Network.natFacilitatorIP = "195.198.115.142";
+		Network.natFacilitatorPort = 50005;
 	}
 
 	//gets called from menumanager on switch to this
@@ -138,6 +142,13 @@ public class Lobby : MenuBase
 				addPlayerToClientList(m_myPlayerData);
 			}
 
+			m_tempIP = GUI.TextField(new Rect(UsernameFieldXpos, Screen.height - m_textFieldSize.y/2, m_textFieldSize.x, m_textFieldSize.y/2), m_tempIP, 50);
+
+			if(m_directConnectButton.isClicked()){
+				
+				Network.Connect(m_tempIP,m_listenPort);
+			}
+
 			if(m_refreshButton.isClicked()){
 				RefreshHostList();
 			}
@@ -163,6 +174,8 @@ public class Lobby : MenuBase
 			for(int i = 0; i < m_connectedPlayers.Count; i++){
 				GUI.Label(new Rect(Part2BackBoardXpos + i%2 * buttonWidth, ((Part2BackBoardSize.y/2) - buttonHeight)  + ((int)i/2) * (buttonHeight + 10), buttonWidth, buttonHeight), m_connectedPlayers[i].m_name, myGuiStyle);
 			}
+
+			GUI.Label(new Rect(0,0,300,100),Network.player.ipAddress,myGuiStyle);
 
 			//animation
 			for(int i = 0; i < m_buttonsPart2.Count; i++){
@@ -460,6 +473,11 @@ public class Lobby : MenuBase
 		Rect refreshTexCords = GUIMath.CalcTexCordsFromPixelRect(new Rect(624,158,158,143));
 		Rect refreshPos = new Rect(ServersBackBoardXpos + ServersBackBoardSize.x*0.5f - refreshSize.x*0.5f,ServersBackBoardYpos + ServersBackBoardSize.y,refreshSize.x,refreshSize.y );
 		m_refreshButton = new LobbyButton(refreshPos,refreshTexCords);
+
+		Vector2 directConnectSize = new Vector2(ServersBackBoardSize.x*0.1f,ServersBackBoardSize.x*0.1f);
+		Rect directConnectTexCords = GUIMath.CalcTexCordsFromPixelRect(new Rect(624,158,158,143));
+		Rect directConnectPos = new Rect(ServersBackBoardXpos + ServersBackBoardSize.x*0.5f - directConnectSize.x*0.5f,Screen.height - directConnectSize.y,directConnectSize.x,directConnectSize.y );
+		m_directConnectButton = new LobbyButton(directConnectPos,directConnectTexCords);
 
 		float PADDING = 5f;
 		Vector2 muteSize = GUIMath.SmallestOfInchAndPercent(new Vector2(0.5f,0.5f),new Vector2(0.09f,0.09f));

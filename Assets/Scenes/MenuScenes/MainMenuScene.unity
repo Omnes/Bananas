@@ -373,7 +373,8 @@ MonoBehaviour:
   m_backGround: {fileID: 2800000, guid: e58d6d3146741a9428d9ef2ceb40248e, type: 3}
   m_levels:
   - LemonPark
-  m_maxGames: 10
+  m_masterServerIp: 193.10.184.20
+  m_ServerRefreshRate: 5
   m_guiStyle:
     m_Name: 
     m_Normal:
@@ -433,8 +434,7 @@ MonoBehaviour:
     m_FixedHeight: 0
     m_StretchWidth: 1
     m_StretchHeight: 0
-  m_ServerRefreshRate: 5
-  ServerListYSize: .600000024
+  m_serverListYSize: .600000024
 --- !u!114 &755868659
 MonoBehaviour:
   m_ObjectHideFlags: 0
