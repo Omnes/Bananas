@@ -39,7 +39,11 @@ public class GUIScore : MonoBehaviour {
 			nameTransform.renderer.enabled = true;
 			//display the 3 first letters in each players name 
 			string name = SeaNet.Instance.getPlayerNames()[i];
-			name = name.Substring(0,3);
+			if(name != null){
+				name = name.Substring(0,3);
+			}else{
+				name = "Ano";
+			}
 			nameTransform.GetComponent<TextMesh>().text = name;
 		}
 		//register this instance to the scorekeeper so it can update this
