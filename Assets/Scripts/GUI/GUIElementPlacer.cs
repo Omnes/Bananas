@@ -54,7 +54,7 @@ public class GUIElementPlacer : MonoBehaviour {
 				j++;
 				Vector3 pos = new Vector3(-0.5f + startOffset + (width+padding)*(j),0.5f - topOffset,m_scores[i].localPosition.z);
 				scoreObject.localPosition = pos - new Vector3(m_scoreBackgrounds[i].localScale.x/8f,0,0);
-				m_names[i].localPosition = localScorePos + new Vector3(width/4.5f,0,0);
+				m_names[i].localPosition = scoreObject.localPosition + new Vector3(width/3f,0,0);
 				scoreBackground.localPosition = pos + Vector3.forward * 0.1f;
 			}
 			if(i > nrOfPlayers-1){
