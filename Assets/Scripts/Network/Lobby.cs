@@ -22,7 +22,7 @@ public class Lobby : MenuBase
 	private int m_maxTimeField = 90;
 
 	private GUIStyle myGuiStyle;
-	public string m_masterServerIp = "193.10.184.20";
+//	public string m_masterServerIp = "193.10.184.20";
 
 	//knappar
 	public List<LobbyButton> m_buttonsPart1 = new List<LobbyButton>();
@@ -84,11 +84,11 @@ public class Lobby : MenuBase
 		myGuiStyle = new GUIStyle();
 		myGuiStyle.alignment = TextAnchor.MiddleCenter;
 		myGuiStyle.font = fontLobby;//(Font)Resources.Load("Textures/Fonts/FluxArchitectRegular");
-		myGuiStyle.fontSize = Screen.height / 10;
+		myGuiStyle.fontSize = Screen.height / 20 ;
 		
 		m_typeNameStyle.alignment = TextAnchor.MiddleCenter;
 		m_typeNameStyle.font = fontLobby;//(Font)Resources.Load("Textures/Fonts/FluxArchitectRegular");
-		m_typeNameStyle.fontSize = Screen.height / 15;
+		m_typeNameStyle.fontSize = Screen.height / 20;
 
 		initMenuScales(); //moved out the all the menu scaling to a function at the bottom of the script //robin
 
@@ -155,7 +155,15 @@ public class Lobby : MenuBase
 				addPlayerToClientList(m_myPlayerData);
 			}
 
-			m_tempIP = GUI.TextField(new Rect(UsernameFieldXpos, Screen.height - m_textFieldSize.y/2, m_textFieldSize.x, m_textFieldSize.y/2), m_tempIP, 50);
+
+			GUIStyle ipStyle = new GUIStyle();
+			ipStyle.alignment = TextAnchor.MiddleRight;
+			ipStyle.font = (Font)Resources.Load("Textures/Fonts/ARLRDBD");
+			ipStyle.fontSize = Screen.height / 30;
+
+
+			GUI.Label(new Rect(0,Screen.height - m_textFieldSize.y/2,BackBoardXpos,m_textFieldSize.y/2),"IP:",ipStyle);
+			m_tempIP = GUI.TextField(new Rect(BackBoardXpos, Screen.height - m_textFieldSize.y/2, m_textFieldSize.x, m_textFieldSize.y/2), m_tempIP, 50);
 
 			if(m_directConnectButton.isClicked()){
 				
@@ -188,7 +196,7 @@ public class Lobby : MenuBase
 				GUI.Label(new Rect(Part2BackBoardXpos + i%2 * buttonWidth, ((Part2BackBoardSize.y/2) - buttonHeight)  + ((int)i/2) * (buttonHeight + 10), buttonWidth, buttonHeight), m_connectedPlayers[i].m_name, myGuiStyle);
 			}
 
-			GUI.Label(new Rect(0,0,300,100),Network.player.ipAddress,myGuiStyle);
+			GUI.Label(new Rect(0,Part2BackBoardYpos,Screen.width,100),Network.player.ipAddress,myGuiStyle);
 
 			//animation
 			for(int i = 0; i < m_buttonsPart2.Count; i++){
@@ -479,7 +487,7 @@ public class Lobby : MenuBase
 		CancelSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.28f, 0.12f));
 		CancelXpos = screenWidth / 1.9f;
 		CancelYpos = screenHeight/ 1.495f;
-		
+
 		m_buttonsPart2.Add(new LobbyButton(-100,CancelYpos, CancelSize.x, CancelSize.y,	GUIMath.CalcTexCordsFromPixelRect(new Rect(0,158,571,143)), new Vector2(CancelXpos,CancelYpos), 0.5f, LeanTweenType.easeOutSine));
 
 		Vector2 refreshSize = new Vector2(ServersBackBoardSize.x*0.2f,ServersBackBoardSize.x*0.2f);
@@ -487,9 +495,9 @@ public class Lobby : MenuBase
 		Rect refreshPos = new Rect(ServersBackBoardXpos + ServersBackBoardSize.x*0.5f - refreshSize.x*0.5f,ServersBackBoardYpos + ServersBackBoardSize.y,refreshSize.x,refreshSize.y );
 		m_refreshButton = new LobbyButton(refreshPos,refreshTexCords);
 
-		Vector2 directConnectSize = new Vector2(ServersBackBoardSize.x*0.1f,ServersBackBoardSize.x*0.1f);
-		Rect directConnectTexCords = GUIMath.CalcTexCordsFromPixelRect(new Rect(624,158,158,143));
-		Rect directConnectPos = new Rect(ServersBackBoardXpos + ServersBackBoardSize.x*0.5f - directConnectSize.x*0.5f,Screen.height - directConnectSize.y,directConnectSize.x,directConnectSize.y );
+		Vector2 directConnectSize = new Vector2(ServersBackBoardSize.x*0.18f,m_textFieldSize.y/2);
+		Rect directConnectTexCords = GUIMath.CalcTexCordsFromPixelRect(new Rect(577,835,350,190),1024);
+		Rect directConnectPos = new Rect(BackBoardXpos + m_textFieldSize.x, Screen.height - directConnectSize.y,directConnectSize.x,directConnectSize.y );
 		m_directConnectButton = new LobbyButton(directConnectPos,directConnectTexCords);
 
 		float PADDING = 5f;
