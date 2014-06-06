@@ -141,7 +141,7 @@ public class Lobby : MenuBase
 			//start server (server)
 
 			//username ypos
-			float ypos = UsernameFieldYpos - m_textFieldSize.y + 20;
+			float ypos = UsernameFieldYpos - m_textFieldSize.y;
 
 			GUI.Label(new Rect(UsernameFieldXpos, ypos, m_textFieldSize.x, m_textFieldSize.y), "Username", m_usenameStyle);
 
@@ -473,7 +473,8 @@ public class Lobby : MenuBase
 		//Textfield props
 		m_textFieldSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.25f, 0.1f));
 		UsernameFieldXpos = screenWidth / 4.85f;
-		UsernameFieldYpos = screenHeight / 1.95f;
+		//UsernameFieldYpos = screenHeight / 1.95f;
+		UsernameFieldYpos = screenHeight / 1.70f;
 
 		//Host new game buttonprops..
 		HostNewGameSize = GUIMath.SmallestOfInchAndPercent(new Vector2(3000.0f, 1000.0f), new Vector2(0.33f, 0.15f));
