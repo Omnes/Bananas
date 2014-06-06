@@ -69,14 +69,26 @@ public class Lobby : MenuBase
 	private float CancelXpos;
 	private float CancelYpos;
 	private Vector2 CancelSize;
+	
 	public float  m_serverListYSize = 0.6f;
+
+	public float  ServerListYSize = 0.6f;
+
+	public GUIStyle m_typeNameStyle;
+	public Font fontLobby;
+
 
 	// Use this for initialization
 	void Start () {
 		//playernames
 		myGuiStyle = new GUIStyle();
 		myGuiStyle.alignment = TextAnchor.MiddleCenter;
-		myGuiStyle.fontSize = 30;
+		myGuiStyle.font = fontLobby;//(Font)Resources.Load("Textures/Fonts/FluxArchitectRegular");
+		myGuiStyle.fontSize = Screen.height / 10;
+		
+		m_typeNameStyle.alignment = TextAnchor.MiddleCenter;
+		m_typeNameStyle.font = fontLobby;//(Font)Resources.Load("Textures/Fonts/FluxArchitectRegular");
+		m_typeNameStyle.fontSize = Screen.height / 15;
 
 		initMenuScales(); //moved out the all the menu scaling to a function at the bottom of the script //robin
 
@@ -121,7 +133,8 @@ public class Lobby : MenuBase
 			}
 
 			//start server (server)
-			m_tempPlayerName = GUI.TextField(new Rect(UsernameFieldXpos, UsernameFieldYpos, m_textFieldSize.x, m_textFieldSize.y), m_tempPlayerName, 25);
+
+			m_tempPlayerName = GUI.TextField(new Rect(UsernameFieldXpos, UsernameFieldYpos, m_textFieldSize.x, m_textFieldSize.y), m_tempPlayerName, 10, m_typeNameStyle);
 
 			//start server
 			if(m_buttonsPart1[0].isClicked()){

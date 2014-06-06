@@ -21,6 +21,12 @@ class ServerWidget{
 		m_host = host;
 		m_buttonAtlas = Prefactory.texture_buttonAtlas;
 		m_backgroundAtlas = Prefactory.texture_backgrounds;
+
+		// font
+		m_guiStyle = new GUIStyle();
+		m_guiStyle.alignment = TextAnchor.MiddleCenter;
+		m_guiStyle.font = (Font)Resources.Load("Textures/Fonts/ARLRDBD");
+		m_guiStyle.fontSize = Screen.height / 25;
 		
 		m_texCordsBackground = new Rect(0.7041f,1f - 0.2363f, 0.2929f,0.0859f);
 		//		m_texCordsButton = new Rect(0.5634f,1f,0.3447f,0.1875f);
