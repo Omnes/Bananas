@@ -15,7 +15,7 @@ public class Lobby : MenuBase
 	public PlayerData m_myPlayerData;
 	
 	//name of user
-	private string m_tempPlayerName = "";
+	private static string m_tempPlayerName = "Anonymous";
 	private string m_tempIP = "";
 
 	//maxtime field
@@ -77,6 +77,8 @@ public class Lobby : MenuBase
 	public GUIStyle m_typeNameStyle;
 	public Font fontLobby;
 
+	public GUIStyle m_usenameStyle;
+
 
 	// Use this for initialization
 	void Start () {
@@ -89,6 +91,10 @@ public class Lobby : MenuBase
 		m_typeNameStyle.alignment = TextAnchor.MiddleCenter;
 		m_typeNameStyle.font = fontLobby;//(Font)Resources.Load("Textures/Fonts/FluxArchitectRegular");
 		m_typeNameStyle.fontSize = Screen.height / 15;
+
+		m_usenameStyle.alignment = TextAnchor.MiddleCenter;
+		m_usenameStyle.font = fontLobby;//(Font)Resources.Load("Textures/Fonts/FluxArchitectRegular");
+		m_usenameStyle.fontSize = Screen.height / 20;
 
 		initMenuScales(); //moved out the all the menu scaling to a function at the bottom of the script //robin
 
@@ -134,6 +140,11 @@ public class Lobby : MenuBase
 
 			//start server (server)
 
+			//username ypos
+			float ypos = UsernameFieldYpos - m_textFieldSize.y + 20;
+
+			GUI.Label(new Rect(UsernameFieldXpos, ypos, m_textFieldSize.x, m_textFieldSize.y), "Username", m_usenameStyle);
+
 			m_tempPlayerName = GUI.TextField(new Rect(UsernameFieldXpos, UsernameFieldYpos, m_textFieldSize.x, m_textFieldSize.y), m_tempPlayerName, 10, m_typeNameStyle);
 
 			//start server
@@ -144,7 +155,7 @@ public class Lobby : MenuBase
 					m_buttonsPart2[i].resetButton();
 				}
 
-				if(m_tempPlayerName.Length == 0){
+				if(m_tempPlayerName.Equals("")){
 					m_tempPlayerName = "Anonymous";
 				}
 
@@ -495,6 +506,12 @@ public class Lobby : MenuBase
 		float PADDING = 5f;
 		Vector2 muteSize = GUIMath.SmallestOfInchAndPercent(new Vector2(0.5f,0.5f),new Vector2(0.09f,0.09f));
 		m_muteButton = new LobbyButton(new Rect(Screen.width - (muteSize.x + PADDING), PADDING, muteSize.x, muteSize.y),GUIMath.CalcTexCordsFromPixelRect(new Rect(294,0,158,158)));
+	}
+
+	public static void setName(){
+		if(m_tempPlayerName.Equals("")){
+			m_tempPlayerName = "Anonymous";
+		}
 	}
 
 

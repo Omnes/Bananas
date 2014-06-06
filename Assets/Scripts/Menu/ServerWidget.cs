@@ -45,6 +45,7 @@ class ServerWidget{
 		string text = m_host.gameName + "\n" + (m_host.connectedPlayers)+"/"+m_host.playerLimit;
 		GUI.Label(RectAddVector2(m_textPosition,offset), text,m_guiStyle);
 		if(m_joinButton.isClicked(RectAddVector2(m_buttonPosition,offset))){
+			Lobby.setName();
 			Lobby.connectToServer(m_host);
 		}
 	}
